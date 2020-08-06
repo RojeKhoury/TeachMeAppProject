@@ -17,7 +17,6 @@ public class Login extends AppCompatActivity
     EditText m_etEmail;
     EditText m_etPassword;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
