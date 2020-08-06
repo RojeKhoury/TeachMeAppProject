@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "734127655424",
+    "firebase_url": "https://teach-me-aaf37.firebaseio.com",
+    "project_id": "teach-me-aaf37",
+    "storage_bucket": "teach-me-aaf37.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734127655424:android:9f1bca159aacdd437366e5",
+        "android_client_info": {
+          "package_name": "com.example.teachmeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734127655424-hesjlll9nlop200ve8vt961mm7k0sine.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2Xk3O5y0PuDZ2rg0BlwIArDRfbplWoAQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734127655424-hesjlll9nlop200ve8vt961mm7k0sine.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
