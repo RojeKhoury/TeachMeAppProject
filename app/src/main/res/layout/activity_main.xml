@@ -24,10 +24,11 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/buttonshape"
+            android:background="@drawable/buttonshapecool"
             android:text="Sign Up"
             android:textColor="#FFFFFF"
-            tools:Color="#11FF" />
+            tools:Color="#11FF"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/LoginButton"
@@ -36,7 +37,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/buttonshape"
+            android:background="@drawable/buttonshapecool"
             android:text="Login"
             android:textColor="#FFFFFF" />
 
