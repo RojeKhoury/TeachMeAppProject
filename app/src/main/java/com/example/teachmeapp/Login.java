@@ -26,7 +26,10 @@ public class Login extends AppCompatActivity
     EditText m_expAuthenticator;
     EditText m_etEmail;
     EditText m_etPassword;
+<<<<<<< HEAD
     private FirebaseAuth mAuth;
+=======
+>>>>>>> c5a65562b09dd34ecb41b71d554b486290dbe733
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

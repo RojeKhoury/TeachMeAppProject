@@ -27,8 +27,7 @@
             android:background="@drawable/buttonshapecool"
             android:text="Sign Up"
             android:textColor="#FFFFFF"
-            tools:Color="#11FF"
-            tools:ignore="HardcodedText" />
+            tools:Color="#11FF" />
 
         <Button
             android:id="@+id/LoginButton"
