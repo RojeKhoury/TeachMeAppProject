@@ -15,9 +15,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         //Creating listener to Login button
-        m_loginButton= (Button) findViewById(R.id.LoginButton);
+        m_loginButton= (Button) findViewById(R.id.main_button_login);
         m_loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

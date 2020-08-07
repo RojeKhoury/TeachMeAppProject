@@ -1,6 +1,5 @@
 package com.example.teachmeapp;
 import java.util.regex.Pattern;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.regex.Matcher;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,10 +24,7 @@ public class Login extends AppCompatActivity
     EditText m_expAuthenticator;
     EditText m_etEmail;
     EditText m_etPassword;
-<<<<<<< HEAD
     private FirebaseAuth mAuth;
-=======
->>>>>>> c5a65562b09dd34ecb41b71d554b486290dbe733
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,12 +36,12 @@ public class Login extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
 
         //m_Auth = FirebaseAuth.getInstance();
-        m_etEmail = findViewById(R.id.editTextTextEmailAddress);
-        m_etPassword = findViewById(R.id.editTextTextPassword);
+        m_etEmail = findViewById(R.id.login_editText_enterEmail);
+        m_etPassword = findViewById(R.id.login_editText_enterPassword);
 
 
         //Creating listener to Login button
-        m_loginButton= (Button) findViewById(R.id.SignInbutton);
+        m_loginButton= (Button) findViewById(R.id.login_button_login);
         m_loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,12 +61,17 @@ public class Login extends AppCompatActivity
 
     // here we will go to th next screen with the proper information required from the user received from firebase
     private void updateUI(FirebaseUser currentUser) {
-
+        if(currentUser != null)
+        {
+            Toast.makeText(getApplicationContext(), currentUser.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public void signIn(String email, String password)
+    private void signIn(String email, String password)
     {
         mAuth.signInWithEmailAndPassword(email, password)
+
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -97,18 +97,18 @@ public class Login extends AppCompatActivity
         if(authenticator()==true)
         {
             Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            signIn(m_etEmail.getText().toString(), m_etPassword.getText().toString());
         }
         else
         {
-            invalidEmailOrPass();
+            invalidEmail();
         }
     }
 
-    private void invalidEmailOrPass()
+    private void invalidEmail()
     {
 
-        Toast.makeText(Login.this, "Incorrect Email or Password ",Toast.LENGTH_LONG).show();
+        Toast.makeText(Login.this, "Incorrect Email",Toast.LENGTH_LONG).show();
     }
 
     private boolean authenticator()

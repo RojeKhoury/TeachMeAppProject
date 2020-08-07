@@ -7,7 +7,8 @@
     tools:context=".Login">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/login_imageView_logo"
+
         android:layout_width="417dp"
         android:layout_height="149dp"
         android:layout_alignParentStart="true"
@@ -17,24 +18,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/teach_me_logo" />
+        app:srcCompat="@drawable/teach_me_logo"
+        android:contentDescription="TODO" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/login_editText_enterEmail"
+
+        android:hint="@string/enter_email"
         android:layout_width="279dp"
         android:layout_height="51dp"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="@string/enter_email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/login_imageView_logo"
         android:autofillHints="@string/enter_email"/>
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/login_editText_enterPassword"
+
         android:layout_width="280dp"
         android:layout_height="53dp"
         android:layout_marginTop="12dp"
@@ -44,64 +48,68 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/login_editText_enterEmail"
         android:autofillHints="@string/enter_password" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/login_linearLayout_layoutForSwitch"
+
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword">
+        app:layout_constraintTop_toBottomOf="@+id/login_editText_enterPassword">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/login_textView_teacherTextForSwitch"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Teacher" />
+            android:text="@string/teacher" />
 
         <Switch
 
-            android:id="@+id/switch1"
+            android:id="@+id/login_switch_teacherStudent"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/login_editText_enterPassword" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/login_textView_studentTextForSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Student" />
+            android:text="@string/student" />
 
     </LinearLayout>
 
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/login_checkBox_rememberMe"
+
+        android:text="@string/remember_me"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remember me"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/login_linearLayout_layoutForSwitch" />
 
     <Button
-        android:id="@+id/SignInbutton"
+        android:id="@+id/login_button_login"
+
+        android:text="@string/login"
         android:layout_width="234dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:background="@drawable/buttonshapecool"
-        android:text="@string/title_activity_login"
         android:textColor="#FFFFFF"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox2"
+        app:layout_constraintTop_toBottomOf="@+id/login_checkBox_rememberMe"
         app:layout_constraintVertical_bias="0.0"
         tools:Color="#11FF" />
 
