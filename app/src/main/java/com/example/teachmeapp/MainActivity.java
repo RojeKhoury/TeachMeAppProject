@@ -23,7 +23,13 @@ public class MainActivity extends AppCompatActivity
                 OpenLogin();
             }
         });
-
+        m_signUpButton= (Button) findViewById(R.id.main_button_signUp);
+        m_signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OpenSignUp();
+            }
+        });
     }
 
     public void OpenLogin()
@@ -31,5 +37,10 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
 
+    }
+    public void OpenSignUp()
+    {
+        Intent intent = new Intent(this, SignUp.class);
+        startActivity(intent);
     }
 }

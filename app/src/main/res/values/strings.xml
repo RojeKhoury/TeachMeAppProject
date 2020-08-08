@@ -15,5 +15,8 @@
     <string name="teacher">"Teacher"</string>
     <string name="student">"Student"</string>
     <string name="remember_me">"Remember Me"</string>
-
+    <string name="next">"next"</string>
+    <string name="enter_name">"Enter Name"</string>
+    <string name="enter_surname">"Enter Surname"</string>
+    <string name="enter_phoneNumber">"Phone Number"</string>
 </resources>

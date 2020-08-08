@@ -6,11 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".Login">
 
+    <LinearLayout
+        android:id="@+id/login_linearLayout_connectUsing"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/login_button_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:id="@+id/signUp_View_leftDivider"
+            android:layout_width="114dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            tools:layout_editor_absoluteX="22dp"
+            tools:layout_editor_absoluteY="511dp" />
+
+        <TextView
+            android:id="@+id/signUp_View_connectOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="or connect using"
+            app:layout_constraintEnd_toStartOf="@+id/signUp_View_rightDivider"
+            app:layout_constraintStart_toEndOf="@+id/signUp_View_leftDivider"
+            tools:layout_editor_absoluteY="502dp" />
+
+        <View
+            android:id="@+id/signUp_View_rightDivider"
+            android:layout_width="114dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            tools:layout_editor_absoluteX="278dp"
+            tools:layout_editor_absoluteY="511dp" />
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/login_imageView_logo"
 
-        android:layout_width="417dp"
-        android:layout_height="149dp"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -25,8 +63,8 @@
         android:id="@+id/login_editText_enterEmail"
 
         android:hint="@string/enter_email"
-        android:layout_width="279dp"
-        android:layout_height="51dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:inputType="textEmailAddress"
@@ -39,8 +77,8 @@
     <EditText
         android:id="@+id/login_editText_enterPassword"
 
-        android:layout_width="280dp"
-        android:layout_height="53dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="@string/enter_password"
@@ -100,17 +138,16 @@
     <Button
         android:id="@+id/login_button_login"
 
-        android:text="@string/login"
         android:layout_width="234dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/buttonshapecool"
+        android:text="@string/login"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_checkBox_rememberMe"
-        app:layout_constraintVertical_bias="0.0"
         tools:Color="#11FF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
