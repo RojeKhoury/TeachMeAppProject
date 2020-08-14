@@ -21,9 +21,9 @@
         app:srcCompat="@drawable/teach_me_logo" />
 
     <EditText
-        android:id="@+id/signUpGetGeneralInfo_editText_enterName"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/signUp_editText_enterName"
+        android:layout_width="301dp"
+        android:layout_height="49dp"
         android:layout_marginTop="20dp"
         android:autofillHints="@string/enter_name"
         android:hint="@string/enter_name"
@@ -33,47 +33,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUp_imageView_logo" />
 
-    <EditText
-        android:id="@+id/signUpGetGeneralInfo_editText_enterSurname"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:autofillHints="@string/enter_surname"
-        android:hint="@string/enter_surname"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpGetGeneralInfo_editText_enterName" />
-
-    <EditText
-        android:id="@+id/signUpGetGeneralInfo_editText_phoneNumber"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:autofillHints="@string/enter_phoneNumber"
-        android:ems="10"
-        android:hint="@string/enter_phoneNumber"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="phone"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpGetGeneralInfo_editText_enterSurname" />
-
     <Button
-        android:id="@+id/signUp_button_next"
+        android:id="@+id/signUp_button_generalInfo"
         android:layout_width="140dp"
         android:layout_height="60dp"
         android:layout_gravity="start"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="64dp"
         android:background="@drawable/buttonshapecool"
         android:text="@string/next"
@@ -81,9 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpGetGeneralInfo_editText_phoneNumber"
-        app:layout_constraintVertical_bias="0.645" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/login_linearLayout_connectUsing"
@@ -95,7 +57,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUp_button_next"
+        app:layout_constraintTop_toBottomOf="@+id/signUp_button_generalInfo"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
         app:layout_constraintHorizontal_bias="0.0"
@@ -124,6 +86,39 @@
             android:background="?android:attr/listDivider"
             tools:layout_editor_absoluteX="278dp"
             tools:layout_editor_absoluteY="511dp" />
+
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/signUp_editText_enterPhone"
+        android:layout_width="300dp"
+        android:layout_height="57dp"
+        android:ems="10"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="@+id/signUp_editText_enterSurname"
+        app:layout_constraintStart_toStartOf="@+id/signUp_editText_enterSurname"
+        app:layout_constraintTop_toBottomOf="@+id/signUp_editText_enterSurname" />
+
+    <EditText
+        android:id="@+id/signUp_editText_enterSurname"
+        android:layout_width="299dp"
+        android:layout_height="58dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/enter_surname"
+        app:layout_constraintEnd_toEndOf="@+id/signUp_editText_enterName"
+        app:layout_constraintStart_toStartOf="@+id/signUp_editText_enterName"
+        app:layout_constraintTop_toBottomOf="@+id/signUp_editText_enterName" />
+
+    <ImageView
+        android:id="@+id/generalInfo_profile_pic"
+        android:layout_width="198dp"
+        android:layout_height="210dp"
+        android:clickable="true"
+        android:contentDescription='"profile image'
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUp_editText_enterPhone"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

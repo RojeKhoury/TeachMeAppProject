@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import java.util.Map;
+
 /*this page was made just so i can extract data from firebase and then display it*/
 
 public class profilePage extends AppCompatActivity {
@@ -68,15 +70,15 @@ public class profilePage extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 //here we can get the data snapshot from the DB
-        final DocumentReference docRef = db.collection("Teachers").document(m_user.getUid().toString());
+        final DocumentReference docRef = db.collection("Teachers").document(m_user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        String imageURL = document.getString("profile picture");
-                        Picasso.get().load(imageURL).into(m_profilePicture);
+                        String name = (String) document.get("name");
+                        m_textBox.append(name);
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d(TAG, "No such document");
