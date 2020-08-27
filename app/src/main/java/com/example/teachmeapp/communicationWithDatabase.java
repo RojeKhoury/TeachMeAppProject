@@ -1,5 +1,6 @@
 package com.example.teachmeapp;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 
@@ -17,6 +18,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -71,8 +73,18 @@ public class communicationWithDatabase {
         return storageRef.child(folder + "/" + userId + "/" + subFolder + "/" + fileName);
     }
 
+    public String buildStorageRefString(String folder, String userId, String subFolder, String fileName) {
+        return folder + "/" + userId + "/" + subFolder + "/" + fileName;
+    }
+
+    public String getDownloadUrl(String url)
+    {
+        return storage.getReferenceFromUrl(url).getDownloadUrl().toString();
+    }
+
     public String getName(String uid) {
         return "sss";
     }
+
 }
 

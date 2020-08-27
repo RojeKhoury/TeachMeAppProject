@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,7 +67,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
         m_surnameBox = findViewById(R.id.signUp_editText_enterSurname);
         m_phoneBox = findViewById(R.id.signUp_editText_enterPhone);
         db = FirebaseFirestore.getInstance();
-
+        profilPicRef = FirebaseStorage.getInstance().getReference();FirebaseStorage.getInstance().getReference();
         m_profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,12 +96,16 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
             }
 
             private void pushData() {
-
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
                 profilPicRef = uploadImage();
                 user.put("name", m_nameBox.getText().toString());
                 user.put("surname", m_surnameBox.getText().toString());
                 user.put("phone", m_phoneBox.getText().toString());
                 user.put("profile picture", profilPicRef.toString());
+                storageRef.child("images/" + m_user.getUid() + "/profile pic/profile picture.jpg");
+                String url = storageRef.getDownloadUrl().toString();
+                profilPicRef.getDownloadUrl();
 
                 comm.insertToDatabase(user,"Teachers", m_user.getUid());
             }
@@ -108,7 +113,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
             private StorageReference uploadImage() {
 
                 Bitmap bitmap = ((BitmapDrawable) m_profilePic.getDrawable()).getBitmap();
-                StorageReference ref = comm.buildStorageRef("images", m_user.getUid().toString(), "profile Pic", m_profilePic.getContentDescription().toString());
+                StorageReference ref = comm.buildStorageRef("images", m_user.getUid().toString(), "profile pic", "profile picture.jpg");
                 comm.uploadImage(m_user.getUid(), bitmap, ref);
 
                 return ref;

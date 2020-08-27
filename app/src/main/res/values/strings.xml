@@ -21,4 +21,5 @@
     <string name="enter_phoneNumber">"Phone Number"</string>
     <string name="passwords_dont_match">"Your password and confirm password don't match, please check your password and try again"</string>
     <string name="invalid_email">"please enter a valid email"</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
