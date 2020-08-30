@@ -3,6 +3,7 @@ package com.example.teachmeapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,8 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +39,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
 public class SignUpGetGeneralInfo extends AppCompatActivity {
 
@@ -101,13 +106,42 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
         m_signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comm.createUser(m_emailInput, m_passwordInput);
+                m_emailInput = getIntent().getStringExtra("e");
+                m_passwordInput = getIntent().getStringExtra("p");
+                mAuth.createUserWithEmailAndPassword(m_emailInput, m_passwordInput)
+                        .addOnCompleteListener(SignUpGetGeneralInfo.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "createUserWithEmail:success");
+                                    Toast.makeText(getApplicationContext(), "WEEEEeeeee.",Toast.LENGTH_LONG).show();
+
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                    Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+
+                                // ...
+                            }
+                        });
                 m_user = mAuth.getCurrentUser();
-                pushData(); //push data to the database
-                openNextPage(); //open the next screen (view)
+                if (m_user != null) {
+                    pushData(); //push data to the database
+                    openNextPage(); //open the next screen (view)
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "wrong!!!!.",Toast.LENGTH_LONG).show();
+                }
             }
 
+private void createUser(String email, String password)
+{
 
+}
 
             private void pushData() {
                 FirebaseStorage storage = FirebaseStorage.getInstance();
