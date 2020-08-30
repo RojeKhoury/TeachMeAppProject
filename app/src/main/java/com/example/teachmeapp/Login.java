@@ -25,7 +25,6 @@ public class Login extends AppCompatActivity
     EditText m_etEmail;
     EditText m_etPassword;
     private FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -48,7 +47,6 @@ public class Login extends AppCompatActivity
                 openLogin();
             }
         });
-
     }
 
     @Override

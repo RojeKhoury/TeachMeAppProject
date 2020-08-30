@@ -38,7 +38,7 @@
         android:layout_width="140dp"
         android:layout_height="60dp"
         android:layout_gravity="start"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="120dp"
         android:background="@drawable/buttonshapecool"
         android:text="@string/next"
         android:textColor="#FFFFFF"
@@ -95,6 +95,8 @@
         android:layout_height="57dp"
         android:ems="10"
         android:inputType="phone"
+        android:autofillHints="@string/enter_phone"
+        android:hint="@string/enter_phone"
         app:layout_constraintEnd_toEndOf="@+id/signUp_editText_enterSurname"
         app:layout_constraintStart_toStartOf="@+id/signUp_editText_enterSurname"
         app:layout_constraintTop_toBottomOf="@+id/signUp_editText_enterSurname" />
@@ -105,20 +107,23 @@
         android:layout_height="58dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/enter_surname"
+        android:autofillHints="@string/enter_surname"
+        android:hint="@string/enter_surname"
         app:layout_constraintEnd_toEndOf="@+id/signUp_editText_enterName"
         app:layout_constraintStart_toStartOf="@+id/signUp_editText_enterName"
         app:layout_constraintTop_toBottomOf="@+id/signUp_editText_enterName" />
 
     <ImageView
         android:id="@+id/generalInfo_profile_pic"
-        android:layout_width="198dp"
-        android:layout_height="210dp"
+        android:layout_width="177dp"
+        android:layout_height="113dp"
         android:clickable="true"
         android:contentDescription="profile picture"
+        app:layout_constraintBottom_toTopOf="@+id/signUp_button_generalInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUp_editText_enterPhone"
+        app:layout_constraintVertical_bias="0.139"
         tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

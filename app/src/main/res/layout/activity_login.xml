@@ -7,7 +7,7 @@
     tools:context=".Login">
 
     <LinearLayout
-        android:id="@+id/login_linearLayout_connectUsing"
+        android:id="@+id/signUpGetGeneralInfo_linearLayout_connectUsing"
 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <View
-            android:id="@+id/signUp_View_leftDivider"
+            android:id="@+id/signUpGetGeneralInfo_View_leftDivider"
             android:layout_width="114dp"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
@@ -26,17 +26,17 @@
             tools:layout_editor_absoluteY="511dp" />
 
         <TextView
-            android:id="@+id/signUp_View_connectOptions"
+            android:id="@+id/signUpGetGeneralInfo_textView_connectOptions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:text="or connect using"
-            app:layout_constraintEnd_toStartOf="@+id/signUp_View_rightDivider"
-            app:layout_constraintStart_toEndOf="@+id/signUp_View_leftDivider"
+            app:layout_constraintEnd_toStartOf="@+id/signUpGetGeneralInfo_View_rightDivider"
+            app:layout_constraintStart_toEndOf="@+id/signUpGetGeneralInfo_View_leftDivider"
             tools:layout_editor_absoluteY="502dp" />
 
         <View
-            android:id="@+id/signUp_View_rightDivider"
+            android:id="@+id/signUpGetGeneralInfo_View_rightDivider"
             android:layout_width="114dp"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"

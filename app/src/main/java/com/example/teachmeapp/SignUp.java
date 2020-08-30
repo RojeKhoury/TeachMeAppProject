@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,8 +45,11 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (authenticator()) {
-                    if (m_passwordBox.getText().toString().equals(m_passwordCopyBox.getText().toString())) {
-                    } else {
+                    if (m_passwordBox.getText().toString().equals(m_passwordCopyBox.getText().toString()))
+                    {
+                        openNextSignUp();
+                    }
+                    else {
                         Snackbar.make(findViewById(R.id.SignUp), R.string.passwords_dont_match,
                                 Snackbar.LENGTH_SHORT)
                                 .show();
@@ -53,6 +57,7 @@ public class SignUp extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private boolean authenticator() {
@@ -88,6 +93,12 @@ public class SignUp extends AppCompatActivity {
     //global page
     public void openNextSignUp() {
         Intent intent = new Intent(this, SignUpGetGeneralInfo.class);
+        //intent.putExtra("Password", m_passwordBox.getText());
+        //Toast.makeText(getApplicationContext(), (String) m_passwordBox.getText(), Toast.LENGTH_LONG).show();
+        String valPassword = m_passwordBox.getText().toString();
+        String valEmail= m_emailBox.getText().toString();
+        intent.putExtra("p", valPassword);
+        intent.putExtra("e", valEmail);
         startActivity(intent);
     }
 

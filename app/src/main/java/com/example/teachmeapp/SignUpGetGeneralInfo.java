@@ -53,7 +53,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
 
     private final int PICK_IMAGE_REQUEST = 22;
     private Uri filePath;
-    String email, password;
+    String m_emailInput, m_passwordInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +68,13 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
         m_phoneBox = findViewById(R.id.signUp_editText_enterPhone);
         db = FirebaseFirestore.getInstance();
         profilPicRef = FirebaseStorage.getInstance().getReference();FirebaseStorage.getInstance().getReference();
+
+        //get from last page
+        m_emailInput=getIntent().getStringExtra("e");
+        m_passwordInput=getIntent().getStringExtra("p");
+        Toast.makeText(getApplicationContext(), m_emailInput, Toast.LENGTH_LONG).show();
+
+
         m_profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,14 +95,19 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
             }
         });
 
+
+
+
         m_signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comm.createUser(email, password);
+                comm.createUser(m_emailInput, m_passwordInput);
                 m_user = mAuth.getCurrentUser();
                 pushData(); //push data to the database
                 openNextPage(); //open the next screen (view)
             }
+
+
 
             private void pushData() {
                 FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -124,7 +136,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
     }
     public void openNextPage()
     {
-        Intent intent = new Intent(this, profilePage.class);
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
     // Override onActivityResult method
@@ -132,7 +144,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
     protected void onActivityResult(int requestCode,
                                     int resultCode,
                                     Intent data)
-    {
+    {//admin@test.com
 
         super.onActivityResult(requestCode,
                 resultCode,
