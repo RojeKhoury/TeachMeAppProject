@@ -133,7 +133,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
                 return ref;
             }
         });
-    }
+    }//last commit
     public void openNextPage()
     {
         Intent intent = new Intent(this, Login.class);
