@@ -53,6 +53,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
 
     private final int PICK_IMAGE_REQUEST = 22;
     private Uri filePath;
+    String email, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
         m_signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                comm.createUser(email, password);
                 pushData(); //push data to the database
                 openNextPage(); //open the next screen (view)
             }
@@ -104,8 +106,8 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
                 user.put("phone", m_phoneBox.getText().toString());
                 user.put("profile picture", profilPicRef.toString());
                 storageRef.child("images/" + m_user.getUid() + "/profile pic/profile picture.jpg");
-                String url = storageRef.getDownloadUrl().toString();
-                profilPicRef.getDownloadUrl();
+                //String url = storageRef.getDownloadUrl().toString();
+                //profilPicRef.getDownloadUrl();
 
                 comm.insertToDatabase(user,"Teachers", m_user.getUid());
             }

@@ -45,7 +45,6 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View view) {
                 if (authenticator()) {
                     if (m_passwordBox.getText().toString().equals(m_passwordCopyBox.getText().toString())) {
-                        createUser();
                     } else {
                         Snackbar.make(findViewById(R.id.SignUp), R.string.passwords_dont_match,
                                 Snackbar.LENGTH_SHORT)
@@ -69,34 +68,6 @@ public class SignUp extends AppCompatActivity {
         return matcher.find();
     }
 
-    private void createUser() {
-
-        String email = m_emailBox.getText().toString();
-        String password = m_passwordBox.getText().toString();
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Snackbar.make(findViewById(R.id.SignUp), "user created " + user.getEmail(),
-                                    Snackbar.LENGTH_SHORT)
-                                    .show();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Snackbar.make(findViewById(R.id.SignUp), R.string.invalid_email,
-                                    Snackbar.LENGTH_SHORT)
-                                    .show();
-                        }
-                    }
-                });
-
-    }
 
     @Override
     public void onStart() {
