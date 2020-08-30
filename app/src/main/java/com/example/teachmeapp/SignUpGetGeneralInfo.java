@@ -61,7 +61,6 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_get_general_info);
         final Map<String, Object> user = new HashMap<>();
         mAuth = FirebaseAuth.getInstance();
-        m_user = mAuth.getCurrentUser();
         m_profilePic = findViewById(R.id.generalInfo_profile_pic);
         m_signUpButton = findViewById(R.id.signUp_button_generalInfo);
         m_nameBox = findViewById(R.id.signUp_editText_enterName);
@@ -93,6 +92,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 comm.createUser(email, password);
+                m_user = mAuth.getCurrentUser();
                 pushData(); //push data to the database
                 openNextPage(); //open the next screen (view)
             }
