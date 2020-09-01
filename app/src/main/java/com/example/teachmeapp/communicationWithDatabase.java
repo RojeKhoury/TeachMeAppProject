@@ -83,6 +83,10 @@ public class communicationWithDatabase {
         return storage.getReferenceFromUrl(url).getDownloadUrl().toString();
     }
 
+    public void signOut()
+    {
+       FirebaseAuth.getInstance().signOut();
+    }
     public String getName(String uid) {
         return "sss";
     }

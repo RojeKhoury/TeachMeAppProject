@@ -47,7 +47,7 @@ import java.util.Map;
 public class profilePage extends AppCompatActivity {
 
     private static final String TAG = "EmailPassword";
-
+    communicationWithDatabase comm;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Button m_logoutButton;
     private FirebaseAuth mAuth;
@@ -127,7 +127,7 @@ public class profilePage extends AppCompatActivity {
 
     //to log the user out
     private void signOut() {
-        FirebaseAuth.getInstance().signOut();
+        comm.signOut();
         goToLoginPage();
     }
 //when logging out we need to go back to the login page

@@ -66,7 +66,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_get_general_info);
         final Map<String, Object> user = new HashMap<>();
         mAuth = FirebaseAuth.getInstance();
-        m_profilePic = findViewById(R.id.generalInfo_profile_pic);
+        //m_profilePic = findViewById(R.id.generalInfo_profile_pic);
         m_signUpButton = findViewById(R.id.signUp_button_generalInfo);
         m_nameBox = findViewById(R.id.signUp_editText_enterName);
         m_surnameBox = findViewById(R.id.signUp_editText_enterSurname);
@@ -130,7 +130,8 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
                 m_user = mAuth.getCurrentUser();
                 if (m_user != null) {
                     pushData(); //push data to the database
-                    openNextPage(); //open the next screen (view)
+                    comm.signOut();
+                    //openNextPage(); //open the next screen (view)
                 }
                 else
                 {
@@ -146,12 +147,12 @@ private void createUser(String email, String password)
             private void pushData() {
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference();
-                profilPicRef = uploadImage();
+                //profilPicRef = uploadImage();
                 user.put("name", m_nameBox.getText().toString());
                 user.put("surname", m_surnameBox.getText().toString());
                 user.put("phone", m_phoneBox.getText().toString());
-                user.put("profile picture", profilPicRef.toString());
-                storageRef.child("images/" + m_user.getUid() + "/profile pic/profile picture.jpg");
+                //user.put("profile picture", profilPicRef.toString());
+                //storageRef.child("images/" + m_user.getUid() + "/profile pic/profile picture.jpg");
                 //String url = storageRef.getDownloadUrl().toString();
                 //profilPicRef.getDownloadUrl();
 
