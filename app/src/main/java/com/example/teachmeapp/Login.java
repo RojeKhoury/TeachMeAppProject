@@ -63,7 +63,7 @@ public class Login extends AppCompatActivity
         {
             Toast.makeText(getApplicationContext(), currentUser.toString(),
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, profilePage.class);
+            Intent intent = new Intent(this, ProfilePage.class);
             startActivity(intent);
 
         }
