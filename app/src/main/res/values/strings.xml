@@ -23,4 +23,14 @@
     <string name="passwords_dont_match">"Your password and confirm password don't match, please check your password and try again"</string>
     <string name="invalid_email">"please enter a valid email"</string>
     <string name="title_activity_maps">Map</string>
+    <string name="favorites">Favorites</string>
+    <string name="chat">Chat</string>
+    <string name="last_classes">Last classes</string>
+    <string name="schedule">Schedule</string>
+    <string name="recommendation">Recommendation</string>
+    <string name="search">Search</string>
+    <string name="home_page">Home Page</string>
+    <string name="recent_lessons">Recent Lessons</string>
+    <string name="search_for_teacher">Search For Teacher</string>
+
 </resources>

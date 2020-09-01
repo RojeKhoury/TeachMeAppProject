@@ -93,8 +93,7 @@ public class SignUp extends AppCompatActivity {
     //global page
     public void openNextSignUp() {
         Intent intent = new Intent(this, SignUpGetGeneralInfo.class);
-        //intent.putExtra("Password", m_passwordBox.getText());
-        //Toast.makeText(getApplicationContext(), (String) m_passwordBox.getText(), Toast.LENGTH_LONG).show();
+
         String valPassword = m_passwordBox.getText().toString();
         String valEmail= m_emailBox.getText().toString();
         intent.putExtra("p", valPassword);

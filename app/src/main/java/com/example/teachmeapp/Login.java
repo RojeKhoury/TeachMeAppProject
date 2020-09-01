@@ -63,7 +63,7 @@ public class Login extends AppCompatActivity
         {
             Toast.makeText(getApplicationContext(), currentUser.toString(),
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, ProfilePage.class);
+            Intent intent = new Intent(this, HomePage.class);
             startActivity(intent);
 
         }
@@ -97,7 +97,7 @@ public class Login extends AppCompatActivity
     {
         //if(authenticator()==true)
        // {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, HomePage.class);
             signIn(m_etEmail.getText().toString(), m_etPassword.getText().toString());
        // }
        // else

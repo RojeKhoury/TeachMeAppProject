@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
+
         <include layout="@layout/activity_hamburger_menu" />
 
 
@@ -21,7 +22,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Home Page"
+            android:fontFamily="@font/amatic_bold"
+            android:textColor="#FFFFFF"
+            android:text="@string/home_page"
             android:textSize="@dimen/HalfTopBarHeight" />
     </FrameLayout>
     <LinearLayout
@@ -43,30 +46,49 @@
             android:layout_weight="50"
             android:orientation="horizontal"
             android:weightSum="99"
-            >
+            tools:ignore="NestedWeights">
 
             <ImageButton
+                android:id="@+id/homepage_button_favorite"
+
+                android:onClick="onClick_FavoriteButton"
+
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="33"
+                android:padding="15dp"
+                android:background="@drawable/buttonshapecool"
+                android:src="@drawable/black_star"
+                android:scaleType="fitCenter"
+                android:orientation="vertical"
+                android:contentDescription="@string/favorites" />
+
+            <ImageButton
+                android:id="@+id/homepage_button_conversation"
+
+                android:onClick="onClick_conversationButton"
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="33"
                 android:background="@drawable/buttonshapecool"
-                android:orientation="vertical"
+
+
+                android:src="@drawable/conversation_logo"
+
+
                 android:padding="15dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/black_star" />
+
+                android:contentDescription="@string/chat" />
 
             <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="33"
-                android:background="@drawable/buttonshapecool"
-                android:src="@drawable/conversation_logo"
-                android:padding="15dp"
-                android:scaleType="fitCenter"/>
+                android:id="@+id/homepage_button_history"
 
-            <ImageButton
+                android:onClick="onClick_historyButton"
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -74,7 +96,8 @@
                 android:padding="15dp"
                 android:background="@drawable/buttonshapecool"
                 android:src="@drawable/history_logo"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/last_classes" />
 
         </LinearLayout>
 
@@ -86,16 +109,25 @@
             android:weightSum="99">
 
             <ImageButton
+                android:id="@+id/homepage_button_schedule"
+
+                android:onClick="onClick_scheduleButton"
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="15dp"
+                android:layout_margin="10dp"
                 android:layout_weight="33"
                 android:background="@drawable/buttonshapecool"
                 android:src="@drawable/schedule_logo"
                 android:padding="10dp"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/schedule" />
 
             <ImageButton
+                android:id="@+id/homepage_button_recommendation"
+
+                android:onClick="onClick_recommendationButton"
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -103,9 +135,14 @@
                 android:padding="10dp"
                 android:background="@drawable/buttonshapecool"
                 android:src="@drawable/recommendation_logo"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/recommendation" />
 
             <ImageButton
+                android:id="@+id/homepage_button_search"
+
+                android:onClick="onClick_searchButton"
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -113,7 +150,8 @@
                 android:background="@drawable/buttonshapecool"
                 android:src="@drawable/search_for_teacher_logo"
                 android:padding="10dp"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/search" />
 
         </LinearLayout>
 

@@ -79,7 +79,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
         m_passwordInput=getIntent().getStringExtra("p");
         Toast.makeText(getApplicationContext(), m_emailInput, Toast.LENGTH_LONG).show();
 
-
+        /*
         m_profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,7 +98,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
                                 "Select Image from here..."),
                         PICK_IMAGE_REQUEST);
             }
-        });
+        });*/
 
 
 
@@ -135,7 +135,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "wrong!!!!.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "mAuth.getCurrentUser() return null",Toast.LENGTH_LONG).show();
                 }
             }
 
