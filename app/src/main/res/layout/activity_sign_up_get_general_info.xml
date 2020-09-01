@@ -47,48 +47,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/login_linearLayout_connectUsing"
-
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUp_button_generalInfo"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0">
-        <View
-            android:id="@+id/signUp_View_leftDivider"
-            android:layout_width="114dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            tools:layout_editor_absoluteX="22dp"
-            tools:layout_editor_absoluteY="511dp" />
-
-        <TextView
-            android:id="@+id/signUp_View_connectOptions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="or connect using"
-            app:layout_constraintEnd_toStartOf="@+id/signUp_View_rightDivider"
-            app:layout_constraintStart_toEndOf="@+id/signUp_View_leftDivider"
-            tools:layout_editor_absoluteY="502dp" />
-
-        <View
-            android:id="@+id/signUp_View_rightDivider"
-            android:layout_width="114dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            tools:layout_editor_absoluteX="278dp"
-            tools:layout_editor_absoluteY="511dp" />
-
-    </LinearLayout>
-
     <EditText
         android:id="@+id/signUp_editText_enterPhone"
         android:layout_width="300dp"
@@ -115,8 +73,8 @@
 
     <ImageView
         android:id="@+id/generalInfo_profile_pic"
-        android:layout_width="177dp"
-        android:layout_height="113dp"
+        android:layout_width="84dp"
+        android:layout_height="71dp"
         android:clickable="true"
         android:contentDescription="profile picture"
         app:layout_constraintBottom_toTopOf="@+id/signUp_button_generalInfo"
