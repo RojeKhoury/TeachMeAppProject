@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfilePage"
+    android:orientation="vertical"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <include layout="@layout/activity_hamburger_menu" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Teacher Profile"
+            android:textSize="@dimen/HalfTopBarHeight" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/HalfTopBarHeight"
+        android:layout_height="@dimen/HalfTopBarHeight">
+        <ImageButton
+            android:id="@+id/favorite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/favorite_btn_star_state_changer"
+            android:background="#00ffffff"
+            android:onClick="onToggleStar"/>
+    </RelativeLayout>
+
+</LinearLayout>
