@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfilePage"
     android:orientation="vertical"
-    >
+    android:weightSum="100"
+    tools:context=".ProfilePage">
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <include layout="@layout/activity_hamburger_menu" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -21,17 +23,72 @@
             android:textSize="@dimen/HalfTopBarHeight" />
     </FrameLayout>
 
-    <RelativeLayout
-        android:layout_width="@dimen/HalfTopBarHeight"
-        android:layout_height="@dimen/HalfTopBarHeight">
-        <ImageButton
-            android:id="@+id/favorite"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="25">
+
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/favorite_btn_star_state_changer"
-            android:background="#00ffffff"
-            android:onClick="onToggleStar"/>
-    </RelativeLayout>
+            android:paddingBottom="@dimen/HalfTopBarHeight"
+            android:scaleType="fitXY"
+            android:src="@drawable/profile_page_background_view" />
+
+        <RelativeLayout
+            android:layout_width="@dimen/TopBarHeight"
+            android:layout_height="@dimen/TopBarHeight"
+            android:background="@android:color/transparent">
+
+            <ImageButton
+                android:id="@+id/profile_page_btn_favorite_star"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:onClick="onToggleStar"
+                android:scaleType="fitCenter"
+                android:src="@drawable/favorite_btn_star_off"
+                android:tag="off" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="100"
+            android:gravity="bottom">
+
+            <FrameLayout
+                android:layout_weight="50"
+                android:layout_width="90dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="250dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="250dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="bottom"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/profile_page_incogneto_mode"
+                            android:translationZ="1dp" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.cardview.widget.CardView>
+
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>
