@@ -1,105 +1,222 @@
 package com.example.teachmeapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.DatePickerDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.example.teachmeapp.Helpers.Globals;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private TextView m_emailBox;
-    private TextView m_passwordBox;
-    private TextView m_passwordCopyBox;
-    public Button m_signUpNextButton;
-    private static final String TAG = "Sign up page1";
 
+    public static final String TAG = "Test";
+    private FirebaseUser m_user;
+    public static final int PICK_IMAGE_REQUEST = 22;
+    private EditText m_email, m_password, m_reEnterPass, m_fName, m_lName, m_phone;
+    private StorageReference profilPicRef;
+    private FirebaseAuth mAuth;
+    ImageView mImageVUpload;
+    Button bUploadImage, bNext;
+    Uri filePath;
+    final Map<String, Object> user = new HashMap<>();
+    private communicationWithDatabase m_communicationWithDatabase = new communicationWithDatabase();
+    boolean mNewEmail;
+    AwesomeValidation awesomeValidation;
+    private boolean dateOfBirthIsEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        updateUI();
+    }
+
+    private void updateUI() {
+        bNext = findViewById(R.id.signUp_button_generalInfo);
+        m_fName = findViewById(R.id.signUp_editText_enterName);
+        m_lName = findViewById(R.id.signUp_editText_enterSurname);
+        m_phone = findViewById(R.id.signUp_editText_enterPhone);
+        m_reEnterPass = findViewById(R.id.signUp_editText_enterPasswordAgain);
+        m_email = findViewById(R.id.signUp_editText_enterEmail);
+        m_password = findViewById(R.id.signUp_editText_enterPassword);
         mAuth = FirebaseAuth.getInstance();
+        profilPicRef = FirebaseStorage.getInstance().getReference(Globals.PROFILE_PIC_STORAGE_PATH);
+        DatabaseReference mDataRef = FirebaseDatabase.getInstance().getReference(Globals.PROFILE_PIC_STORAGE_PATH);
+        mImageVUpload = (ImageView) findViewById(R.id.imageViewUpload);
+        bUploadImage = (Button) findViewById(R.id.buttonUpload);
+        bNext = (Button) findViewById(R.id.buttonNext);
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
-        m_emailBox = (TextView) findViewById(R.id.signUp_editText_enterName);
-        m_passwordBox = (TextView) findViewById(R.id.signUp_editText_enterSurname);
-        m_passwordCopyBox = (TextView) findViewById(R.id.signUp_editText_enterPhone);
+        String regexPassword = "^[A-Za-z\\d].{5,}$";
+        String regexPhone = "^(?=.*\\d).{10,10}$";
+        String regexAddress = "^[A-Za-z\\d].{3,}$";
 
-        m_signUpNextButton = (Button) findViewById(R.id.signUp_button_generalInfo);
-        m_signUpNextButton.setOnClickListener(new View.OnClickListener() {
+        awesomeValidation.addValidation(SignUp.this, R.id.signUp_editText_enterName, "[a-zA-Z\\s]+", R.string.fnameerr);
+        awesomeValidation.addValidation(SignUp.this, R.id.signUp_editText_enterSurname, "[a-zA-Z\\s]+", R.string.lnameerr);
+        awesomeValidation.addValidation(SignUp.this, R.id.signUp_editText_enterEmail, android.util.Patterns.EMAIL_ADDRESS, R.string.emailerr);
+        awesomeValidation.addValidation(SignUp.this, R.id.signUp_editText_enterPhone, regexPhone, R.string.phoneerr);
+        awesomeValidation.addValidation(SignUp.this, R.id.signUp_editText_enterPassword, regexPassword, R.string.passerr);
+    }
 
-            @Override
-            public void onClick(View view) {
-                if (authenticator()) {
-                    if (m_passwordBox.getText().toString().equals(m_passwordCopyBox.getText().toString()))
-                    {
-                        openNextSignUp();
+    public void onClickNext(View view) {
+        if (awesomeValidation.validate()) {
+            if (!m_password.getText().toString().equals(m_reEnterPass.getText().toString())) {
+                Toast.makeText(SignUp.this, "Password does not match", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Password does not match");
+            } else {
+
+                Toast.makeText(SignUp.this, "Data Received Successfully", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "checkInfo success");
+                Task<AuthResult> authResult;
+                authResult = mAuth.createUserWithEmailAndPassword(m_email.getText().toString(), m_password.getText().toString());
+                authResult.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "createUserWithEmail:success");
+                            Toast.makeText(getApplicationContext(), "WEEEEeeeee.", Toast.LENGTH_LONG).show();
+                            pushData(); //push data to the database
+                            m_communicationWithDatabase.signOut();
+                        } else {
+                            //failed to add to firebase.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    else {
-                        Snackbar.make(findViewById(R.id.SignUp), R.string.passwords_dont_match,
-                                Snackbar.LENGTH_SHORT)
-                                .show();
-                    }
-                }
+                });
+
             }
-        });
-
-    }
-
-    private boolean authenticator() {
-        return validate(m_emailBox.getText().toString());
-    }
-
-
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-
-    public static boolean validate(String emailStr) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
-        return matcher.find();
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
-    }
-
-
-    // here we will go to th next screen with the proper information required from the user received from firebase
-    private void updateUI(FirebaseUser currentUser) {
-        if (currentUser != null) {
-            openNextSignUp();
         }
     }
 
-    //global page
-    public void openNextSignUp() {
-        Intent intent = new Intent(this, SignUpGetGeneralInfo.class);
 
-        String valPassword = m_passwordBox.getText().toString();
-        String valEmail= m_emailBox.getText().toString();
-        intent.putExtra("p", valPassword);
-        intent.putExtra("e", valEmail);
-        startActivity(intent);
+    private void pushData() {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        //profilPicRef = uploadImage();
+        user.put("name", m_fName.getText().toString());
+        user.put("surname", m_lName.getText().toString());
+        user.put("phone", m_phone.getText().toString());
+        //user.put("profile picture", profilPicRef.toString());
+        //storageRef.child("images/" + m_user.getUid() + "/profile pic/profile picture.jpg");
+        //String url = storageRef.getDownloadUrl().toString();
+        //profilPicRef.getDownloadUrl();
+
+        m_communicationWithDatabase.insertToDatabase(user, "Teachers", m_user.getUid());
+    }
+
+
+    public void OnClickUpload(View view) {
+        Log.e(TAG, "OnClickUpload >>");
+
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        // set the data and type.  Get all image types.
+        galleryIntent.setType("image/*");
+
+        // we will invoke this activity, and get something back from it.
+        startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                mImageVUpload.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    private void UploadImageToStorage() {
+        Log.e(TAG, "UploadImageToStorage >>");
+        if (filePath != null) {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+            } catch (IOException e) {
+                Log.e(TAG, "StorageReference Upload" + e.getMessage());
+                e.printStackTrace();
+
+            }
+            bitmap.compress(Bitmap.CompressFormat.JPEG, Globals.QUALITY, out);
+            byte[] b = out.toByteArray();
+            StorageReference fileReference = null;
+
+            try {
+                fileReference = profilPicRef.child(getUid() + "." + getFileExtension(filePath));
+            } catch (Exception e) {
+                Log.e(TAG, "StorageReference Upload" + e.getMessage());
+            }
+
+            fileReference.putBytes(b).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.e(TAG, "upload Image successful >>");
+                    Toast.makeText(SignUp.this, "Upload Image success", Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(SignUp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        } else {
+            Toast.makeText(this, "no image selcted", Toast.LENGTH_SHORT).show();
+        }
+        Log.e(TAG, "UploadImageToStorage <<");
+    }
+
+    private String getUid() {
+        return mAuth.getCurrentUser().getUid();
     }
 
 }
-

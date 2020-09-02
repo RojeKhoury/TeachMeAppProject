@@ -18,6 +18,14 @@
     <string name="next">"next"</string>
     <string name="enter_phone">"Enter Phone"</string>
     <string name="enter_name">"Enter Name"</string>
+    <string name="fnameerr">type your name</string>
+    <string name="lnameerr">type your last name</string>
+    <string name="dateerr">type correct Date</string>
+    <string name="emailerr">invalid email</string>
+    <string name="phoneerr">invalid phone number</string>
+    <string name="addresserr">type Your Address</string>
+    <string name="passerr">incorrect, minimum 6 characters</string>
+    <string name="cnfpasserr">password does not match</string>
     <string name="enter_surname">"Enter Surname"</string>
     <string name="enter_phoneNumber">"Phone Number"</string>
     <string name="passwords_dont_match">"Your password and confirm password don't match, please check your password and try again"</string>
