@@ -13,11 +13,6 @@ public class HomePage extends HamburgerMenu {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-
-
-
-
-
     }
 
     public void onClick_FavoriteButton(View view)

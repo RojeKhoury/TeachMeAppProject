@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity
 
     public void OpenLogin()
     {
-        Intent intent = new Intent(this, Login.class);
+        Intent intent = new Intent(this, ProfilePage.class);
         startActivity(intent);
 
 

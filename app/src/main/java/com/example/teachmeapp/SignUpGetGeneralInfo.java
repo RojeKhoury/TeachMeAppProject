@@ -1,10 +1,5 @@
 package com.example.teachmeapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,28 +13,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 public class SignUpGetGeneralInfo extends AppCompatActivity {
 
@@ -72,11 +60,12 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
         m_surnameBox = findViewById(R.id.signUp_editText_enterSurname);
         m_phoneBox = findViewById(R.id.signUp_editText_enterPhone);
         db = FirebaseFirestore.getInstance();
-        profilPicRef = FirebaseStorage.getInstance().getReference();FirebaseStorage.getInstance().getReference();
+        profilPicRef = FirebaseStorage.getInstance().getReference();
+        FirebaseStorage.getInstance().getReference();
 
         //get from last page
-        m_emailInput=getIntent().getStringExtra("e");
-        m_passwordInput=getIntent().getStringExtra("p");
+        m_emailInput = getIntent().getStringExtra("e");
+        m_passwordInput = getIntent().getStringExtra("p");
         Toast.makeText(getApplicationContext(), m_emailInput, Toast.LENGTH_LONG).show();
 
         /*
@@ -101,8 +90,6 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
         });*/
 
 
-
-
         m_signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,8 +102,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "createUserWithEmail:success");
-                                    Toast.makeText(getApplicationContext(), "WEEEEeeeee.",Toast.LENGTH_LONG).show();
-
+                                    Toast.makeText(getApplicationContext(), "WEEEEeeeee.", Toast.LENGTH_LONG).show();
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -132,17 +118,14 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
                     pushData(); //push data to the database
                     comm.signOut();
                     //openNextPage(); //open the next screen (view)
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "mAuth.getCurrentUser() return null",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "mAuth.getCurrentUser() return null", Toast.LENGTH_LONG).show();
                 }
             }
 
-private void createUser(String email, String password)
-{
+            private void createUser(String email, String password) {
 
-}
+            }
 
             private void pushData() {
                 FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -156,7 +139,7 @@ private void createUser(String email, String password)
                 //String url = storageRef.getDownloadUrl().toString();
                 //profilPicRef.getDownloadUrl();
 
-                comm.insertToDatabase(user,"Teachers", m_user.getUid());
+                comm.insertToDatabase(user, "Teachers", m_user.getUid());
             }
 
             private StorageReference uploadImage() {
@@ -169,17 +152,17 @@ private void createUser(String email, String password)
             }
         });
     }//last commit
-    public void openNextPage()
-    {
+
+    public void openNextPage() {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
+
     // Override onActivityResult method
     @Override
     protected void onActivityResult(int requestCode,
                                     int resultCode,
-                                    Intent data)
-    {//admin@test.com
+                                    Intent data) {//admin@test.com
 
         super.onActivityResult(requestCode,
                 resultCode,
@@ -206,9 +189,7 @@ private void createUser(String email, String password)
                                 getContentResolver(),
                                 filePath);
                 m_profilePic.setImageBitmap(bitmap);
-            }
-
-            catch (IOException e) {
+            } catch (IOException e) {
                 // Log the exception
                 e.printStackTrace();
             }

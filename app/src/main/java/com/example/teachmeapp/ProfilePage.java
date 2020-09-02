@@ -1,10 +1,14 @@
 package com.example.teachmeapp;
 
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 
 import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
 
 public class ProfilePage extends HamburgerMenu {
 
@@ -24,4 +28,5 @@ public class ProfilePage extends HamburgerMenu {
             ButtonStar.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.favorite_btn_star_on));
         }
     }
+
 }
