@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,7 +26,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,9 +56,8 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_get_general_info);
-        final Map<String, Object> user = new HashMap<>();
         mAuth = FirebaseAuth.getInstance();
-        //m_profilePic = findViewById(R.id.generalInfo_profile_pic);
+        m_profilePic = findViewById(R.id.generalInfo_profile_pic);
         m_signUpButton = findViewById(R.id.signUp_button_generalInfo);
         m_nameBox = findViewById(R.id.signUp_editText_enterName);
         m_surnameBox = findViewById(R.id.signUp_editText_enterSurname);
@@ -68,7 +71,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
         m_passwordInput = getIntent().getStringExtra("p");
         Toast.makeText(getApplicationContext(), m_emailInput, Toast.LENGTH_LONG).show();
 
-        /*
+
         m_profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +90,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
                                 "Select Image from here..."),
                         PICK_IMAGE_REQUEST);
             }
-        });*/
+        });
 
 
         m_signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -131,22 +134,22 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference();
                 //profilPicRef = uploadImage();
-                user.put("name", m_nameBox.getText().toString());
-                user.put("surname", m_surnameBox.getText().toString());
-                user.put("phone", m_phoneBox.getText().toString());
+                //user.put("name", m_nameBox.getText().toString());
+                //.put("surname", m_surnameBox.getText().toString());
+                //user.put("phone", m_phoneBox.getText().toString());
                 //user.put("profile picture", profilPicRef.toString());
                 //storageRef.child("images/" + m_user.getUid() + "/profile pic/profile picture.jpg");
                 //String url = storageRef.getDownloadUrl().toString();
                 //profilPicRef.getDownloadUrl();
 
-                comm.insertToDatabase(user, "Teachers", m_user.getUid());
+                comm.createTeacher(m_nameBox.getText().toString(), m_surnameBox.getText().toString(), "this is an email", m_profilePic.toString(), m_phoneBox.getText().toString());
             }
 
             private StorageReference uploadImage() {
 
                 Bitmap bitmap = ((BitmapDrawable) m_profilePic.getDrawable()).getBitmap();
                 StorageReference ref = comm.buildStorageRef("images", m_user.getUid().toString(), "profile pic", "profile picture.jpg");
-                comm.uploadImage(m_user.getUid(), bitmap, ref);
+                //comm.uploadImage(m_user.getUid(), bitmap, ref);
 
                 return ref;
             }

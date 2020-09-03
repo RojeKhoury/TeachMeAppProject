@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -43,6 +44,8 @@ import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
 
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
     public static final String TAG = "Test";
     private FirebaseUser m_user;
     public static final int PICK_IMAGE_REQUEST = 22;
@@ -54,9 +57,7 @@ public class SignUp extends AppCompatActivity {
     Uri filePath;
     final Map<String, Object> user = new HashMap<>();
     private communicationWithDatabase m_communicationWithDatabase = new communicationWithDatabase();
-    boolean mNewEmail;
     AwesomeValidation awesomeValidation;
-    private boolean dateOfBirthIsEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +112,9 @@ public class SignUp extends AppCompatActivity {
                             Log.d(TAG, "createUserWithEmail:success");
                             Toast.makeText(getApplicationContext(), "WEEEEeeeee.", Toast.LENGTH_LONG).show();
                             pushData(); //push data to the database
-                            m_communicationWithDatabase.signOut();
+                            //m_communicationWithDatabase.signOut();
+                            Intent intent = new Intent(getApplicationContext(), test_profile_page.class);
+                            startActivity(intent);
                         } else {
                             //failed to add to firebase.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -128,16 +131,36 @@ public class SignUp extends AppCompatActivity {
     private void pushData() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        //profilPicRef = uploadImage();
-        user.put("name", m_fName.getText().toString());
-        user.put("surname", m_lName.getText().toString());
-        user.put("phone", m_phone.getText().toString());
-        //user.put("profile picture", profilPicRef.toString());
-        //storageRef.child("images/" + m_user.getUid() + "/profile pic/profile picture.jpg");
-        //String url = storageRef.getDownloadUrl().toString();
-        //profilPicRef.getDownloadUrl();
+        m_communicationWithDatabase.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString());
 
-        m_communicationWithDatabase.insertToDatabase(user, "Teachers", m_user.getUid());
+//this uploads the picture
+        mImageVUpload.setDrawingCacheEnabled(true);
+        mImageVUpload.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) mImageVUpload.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        m_user = mAuth.getCurrentUser();
+
+        StorageReference pPic = storageRef.child("images/" + m_user.getUid() + "/pictures/profile picture");
+
+        UploadTask uploadTask = pPic.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+                //m_communicationWithDatabase.insertImageUrlToFirestore( taskSnapshot.toString(), "Teachers");
+
+            }
+        });
+
+        m_communicationWithDatabase.insertImageUrlToFirestore(storage.getReferenceFromUrl(pPic.toString()).toString(), "Teachers");
     }
 
 
@@ -166,53 +189,6 @@ public class SignUp extends AppCompatActivity {
             }
         }
 
-    }
-
-    private String getFileExtension(Uri uri) {
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
-
-    private void UploadImageToStorage() {
-        Log.e(TAG, "UploadImageToStorage >>");
-        if (filePath != null) {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-            } catch (IOException e) {
-                Log.e(TAG, "StorageReference Upload" + e.getMessage());
-                e.printStackTrace();
-
-            }
-            bitmap.compress(Bitmap.CompressFormat.JPEG, Globals.QUALITY, out);
-            byte[] b = out.toByteArray();
-            StorageReference fileReference = null;
-
-            try {
-                fileReference = profilPicRef.child(getUid() + "." + getFileExtension(filePath));
-            } catch (Exception e) {
-                Log.e(TAG, "StorageReference Upload" + e.getMessage());
-            }
-
-            fileReference.putBytes(b).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.e(TAG, "upload Image successful >>");
-                    Toast.makeText(SignUp.this, "Upload Image success", Toast.LENGTH_LONG).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(SignUp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                }
-            });
-        } else {
-            Toast.makeText(this, "no image selcted", Toast.LENGTH_SHORT).show();
-        }
-        Log.e(TAG, "UploadImageToStorage <<");
     }
 
     private String getUid() {
