@@ -1,15 +1,21 @@
 package com.example.teachmeapp;
 import java.util.regex.Pattern;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.regex.Matcher;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.teachmeapp.Helpers.Globals;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -24,6 +30,8 @@ public class Login extends AppCompatActivity
     EditText m_expAuthenticator;
     EditText m_etEmail;
     EditText m_etPassword;
+    TextView m_resetPassword;
+    String popUpEmail="";
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,6 +55,41 @@ public class Login extends AppCompatActivity
                 openLogin();
             }
         });
+
+        m_resetPassword = findViewById(R.id.Login_Reset_Password);
+        m_resetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final EditText temp = new EditText(Login.this);
+                AlertDialog.Builder builder= new AlertDialog.Builder(Login.this);
+                builder.setTitle(Globals.EMAIL_ALERT_TITLE);
+                builder.setMessage(Globals.EMAIL_ALERT_TEXT);
+                builder.setView(temp);
+                builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        popUpEmail = temp.getText().toString();
+                        ResetPassword(popUpEmail);
+                        Toast.makeText(Login.this, "an email is on its way to you", Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.show();
+            }
+        });
+    }
+
+    private void ResetPassword(String email) {
+
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Email sent.");
+                        }
+                    }
+                });
     }
 
     @Override
