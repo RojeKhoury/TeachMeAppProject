@@ -7,6 +7,9 @@ public class Globals
     public static final String EMAIL_ALERT_TITLE = "Enter email";
     public static final String EMAIL_ALERT_TEXT = "What is your email BUDDY!";
 
+    public static final int AT_MY_PLACE = 0;
+    public static final int AT_YOUR_PLACE = 1;
+    public static final int ZOOM = 2;
 
     public static final String COLLECTION_TEACHER = "Teachers";
     public static final String COLLECTION_STUDENT = "Students";
