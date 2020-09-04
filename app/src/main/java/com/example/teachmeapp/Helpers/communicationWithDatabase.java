@@ -1,10 +1,15 @@
 package com.example.teachmeapp.Helpers;
+
 import android.net.Uri;
 import android.util.Log;
-
+import android.widget.EditText;
+import android.app.Activity;
+import android.content.Intent;
 import com.example.teachmeapp.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -77,8 +82,6 @@ public class communicationWithDatabase {
                     }
                 });
     }
-
-
     //if you want to upload any image this is where you do it (in the storage reference you can add the location you want to place the image in the database)
     public void uploadImage(String imageLocation, StorageReference ref, final String owner) {
 
@@ -230,7 +233,6 @@ public class communicationWithDatabase {
         StorageReference storageRef = storage.getReference();
         Student student = new Student(name, surname, phoneNumber, new ArrayList<Lesson>(), imageLocation, email);
         insertStudentToDatabase(student, "Students", m_user.getUid());
-        findViewById
     }
 
     private void insertStudentToDatabase(Student data, String collection, String document) {
@@ -253,7 +255,7 @@ public class communicationWithDatabase {
 
     public void addCourse(Lesson lesson, String Uid, Float price) {
 
-        addLessonToDatabase(lesson);
+        //addLessonToDatabase(lesson);
 
         if (teacher) {
             addLessonToTeacher(new UserLesson(lesson.getName(), new ArrayList<Integer>(), new ArrayList<Comment>(), price));
@@ -331,6 +333,26 @@ public class communicationWithDatabase {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+
     }
+
+    public String getUid()
+    {
+        return m_user.getUid();
+    }
+
+    public void sendResetPasswordEmail(String email)
+    {
+        mAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Email sent.");
+                        }
+                    }
+                });
+    }
+
 }
 

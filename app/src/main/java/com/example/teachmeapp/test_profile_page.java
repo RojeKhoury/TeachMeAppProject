@@ -3,6 +3,7 @@ package com.example.teachmeapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +31,7 @@ public class test_profile_page extends AppCompatActivity {
 
     public EditText m_email,  m_fName, m_lName, m_phone;
     private Button m_addLesson;
+    private Button m_logOut;
     private ImageView m_ImageVUpload;
     private communicationWithDatabase m_comm = new communicationWithDatabase();
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -60,7 +62,7 @@ public class test_profile_page extends AppCompatActivity {
         docref = db.collection("Teachers").document(m_user.getUid());
         m_addLesson = findViewById(R.id.test_add_lesson_button);
         m_comm.setTeacher(true);
-
+        m_logOut = findViewById(R.id.test_logout_button);
     }
 
     @Override
@@ -75,6 +77,14 @@ public class test_profile_page extends AppCompatActivity {
             }
         });
 
+        m_logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_comm.signOut();
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+            }
+        });
         setData();
     }
 

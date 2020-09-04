@@ -127,6 +127,7 @@ public class SignUp extends AppCompatActivity {
     private void pushData() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
+
         m_communicationWithDatabase.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString());
         m_communicationWithDatabase.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString());
 
