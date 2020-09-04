@@ -86,10 +86,29 @@ public class test_profile_page extends AppCompatActivity {
             }
         });
         setData();
+        m_ImageVUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                storage.getReference().child("images/"+ m_comm.getUid() +"/profile picture").
+                        getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        // Got the download URL for 'users/me/profile.png'
+                        Picasso.get().load(uri).into(m_ImageVUpload);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+            }
+        });
     }
 
     private void setData() {
-        storage.getReference().child("images/"+ m_user.getUid() +"/pictures/profile picture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storage.getReference().child("images/"+ m_comm.getUid() +"/profile picture").
+                getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 // Got the download URL for 'users/me/profile.png'
@@ -101,6 +120,7 @@ public class test_profile_page extends AppCompatActivity {
                 // Handle any errors
             }
         });
+
         docref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -110,12 +130,12 @@ public class test_profile_page extends AppCompatActivity {
                             name = documentSnapshot.getString("name");
                             surname = documentSnapshot.getString("surname");
                             phone = documentSnapshot.getString("phone");
-                            picRef = storage.getReferenceFromUrl(documentSnapshot.getString("pic"));
 
                             m_email.setText(documentSnapshot.getString("email"));
                             m_fName.setText(documentSnapshot.getString("name"));
                             m_lName.setText(documentSnapshot.getString("surname"));
                             m_phone.setText(documentSnapshot.getString("phone"));
+
                         }
                         else
                         {
@@ -128,7 +148,19 @@ public class test_profile_page extends AppCompatActivity {
 
                     }
                 });
-
+        storage.getReference().child("images/"+ m_comm.getUid() +"/profile picture").
+                getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                Picasso.get().load(uri).into(m_ImageVUpload);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
 
         m_user = mAuth.getCurrentUser();
        //gsReference = storage.getReferenceFromUrl(m_comm.getPicLocation("Teachers"));

@@ -8,14 +8,15 @@
 
     <ImageView
         android:id="@+id/test_profile_pic"
-        android:layout_width="249dp"
-        android:layout_height="253dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="183dp"
+        android:layout_height="169dp"
+        android:layout_gravity="bottom"
+        android:scaleType="fitCenter"
+        android:src="@drawable/profile_page_incogneto_mode"
+        android:translationZ="1dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.462"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/test_profile_name"
@@ -85,8 +86,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/test_add_lesson_button"
-        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintHorizontal_bias="0.631"
         app:layout_constraintStart_toStartOf="@+id/test_add_lesson_button"
-        app:layout_constraintTop_toBottomOf="@+id/test_add_lesson_button" />
+        app:layout_constraintTop_toBottomOf="@+id/test_add_lesson_button"
+        app:layout_constraintVertical_bias="0.055" />
 </androidx.constraintlayout.widget.ConstraintLayout>

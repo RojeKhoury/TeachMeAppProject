@@ -50,8 +50,12 @@
             android:name=".Login"
             android:theme="@style/AppThemeNoBar" />
         <activity
+            android:name=".test_profile_page"
+            android:theme="@style/AppThemeNoBar"/>
+        <activity
             android:name=".MainActivity"
             android:theme="@style/AppThemeNoBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

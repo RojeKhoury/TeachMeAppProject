@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.SyncStateContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -131,9 +132,16 @@ public class SignUp extends AppCompatActivity {
         m_communicationWithDatabase.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString());
         m_communicationWithDatabase.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString());
 
+        StorageReference pPic = storageRef.child("images/" + m_communicationWithDatabase.getUid() + "/profile picture");
+        pPic.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+            }
+        });
         //this uploads the picture
 
-        mImageVUpload.setDrawingCacheEnabled(true);
+        /*mImageVUpload.setDrawingCacheEnabled(true);
         mImageVUpload.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) mImageVUpload.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -141,7 +149,7 @@ public class SignUp extends AppCompatActivity {
         byte[] data = baos.toByteArray();
         m_user = mAuth.getCurrentUser();
 
-        StorageReference pPic = storageRef.child("images/" + m_user.getUid() + "/pictures/profile picture");
+
 
         UploadTask uploadTask = pPic.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -157,9 +165,9 @@ public class SignUp extends AppCompatActivity {
                 //m_communicationWithDatabase.insertImageUrlToFirestore( taskSnapshot.toString(), "Teachers");
 
             }
-        });
+        });*/
 
-        m_communicationWithDatabase.insertImageUrlToFirestore(storage.getReferenceFromUrl(pPic.toString()).toString(), "Teachers");
+        //m_communicationWithDatabase.insertImageUrlToFirestore(storage.getReferenceFromUrl(pPic.toString()).toString(), "Teachers");
     }
 
 
@@ -183,6 +191,7 @@ public class SignUp extends AppCompatActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 mImageVUpload.setImageBitmap(bitmap);
+                filePath = data.getData();
             } catch (IOException e) {
                 e.printStackTrace();
             }

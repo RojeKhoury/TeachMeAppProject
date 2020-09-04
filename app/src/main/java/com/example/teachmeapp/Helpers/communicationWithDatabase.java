@@ -22,6 +22,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -201,7 +202,7 @@ public class communicationWithDatabase {
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Teacher teacher = new Teacher(name, surname, phoneNumber, new ArrayList<Integer>(), new ArrayList<UserLesson>(), new ArrayList<Comment>(), imageLocation, email);
+        Teacher teacher = new Teacher(name, surname, phoneNumber, new ArrayList<Integer>(), new ArrayList<UserLesson>(), new ArrayList<Comment>(), email);
         insertTeacherToDatabase(teacher, "Teachers", m_user.getUid());
 
     }
@@ -231,7 +232,7 @@ public class communicationWithDatabase {
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Student student = new Student(name, surname, phoneNumber, new ArrayList<Lesson>(), imageLocation, email);
+        Student student = new Student(name, surname, phoneNumber, new ArrayList<Lesson>(), email);
         insertStudentToDatabase(student, "Students", m_user.getUid());
     }
 
@@ -258,6 +259,8 @@ public class communicationWithDatabase {
         //addLessonToDatabase(lesson);
 
         if (teacher) {
+
+
             addLessonToTeacher(new UserLesson(lesson.getName(), new ArrayList<Integer>(), new ArrayList<Comment>(), price));
         } else {
             addLessonToStudent(lesson);
