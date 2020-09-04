@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:weightSum="100"
-    tools:context=".HomePage">
+    tools:context=".HomePageStudent">
 
 
     <FrameLayout
@@ -49,7 +49,7 @@
             tools:ignore="NestedWeights">
 
             <ImageButton
-                android:id="@+id/homepage_button_favorite"
+                android:id="@+id/homepage_student_button_favorite"
 
                 android:onClick="onClick_FavoriteButton"
 
@@ -65,7 +65,7 @@
                 android:contentDescription="@string/favorites" />
 
             <ImageButton
-                android:id="@+id/homepage_button_conversation"
+                android:id="@+id/homepage_student_button_conversation"
 
                 android:onClick="onClick_conversationButton"
 
@@ -85,7 +85,7 @@
                 android:contentDescription="@string/chat" />
 
             <ImageButton
-                android:id="@+id/homepage_button_history"
+                android:id="@+id/homepage_student_button_history"
 
                 android:onClick="onClick_historyButton"
 
@@ -109,7 +109,7 @@
             android:weightSum="99">
 
             <ImageButton
-                android:id="@+id/homepage_button_schedule"
+                android:id="@+id/homepage_student_button_schedule"
 
                 android:onClick="onClick_scheduleButton"
 
@@ -124,7 +124,7 @@
                 android:contentDescription="@string/schedule" />
 
             <ImageButton
-                android:id="@+id/homepage_button_recommendation"
+                android:id="@+id/homepage_student_button_recommendation"
 
                 android:onClick="onClick_recommendationButton"
 
@@ -139,7 +139,7 @@
                 android:contentDescription="@string/recommendation" />
 
             <ImageButton
-                android:id="@+id/homepage_button_search"
+                android:id="@+id/homepage_student_button_search"
 
                 android:onClick="onClick_searchButton"
 

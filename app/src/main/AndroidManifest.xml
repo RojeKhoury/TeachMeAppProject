@@ -11,37 +11,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".test_profile_page"></activity>
-        <activity
-            android:name=".FavoriteTeachers"
-            android:theme="@style/AppThemeNoBar" />
-        <activity
-            android:name=".RecommendationForStudent"
-            android:theme="@style/AppThemeNoBar" />
-        <activity
-            android:name=".Schedule"
-            android:theme="@style/AppThemeNoBar" />
-        <activity
-            android:name=".HistoryClassesPage"
-            android:theme="@style/AppThemeNoBar" />
-        <activity
-            android:name=".ConversationChatPage"
-            android:theme="@style/AppThemeNoBar" />
-        <activity
-            android:name=".SearchForTeacher"
-            android:theme="@style/AppThemeNoBar" />
-        <activity
-            android:name=".ProfilePage"
-            android:theme="@style/AppThemeNoBar" />
-        <activity
-            android:name=".HamburgerMenu"
-            android:theme="@style/AppThemeNoBar" />
-        <activity
-            android:name=".HomePage"
-            android:theme="@style/AppThemeNoBar" />
-        <activity
-            android:name=".searchResult"
-            android:theme="@style/AppThemeNoBar" />
+        <activity android:name=".FavoriteTeachers"
+            android:theme="@style/AppThemeNoBar"/>
+        <activity android:name=".RecommendationForStudent"
+            android:theme="@style/AppThemeNoBar"/>
+        <activity android:name=".Schedule"
+            android:theme="@style/AppThemeNoBar"/>
+        <activity android:name=".HistoryClassesPage"
+            android:theme="@style/AppThemeNoBar"/>
+        <activity android:name=".ConversationChatPage"
+            android:theme="@style/AppThemeNoBar"/>
+        <activity android:name=".SearchForTeacher"
+            android:theme="@style/AppThemeNoBar"/>
+        <activity android:name=".ProfilePage"
+            android:theme="@style/AppThemeNoBar"/>
+        <activity android:name=".HamburgerMenu"
+            android:theme="@style/AppThemeNoBar"/>
+        <activity android:name=".searchResult"
+            android:theme="@style/AppThemeNoBar"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

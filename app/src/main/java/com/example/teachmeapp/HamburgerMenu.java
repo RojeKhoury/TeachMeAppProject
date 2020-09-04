@@ -2,12 +2,10 @@ package com.example.teachmeapp;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,9 +37,12 @@ public class HamburgerMenu extends Activity {
         final PopupMenu popup = new PopupMenu(this, v);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.hamburger_menu, popup.getMenu());
-        if (this.getLocalClassName().equals(HomePage.class.getSimpleName())) {
+        if (this.getLocalClassName().equals(HomePageStudent.class.getSimpleName()))
+        {
             //popup.getMenu().removeItem(R.id.HomePage);
         }
+
+
         popup.show();
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -57,7 +58,7 @@ public class HamburgerMenu extends Activity {
         assert item != null;
         switch (item.getItemId()) {
             case R.id.HomePage:
-                intent = new Intent(getApplicationContext(), HomePage.class);
+                intent = new Intent(getApplicationContext(), HomePageStudent.class);
                 startActivity(intent);
                 return true;
            /*
