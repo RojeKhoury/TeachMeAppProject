@@ -69,4 +69,12 @@
         app:layout_constraintStart_toStartOf="@+id/test_profile_phone"
         app:layout_constraintTop_toBottomOf="@+id/test_profile_phone"
         app:layout_constraintVertical_bias="0.046" />
+
+    <Button
+        android:id="@+id/test_add_lesson_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="add lesson"
+        tools:layout_editor_absoluteX="152dp"
+        tools:layout_editor_absoluteY="526dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

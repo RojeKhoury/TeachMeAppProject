@@ -1,48 +1,46 @@
-package com.example.teachmeapp;
-import android.graphics.Bitmap;
+package com.example.teachmeapp.Helpers;
 import android.net.Uri;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.teachmeapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 import androidx.annotation.NonNull;
 
 public class communicationWithDatabase {
     String TAG = "commincation with database";
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseUser m_user;
+    private FirebaseUser m_user = mAuth.getCurrentUser();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DatabaseReference m_userDatabase;
     private String res;
+    boolean teacher = false;
+
+    public boolean getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(boolean teacher) {
+        this.teacher = teacher;
+    }
+
+
 
     //here you can insert data to the data base itself (no the storage just the database) you will need to specify the data (a map containing the fields) the collection (teacher/student/admin/ any other you may want to add)
     //and finally the collection (i have it set to be the user id of the user for easier access)
@@ -186,48 +184,153 @@ public class communicationWithDatabase {
         return getData(group,"phone");
     }*/
 
+    public void addCourseToDatabase(String course) {
 
-    public void createTeacher(String name, String surname, String email, String imageLocation, String phoneNumber)
-    {// will now also upload the image, all I need is the location on the device of the image.
+    }
+
+    public void addClassToTeacher(String lesson, float cost) {
+
+    }
+
+    public void createTeacher(String name, String surname, String email, String imageLocation, String phoneNumber) {// will now also upload the image, all I need is the location on the device of the image.
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        //profilPicRef = uploadImage();
-        ArrayList<Map<String, Float>> courses = new ArrayList<Map<String, Float>>();
-        user.put("name", name);
-        user.put("surname", surname);
-        user.put("phone", phoneNumber);
-        user.put("email", email);
-        user.put("star rating", rating);
-        user.put("courses", courses);
-        //storageRef.child("images/" + m_user.getUid() + "/profile pic/profile picture.jpg");
-        //String url = storageRef.getDownloadUrl().toString();
+        Teacher teacher = new Teacher(name, surname, phoneNumber, new ArrayList<Integer>(), new ArrayList<UserLesson>(), new ArrayList<Comment>(), imageLocation, email);
+        insertTeacherToDatabase(teacher, "Teachers", m_user.getUid());
 
-        insertToDatabase(user, "Teachers", m_user.getUid());
-        //uploadImage(imageLocation, buildStorageRef("images", m_user.getUid(), "profile picture", "profile pic"), "Teacher");
     }
 
-    public void createStudent(String name, String surname, String email, String imageLocation, String phoneNumber)
-    {// will now also upload the image, all I need is the location on the device of the image.
+    private void insertTeacherToDatabase(Teacher data, String collection, String document) {
+        db.collection(collection).document(document)
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+
+    public void createStudent(String name, String surname, String email, String imageLocation, String phoneNumber) {// will now also upload the image, all I need is the location on the device of the image.
+
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        //profilPicRef = uploadImage();
-        user.put("name", name);
-        user.put("surname", surname);
-        user.put("phone", phoneNumber);
-        user.put("email", email);
-        user.put("star rating", rating);
-        //storageRef.child("images/" + m_user.getUid() + "/profile pic/profile picture.jpg");
-        //String url = storageRef.getDownloadUrl().toString();
-
-        insertToDatabase(user, "Teachers", m_user.getUid());
-        //uploadImage(imageLocation, buildStorageRef("images", m_user.getUid(), "profile picture", "profile pic"), "Teacher");
+        Student student = new Student(name, surname, phoneNumber, new ArrayList<Lesson>(), imageLocation, email);
+        insertStudentToDatabase(student, "Students", m_user.getUid());
+        findViewById
     }
 
+    private void insertStudentToDatabase(Student data, String collection, String document) {
+        db.collection(collection).document(document)
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+
+    public void addCourse(Lesson lesson, String Uid, Float price) {
+
+        addLessonToDatabase(lesson);
+
+        if (teacher) {
+            addLessonToTeacher(new UserLesson(lesson.getName(), new ArrayList<Integer>(), new ArrayList<Comment>(), price));
+        } else {
+            addLessonToStudent(lesson);
+        }
+    }
+
+
+    private void addLessonToStudent(Lesson lesson) {
+        db.collection("Students").document(m_user.getUid())
+                .update("classes", lesson)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    private void addLessonToDatabase(Lesson lesson) {
+        db.collection("lessons").document(lesson.getName())
+                .set(lesson)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+
+    private void addLessonToTeacher(UserLesson lesson) {
+        String collection;
+        collection = "Teachers";
+        m_user = mAuth.getCurrentUser();
+        db.collection(collection).document(m_user.getUid())
+                .update("lessons", FieldValue.arrayUnion(lesson))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        db.collection("lessons").document(lesson.getName())
+                .update("teachers", FieldValue.arrayUnion(m_user.getUid()))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
 }
 
