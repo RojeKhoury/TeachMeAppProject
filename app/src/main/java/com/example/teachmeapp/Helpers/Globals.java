@@ -25,4 +25,10 @@ public class Globals
     public static final String FIELD_EMAIL = "email";
     public static final String FIELD_picture = "picture";
 
+    public static final String FIELD_ZOOM = "zoom";
+    public static final String FIELD_MYPLACE = "my place";
+    public static final String FIELD_YOURPLACE = "your place";
+
+
+    public static communicationWithDatabase comm = new communicationWithDatabase();
 }

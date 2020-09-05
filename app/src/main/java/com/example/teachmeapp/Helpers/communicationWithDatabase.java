@@ -33,12 +33,12 @@ public class communicationWithDatabase {
     private FirebaseUser m_user = mAuth.getCurrentUser();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DatabaseReference m_userDatabase;
     private String res;
-    boolean teacher = false;
+    private boolean teacher = false;
 
-    public boolean getTeacher() {
+    public boolean isTeacher() {
         return teacher;
     }
 
@@ -188,13 +188,6 @@ public class communicationWithDatabase {
         return getData(group,"phone");
     }*/
 
-    public void addCourseToDatabase(String course) {
-
-    }
-
-    public void addClassToTeacher(String lesson, float cost) {
-
-    }
 
     public void createTeacher(String name, String surname, String email, String imageLocation, String phoneNumber) {// will now also upload the image, all I need is the location on the device of the image.
         final Map<String, Object> user = new HashMap<>();
@@ -255,13 +248,11 @@ public class communicationWithDatabase {
 
 
     public void addCourse(Lesson lesson, String Uid, Float price) {
-
         //addLessonToDatabase(lesson);
-
         if (teacher) {
-
-
-            addLessonToTeacher(new UserLesson(lesson.getName(), new ArrayList<Integer>(), new ArrayList<Comment>(), price));
+            Map temp = new HashMap<String, UserLesson>();
+            temp.put(lesson.getName(), new UserLesson(lesson.getName(), new ArrayList<Integer>(), new ArrayList<Comment>(), price));
+            addLessonToTeacher(temp, lesson.getName());
         } else {
             addLessonToStudent(lesson);
         }
@@ -303,7 +294,7 @@ public class communicationWithDatabase {
     }
 
 
-    private void addLessonToTeacher(UserLesson lesson) {
+    private void addLessonToTeacher(Map<String, UserLesson> lesson, String name) {
         String collection;
         collection = "Teachers";
         m_user = mAuth.getCurrentUser();
@@ -322,7 +313,7 @@ public class communicationWithDatabase {
                     }
                 });
 
-        db.collection("lessons").document(lesson.getName())
+       /* db.collection("lessons").document(name)
                 .update("teachers", FieldValue.arrayUnion(m_user.getUid()))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -335,7 +326,7 @@ public class communicationWithDatabase {
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error writing document", e);
                     }
-                });
+                });*/
 
     }
 

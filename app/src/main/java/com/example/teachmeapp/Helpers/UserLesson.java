@@ -7,7 +7,7 @@ import java.util.List;
 public class UserLesson {
     private String name;
     private float price;
-    private ArrayList<Integer> rating;
+    private List<Integer> rating;
     private List<Comment> comments;
 
     public UserLesson() {
@@ -34,8 +34,7 @@ public class UserLesson {
         return comments;
     }
 
-
-    public ArrayList<Integer> rating() {
+    public List getRating() {
         return rating;
     }
 
