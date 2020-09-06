@@ -29,7 +29,7 @@
             android:theme="@style/AppThemeNoBar" />
         <activity
             android:name=".SearchForTeacher"
-            android:theme="@style/AppThemeNoBar" />
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar" />
         <activity
             android:name=".ProfilePageOfTeacherForStudent"
             android:theme="@style/AppThemeNoBar" />

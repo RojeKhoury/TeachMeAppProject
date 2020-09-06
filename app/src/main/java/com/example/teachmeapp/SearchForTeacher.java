@@ -3,6 +3,7 @@ package com.example.teachmeapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.teachmeapp.Helpers.Globals;
 import com.google.firebase.firestore.CollectionReference;
@@ -16,7 +17,7 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHER_FOR_LESSON;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
-public class SearchForTeacher extends AppCompatActivity {
+public class SearchForTeacher extends HamburgerMenu {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +36,12 @@ public class SearchForTeacher extends AppCompatActivity {
 
     }
 
+    public void OnClick_SearchForTeacher_CheckBox_AtStudentPlace(View view) {
+    }
 
+    public void OnClick_SearchForTeacher_CheckBox_AtTeacherPlace(View view) {
+    }
+
+    public void OnClick_SearchForTeacher_CheckBox_Zoom(View view) {
+    }
 }
