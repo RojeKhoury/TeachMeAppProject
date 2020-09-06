@@ -5,11 +5,14 @@ import android.util.Log;
 import android.widget.EditText;
 import android.app.Activity;
 import android.content.Intent;
+import android.widget.Toast;
+
 import com.example.teachmeapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
 import androidx.annotation.NonNull;
 
@@ -383,6 +387,31 @@ public class communicationWithDatabase {
 
     public void changeStudentSurname(String surname) {
         updateElementInDatabase(getStudentStorageRef(),Globals.FIELD_SURNAME, surname);
+    }
+
+    public void signIn(String email, String password)
+    {
+        mAuth.signInWithEmailAndPassword(email, password)
+
+                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+
+                        }
+
+                    }
+                });
+    }
+
+    public FirebaseUser getFirebaseUser() {
+        return mAuth.getCurrentUser();
     }
 }
 

@@ -22,6 +22,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class Login extends AppCompatActivity
 {
     private static final String TAG = "EmailPassword";
@@ -70,7 +72,7 @@ public class Login extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         popUpEmail = temp.getText().toString();
-                        ResetPassword(popUpEmail);
+                        comm.sendResetPasswordEmail(popUpEmail);
                         Toast.makeText(Login.this, "an email is on its way to you", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -79,25 +81,12 @@ public class Login extends AppCompatActivity
         });
     }
 
-    private void ResetPassword(String email) {
-
-        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "Email sent.");
-                        }
-                    }
-                });
-    }
-
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(comm.getFirebaseUser());
     }
 
     // here we will go to th next screen with the proper information required from the user received from firebase
@@ -112,36 +101,15 @@ public class Login extends AppCompatActivity
         }
     }
 
-    private void signIn(String email, String password)
-    {
-        mAuth.signInWithEmailAndPassword(email, password)
 
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-
-                    }
-                });
-    }
 
     private void openLogin()
     {
         //if(authenticator()==true)
        // {
             Intent intent = new Intent(this, HomePageStudent.class);
-            signIn(m_etEmail.getText().toString(), m_etPassword.getText().toString());
+            comm.signIn(m_etEmail.getText().toString(), m_etPassword.getText().toString());
+            updateUI(comm.getFirebaseUser());
             startActivity(intent);
        // }
        // else
@@ -152,7 +120,6 @@ public class Login extends AppCompatActivity
 
     private void invalidEmail()
     {
-
         Toast.makeText(Login.this, "Incorrect Email",Toast.LENGTH_LONG).show();
     }
 
