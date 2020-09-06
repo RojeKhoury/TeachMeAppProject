@@ -7,10 +7,30 @@
     android:orientation="vertical"
     tools:context=".Schedule">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/activity_hamburger_menu" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Schedule"
+            android:textSize="@dimen/HalfTopBarHeight" />
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
     </androidx.recyclerview.widget.RecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,10 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
         <item
-            android:title="HomePage"
-            android:id="@+id/HomePage"
+            android:id="@+id/HamburgerMenuHomePage"
             android:enabled="true"
-            />
+            android:title="Home Page" />
+        <item
+            android:id="@+id/HamburgerMenuProfilePage"
+            android:enabled="true"
+            android:title="Profile Page" />
+        <item
+            android:id="@+id/HamburgerMenuSchedule"
+            android:enabled="true"
+            android:title="Schedule" />
+        <item
+            android:id="@+id/HamburgerMenuLogOut"
+            android:enabled="true"
+            android:title="Logout" />
 
     </group>
 </menu>

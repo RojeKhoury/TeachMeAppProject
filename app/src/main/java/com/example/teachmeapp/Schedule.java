@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.teachmeapp.Adapter.AdapterCardViewList;
 
 
-public class Schedule extends AppCompatActivity {
+public class Schedule extends HamburgerMenu {
 
-    String s1[] = {" testing", "this","helo"};
+    String s1[] = {"testing", "this","helo"};
     String s2[] = {"stirng 2", "amazing","broo"};
     String s3[] = {"stirng 3", "amazingsad","bro3o"};
     Button MoreInfoButton;

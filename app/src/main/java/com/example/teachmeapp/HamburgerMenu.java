@@ -7,18 +7,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.teachmeapp.Helpers.communicationWithDatabase;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class HamburgerMenu extends Activity {
 
@@ -37,12 +32,14 @@ public class HamburgerMenu extends Activity {
         final PopupMenu popup = new PopupMenu(this, v);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.hamburger_menu, popup.getMenu());
-        if (this.getLocalClassName().equals(HomePageStudent.class.getSimpleName()))
-        {
-            //popup.getMenu().removeItem(R.id.HomePage);
+
+        if (this.getLocalClassName().equals(HomePageTeacher.class.getSimpleName())) {
+            popup.getMenu().removeItem(R.id.HamburgerMenuHomePage);
+        } else if (this.getLocalClassName().equals(ProfilePageOfTeacherForStudent.class.getSimpleName())) {
+            popup.getMenu().removeItem(R.id.HamburgerMenuProfilePage);
+        } else if (this.getLocalClassName().equals(ProfilePageOfTeacherForStudent.class.getSimpleName())) {
+            popup.getMenu().removeItem(R.id.HamburgerMenuSchedule);
         }
-
-
         popup.show();
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -52,25 +49,30 @@ public class HamburgerMenu extends Activity {
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(@Nullable MenuItem item) {
         Intent intent;
         assert item != null;
         switch (item.getItemId()) {
-            case R.id.HomePage:
+            case R.id.HamburgerMenuHomePage:
                 intent = new Intent(getApplicationContext(), HomePageStudent.class);
                 startActivity(intent);
                 return true;
-           /*
-            case R.id.HamburgerSignOut:
-                SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.apply();
-                intent = new Intent(getApplicationContext(), MainActivity.class);
+            case R.id.HamburgerMenuProfilePage:
+                intent = new Intent(getApplicationContext(), ProfilePageOfTeacherForStudent.class);
                 startActivity(intent);
                 return true;
-            */
+            case R.id.HamburgerMenuSchedule:
+                intent = new Intent(getApplicationContext(), Schedule.class);
+                startActivity(intent);
+                return true;
+            case R.id.HamburgerMenuLogOut:
+                intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+                comm.signOut();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

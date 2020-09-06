@@ -14,12 +14,15 @@ import com.example.teachmeapp.Helpers.Globals;
 public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
 
-    private ListView profile_page_list_lesson_offered = findViewById(R.id.profile_page_list_lesson_offered);
+    private ListView profile_page_list_lesson_offered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page_of_teacher_for_student);
+
+        profile_page_list_lesson_offered = findViewById(R.id.profile_page_list_lesson_offered);
+
     }
 
     public void onToggleStar(View view) {
