@@ -4,12 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class RecommendationForStudent extends AppCompatActivity {
+public class ScheduleExpandingButton extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recommendation_for_student);
+        setContentView(R.layout.activity_schedule_expanding_button);
     }
-
 }

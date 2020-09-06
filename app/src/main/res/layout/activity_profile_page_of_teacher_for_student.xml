@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="100"
-    tools:context=".ProfilePage">
+    tools:context=".ProfilePageOfTeacherForStudent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -153,9 +153,10 @@
                     android:id="@+id/profile_page_rating_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:isIndicator="true"
+                    android:isIndicator="false"
                     android:numStars="5"
-                    android:saveEnabled="true" />
+                    android:saveEnabled="true"
+                    />
                 <!--   android:isIndicator="true"  means that the user cant press it to change the star value -->
             </LinearLayout>
 
@@ -193,12 +194,12 @@
                         android:text="At My Place" />
 
                     <Button
-                        android:onClick="OnClick_profile_button_check_location"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/HalfTopBarHeight"
                         android:layout_weight="2.5"
                         android:background="@color/colorPrimaryDark"
                         android:gravity="center"
+                        android:onClick="OnClick_profile_button_check_location"
                         android:text="Check Location"
                         android:textColor="@color/cardview_light_background" />
 
@@ -236,12 +237,12 @@
                         android:text="At Your Place" />
 
                     <Button
-                        android:onClick="OnClick_profile_button_check_radius"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/HalfTopBarHeight"
                         android:layout_weight="2.5"
                         android:background="@color/colorPrimaryDark"
                         android:gravity="center"
+                        android:onClick="OnClick_profile_button_check_radius"
                         android:text="Check Radius"
                         android:textColor="@color/cardview_light_background" />
 
@@ -334,11 +335,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:onClick="OnClick_profile_button_get_lessons_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/buttonshapecool"
+            android:onClick="OnClick_profile_button_get_lessons_now"
             android:text="Get Lessons Now!"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
     </LinearLayout>
 </LinearLayout>

@@ -1,36 +1,33 @@
 package com.example.teachmeapp;
 
-import android.app.Activity;
+
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-
-public class Schedule extends HamburgerMenu {
+import com.example.teachmeapp.Adapter.AdapterCardViewList;
 
 
+public class Schedule extends AppCompatActivity {
+
+    String s1[] = {" testing", "this","helo"};
+    String s2[] = {"stirng 2", "amazing","broo"};
+    String s3[] = {"stirng 3", "amazingsad","bro3o"};
+    Button MoreInfoButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
+        setContentView(R.layout.schedule_item_cardview);
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
+        AdapterCardViewList adapterCardViewList = new AdapterCardViewList(this, s1, s2, s3,MoreInfoButton);
+        recyclerView.setAdapter(adapterCardViewList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
-    public void AddButtonAndTextViewToScheduleList(String Name , String Subject , String Time ,int Id) {
-        Button button = new Button(this);
-        button.setText(Name+"/n"+Subject+"/n"+Time);
-        button.setBackgroundColor(R.drawable.buttonshapecool);
-        button.setTextColor(getColor(R.color.white));
-        button.setId(Id);
-        
-
-    }
 }

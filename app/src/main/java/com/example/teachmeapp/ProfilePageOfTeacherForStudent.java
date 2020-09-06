@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat;
 import com.example.teachmeapp.Helpers.Globals;
 
 
-public class ProfilePage extends HamburgerMenu {
+public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
 
     private ListView profile_page_list_lesson_offered = findViewById(R.id.profile_page_list_lesson_offered);
@@ -19,7 +19,7 @@ public class ProfilePage extends HamburgerMenu {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_page);
+        setContentView(R.layout.activity_profile_page_of_teacher_for_student);
     }
 
     public void onToggleStar(View view) {
