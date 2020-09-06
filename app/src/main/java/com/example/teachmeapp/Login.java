@@ -35,6 +35,7 @@ public class Login extends AppCompatActivity
     TextView m_resetPassword;
     String popUpEmail="";
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -82,13 +83,11 @@ public class Login extends AppCompatActivity
     }
 
     @Override
-    public void onStart() {
+    protected void onStart()
+    {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        //FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(comm.getFirebaseUser());
     }
-
     // here we will go to th next screen with the proper information required from the user received from firebase
     private void updateUI(FirebaseUser currentUser) {
         if(currentUser != null)
@@ -97,7 +96,6 @@ public class Login extends AppCompatActivity
                     Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, test_profile_page.class);
             startActivity(intent);
-
         }
     }
 
@@ -107,11 +105,27 @@ public class Login extends AppCompatActivity
     {
         //if(authenticator()==true)
        // {
-            Intent intent = new Intent(this, HomePageStudent.class);
-            comm.signIn(m_etEmail.getText().toString(), m_etPassword.getText().toString());
-            updateUI(comm.getFirebaseUser());
-            startActivity(intent);
-       // }
+        mAuth.signInWithEmailAndPassword(m_etEmail.getText().toString(), m_etPassword.getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(comm.getFirebaseUser());
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(Login.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
+        // }
        // else
        // {
        //     invalidEmail();

@@ -77,4 +77,5 @@ public class HamburgerMenu extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

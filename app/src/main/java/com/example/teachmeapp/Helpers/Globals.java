@@ -26,6 +26,9 @@ public class Globals
     public static final String FIELD_PHONE = "phone";
     public static final String FIELD_EMAIL = "email";
     public static final String FIELD_picture = "picture";
+    public static final String FIELD_BIO = "bio";
+    public static final String FIELD_RATING = "rating";
+
 
     public static final String FIELD_ZOOM = "zoom";
     public static final String FIELD_MYPLACE = "my place";

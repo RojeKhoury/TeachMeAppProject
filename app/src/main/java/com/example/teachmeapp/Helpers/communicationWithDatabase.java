@@ -17,8 +17,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -41,7 +44,17 @@ public class communicationWithDatabase {
     public FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DatabaseReference m_userDatabase;
     private String res;
+
+    private String m_firstName;
+    private String m_lastName;
+    private String m_bio;
+    private ArrayList<Integer> m_starRating;
+    private float m_rating;
+
     private boolean teacher = false;
+    private String m_phone;
+    private String m_email;
+
 
     public boolean isTeacher() {
         return teacher;
@@ -153,10 +166,39 @@ public class communicationWithDatabase {
         FirebaseAuth.getInstance().signOut();
     }
 
-   /* private String getData(String collection, String data) {
+    public void getTeacherData() {
         m_user = mAuth.getCurrentUser();
-        .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection(Globals.COLLECTION_TEACHER).document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    DocumentSnapshot document = task.getResult();
+                    m_firstName = document.get(Globals.FIELD_NAME).toString();
+                    m_lastName = document.get(Globals.FIELD_SURNAME).toString();
+                    m_bio = document.get(Globals.FIELD_BIO).toString();
+                    m_phone = document.get(Globals.FIELD_PHONE).toString();
+                    m_email = document.get(Globals.FIELD_EMAIL).toString();
+                    m_starRating = (ArrayList<Integer>) document.get(Globals.FIELD_RATING);
+                }
+            }
+        });
+
+        Integer total = 0;
+
+        if(m_starRating != null) {
+            for (Integer element : m_starRating) {
+                total += element;
+            }
+
+            m_rating = total / m_starRating.size();
+        }
+    }
+
+    /*public String getName(String group) {
+    return getData(group,"name");
+    }
+{.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
@@ -169,29 +211,31 @@ public class communicationWithDatabase {
                         }
                     }
                 });
-
-    return m_userDatabase.toString();
-    }*/
-
-    /*public String getName(String group) {
-    return getData(group,"name");
+}*/
+    public String getSurname() {
+        return m_lastName;
     }
 
-    public String getSurname(String group) {
-        return getData(group,"surname");
+    public String getame() {
+        return m_firstName;
     }
 
-    public String getPhone(String group) {
-        return getData(group,"phone");
+    public String getPhone() {
+        return m_phone;
     }
 
-    public String getEmail(String group) {
-        return getData(group,"email");
+    public String getEmail() {
+        return m_email;
     }
 
-    public String getPicLocation(String group) {
-        return getData(group,"phone");
-    }*/
+    public float getStarRating() {
+        return m_rating;
+    }
+
+    public String getBio() {
+        return m_bio;
+    }
+
     public DocumentReference getTeacherStorageRef() {
         return db.collection(Globals.COLLECTION_TEACHER).document(getUid());
     }
@@ -278,7 +322,7 @@ public class communicationWithDatabase {
         //addLessonToDatabase(lesson);
         if (teacher) {
             Map temp = new HashMap<String, UserLesson>();
-            temp.put(lesson.getName(), new UserLesson(lesson.getName(), new ArrayList<Integer>(), new ArrayList<Comment>(), price));
+            temp.put(lesson.getName(), new UserLesson(lesson.getName(), price));
             addLessonToTeacher(temp, lesson.getName());
         } else {
             addLessonToStudent(lesson);
@@ -389,7 +433,11 @@ public class communicationWithDatabase {
         updateElementInDatabase(getStudentStorageRef(),Globals.FIELD_SURNAME, surname);
     }
 
-    public void signIn(String email, String password)
+    public void changeTeacherBio(String bio) {
+        updateElementInDatabase(getTeacherStorageRef(),Globals.FIELD_NAME, bio);
+    }
+
+    private void signIn(String email, String password)
     {
         mAuth.signInWithEmailAndPassword(email, password)
 
@@ -408,10 +456,14 @@ public class communicationWithDatabase {
 
                     }
                 });
+
+
     }
 
     public FirebaseUser getFirebaseUser() {
         return mAuth.getCurrentUser();
     }
+
+
 }
 

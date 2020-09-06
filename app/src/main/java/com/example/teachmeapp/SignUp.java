@@ -39,6 +39,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class SignUp extends AppCompatActivity {
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -60,6 +62,9 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        if (comm.getFirebaseUser() != null) {
+            comm.signOut();
+        }
         updateUI();
     }
 

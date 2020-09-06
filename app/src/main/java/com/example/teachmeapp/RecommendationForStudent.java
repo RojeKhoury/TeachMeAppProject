@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class RecommendationForStudent extends AppCompatActivity {
 
     @Override

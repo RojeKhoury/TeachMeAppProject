@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseUser;
+
+import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity
 
     public void OpenLogin()
     {
-        Intent intent = new Intent(this, Schedule.class);
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
 
 
@@ -44,4 +49,22 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
     }
+
+//uncomment in final version
+  /*  @Override
+    protected void onStart()
+    {
+        super.onStart();
+        updateUI(comm.getFirebaseUser());
+    }
+    // here we will go to th next screen with the proper information required from the user received from firebase
+    private void updateUI(FirebaseUser currentUser) {
+        if(currentUser != null)
+        {
+            Toast.makeText(getApplicationContext(), currentUser.toString(),
+                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, test_profile_page.class);
+            startActivity(intent);
+        }
+    }*/
 }

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class HomePageStudent extends HamburgerMenu {
 
     @Override
@@ -12,6 +14,8 @@ public class HomePageStudent extends HamburgerMenu {
         setContentView(R.layout.activity_home_page_student);
 
     }
+
+
 
     public void onClick_FavoriteButton(View view)
     {

@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat;
 
 import com.example.teachmeapp.Helpers.Globals;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 
 public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
@@ -79,4 +81,6 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     public void OnClick_profile_button_get_lessons_now(View view) {
 
     }
+
+
 }

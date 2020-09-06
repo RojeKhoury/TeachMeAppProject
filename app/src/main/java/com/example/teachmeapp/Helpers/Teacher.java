@@ -20,8 +20,10 @@ public class Teacher {
     private Map<String ,UserLesson> classes;
     private List<Comment> comments;
     private boolean zoom;
-    private boolean myHome;
-    private boolean yourHome;
+    private boolean studentHome;
+    private boolean teacherHome;
+    private String bio;
+
     public Teacher() {
     }
 
@@ -37,23 +39,30 @@ public class Teacher {
         this.comments = comments;
         this.email = email;
         this.zoom = true;
-        this.myHome = false;
-        this.yourHome = false;
+        this.studentHome = false;
+        this.teacherHome = false;
+        this.bio = "this my bio";
         // [END_EXCLUDE]
     }
 
     public String getName() {
         return name;
     }
+
     public boolean getZoom() {
         return zoom;
     }
-    public boolean getMyHome() {
-        return myHome;
+
+    public boolean getStudentHome() {
+        return studentHome;
     }
 
-    public boolean getYourHome() {
-        return yourHome;
+    public boolean getTeacherHome() {
+        return teacherHome;
+    }
+
+    public String getBio() {
+        return bio;
     }
 
     public String getEmail() {
@@ -68,7 +77,7 @@ public class Teacher {
         return phone;
     }
 
-    public ArrayList<Integer> rating() {
+    public ArrayList<Integer> getRating() {
         return rating;
     }
 
@@ -76,8 +85,4 @@ public class Teacher {
         return classes;
     }
 
-    public List getComments()
-    {
-        return comments;
-    }
 }

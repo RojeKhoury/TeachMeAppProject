@@ -48,6 +48,8 @@ public class HomePageTeacher extends AppCompatActivity {
         });
     }
 
+
+
     public void chooseImage(View view) {
         //Log.e(TAG, "OnClickUpload >>");
 

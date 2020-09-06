@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +54,7 @@ public class test_profile_page extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     DocumentReference docref;
     StorageReference picRef;
-    private RecyclerView m_teachers;
+    private ListView m_teachers;
     TextView temp;
     Button m_search_button;
 
@@ -63,6 +64,8 @@ public class test_profile_page extends AppCompatActivity {
     String phone;
     String TAG = "I am a god";
     StorageReference gsReference;
+
+    private float killme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +87,8 @@ public class test_profile_page extends AppCompatActivity {
         temp = new TextView(this);
 
     }
+
+
 
     @Override
     protected void onStart() {
@@ -131,6 +136,10 @@ public class test_profile_page extends AppCompatActivity {
                 searchForTeachers();
             }
         });
+
+    comm.getTeacherData();
+    killme = comm.getStarRating();
+    Integer polio = 0;
     }
 
     private void setData() {
@@ -175,6 +184,7 @@ public class test_profile_page extends AppCompatActivity {
 
                     }
                 });
+
         storage.getReference().child("images/"+ comm.getUid() +"/profile picture").
                 getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -199,7 +209,7 @@ public class test_profile_page extends AppCompatActivity {
         String subject = "math";
         float maxPrice = 150;
         Boolean zoom = false;
-//.whereEqualTo(FIELD_ZOOM, false)
+        //.whereEqualTo(FIELD_ZOOM, false)
         CollectionReference teacherRef = comm.db.collection(COLLECTION_TEACHER);
         teacherRef.whereEqualTo(FIELD_ZOOM, true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -207,10 +217,10 @@ public class test_profile_page extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         temp.setText(document.getData().toString());
-                        m_teachers.addView(temp);
                     }
                 }
             }
         });
+        //m_teachers.addView(temp);
     }
 }

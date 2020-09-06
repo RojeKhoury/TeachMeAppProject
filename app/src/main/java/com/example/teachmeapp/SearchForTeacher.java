@@ -34,4 +34,6 @@ public class SearchForTeacher extends AppCompatActivity {
         teacherRef.whereArrayContains(FIELD_LESSONS, subject).whereEqualTo(FIELD_ZOOM, false);
 
     }
+
+
 }

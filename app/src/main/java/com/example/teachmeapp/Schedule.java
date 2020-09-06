@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teachmeapp.Adapter.AdapterCardViewList;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 
 public class Schedule extends HamburgerMenu {
 
@@ -29,5 +31,6 @@ public class Schedule extends HamburgerMenu {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
+
 
 }

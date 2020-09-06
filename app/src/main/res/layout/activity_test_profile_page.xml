@@ -105,13 +105,13 @@
         app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="307dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
         android:id="@+id/Test_Scroll_view"
-
-        android:layout_width="385dp"
-        android:layout_height="345dp"
+        android:layout_width="404dp"
+        android:layout_height="299dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/test_profile_email" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class ScheduleExpandingButton extends AppCompatActivity {
 
     @Override
@@ -11,4 +13,6 @@ public class ScheduleExpandingButton extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_expanding_button);
     }
+
+
 }
