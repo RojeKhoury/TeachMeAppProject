@@ -36,7 +36,7 @@ public class Teacher {
         this.classes = temp;
         this.comments = comments;
         this.email = email;
-        this.zoom = false;
+        this.zoom = true;
         this.myHome = false;
         this.yourHome = false;
         // [END_EXCLUDE]

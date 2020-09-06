@@ -81,7 +81,7 @@ public class test_profile_page extends AppCompatActivity {
         m_logOut = findViewById(R.id.test_logout_button);
         m_teachers = findViewById(R.id.Test_Scroll_view);
         m_search_button = findViewById(R.id.test_search_button);
-        TextView temp = new TextView(this);
+        temp = new TextView(this);
 
     }
 
@@ -201,7 +201,7 @@ public class test_profile_page extends AppCompatActivity {
         Boolean zoom = false;
 //.whereEqualTo(FIELD_ZOOM, false)
         CollectionReference teacherRef = comm.db.collection(COLLECTION_TEACHER);
-        teacherRef.whereArrayContains(FIELD_LESSONS, subject).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        teacherRef.whereEqualTo(FIELD_ZOOM, true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {

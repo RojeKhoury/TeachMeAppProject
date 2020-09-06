@@ -7,6 +7,8 @@ public class Globals
     public static final String EMAIL_ALERT_TITLE = "Enter email";
     public static final String EMAIL_ALERT_TEXT = "What is your email BUDDY!";
 
+    public static final String FAILED_TO_UPLOAD_IMAGE = "failed to upload image";
+
     public static final int AT_MY_PLACE = 0;
     public static final int AT_YOUR_PLACE = 1;
     public static final int ZOOM = 2;

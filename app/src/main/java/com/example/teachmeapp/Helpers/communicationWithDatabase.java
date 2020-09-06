@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -31,7 +32,7 @@ public class communicationWithDatabase {
     String TAG = "commincation with database";
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser m_user = mAuth.getCurrentUser();
-    FirebaseStorage storage = FirebaseStorage.getInstance();
+    public FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     public FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DatabaseReference m_userDatabase;
@@ -45,7 +46,6 @@ public class communicationWithDatabase {
     public void setTeacher(boolean teacher) {
         this.teacher = teacher;
     }
-
 
 
     //here you can insert data to the data base itself (no the storage just the database) you will need to specify the data (a map containing the fields) the collection (teacher/student/admin/ any other you may want to add)
@@ -83,6 +83,7 @@ public class communicationWithDatabase {
                     }
                 });
     }
+
     //if you want to upload any image this is where you do it (in the storage reference you can add the location you want to place the image in the database)
     public void uploadImage(String imageLocation, StorageReference ref, final String owner) {
 
@@ -187,8 +188,30 @@ public class communicationWithDatabase {
     public String getPicLocation(String group) {
         return getData(group,"phone");
     }*/
+    public DocumentReference getTeacherStorageRef() {
+        return db.collection(Globals.COLLECTION_TEACHER).document(getUid());
+    }
 
+    public DocumentReference getStudentStorageRef() {
+        return db.collection(Globals.COLLECTION_STUDENT).document(getUid());
+    }
 
+    private void updateElementInDatabase(DocumentReference docRef, String element, String newValue)
+    {
+        docRef.update(element, newValue)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
     public void createTeacher(String name, String surname, String email, String imageLocation, String phoneNumber) {// will now also upload the image, all I need is the location on the device of the image.
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
@@ -330,13 +353,11 @@ public class communicationWithDatabase {
 
     }
 
-    public String getUid()
-    {
+    public String getUid() {
         return m_user.getUid();
     }
 
-    public void sendResetPasswordEmail(String email)
-    {
+    public void sendResetPasswordEmail(String email) {
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -348,5 +369,20 @@ public class communicationWithDatabase {
                 });
     }
 
+    public void changeTeacherName(String name) {
+        updateElementInDatabase(getTeacherStorageRef(),Globals.FIELD_NAME, name);
+    }
+
+    public void changeTeacherSurname(String surname) {
+        updateElementInDatabase(getTeacherStorageRef(),Globals.FIELD_SURNAME, surname);
+    }
+
+    public void changeStudantName(String name) {
+        updateElementInDatabase(getStudentStorageRef(),Globals.FIELD_NAME, name);
+    }
+
+    public void changeStudantSurname(String surname) {
+        updateElementInDatabase(getStudentStorageRef(),Globals.FIELD_SURNAME, surname);
+    }
 }
 
