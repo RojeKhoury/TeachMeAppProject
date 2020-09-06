@@ -377,11 +377,11 @@ public class communicationWithDatabase {
         updateElementInDatabase(getTeacherStorageRef(),Globals.FIELD_SURNAME, surname);
     }
 
-    public void changeStudantName(String name) {
+    public void changeStudentName(String name) {
         updateElementInDatabase(getStudentStorageRef(),Globals.FIELD_NAME, name);
     }
 
-    public void changeStudantSurname(String surname) {
+    public void changeStudentSurname(String surname) {
         updateElementInDatabase(getStudentStorageRef(),Globals.FIELD_SURNAME, surname);
     }
 }
