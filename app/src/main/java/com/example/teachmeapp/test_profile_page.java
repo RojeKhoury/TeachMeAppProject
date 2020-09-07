@@ -57,6 +57,7 @@ public class test_profile_page extends AppCompatActivity {
     private ListView m_teachers;
     TextView temp;
     Button m_search_button;
+    Button m_go_to_maps;
 
     String email;
     String name;
@@ -85,6 +86,7 @@ public class test_profile_page extends AppCompatActivity {
         m_teachers = findViewById(R.id.Test_Scroll_view);
         m_search_button = findViewById(R.id.test_search_button);
         temp = new TextView(this);
+        m_go_to_maps = findViewById(R.id.button_go_to_maps);
 
     }
 
@@ -134,6 +136,13 @@ public class test_profile_page extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 searchForTeachers();
+            }
+        });
+        m_go_to_maps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                startActivity(intent);
             }
         });
 

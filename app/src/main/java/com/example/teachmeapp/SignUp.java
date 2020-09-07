@@ -62,9 +62,7 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        if (comm.getFirebaseUser() != null) {
-            comm.signOut();
-        }
+
         updateUI();
     }
 
@@ -96,6 +94,10 @@ public class SignUp extends AppCompatActivity {
     }
 
     public void onClickNext(View view) {
+
+        if (comm.getFirebaseUser() != null) {
+            comm.signOut();
+        }
         if (awesomeValidation.validate()) {
             if (!m_password.getText().toString().equals(m_reEnterPass.getText().toString())) {
                 Toast.makeText(SignUp.this, "Password does not match", Toast.LENGTH_SHORT).show();
@@ -115,8 +117,7 @@ public class SignUp extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "WEEEEeeeee.", Toast.LENGTH_LONG).show();
                             pushData(); //push data to the database
                             //m_communicationWithDatabase.signOut();
-                            Intent intent = new Intent(getApplicationContext(), test_profile_page.class);
-                            startActivity(intent);
+
                         } else {
                             //failed to add to firebase.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -141,7 +142,8 @@ public class SignUp extends AppCompatActivity {
         pPic.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                Intent intent = new Intent(getApplicationContext(), test_profile_page.class);
+                startActivity(intent);
             }
         });
         //this uploads the picture

@@ -101,9 +101,10 @@
         android:layout_height="wrap_content"
         android:text="search"
         app:layout_constraintBottom_toBottomOf="@+id/test_profile_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/test_profile_email"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="307dp" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ListView
         android:id="@+id/Test_Scroll_view"
@@ -113,5 +114,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/test_profile_email" />
+
+    <Button
+        android:id="@+id/button_go_to_maps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="maps"
+        app:layout_constraintBottom_toTopOf="@+id/test_search_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.384"
+        app:layout_constraintStart_toEndOf="@+id/test_profile_pic"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.077" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
