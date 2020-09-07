@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsFragment extends Fragment implements OnMapReadyCallback{
 
 
-    private static FirstFragment INSTANCE = null;
+    private static MapsFragment INSTANCE = null;
 
     View view;
 
@@ -32,9 +32,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
     public MapsFragment() {
     }
 
-    public static FirstFragment getINSTANCE() {
+    public static MapsFragment getINSTANCE() {
         if (INSTANCE == null)
-            INSTANCE = new FirstFragment();
+            INSTANCE = new MapsFragment();
         return INSTANCE;
     }
 

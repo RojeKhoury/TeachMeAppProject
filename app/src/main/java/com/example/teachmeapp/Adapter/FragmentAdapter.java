@@ -21,11 +21,12 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+
         if (position == 0)
             return MapsFragment.getINSTANCE();
-
-        if (position == 1)
+        if (position == 1) {
             return FirstFragment.getINSTANCE();
+        }
 
         else
             return null;

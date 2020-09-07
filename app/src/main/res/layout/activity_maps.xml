@@ -12,6 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

@@ -40,5 +40,6 @@
     <string name="home_page">Home Page</string>
     <string name="recent_lessons">Recent Lessons</string>
     <string name="search_for_teacher">Search For Teacher</string>
+    <string name = "google_maps_key">AIzaSyAw0VWSf0gd9c79VhY4bakDnvsIKZ_3Zck</string>
 
 </resources>
