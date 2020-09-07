@@ -1,20 +1,20 @@
 package com.example.teachmeapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.teachmeapp.Helpers.Lesson;
 import com.example.teachmeapp.Helpers.communicationWithDatabase;
@@ -37,13 +37,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class test_profile_page extends AppCompatActivity {
 
-    public EditText m_email,  m_fName, m_lName, m_phone;
+    public EditText m_email, m_fName, m_lName, m_phone;
     private Button m_addLesson;
     private Button m_logOut;
     private ImageView m_ImageVUpload;
@@ -79,7 +78,7 @@ public class test_profile_page extends AppCompatActivity {
         m_email = (EditText) findViewById(R.id.test_profile_email);
         m_ImageVUpload = (ImageView) findViewById(R.id.test_profile_pic);
         m_user = mAuth.getCurrentUser();
-        docref = db.collection("Teachers").document(m_user.getUid());
+        docref = db.collection("Teachers").document(comm.getUid());
         m_addLesson = findViewById(R.id.test_add_lesson_button);
         comm.setTeacher(true);
         m_logOut = findViewById(R.id.test_logout_button);
@@ -91,7 +90,6 @@ public class test_profile_page extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onStart() {
 
@@ -100,7 +98,7 @@ public class test_profile_page extends AppCompatActivity {
         m_addLesson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comm.addCourse(new Lesson(m_fName.getText().toString(), new ArrayList<String>()), m_user.getUid(), new Float (149.5));
+                comm.addCourse(new Lesson(m_fName.getText().toString(), new ArrayList<String>()), m_user.getUid(), new Float(149.5));
             }
         });
 
@@ -116,7 +114,7 @@ public class test_profile_page extends AppCompatActivity {
         m_ImageVUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                storage.getReference().child("images/"+ comm.getUid() +"/profile picture").
+                storage.getReference().child("images/" + comm.getUid() + "/profile picture").
                         getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
@@ -146,13 +144,13 @@ public class test_profile_page extends AppCompatActivity {
             }
         });
 
-    comm.getTeacherData();
-    killme = comm.getStarRating();
-    Integer polio = 0;
+        comm.getTeacherData();
+        killme = comm.getStarRating();
+        Integer polio = 0;
     }
 
     private void setData() {
-        storage.getReference().child("images/"+ comm.getUid() +"/profile picture").
+        storage.getReference().child("images/" + comm.getUid() + "/profile picture").
                 getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -167,34 +165,31 @@ public class test_profile_page extends AppCompatActivity {
         });
 
         docref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if(documentSnapshot.exists())
-                        {
-                            email = documentSnapshot.getString("email");
-                            name = documentSnapshot.getString("name");
-                            surname = documentSnapshot.getString("surname");
-                            phone = documentSnapshot.getString("phone");
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    email = documentSnapshot.getString("email");
+                    name = documentSnapshot.getString("name");
+                    surname = documentSnapshot.getString("surname");
+                    phone = documentSnapshot.getString("phone");
 
-                            m_email.setText(documentSnapshot.getString("email"));
-                            m_fName.setText(documentSnapshot.getString("name"));
-                            m_lName.setText(documentSnapshot.getString("surname"));
-                            m_phone.setText(documentSnapshot.getString("phone"));
+                    m_email.setText(documentSnapshot.getString("email"));
+                    m_fName.setText(documentSnapshot.getString("name"));
+                    m_lName.setText(documentSnapshot.getString("surname"));
+                    m_phone.setText(documentSnapshot.getString("phone"));
 
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(), "does not exist", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                } else {
+                    Toast.makeText(getApplicationContext(), "does not exist", Toast.LENGTH_LONG).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
 
-                    }
-                });
+            }
+        });
 
-        storage.getReference().child("images/"+ comm.getUid() +"/profile picture").
+        storage.getReference().child("images/" + comm.getUid() + "/profile picture").
                 getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -209,11 +204,10 @@ public class test_profile_page extends AppCompatActivity {
         });
 
         m_user = mAuth.getCurrentUser();
-       //gsReference = storage.getReferenceFromUrl(m_comm.getPicLocation("Teachers"));
+        //gsReference = storage.getReferenceFromUrl(m_comm.getPicLocation("Teachers"));
     }
 
-    public void searchForTeachers()
-    {
+    public void searchForTeachers() {
         //here I am assuming that the data was collected so these are temporary values that need to be changed when the page is done
         String subject = "math";
         float maxPrice = 150;
@@ -226,10 +220,36 @@ public class test_profile_page extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         temp.setText(document.getData().toString());
+                        Log.d("Tag", document.getData().toString());
+/*
+                        D/Tag: {phone=0558870817, studentHome=false, teacherHome=false, surname=ant, rating=[], name=iw, bio=this my bio, zoom=true, email=todie@gmail.com, lessons={}}
+                        D/Tag: {studentHome=false, phone=0558870817, surname=dont, teacherHome=false, name=men, rating=[], bio=this my bio, zoom=true, email=cry@gmail.com, lessons={}}
+                        D/Tag: {phone=0558870817, studentHome=false, surname=isnt, teacherHome=false, rating=[], name=why, bio=this my bio, zoom=true, email=itworking123@gmail.com, lessons=[{why={price=149.5, name=why}}]}
+                        D/Tag: {phone=0558870817, studentHome=false, surname=helpme, teacherHome=false, rating=[], name=helope, bio=this my bio, zoom=true, email=glikoperty@gmail.com, lessons=[{helope={price=149.5, name=helope}}, {math={price=149.5, name=math}}]}
+                        D/Tag: {phone=0558870817, studentHome=false, teacherHome=false, surname= prock, rating=[], name=PRICK, bio=this my bio, zoom=true, email=prickprock@gmail.com, lessons={}}
+                        D/Tag: {phone=0558870817, studentHome=false, teacherHome=false, surname=astra, rating=[], name=opel, bio=this my bio, zoom=true, email=zibiboja3ni@gmail.com, lessons={}}
+                        D/Tag: {phone=0558870817, studentHome=false, teacherHome=false, surname=do, rating=[], name=lets, bio=this my bio, zoom=true, email=thisshit@gmail.com, lessons={}}
+                        D/Tag: {studentHome=false, phone=0547645977, teacherHome=false, surname=khoury, rating=[], name=roje, bio=this my bio, zoom=true, email=tester@gmail.com, lessons={}}
+ */
                     }
                 }
             }
         });
-        //m_teachers.addView(temp);
+
+        String[] statesList = {};// add ur map here
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
+                android.R.id.text1, statesList);
+        m_teachers.setAdapter(adapter);
+        /*  if u want a button
+        m_teachers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int itemPosition = position;
+                String itemValue = (String) m_teachers.getItemAtPosition(position);
+
+            }
+        });
+         */
     }
 }

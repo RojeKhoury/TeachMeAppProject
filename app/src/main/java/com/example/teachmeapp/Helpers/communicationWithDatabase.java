@@ -2,12 +2,9 @@ package com.example.teachmeapp.Helpers;
 
 import android.net.Uri;
 import android.util.Log;
-import android.widget.EditText;
-import android.app.Activity;
-import android.content.Intent;
-import android.widget.Toast;
 
-import com.example.teachmeapp.R;
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,8 +17,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -29,16 +24,14 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
-
-import androidx.annotation.NonNull;
 
 public class communicationWithDatabase {
     String TAG = "commincation with database";
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser m_user = mAuth.getCurrentUser();
+
     public FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     public FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -171,8 +164,7 @@ public class communicationWithDatabase {
         db.collection(Globals.COLLECTION_TEACHER).document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     m_firstName = document.get(Globals.FIELD_NAME).toString();
                     m_lastName = document.get(Globals.FIELD_SURNAME).toString();
@@ -186,7 +178,7 @@ public class communicationWithDatabase {
 
         Integer total = 0;
 
-        if(m_starRating != null) {
+        if (m_starRating != null) {
             for (Integer element : m_starRating) {
                 total += element;
             }
@@ -244,8 +236,7 @@ public class communicationWithDatabase {
         return db.collection(Globals.COLLECTION_STUDENT).document(getUid());
     }
 
-    private void updateElementInDatabase(DocumentReference docRef, String element, String newValue)
-    {
+    private void updateElementInDatabase(DocumentReference docRef, String element, String newValue) {
         docRef.update(element, newValue)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -260,6 +251,7 @@ public class communicationWithDatabase {
                     }
                 });
     }
+
     public void createTeacher(String name, String surname, String email, String imageLocation, String phoneNumber) {// will now also upload the image, all I need is the location on the device of the image.
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
@@ -418,27 +410,26 @@ public class communicationWithDatabase {
     }
 
     public void changeTeacherName(String name) {
-        updateElementInDatabase(getTeacherStorageRef(),Globals.FIELD_NAME, name);
+        updateElementInDatabase(getTeacherStorageRef(), Globals.FIELD_NAME, name);
     }
 
     public void changeTeacherSurname(String surname) {
-        updateElementInDatabase(getTeacherStorageRef(),Globals.FIELD_SURNAME, surname);
+        updateElementInDatabase(getTeacherStorageRef(), Globals.FIELD_SURNAME, surname);
     }
 
     public void changeStudentName(String name) {
-        updateElementInDatabase(getStudentStorageRef(),Globals.FIELD_NAME, name);
+        updateElementInDatabase(getStudentStorageRef(), Globals.FIELD_NAME, name);
     }
 
     public void changeStudentSurname(String surname) {
-        updateElementInDatabase(getStudentStorageRef(),Globals.FIELD_SURNAME, surname);
+        updateElementInDatabase(getStudentStorageRef(), Globals.FIELD_SURNAME, surname);
     }
 
     public void changeTeacherBio(String bio) {
-        updateElementInDatabase(getTeacherStorageRef(),Globals.FIELD_NAME, bio);
+        updateElementInDatabase(getTeacherStorageRef(), Globals.FIELD_NAME, bio);
     }
 
-    private void signIn(String email, String password)
-    {
+    private void signIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
 
                 .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {

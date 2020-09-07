@@ -1,9 +1,4 @@
 package com.example.teachmeapp;
-import java.util.regex.Pattern;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import java.util.regex.Matcher;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +10,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.teachmeapp.Helpers.Globals;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,10 +21,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
-public class Login extends AppCompatActivity
-{
+public class Login extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
 
     private Button m_loginButton;
@@ -33,12 +34,11 @@ public class Login extends AppCompatActivity
     EditText m_etEmail;
     EditText m_etPassword;
     TextView m_resetPassword;
-    String popUpEmail="";
+    String popUpEmail = "";
     private FirebaseAuth mAuth;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity
 
 
         //Creating listener to Login button
-        m_loginButton= (Button) findViewById(R.id.login_button_login);
+        m_loginButton = (Button) findViewById(R.id.login_button_login);
         m_loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +65,7 @@ public class Login extends AppCompatActivity
             public void onClick(View view) {
 
                 final EditText temp = new EditText(Login.this);
-                AlertDialog.Builder builder= new AlertDialog.Builder(Login.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
                 builder.setTitle(Globals.EMAIL_ALERT_TITLE);
                 builder.setMessage(Globals.EMAIL_ALERT_TEXT);
                 builder.setView(temp);
@@ -83,15 +83,14 @@ public class Login extends AppCompatActivity
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
         updateUI(comm.getFirebaseUser());
     }
+
     // here we will go to th next screen with the proper information required from the user received from firebase
     private void updateUI(FirebaseUser currentUser) {
-        if(currentUser != null)
-        {
+        if (currentUser != null) {
             Toast.makeText(getApplicationContext(), currentUser.toString(),
                     Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, test_profile_page.class);
@@ -100,11 +99,9 @@ public class Login extends AppCompatActivity
     }
 
 
-
-    private void openLogin()
-    {
+    private void openLogin() {
         //if(authenticator()==true)
-       // {
+        // {
         mAuth.signInWithEmailAndPassword(m_etEmail.getText().toString(), m_etPassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -126,19 +123,17 @@ public class Login extends AppCompatActivity
                     }
                 });
         // }
-       // else
-       // {
-       //     invalidEmail();
-       // }
+        // else
+        // {
+        //     invalidEmail();
+        // }
     }
 
-    private void invalidEmail()
-    {
-        Toast.makeText(Login.this, "Incorrect Email",Toast.LENGTH_LONG).show();
+    private void invalidEmail() {
+        Toast.makeText(Login.this, "Incorrect Email", Toast.LENGTH_LONG).show();
     }
 
-    private boolean authenticator()
-    {
+    private boolean authenticator() {
         return validate(m_etEmail.getText().toString());
     }
 

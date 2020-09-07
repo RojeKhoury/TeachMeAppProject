@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity
 
     public void OpenLogin()
     {
-        Intent intent = new Intent(this, SearchForTeacher.class);
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
 
 
