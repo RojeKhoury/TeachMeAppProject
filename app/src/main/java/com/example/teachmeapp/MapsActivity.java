@@ -38,4 +38,5 @@ public class MapsActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+
 }

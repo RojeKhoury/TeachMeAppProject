@@ -65,6 +65,8 @@ public class test_profile_page extends AppCompatActivity {
     String TAG = "I am a god";
     StorageReference gsReference;
 
+    ArrayList<String> statesList = new ArrayList<String>();// add ur map here
+
     private float killme;
 
     @Override
@@ -218,9 +220,12 @@ public class test_profile_page extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    int i = 0;
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        temp.setText(document.getData().toString());
+                        temp.append(document.getData().toString());
                         Log.d("Tag", document.getData().toString());
+                        statesList.add(document.getData().toString());
+                        i += 1;
 /*
                         D/Tag: {phone=0558870817, studentHome=false, teacherHome=false, surname=ant, rating=[], name=iw, bio=this my bio, zoom=true, email=todie@gmail.com, lessons={}}
                         D/Tag: {studentHome=false, phone=0558870817, surname=dont, teacherHome=false, name=men, rating=[], bio=this my bio, zoom=true, email=cry@gmail.com, lessons={}}
@@ -232,11 +237,15 @@ public class test_profile_page extends AppCompatActivity {
                         D/Tag: {studentHome=false, phone=0547645977, teacherHome=false, surname=khoury, rating=[], name=roje, bio=this my bio, zoom=true, email=tester@gmail.com, lessons={}}
  */
                     }
+                    insertToList();
                 }
             }
         });
 
-        String[] statesList = {"TEST"};// add ur map here
+
+    }
+
+    private void insertToList() {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
                 android.R.id.text1, statesList);
