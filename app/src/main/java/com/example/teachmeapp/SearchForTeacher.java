@@ -37,15 +37,8 @@ public class SearchForTeacher extends HamburgerMenu {
 
         this.editTextKeyword = (EditText) this.findViewById(R.id.editText_keyword);
         this.chipGroup = (ChipGroup) this.findViewById(R.id.chipGroup);
-        this.buttonAdd = (Button) this.findViewById(R.id.button_add);
         this.buttonShow = (Button) this.findViewById(R.id.button_show);
 
-        this.buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNewChip();
-            }
-        });
         this.buttonShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,17 +60,10 @@ public class SearchForTeacher extends HamburgerMenu {
 
     }
 
-    private void addNewChip() {
-        String keyword = this.editTextKeyword.getText().toString();
-        if (keyword == null || keyword.isEmpty()) {
-            Toast.makeText(this, "Please enter the keyword!", Toast.LENGTH_LONG).show();
-            return;
-        }
+    private void addNewChip(String keyword) { // TODO add chips from data base
 
         try {
             LayoutInflater inflater = LayoutInflater.from(this);
-
-            // Create a Chip from Layout.
             Chip newChip = (Chip) inflater.inflate(R.layout.layout_chip_entry, this.chipGroup, false);
             newChip.setText(keyword);
 

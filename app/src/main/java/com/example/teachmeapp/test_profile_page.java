@@ -236,7 +236,7 @@ public class test_profile_page extends AppCompatActivity {
             }
         });
 
-        String[] statesList = {};// add ur map here
+        String[] statesList = {"TEST"};// add ur map here
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
                 android.R.id.text1, statesList);

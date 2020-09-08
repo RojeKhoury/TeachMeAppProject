@@ -132,16 +132,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/spinner_for_education_level" />
 
-                <Button
-                    android:id="@+id/button_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Add"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editText_keyword" />
-
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroup"
                     android:layout_width="0dp"
@@ -154,7 +144,7 @@
                     android:background="#F3EEEE"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/button_add" />
+                    app:layout_constraintTop_toBottomOf="@+id/editText_keyword" />
 
                 <Button
                     android:id="@+id/button_show"
