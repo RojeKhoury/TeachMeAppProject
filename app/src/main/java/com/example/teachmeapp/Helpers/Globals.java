@@ -1,7 +1,6 @@
 package com.example.teachmeapp.Helpers;
 
-public class Globals
-{
+public class Globals {
     public static final String PROFILE_PIC_STORAGE_PATH = "images/profilePictures";
     public static final Integer QUALITY = 50;
     public static final String EMAIL_ALERT_TITLE = "Enter email";
@@ -33,6 +32,9 @@ public class Globals
     public static final String FIELD_ZOOM = "zoom";
     public static final String FIELD_MYPLACE = "my place";
     public static final String FIELD_YOURPLACE = "your place";
+
+    public static final int SEARCH_RESULT = 1;
+    public static final int SEARCH_FOR_TEACHER_VIEW = 2;
 
 
     public static communicationWithDatabase comm = new communicationWithDatabase();
