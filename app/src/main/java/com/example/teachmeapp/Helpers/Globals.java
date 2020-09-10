@@ -1,7 +1,5 @@
 package com.example.teachmeapp.Helpers;
 
-import android.content.Context;
-
 public class Globals
 {
     public static final String PROFILE_PIC_STORAGE_PATH = "images/profilePictures";
