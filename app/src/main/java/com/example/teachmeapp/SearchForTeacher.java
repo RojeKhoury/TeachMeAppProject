@@ -1,6 +1,5 @@
 package com.example.teachmeapp;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -8,8 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,12 +31,12 @@ public class SearchForTeacher extends HamburgerMenu {
     private Button buttonAdd;
     private Button buttonShow;
 
-    String s1[] = {"Teacher name", "this","helo"};
-    String s2[] = {"City", "amazing","broo"};
-    String s3[] = {"Price", "amazingsad","bro3o"};
-    double r1[] = {1.4,4.7,0.5};
+    String s1[] = {"Teacher name", "this", "helo"};
+    String s2[] = {"City", "amazing", "broo"};
+    String s3[] = {"Price", "amazingsad", "bro3o"};
+    double r1[] = {1.4, 4.7, 0.5};
 
-    int images[]  ={R.drawable.black_star,R.drawable.profile_page_incogneto_mode,R.drawable.cancel_icon};
+    int images[] = {R.drawable.black_star, R.drawable.profile_page_incogneto_mode, R.drawable.cancel_icon};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +46,10 @@ public class SearchForTeacher extends HamburgerMenu {
 
         this.editTextKeyword = (EditText) this.findViewById(R.id.editText_keyword);
         this.chipGroup = (ChipGroup) this.findViewById(R.id.chipGroup);
-        this.buttonShow = (Button) this.findViewById(R.id.button_show);
 
-        this.buttonShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSelections();
-            }
-        });
         RecyclerView recyclerView = findViewById(R.id.recyclerViewSearchResult);
 
-        AdapterCardViewList adapterCardViewList = new AdapterCardViewList(SEARCH_FOR_TEACHER_VIEW,this, s1, s2, s3,null,images,r1);
+        AdapterCardViewList adapterCardViewList = new AdapterCardViewList(SEARCH_FOR_TEACHER_VIEW, this, s1, s2, s3, null, images, r1);
         recyclerView.setAdapter(adapterCardViewList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -76,68 +66,6 @@ public class SearchForTeacher extends HamburgerMenu {
 
     }
 
-    private void addNewChip(String keyword) { // TODO add chips from data base
-
-        try {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            Chip newChip = (Chip) inflater.inflate(R.layout.layout_chip_entry, this.chipGroup, false);
-            newChip.setText(keyword);
-
-            //
-            // Other methods:
-            //
-            // newChip.setCloseIconVisible(true);
-            // newChip.setCloseIconResource(R.drawable.your_icon);
-            // newChip.setChipIconResource(R.drawable.your_icon);
-            // newChip.setChipBackgroundColorResource(R.color.red);
-            // newChip.setTextAppearanceResource(R.style.ChipTextStyle);
-            // newChip.setElevation(15);
-
-            this.chipGroup.addView(newChip);
-
-            // Set Listener for the Chip:
-            newChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    handleChipCheckChanged((Chip) buttonView, isChecked);
-                }
-            });
-
-            newChip.setOnCloseIconClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    handleChipCloseIconClicked((Chip) v);
-                }
-            });
-
-
-            this.editTextKeyword.setText("");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void showSelections() {
-        int count = this.chipGroup.getChildCount();
-
-        String s = null;
-        for (int i = 0; i < count; i++) {
-            Chip child = (Chip) this.chipGroup.getChildAt(i);
-
-            if (!child.isChecked()) {
-                continue;
-            }
-
-            if (s == null) {
-                s = child.getText().toString();
-            } else {
-                s += ", " + child.getText().toString();
-            }
-        }
-        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-    }
 
     // User close a Chip.
     private void handleChipCloseIconClicked(Chip chip) {
@@ -147,6 +75,7 @@ public class SearchForTeacher extends HamburgerMenu {
 
     // Chip Checked Changed
     private void handleChipCheckChanged(Chip chip, boolean isChecked) {
+
     }
 
 
@@ -181,4 +110,70 @@ public class SearchForTeacher extends HamburgerMenu {
     }
 
 
+    public void addNewChip(View view) {
+        try {
+            LayoutInflater inflater = LayoutInflater.from(this);
+            Chip newChip = (Chip) inflater.inflate(R.layout.layout_chip_entry, this.chipGroup, false);
+            EditText editText = findViewById(R.id.editText_keyword);
+            String tag = editText.getText().toString();
+            if (tag.trim().isEmpty()) {
+                Toast.makeText(this, "Add a tag first", Toast.LENGTH_SHORT).show();
+            } else {
+                newChip.setText(tag);
+
+
+                //
+                // Other methods:
+                //
+                // newChip.setCloseIconVisible(true);
+                // newChip.setCloseIconResource(R.drawable.your_icon);
+                // newChip.setChipIconResource(R.drawable.your_icon);
+                // newChip.setChipBackgroundColorResource(R.color.red);
+                // newChip.setTextAppearanceResource(R.style.ChipTextStyle);
+                // newChip.setElevation(15);
+
+                this.chipGroup.addView(newChip);
+
+                // Set Listener for the Chip:
+                newChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        handleChipCheckChanged((Chip) buttonView, isChecked);
+                    }
+                });
+
+                newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        handleChipCloseIconClicked((Chip) v);
+                    }
+                });
+                this.editTextKeyword.setText("");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    public void OnClick_SearchForTeacher_Button_ShowSlections(View view) {
+        int count = this.chipGroup.getChildCount();
+        String s = null;
+        for (int i = 0; i < count; i++) {
+            Chip child = (Chip) this.chipGroup.getChildAt(i);
+
+            if (!child.isChecked()) {
+                continue;
+            }
+
+            if (s == null) {
+                s = child.getText().toString();
+            } else {
+                s += ", " + child.getText().toString();
+            }
+            //TODO s has the strings to do the search from what to do and shit GL
+        }
+        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+    }
 }

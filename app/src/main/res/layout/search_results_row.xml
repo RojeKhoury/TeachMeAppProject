@@ -84,6 +84,7 @@
             <RatingBar
                 android:id="@+id/SearchView_TeacherResult_RatingBar"
                 style="@style/Widget.AppCompat.RatingBar.Small"
+                android:theme="@style/RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="true"

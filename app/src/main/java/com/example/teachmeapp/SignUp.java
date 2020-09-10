@@ -48,13 +48,14 @@ public class SignUp extends AppCompatActivity {
     public static final String TAG = "Test";
     private FirebaseUser m_user;
     public static final int PICK_IMAGE_REQUEST = 22;
-    private EditText m_email, m_password, m_reEnterPass, m_fName, m_lName, m_phone, m_city, m_country;
+    private EditText m_email, m_password, m_reEnterPass, m_fName, m_lName, m_phone;
     private StorageReference profilPicRef;
     private FirebaseAuth mAuth;
     ImageView mImageVUpload;
-    Button bUploadImage, bNext;
+    Button bUploadImage;
     Uri filePath;
     final Map<String, Object> user = new HashMap<>();
+    private communicationWithDatabase m_communicationWithDatabase = new communicationWithDatabase();
     AwesomeValidation awesomeValidation;
 
     @Override
@@ -66,10 +67,6 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void updateUI() {
-        bNext = findViewById(R.id.signUp_button_generalInfo);
-        m_city = findViewById(R.id.signUp_editText_enterCity);
-        m_country = findViewById(R.id.signUp_editText_enterCountry);
-
         m_fName = findViewById(R.id.signUp_editText_enterName);
         m_lName = findViewById(R.id.signUp_editText_enterSurname);
         m_phone = findViewById(R.id.signUp_editText_enterPhone);
@@ -81,7 +78,6 @@ public class SignUp extends AppCompatActivity {
         DatabaseReference mDataRef = FirebaseDatabase.getInstance().getReference(Globals.PROFILE_PIC_STORAGE_PATH);
         mImageVUpload = (ImageView) findViewById(R.id.imageViewUpload);
         bUploadImage = (Button) findViewById(R.id.buttonUpload);
-        bNext = (Button) findViewById(R.id.buttonNext);
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         String regexPassword = "^[A-Za-z\\d].{5,}$";
@@ -137,10 +133,10 @@ public class SignUp extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
-        comm.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString(), "LA");
-        comm.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString(), "LA");
+        m_communicationWithDatabase.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString());
+        m_communicationWithDatabase.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString());
 
-        StorageReference pPic = storageRef.child("images/" + comm.getUid() + "/profile picture");
+        StorageReference pPic = storageRef.child("images/" + m_communicationWithDatabase.getUid() + "/profile picture");
         pPic.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
