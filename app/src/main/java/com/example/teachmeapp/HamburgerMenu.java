@@ -95,9 +95,9 @@ public class HamburgerMenu extends Activity {
                 startActivity(intent);
                 return true;
             case R.id.HamburgerMenuLogOut:
+                comm.signOut();
                 intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
-                comm.signOut();
                 return true;
 
             default:
