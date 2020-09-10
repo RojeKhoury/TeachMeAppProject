@@ -2,9 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
         <item
-            android:id="@+id/HamburgerMenuHomePage"
+            android:id="@+id/HamburgerMenuHomePageStudent"
             android:enabled="true"
             android:title="Home Page" />
+        <item
+            android:id="@+id/HamburgerMenuHomePageTeacher"
+            android:enabled="true"
+            android:title="Home Page" />
+        <item
+            android:id="@+id/HamburgerMenuUpdateInfo"
+            android:enabled="true"
+            android:title="Update Info" />
         <item
             android:id="@+id/HamburgerMenuProfilePage"
             android:enabled="true"
