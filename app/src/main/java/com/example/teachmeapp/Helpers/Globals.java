@@ -35,5 +35,8 @@ public class Globals
     public static final String FIELD_YOURPLACE = "your place";
     public static final String ERROR_LOADING_PICTURE = "Profile picture could not be loaded";
 
+    public static final int SEARCH_RESULT = 1;
+    public static final int SEARCH_FOR_TEACHER_VIEW = 2;
+
     public static communicationWithDatabase comm = new communicationWithDatabase();
 }
