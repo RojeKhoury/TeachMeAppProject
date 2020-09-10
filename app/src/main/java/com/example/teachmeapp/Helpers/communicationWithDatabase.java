@@ -24,11 +24,18 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
+import static com.example.teachmeapp.Helpers.Globals.COLLECTION_STUDENT;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class communicationWithDatabase {
-    String TAG = "commincation with database";
+    String TAG = "communication with database";
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser m_user = mAuth.getCurrentUser();
 
@@ -47,6 +54,8 @@ public class communicationWithDatabase {
     private boolean teacher = false;
     private String m_phone;
     private String m_email;
+
+    private Uri temp;
 
 
     public boolean isTeacher() {
@@ -252,13 +261,13 @@ public class communicationWithDatabase {
                 });
     }
 
-    public void createTeacher(String name, String surname, String email, String imageLocation, String phoneNumber) {// will now also upload the image, all I need is the location on the device of the image.
+    public void createTeacher(String name, String surname, String email, String imageLocation, String phoneNumber, String city) {// will now also upload the image, all I need is the location on the device of the image.
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Teacher teacher = new Teacher(name, surname, phoneNumber, new ArrayList<Integer>(), new ArrayList<UserLesson>(), new ArrayList<Comment>(), email);
+        Teacher teacher = new Teacher(name, surname, phoneNumber, new ArrayList<Comment>(), email, m_user.getUid(), city);
         insertTeacherToDatabase(teacher, "Teachers", m_user.getUid());
 
     }
@@ -280,15 +289,40 @@ public class communicationWithDatabase {
                 });
     }
 
+    public HashMap<String, String> search(HashMap<String, Object> user) {
+        HashMap<String, String> res = new HashMap<>();
 
-    public void createStudent(String name, String surname, String email, String imageLocation, String phoneNumber) {// will now also upload the image, all I need is the location on the device of the image.
+        storage.getReference().child("images/" + comm.getUid() + "/profile picture").
+                getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                temp = uri;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+        res.put(FIELD_NAME, (String) user.get(FIELD_NAME));
+        res.put(FIELD_SURNAME, (String) user.get(FIELD_SURNAME));
+        res.put("uid", (String) user.get("uid"));
+        res.put(FIELD_RATING, user.get(FIELD_RATING).toString());
+        res.put("picture", temp.toString());
+
+        return res;
+    }
+
+    public void createStudent(String name, String surname, String email, String imageLocation, String phoneNumber, String city) {// will now also upload the image, all I need is the location on the device of the image.
 
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Student student = new Student(name, surname, phoneNumber, new ArrayList<Lesson>(), email);
+        Student student = new Student(name, surname, phoneNumber, new ArrayList<Lesson>(), email, m_user.getUid(), city);
         insertStudentToDatabase(student, "Students", m_user.getUid());
     }
 
@@ -310,11 +344,11 @@ public class communicationWithDatabase {
     }
 
 
-    public void addCourse(Lesson lesson, String Uid, Float price) {
+    public void addCourse(Lesson lesson, String Uid, Float price, String location) {
         //addLessonToDatabase(lesson);
         if (teacher) {
             Map temp = new HashMap<String, UserLesson>();
-            temp.put(lesson.getName(), new UserLesson(lesson.getName(), price));
+            temp.put(lesson.getName(), new UserLesson(lesson.getName(), price, location));
             addLessonToTeacher(temp, lesson.getName());
         } else {
             addLessonToStudent(lesson);
@@ -429,16 +463,15 @@ public class communicationWithDatabase {
         updateElementInDatabase(getTeacherStorageRef(), Globals.FIELD_NAME, bio);
     }
 
-    private void signIn(String email, String password) {
+    public void signIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
-
                 .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-
+                            m_user = mAuth.getCurrentUser();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -452,9 +485,49 @@ public class communicationWithDatabase {
     }
 
     public FirebaseUser getFirebaseUser() {
-        return mAuth.getCurrentUser();
+        m_user = mAuth.getCurrentUser();
+        return m_user;
     }
 
+    public StorageReference profileImagePicRef(String uid) {
+       return storage.getReference().child("images/" + uid + "/profile picture");
+    }
 
+    public void addTeacherToFavourites(final String uid) {
+        db.collection(COLLECTION_STUDENT).document(m_user.getUid())
+                .update("favourites", FieldValue.arrayUnion(uid))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                }); }
+
+    public void removeTeacherToFavourites(final String uid) {
+        db.collection(COLLECTION_STUDENT).document(m_user.getUid())
+                .update("favourites", FieldValue.arrayRemove(uid))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    public DocumentReference getDocRef(String uid, String collection) {
+        return db.collection(collection).document(uid);
+    }
 }
 

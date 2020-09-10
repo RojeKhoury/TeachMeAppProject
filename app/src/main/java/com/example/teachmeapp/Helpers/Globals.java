@@ -1,5 +1,7 @@
 package com.example.teachmeapp.Helpers;
 
+import android.content.Context;
+
 public class Globals
 {
     public static final String PROFILE_PIC_STORAGE_PATH = "images/profilePictures";
@@ -33,7 +35,7 @@ public class Globals
     public static final String FIELD_ZOOM = "zoom";
     public static final String FIELD_MYPLACE = "my place";
     public static final String FIELD_YOURPLACE = "your place";
-
+    public static final String ERROR_LOADING_PICTURE = "Profile picture could not be loaded";
 
     public static communicationWithDatabase comm = new communicationWithDatabase();
 }

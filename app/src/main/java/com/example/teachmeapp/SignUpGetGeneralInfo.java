@@ -137,7 +137,7 @@ public class SignUpGetGeneralInfo extends AppCompatActivity {
                 //String url = storageRef.getDownloadUrl().toString();
                 //profilPicRef.getDownloadUrl();
 
-                comm.createTeacher(m_nameBox.getText().toString(), m_surnameBox.getText().toString(), "this is an email", m_profilePic.toString(), m_phoneBox.getText().toString());
+                //comm.createTeacher(m_nameBox.getText().toString(), m_surnameBox.getText().toString(), "this is an email", m_profilePic.toString(), m_phoneBox.getText().toString());
             }
 
             private StorageReference uploadImage() {

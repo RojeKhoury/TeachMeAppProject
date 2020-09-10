@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class Login extends AppCompatActivity {
+
     private static final String TAG = "EmailPassword";
 
     private Button m_loginButton;
@@ -102,14 +103,13 @@ public class Login extends AppCompatActivity {
     private void openLogin() {
         //if(authenticator()==true)
         // {
-        mAuth.signInWithEmailAndPassword(m_etEmail.getText().toString(), m_etPassword.getText().toString())
+       mAuth.signInWithEmailAndPassword(m_etEmail.getText().toString(), m_etPassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(comm.getFirebaseUser());
                         } else {
                             // If sign in fails, display a message to the user.

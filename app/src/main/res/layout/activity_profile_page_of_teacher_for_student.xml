@@ -161,7 +161,7 @@
             </LinearLayout>
 
 
-            <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="1">
@@ -194,6 +194,7 @@
                         android:text="At My Place" />
 
                     <Button
+                        android:id="@+id/button_showLocation_displayProfile"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/HalfTopBarHeight"
                         android:layout_weight="2.5"
@@ -335,6 +336,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/button_getLesson_displayProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/buttonshapecool"

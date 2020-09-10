@@ -6,14 +6,16 @@ import java.util.List;
 public class Comment {
     String id;
     String comment;
+    float rating;
 
     public Comment() {
     }
 
-    public Comment(String id, String comment) {
+    public Comment(String id, String comment, float rating) {
         // [START_EXCLUDE]
         this.id = id;
         this.comment = comment;
+        this.rating = rating;
         // [END_EXCLUDE]
     }
 
@@ -24,4 +26,6 @@ public class Comment {
     public String getComment() {
         return comment;
     }
+
+    public float getRating(){return rating;}
 }

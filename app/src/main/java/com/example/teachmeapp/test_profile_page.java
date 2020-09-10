@@ -35,8 +35,12 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
@@ -49,7 +53,6 @@ public class test_profile_page extends AppCompatActivity {
     private communicationWithDatabase m_comm = new communicationWithDatabase();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseUser m_user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     DocumentReference docref;
     StorageReference picRef;
@@ -79,7 +82,6 @@ public class test_profile_page extends AppCompatActivity {
         m_phone = (EditText) findViewById(R.id.test_profile_phone);
         m_email = (EditText) findViewById(R.id.test_profile_email);
         m_ImageVUpload = (ImageView) findViewById(R.id.test_profile_pic);
-        m_user = mAuth.getCurrentUser();
         docref = db.collection("Teachers").document(comm.getUid());
         m_addLesson = findViewById(R.id.test_add_lesson_button);
         comm.setTeacher(true);
@@ -100,7 +102,7 @@ public class test_profile_page extends AppCompatActivity {
         m_addLesson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comm.addCourse(new Lesson(m_fName.getText().toString(), new ArrayList<String>()), m_user.getUid(), new Float(149.5));
+                comm.addCourse(new Lesson(m_fName.getText().toString(), new ArrayList<String>()), comm.getUid(), new Float(149.5), "telaviv");
             }
         });
 
@@ -166,7 +168,7 @@ public class test_profile_page extends AppCompatActivity {
             }
         });
 
-        docref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        comm.getDocRef(comm.getUid(), COLLECTION_TEACHER).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
@@ -205,7 +207,6 @@ public class test_profile_page extends AppCompatActivity {
             }
         });
 
-        m_user = mAuth.getCurrentUser();
         //gsReference = storage.getReferenceFromUrl(m_comm.getPicLocation("Teachers"));
     }
 
@@ -220,12 +221,35 @@ public class test_profile_page extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    int i = 0;
                     for (QueryDocumentSnapshot document : task.getResult()) {
+
                         temp.append(document.getData().toString());
                         Log.d("Tag", document.getData().toString());
-                        statesList.add(document.getData().toString());
-                        i += 1;
+                        ArrayList<HashMap<String, Lesson>> maps = new ArrayList<>();
+                        maps = (ArrayList<HashMap<String, Lesson>>) document.get(FIELD_LESSONS);
+
+                        for (Object map : maps.toArray())
+                        {
+                            if (((HashMap) map).containsKey("math"))
+                            {
+                                String lesson = ((HashMap)((HashMap) map).get("math")).get("name").toString();
+                                String price = ((HashMap)((HashMap) map).get("math")).get("price").toString();
+                                statesList.add(document.getData().get(FIELD_NAME).toString() + "\n" + "price = " + price);
+                                //statesList.add("price = " + price);
+
+                                break;
+                            }
+                        }
+                        /*{for (HashMap map : (ArrayList<HashMap>) document.getData().get(FIELD_LESSONS))
+                        {
+                            if(map.containsKey("math"))
+                            {
+
+                            }
+                        }}
+                        /*if (document.getData().get(FIELD_LESSONS + "." + "math") != null) {
+                            statesList.add(document.getData().toString());
+                        }*/
 /*
                         D/Tag: {phone=0558870817, studentHome=false, teacherHome=false, surname=ant, rating=[], name=iw, bio=this my bio, zoom=true, email=todie@gmail.com, lessons={}}
                         D/Tag: {studentHome=false, phone=0558870817, surname=dont, teacherHome=false, name=men, rating=[], bio=this my bio, zoom=true, email=cry@gmail.com, lessons={}}
@@ -246,7 +270,6 @@ public class test_profile_page extends AppCompatActivity {
     }
 
     private void insertToList() {
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
                 android.R.id.text1, statesList);
         m_teachers.setAdapter(adapter);

@@ -16,25 +16,29 @@ public class Teacher {
     private String surname;
     private String email;
     private String phone;
-    private ArrayList<Integer> rating;
     private Map<String ,UserLesson> classes;
     private List<Comment> comments;
     private boolean zoom;
     private boolean studentHome;
     private boolean teacherHome;
+    private String uid;
     private String bio;
+    private String city;
+    private double rating;
+    private int numberOFRatings;
 
     public Teacher() {
     }
 
-    public Teacher(String name, String surname, String phone, ArrayList<Integer> rating, List<UserLesson> classes, List<Comment> comments, String email) {
+    public Teacher(String name, String surname, String phone, List<Comment> comments, String email, String uid, String city) {
         // [START_EXCLUDE]
         Map<String, UserLesson> temp = new HashMap<String, UserLesson>();
 
         this.name = name;
         this.surname = surname;
         this.phone = phone;
-        this.rating = rating;
+        this.rating = 0;
+        this.numberOFRatings = 0;
         this.classes = temp;
         this.comments = comments;
         this.email = email;
@@ -42,6 +46,8 @@ public class Teacher {
         this.studentHome = false;
         this.teacherHome = false;
         this.bio = "this my bio";
+        this.uid = uid;
+        this.city = city;
         // [END_EXCLUDE]
     }
 
@@ -77,12 +83,22 @@ public class Teacher {
         return phone;
     }
 
-    public ArrayList<Integer> getRating() {
+    public double getRating() {
         return rating;
+    }
+
+    public int getNumberOFRatings() {
+        return numberOFRatings;
+    }
+
+    public String getUid() {
+        return uid;
     }
 
     public Map<String ,UserLesson> getLessons() {
         return classes;
     }
+
+    public String getCity(){return city;}
 
 }
