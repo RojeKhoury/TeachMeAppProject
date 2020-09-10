@@ -15,14 +15,6 @@ public class HomePageStudent extends HamburgerMenu {
 
     }
 
-
-
-    public void onClick_FavoriteButton(View view)
-    {
-        Intent intent = new Intent(this, FavoriteTeachers.class);
-        startActivity(intent);
-    }
-
     public void onClick_conversationButton(View view)
     {
         Intent intent = new Intent(this, ConversationChatPage.class);
@@ -40,13 +32,6 @@ public class HomePageStudent extends HamburgerMenu {
         Intent intent = new Intent(this, Schedule.class);
         startActivity(intent);
     }
-
-    public void onClick_recommendationButton(View view)
-    {
-        Intent intent = new Intent(this, RecommendationForStudent.class);
-        startActivity(intent);
-    }
-
     public void onClick_searchButton(View view)
     {
         Intent intent = new Intent(this, SearchForTeacher.class);

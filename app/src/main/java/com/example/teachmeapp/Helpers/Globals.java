@@ -7,6 +7,12 @@ public class Globals
     public static final String EMAIL_ALERT_TITLE = "Enter email";
     public static final String EMAIL_ALERT_TEXT = "What is your email BUDDY!";
 
+    public static final String NAME_ALERT_TITLE = "Enter Name";
+    public static final String NAME_ALERT_TEXT ="Enter your name and last name";
+
+    public static final String BIO_ALERT_TITLE = "Enter Bio";
+    public static final String BIO_ALERT_TEXT ="Enter your Bio";
+
     public static final String FAILED_TO_UPLOAD_IMAGE = "failed to upload image";
 
     public static final int AT_MY_PLACE = 0;
@@ -34,9 +40,7 @@ public class Globals
     public static final String FIELD_MYPLACE = "my place";
     public static final String FIELD_YOURPLACE = "your place";
     public static final String ERROR_LOADING_PICTURE = "Profile picture could not be loaded";
-
     public static final int SEARCH_RESULT = 1;
     public static final int SEARCH_FOR_TEACHER_VIEW = 2;
-
     public static communicationWithDatabase comm = new communicationWithDatabase();
 }

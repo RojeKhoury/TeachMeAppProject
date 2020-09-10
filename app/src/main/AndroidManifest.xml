@@ -52,6 +52,15 @@
             android:name=".HistoryClassesPage"
             android:theme="@style/AppThemeNoBar" />
         <activity
+            android:name=".HomePageStudent"
+            android:theme="@style/AppThemeNoBar" />
+        <activity
+            android:name=".HomePageTeacher"
+            android:theme="@style/AppThemeNoBar" />
+        <activity
+            android:name=".LoginAsTeacherOrStudent"
+            android:theme="@style/AppThemeNoBar" />
+        <activity
             android:name=".ConversationChatPage"
             android:theme="@style/AppThemeNoBar" />
         <activity

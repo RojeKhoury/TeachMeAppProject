@@ -47,23 +47,10 @@
             android:orientation="horizontal"
             android:weightSum="99"
             tools:ignore="NestedWeights">
-
-            <ImageButton
-                android:id="@+id/homepage_student_button_favorite"
-
-                android:onClick="onClick_FavoriteButton"
-
-                android:layout_height="match_parent"
+            <Space
                 android:layout_width="0dp"
-                android:layout_margin="10dp"
-                android:layout_weight="33"
-                android:padding="15dp"
-                android:background="@drawable/buttonshapecool"
-                android:src="@drawable/black_star"
-                android:scaleType="fitCenter"
-                android:orientation="vertical"
-                android:contentDescription="@string/favorites" />
-
+                android:layout_height="match_parent"
+                android:layout_weight="11"/>
             <ImageButton
                 android:id="@+id/homepage_student_button_conversation"
 
@@ -83,6 +70,10 @@
                 android:scaleType="fitCenter"
 
                 android:contentDescription="@string/chat" />
+            <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="11"/>
 
             <ImageButton
                 android:id="@+id/homepage_student_button_history"
@@ -107,6 +98,10 @@
             android:layout_weight="50"
             android:orientation="horizontal"
             android:weightSum="99">
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="11"/>
 
             <ImageButton
                 android:id="@+id/homepage_student_button_schedule"
@@ -122,21 +117,10 @@
                 android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:contentDescription="@string/schedule" />
-
-            <ImageButton
-                android:id="@+id/homepage_student_button_recommendation"
-
-                android:onClick="onClick_recommendationButton"
-
+            <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="33"
-                android:padding="10dp"
-                android:background="@drawable/buttonshapecool"
-                android:src="@drawable/recommendation_logo"
-                android:scaleType="fitCenter"
-                android:contentDescription="@string/recommendation" />
+                android:layout_weight="11"/>
 
             <ImageButton
                 android:id="@+id/homepage_student_button_search"

@@ -39,7 +39,10 @@ public class HamburgerMenu extends Activity {
             popup.getMenu().removeItem(R.id.HamburgerMenuProfilePage);
         } else if (this.getLocalClassName().equals(ProfilePageOfTeacherForStudent.class.getSimpleName())) {
             popup.getMenu().removeItem(R.id.HamburgerMenuSchedule);
-        }
+        } else if (this.getLocalClassName().equals(HomePageStudent.class.getSimpleName())) {
+            popup.getMenu().removeItem(R.id.HamburgerMenuProfilePage);
+        } else if (this.getLocalClassName().equals(HomePageTeacher.class.getSimpleName())) {
+            popup.getMenu().removeItem(R.id.HamburgerMenuProfilePage);}
         popup.show();
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override

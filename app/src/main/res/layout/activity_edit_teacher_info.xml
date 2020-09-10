@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUp"
-    android:id="@+id/SignUp">
+    tools:context=".EditTeacherInfo"
+    android:id="@+id/EditTeacherInfo">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +20,7 @@
             android:textSize="30dp"
             android:textStyle="bold"
             android:textColor="@color/colorAccent"
-            android:textColorHighlight="@color/colorAccent"/>
+            android:textColorHighlight="@color/colorAccent" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -83,7 +83,8 @@
             android:textColor="@color/white"
             />
     </LinearLayout>
-        <LinearLayout
+    <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
@@ -97,9 +98,8 @@
                 android:singleLine="true"
                 android:text="add lessons"
                 android:background="@drawable/buttonshapecool"
-                android:textColor="@color/white"
-                />
-        </LinearLayout>
+                android:textColor="@color/white" />
+    </LinearLayout>
 
 
     </LinearLayout>

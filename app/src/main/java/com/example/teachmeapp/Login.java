@@ -94,7 +94,7 @@ public class Login extends AppCompatActivity {
         if (currentUser != null) {
             Toast.makeText(getApplicationContext(), currentUser.toString(),
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, test_profile_page.class);
+            Intent intent = new Intent(this, LoginAsTeacherOrStudent.class);
             startActivity(intent);
         }
     }
