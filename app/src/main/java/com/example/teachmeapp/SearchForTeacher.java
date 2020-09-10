@@ -1,5 +1,6 @@
 package com.example.teachmeapp;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -7,11 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.teachmeapp.Adapter.AdapterCardViewList;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.CollectionReference;
@@ -19,15 +24,22 @@ import com.google.firebase.firestore.CollectionReference;
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
+import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class SearchForTeacher extends HamburgerMenu {
 
-    SearchView searchView;
     private EditText editTextKeyword;
     private ChipGroup chipGroup;
     private Button buttonAdd;
     private Button buttonShow;
+
+    String s1[] = {"Teacher name", "this","helo"};
+    String s2[] = {"City", "amazing","broo"};
+    String s3[] = {"Price", "amazingsad","bro3o"};
+    double r1[] = {1.4,4.7,0.5};
+
+    int images[]  ={R.drawable.black_star,R.drawable.profile_page_incogneto_mode,R.drawable.cancel_icon};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +57,11 @@ public class SearchForTeacher extends HamburgerMenu {
                 showSelections();
             }
         });
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewSearchResult);
 
+        AdapterCardViewList adapterCardViewList = new AdapterCardViewList(SEARCH_FOR_TEACHER_VIEW,this, s1, s2, s3,null,images,r1);
+        recyclerView.setAdapter(adapterCardViewList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     public void searchForTeachers() {
@@ -163,5 +179,6 @@ public class SearchForTeacher extends HamburgerMenu {
 
     public void OnClick_SearchForTeacher_CheckBox_Zoom(View view) {
     }
+
 
 }
