@@ -9,12 +9,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teachmeapp.R;
 import com.example.teachmeapp.ScheduleExpandingButton;
+import com.example.teachmeapp.SearchForTeacher;
 
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
@@ -28,7 +31,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
     double rating[];
 
 
-    public AdapterCardViewList(int RecyclerViewName, Context ct, String s1[], String s2[], String s3[], Button b1, int i1[],double r1[]) {
+    public AdapterCardViewList(int RecyclerViewName, Context ct, String s1[], String s2[], String s3[], Button b1, int i1[], double r1[]) {
         recyclerViewName = RecyclerViewName;
         context = ct;
         data1 = s1;
@@ -87,7 +90,14 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
 
                 holder.image.setImageResource(images[position]);
 
-                holder. ratingBar.setRating(Float.parseFloat(String.valueOf(rating[position])));
+                holder.ratingBar.setRating(Float.parseFloat(String.valueOf(rating[position])));
+                holder.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //TODO send student to teacher profile
+                        Toast.makeText(context, data1[position], Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
             default:
 
@@ -107,6 +117,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
         Button button;
         ImageView image;
         RatingBar ratingBar;
+        CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -125,8 +136,8 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     ratingBar = itemView.findViewById(R.id.SearchView_TeacherResult_RatingBar);
                     ratingBar.setMax(5);
                     ratingBar.setStepSize((float) 0.1);
+                    cardView = itemView.findViewById(R.id.SearchResultsCardView);
                     break;
-
                 default:
 
                     break;

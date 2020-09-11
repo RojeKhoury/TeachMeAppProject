@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void TESTER(View view) {
-        Intent intent = new Intent(this, ScheduleExpandingButton.class);
+        Intent intent = new Intent(this, SearchForTeacher.class);
         startActivity(intent);
     }
 }

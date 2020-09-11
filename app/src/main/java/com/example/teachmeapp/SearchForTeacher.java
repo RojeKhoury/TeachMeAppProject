@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,8 @@ public class SearchForTeacher extends HamburgerMenu {
         AdapterCardViewList adapterCardViewList = new AdapterCardViewList(SEARCH_FOR_TEACHER_VIEW, this, s1, s2, s3, null, images, r1);
         recyclerView.setAdapter(adapterCardViewList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
     }
 
     public void searchForTeachers() {
@@ -176,4 +179,5 @@ public class SearchForTeacher extends HamburgerMenu {
         }
         Toast.makeText(this, s, Toast.LENGTH_LONG).show();
     }
+
 }
