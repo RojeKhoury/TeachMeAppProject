@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class MainActivity extends AppCompatActivity
 {
     private Button m_loginButton,m_signUpButton;
@@ -30,6 +32,17 @@ public class MainActivity extends AppCompatActivity
                 OpenSignUp();
             }
         });
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        if(comm.getFirebaseUser() != null)
+        {
+            Intent intent = new Intent(this, LoginAsTeacherOrStudent.class);
+            startActivity(intent);
+        }
     }
 
     public void OpenLogin()

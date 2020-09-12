@@ -28,14 +28,17 @@ public class Teacher {
     private String uid;
     private String bio;
     private String city;
+    private String country;
+    private String address;
     private double rating;
     private int numberOFRatings;
     private LatLng location;
 
+
     public Teacher() {
     }
 
-    public Teacher(String name, String surname, String phone, List<Comment> comments, String email, String uid, String city, LatLng location) {
+    public Teacher(String name, String surname, String phone, List<Comment> comments, String email, String uid) {
         // [START_EXCLUDE]
         Map<String, UserLesson> temp = new HashMap<String, UserLesson>();
 
@@ -52,8 +55,10 @@ public class Teacher {
         this.teacherHome = false;
         this.bio = "this my bio";
         this.uid = uid;
-        this.city = city;
-        this.location = location;
+        this.city = "";
+        this.country = "";
+        this.address = "";
+        this.location = null;
         // [END_EXCLUDE]
     }
 
@@ -106,6 +111,10 @@ public class Teacher {
     }
 
     public String getCity(){return city;}
+
+    public String getCountry(){return country;}
+
+    public String getAddress(){return address;}
 
     public LatLng getLocation(){return location;}
 

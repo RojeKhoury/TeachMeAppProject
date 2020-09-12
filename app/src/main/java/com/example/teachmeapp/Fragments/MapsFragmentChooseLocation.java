@@ -127,7 +127,16 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
             @Override
             public void onClick(View view) {
                 LatLng loc = m_mark.getPosition();
-                comm.setLocation(loc);
+                Geocoder geocoder = new Geocoder(view.getContext(), Locale.getDefault());
+                List<Address> addresses;
+                try {
+                   addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    comm.setLocation(loc, addresses.get(0).getLocality(), addresses.get(0).getCountryName(), addresses.get(0).getAddressLine(1));
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 Intent intent;
 
                 if(comm.isTeacher())

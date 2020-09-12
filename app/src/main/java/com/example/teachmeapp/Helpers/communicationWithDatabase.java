@@ -58,6 +58,7 @@ public class communicationWithDatabase {
     private String m_phone;
     private String m_email;
 
+    private String city, country;
     private Uri temp;
 
 
@@ -264,13 +265,13 @@ public class communicationWithDatabase {
                 });
     }
 
-    public void createTeacher(String name, String surname, String email, String imageLocation, String phoneNumber, String city, LatLng location) {// will now also upload the image, all I need is the location on the device of the image.
+    public void createTeacher(String name, String surname, String email, String phoneNumber) {// will now also upload the image, all I need is the location on the device of the image.
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Teacher teacher = new Teacher(name, surname, phoneNumber, new ArrayList<Comment>(), email, m_user.getUid(), city, location);
+        Teacher teacher = new Teacher(name, surname, phoneNumber, new ArrayList<Comment>(), email, m_user.getUid());
         insertTeacherToDatabase(teacher, "Teachers", m_user.getUid());
 
     }
@@ -318,14 +319,14 @@ public class communicationWithDatabase {
         return res;
     }
 
-    public void createStudent(String name, String surname, String email, String imageLocation, String phoneNumber, String city, LatLng location) {// will now also upload the image, all I need is the location on the device of the image.
+    public void createStudent(String name, String surname, String email, String phoneNumber) {// will now also upload the image, all I need is the location on the device of the image.
 
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Student student = new Student(name, surname, phoneNumber, new ArrayList<Lesson>(), email, m_user.getUid(), city, location);
+        Student student = new Student(name, surname, phoneNumber, new ArrayList<Lesson>(), email, m_user.getUid());
         insertStudentToDatabase(student, "Students", m_user.getUid());
     }
 
@@ -533,11 +534,14 @@ public class communicationWithDatabase {
         return db.collection(collection).document(uid);
     }
 
-    public void setLocation(LatLng location) {
+    public void setLocation(LatLng location, String city, String country, String address) {
         DocumentReference ref;
         if(teacher)
         {ref = getDocRef(getUid(), COLLECTION_TEACHER);
-        ref.update(LOCATION, location);}
+        ref.update(LOCATION, location);
+            ref.update(Globals.CITY, city);
+            ref.update(Globals.COUNTRY, country);
+            ref.update(Globals.ADDRESS, address);}
 
         ref = getDocRef(getUid(), COLLECTION_STUDENT);
         ref.update(LOCATION, location);}

@@ -49,6 +49,9 @@ public class Globals
     public static final String LOCATION = "location";
     public static final String LONGITUDE = "longitude";
     public static final String LALTITUDE = "laltitude";
+    public static final String CITY = "city";
+    public static final String COUNTRY = "country";
+    public static final String ADDRESS = "address";
 
     public static communicationWithDatabase comm = new communicationWithDatabase();
 }

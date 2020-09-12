@@ -157,11 +157,11 @@ public class SignUp extends AppCompatActivity {
 
         if(m_teacher_checkbox.isChecked())
         {
-            comm.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString(), "LA", m_location);
+            comm.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString());
             comm.setTeacher(true);
         }
 
-        comm.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString(), "LA", m_location);
+        comm.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString());
 
         StorageReference pPic = storageRef.child("images/" + comm.getUid() + "/profile picture");
         pPic.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

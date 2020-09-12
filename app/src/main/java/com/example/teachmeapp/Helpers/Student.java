@@ -20,15 +20,17 @@ public class Student {
     private List<Lesson> classes;
     private String email;
     private String uid;
-    private String local;
     private List<String> ratings;
     private List<String> favourites;
-private LatLng location;
+    private LatLng location;
+    private String city;
+    private String country;
+    private String address;
 
     public Student() {
     }
 
-    public Student(String name, String surname, String phone, List<Lesson> classes, String email, String uid, String local, LatLng location) {
+    public Student(String name, String surname, String phone, List<Lesson> classes, String email, String uid) {
 
         // [START_EXCLUDE]
         this.name = name;
@@ -37,7 +39,6 @@ private LatLng location;
         this.classes = classes;
         this.email = email;
         this.uid = uid;
-        this.local = local;
         this.ratings = new List<String>() {
             @Override
             public int size() {
@@ -282,7 +283,10 @@ private LatLng location;
                 return null;
             }
         };
-        this.location = location;
+        this.city = "";
+        this.country = "";
+        this.address = "";
+        this.location = null;
         // [END_EXCLUDE]
     }
 
@@ -306,10 +310,6 @@ private LatLng location;
         return uid;
     }
 
-    public String getLocal() {
-        return local;
-    }
-
     public List<Lesson> getLessons() {
         return classes;
     }
@@ -320,5 +320,10 @@ private LatLng location;
 
     public LatLng getLocation(){return location;}
 
+    public String getCity(){return city;}
+
+    public String getCountry(){return country;}
+
+    public String getAddress(){return address;}
 
 }

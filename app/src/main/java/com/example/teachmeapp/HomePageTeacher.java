@@ -3,6 +3,8 @@ package com.example.teachmeapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -49,7 +51,6 @@ public class HomePageTeacher extends HamburgerMenu {
     }
 
 
-
     public void chooseImage(View view) {
         //Log.e(TAG, "OnClickUpload >>");
 
@@ -68,14 +69,14 @@ public class HomePageTeacher extends HamburgerMenu {
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-               // m_profilePic.setImageBitmap(bitmap);
+                // m_profilePic.setImageBitmap(bitmap);
                 filePath = data.getData();
                 uploadImageToFirebase(filePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-}
+    }
 
     private void uploadImageToFirebase(Uri filePath) {
         final StorageReference fileRef = comm.storage.getReference().child("images/" + comm.getUid() + "/profile picture");
@@ -96,4 +97,19 @@ public class HomePageTeacher extends HamburgerMenu {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finishAffinity();
+                        System.exit(0);
+                    }
+                }).create().show();
     }
+}

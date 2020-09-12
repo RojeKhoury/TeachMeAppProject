@@ -90,9 +90,6 @@ public class EditTeacherInfo extends AppCompatActivity {
             }
         });
 
-
-
-
     }
 
 }
