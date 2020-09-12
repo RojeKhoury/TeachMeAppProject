@@ -115,6 +115,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="32dp"
+                    android:entries="@array/EducationLevel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edit_text_user_input_kilometer" />
@@ -160,7 +161,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/editText_keyword" />
 
                 <Button
-                    android:onClick="OnClick_SearchForTeacher_Button_ShowSlections"
+                    android:onClick="OnClick_SearchForTeacher_Button_ShowSelections"
                     android:id="@+id/button_show"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

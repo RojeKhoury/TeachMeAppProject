@@ -25,7 +25,7 @@ import static com.example.teachmeapp.Helpers.Globals.FAILED_TO_UPLOAD_IMAGE;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 import static com.example.teachmeapp.SignUp.PICK_IMAGE_REQUEST;
 
-public class HomePageTeacher extends AppCompatActivity {
+public class HomePageTeacher extends HamburgerMenu {
     private ImageView m_profilePic;
     Uri filePath;
 

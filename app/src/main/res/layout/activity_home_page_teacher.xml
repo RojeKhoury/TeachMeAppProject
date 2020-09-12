@@ -142,7 +142,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="33"
                 android:background="@drawable/buttonshapecool"
-                android:src="@drawable/search_for_teacher_logo"
+                android:src="@drawable/my_lessons_icon"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:contentDescription="@string/search" />

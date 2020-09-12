@@ -1,15 +1,15 @@
 package com.example.teachmeapp;
 
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,14 +26,15 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.ThrowOnExtraProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.comm;
@@ -45,12 +46,12 @@ public class SearchForTeacher extends HamburgerMenu {
     private Button buttonAdd;
     private Button buttonShow;
 
-    String s1[];// = {"Teacher name", "this", "helo"};
-    String s2[];// = {"City", "amazing", "broo"};
-    String s3[];// = {"Price", "amazingsad", "bro3o"};
-    double r1[];// = {1.4, 4.7, 0.5};
+    String s1[];
+    String s2[];
+    String s3[];
+    double r1[];
 
-    Uri images[];// = {R.drawable.black_star, R.drawable.profile_page_incogneto_mode, R.drawable.cancel_icon};
+    Uri images[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +61,6 @@ public class SearchForTeacher extends HamburgerMenu {
 
         this.editTextKeyword = (EditText) this.findViewById(R.id.editText_keyword);
         this.chipGroup = (ChipGroup) this.findViewById(R.id.chipGroup);
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewSearchResult);
-
-        AdapterCardViewList adapterCardViewList = new AdapterCardViewList(SEARCH_FOR_TEACHER_VIEW, this, s1, s2, s3, null, images, r1);
-        recyclerView.setAdapter(adapterCardViewList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
     }
@@ -144,10 +139,7 @@ public class SearchForTeacher extends HamburgerMenu {
                     }
                 }
             });
-        }
-
-        else
-        {
+        } else {
             teacherRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -196,7 +188,6 @@ public class SearchForTeacher extends HamburgerMenu {
 
     // Chip Checked Changed
     private void handleChipCheckChanged(Chip chip, boolean isChecked) {
-
     }
 
 
@@ -278,24 +269,51 @@ public class SearchForTeacher extends HamburgerMenu {
 
     }
 
-    public void OnClick_SearchForTeacher_Button_ShowSlections(View view) {
+    public void OnClick_SearchForTeacher_Button_ShowSelections(View view) {
+        CheckBox zoom = findViewById(R.id.checkbox_zoom);
+        CheckBox teacherPlace = findViewById(R.id.checkbox_at_teacher_place);
+        CheckBox studentPlace = findViewById(R.id.checkbox_at_student_place);
+        Spinner spinner = findViewById(R.id.spinner_for_education_level);
+        String EducationLevel = spinner.getContext().toString();
+
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewSearchResult);
+
         int count = this.chipGroup.getChildCount();
-        String s = null;
-        for (int i = 0; i < count; i++) {
-            Chip child = (Chip) this.chipGroup.getChildAt(i);
+        if (count > 0) {
+            String s = null;
+            for (int i = 0; i < count; i++) {
+                Chip child = (Chip) this.chipGroup.getChildAt(i);
 
-            if (!child.isChecked()) {
-                continue;
-            }
+                if (!child.isChecked()) {
+                    continue;
+                }
 
-            if (s == null) {
-                s = child.getText().toString();
-            } else {
-                s += ", " + child.getText().toString();
+                if (s == null) {
+                    s = child.getText().toString();
+                } else {
+                    s += ", " + child.getText().toString();
+                }
+
+
+                searchForTeachers(s, EducationLevel, zoom.isChecked(), teacherPlace.isChecked(), studentPlace.isChecked(), 1000);
+
+                if(s1!=null&&s1.length>0){
+                    AdapterCardViewList adapterCardViewList = new AdapterCardViewList(SEARCH_FOR_TEACHER_VIEW, this, s1, s2, s3, null, images, r1);
+                    recyclerView.setAdapter(adapterCardViewList);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                }
+                else {
+                    Toast.makeText(this, "Sorry No Teachers Found", Toast.LENGTH_LONG).show();
+                }
+
             }
-            //TODO s has the strings to do the search from what to do and shit GL
         }
-        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-    }
+        else {
+            Toast.makeText(this, "Please add and pick a Tag", Toast.LENGTH_LONG).show();
 
+        }
+
+
+    }
 }
