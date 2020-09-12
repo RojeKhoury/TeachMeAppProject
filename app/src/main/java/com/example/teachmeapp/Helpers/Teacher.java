@@ -1,7 +1,11 @@
 package com.example.teachmeapp.Helpers;
 
+import android.location.Location;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,11 +30,12 @@ public class Teacher {
     private String city;
     private double rating;
     private int numberOFRatings;
+    private LatLng location;
 
     public Teacher() {
     }
 
-    public Teacher(String name, String surname, String phone, List<Comment> comments, String email, String uid, String city) {
+    public Teacher(String name, String surname, String phone, List<Comment> comments, String email, String uid, String city, LatLng location) {
         // [START_EXCLUDE]
         Map<String, UserLesson> temp = new HashMap<String, UserLesson>();
 
@@ -48,6 +53,7 @@ public class Teacher {
         this.bio = "this my bio";
         this.uid = uid;
         this.city = city;
+        this.location = location;
         // [END_EXCLUDE]
     }
 
@@ -100,5 +106,8 @@ public class Teacher {
     }
 
     public String getCity(){return city;}
+
+    public LatLng getLocation(){return location;}
+
 
 }

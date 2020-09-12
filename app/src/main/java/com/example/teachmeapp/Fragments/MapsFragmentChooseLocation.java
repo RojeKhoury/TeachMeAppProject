@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,9 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.SearchView;
 
+import com.example.teachmeapp.Helpers.Globals;
+import com.example.teachmeapp.HomePageStudent;
+import com.example.teachmeapp.HomePageTeacher;
 import com.example.teachmeapp.R;
+import com.example.teachmeapp.SignUp;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,11 +43,12 @@ import java.util.List;
 import java.util.Locale;
 
 import static androidx.constraintlayout.motion.widget.Debug.getLocation;
+import static com.example.teachmeapp.Helpers.Globals.comm;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback {
+public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCallback {
 
 
-    private static MapsFragment INSTANCE = null;
+    private static MapsFragmentChooseLocation INSTANCE = null;
 
     View view;
 
@@ -49,14 +56,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     MapView mapView;
     SearchView searchView;
     Marker m_mark;
+    Button m_chooseLocation;
     FusedLocationProviderClient m_location;
 
-    public MapsFragment() {
+    public MapsFragmentChooseLocation() {
     }
 
-    public static MapsFragment getINSTANCE() {
+    public static MapsFragmentChooseLocation getINSTANCE() {
         if (INSTANCE == null)
-            INSTANCE = new MapsFragment();
+            INSTANCE = new MapsFragmentChooseLocation();
         return INSTANCE;
     }
 
@@ -68,7 +76,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @androidx.annotation.Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, @androidx.annotation.Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_maps, container, false);
+        view = inflater.inflate(R.layout.fragment_maps_choose_location, container, false);
         m_location = LocationServices.getFusedLocationProviderClient(view.getContext());
         return view;
     }
@@ -76,13 +84,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mapView = view.findViewById(R.id.mapsView);
+        mapView = view.findViewById(R.id.mapsViewChoose);
         if (mapView != null) {
             mapView.onCreate(null);
             mapView.onResume();
             mapView.getMapAsync(this);
         }
-        searchView = view.findViewById(R.id.sv_location);
+        searchView = view.findViewById(R.id.sv_location_choose);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -114,6 +122,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        m_chooseLocation = view.findViewById(R.id.choose_location_button);
+        m_chooseLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LatLng loc = m_mark.getPosition();
+                comm.setLocation(loc);
+                Intent intent;
+
+                if(comm.isTeacher())
+                {intent= new Intent(getActivity(), HomePageTeacher.class);}
+
+                else
+                {intent = new Intent(getActivity(), HomePageStudent.class);}
+
+                startActivity(intent);
+            }
+        });
 
     }
 

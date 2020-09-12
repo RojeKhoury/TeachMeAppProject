@@ -1,5 +1,7 @@
 package com.example.teachmeapp;
 
+import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,12 +17,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teachmeapp.Adapter.AdapterCardViewList;
+import com.example.teachmeapp.Helpers.Globals;
+import com.example.teachmeapp.Helpers.Lesson;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.comm;
@@ -32,12 +45,12 @@ public class SearchForTeacher extends HamburgerMenu {
     private Button buttonAdd;
     private Button buttonShow;
 
-    String s1[] = {"Teacher name", "this", "helo"};
-    String s2[] = {"City", "amazing", "broo"};
-    String s3[] = {"Price", "amazingsad", "bro3o"};
-    double r1[] = {1.4, 4.7, 0.5};
+    String s1[];// = {"Teacher name", "this", "helo"};
+    String s2[];// = {"City", "amazing", "broo"};
+    String s3[];// = {"Price", "amazingsad", "bro3o"};
+    double r1[];// = {1.4, 4.7, 0.5};
 
-    int images[] = {R.drawable.black_star, R.drawable.profile_page_incogneto_mode, R.drawable.cancel_icon};
+    Uri images[];// = {R.drawable.black_star, R.drawable.profile_page_incogneto_mode, R.drawable.cancel_icon};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +70,123 @@ public class SearchForTeacher extends HamburgerMenu {
 
     }
 
-    public void searchForTeachers() {
+    public void searchForTeachers(final String subject, String level, boolean zoom, boolean teachersPlace, boolean studentsPlace, final int price) {
         //here I am assuming that the data was collected so these are temporary values that need to be changed when the page is done
-        String subject = "math";
-        float maxPrice = 150;
-        Boolean zoom = false;
-
+        //float maxPrice = 150;
+        //.whereEqualTo(FIELD_ZOOM, false)
         CollectionReference teacherRef = comm.db.collection(COLLECTION_TEACHER);
-        teacherRef.whereArrayContains(FIELD_LESSONS, subject).whereEqualTo(FIELD_ZOOM, false);
+        String[] searchOptions = new String[3];
 
+        if (zoom) {
+            searchOptions[0] = FIELD_ZOOM;
+
+            if (teachersPlace)
+                searchOptions[1] = FIELD_TEACHERHOME;
+            else
+                searchOptions[1] = FIELD_ZOOM;
+
+
+            if (studentsPlace)
+                searchOptions[2] = FIELD_STUDENTHOME;
+            else
+                searchOptions[2] = FIELD_ZOOM;
+
+        } else {
+
+            if (teachersPlace) {
+                searchOptions[0] = FIELD_TEACHERHOME;
+                searchOptions[1] = FIELD_TEACHERHOME;
+            } else {
+                searchOptions[0] = FIELD_STUDENTHOME;
+                searchOptions[1] = FIELD_STUDENTHOME;
+            }
+
+            if (studentsPlace)
+                searchOptions[2] = FIELD_STUDENTHOME;
+            else
+                searchOptions[2] = FIELD_TEACHERHOME;
+        }
+
+        if (zoom || teachersPlace || studentsPlace) {
+            teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        s1 = new String[task.getResult().size()];
+                        s2 = new String[task.getResult().size()];
+                        s3 = new String[task.getResult().size()];
+                        r1 = new double[task.getResult().size()];
+                        images = new Uri[task.getResult().size()];
+                        int i = 0;
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            ArrayList<HashMap<String, Lesson>> maps = new ArrayList<>();
+                            maps = (ArrayList<HashMap<String, Lesson>>) document.get(FIELD_LESSONS);
+
+                            for (Object map : maps.toArray()) {
+
+                                if (((HashMap) map).containsKey(subject) && ((float) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
+
+                                    s1[i] = document.getString("name");
+                                    s3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
+                                    s2[i] = ((HashMap) map).get("city").toString();
+                                    r1[i] = document.getDouble(Globals.FIELD_RATING);
+                                    String uid = document.getString(Globals.FIELD_UID);
+                                    images[i] = comm.profileImagePicRef(uid).getDownloadUrl().getResult();
+                                    i += 1;
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            });
+        }
+
+        else
+        {
+            teacherRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        s1 = new String[task.getResult().size()];
+                        s2 = new String[task.getResult().size()];
+                        s3 = new String[task.getResult().size()];
+                        r1 = new double[task.getResult().size()];
+                        images = new Uri[task.getResult().size()];
+                        int i = 0;
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            ArrayList<HashMap<String, Lesson>> maps = new ArrayList<>();
+                            maps = (ArrayList<HashMap<String, Lesson>>) document.get(FIELD_LESSONS);
+
+                            for (Object map : maps.toArray()) {
+
+                                if (((HashMap) map).containsKey(subject) && ((float) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
+
+                                    s1[i] = document.getString("name");
+                                    s3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
+                                    s2[i] = ((HashMap) map).get("city").toString();
+                                    r1[i] = document.getDouble(Globals.FIELD_RATING);
+                                    String uid = document.getString(Globals.FIELD_UID);
+                                    images[i] = comm.profileImagePicRef(uid).getDownloadUrl().getResult();
+                                    i += 1;
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            });
+        }
 
     }
-
 
     // User close a Chip.
     private void handleChipCloseIconClicked(Chip chip) {

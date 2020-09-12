@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,9 +30,11 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_STUDENT;
+import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
+import static com.example.teachmeapp.Helpers.Globals.LOCATION;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class communicationWithDatabase {
@@ -261,13 +264,13 @@ public class communicationWithDatabase {
                 });
     }
 
-    public void createTeacher(String name, String surname, String email, String imageLocation, String phoneNumber, String city) {// will now also upload the image, all I need is the location on the device of the image.
+    public void createTeacher(String name, String surname, String email, String imageLocation, String phoneNumber, String city, LatLng location) {// will now also upload the image, all I need is the location on the device of the image.
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Teacher teacher = new Teacher(name, surname, phoneNumber, new ArrayList<Comment>(), email, m_user.getUid(), city);
+        Teacher teacher = new Teacher(name, surname, phoneNumber, new ArrayList<Comment>(), email, m_user.getUid(), city, location);
         insertTeacherToDatabase(teacher, "Teachers", m_user.getUid());
 
     }
@@ -315,14 +318,14 @@ public class communicationWithDatabase {
         return res;
     }
 
-    public void createStudent(String name, String surname, String email, String imageLocation, String phoneNumber, String city) {// will now also upload the image, all I need is the location on the device of the image.
+    public void createStudent(String name, String surname, String email, String imageLocation, String phoneNumber, String city, LatLng location) {// will now also upload the image, all I need is the location on the device of the image.
 
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Student student = new Student(name, surname, phoneNumber, new ArrayList<Lesson>(), email, m_user.getUid(), city);
+        Student student = new Student(name, surname, phoneNumber, new ArrayList<Lesson>(), email, m_user.getUid(), city, location);
         insertStudentToDatabase(student, "Students", m_user.getUid());
     }
 
@@ -529,5 +532,15 @@ public class communicationWithDatabase {
     public DocumentReference getDocRef(String uid, String collection) {
         return db.collection(collection).document(uid);
     }
+
+    public void setLocation(LatLng location) {
+        DocumentReference ref;
+        if(teacher)
+        {ref = getDocRef(getUid(), COLLECTION_TEACHER);
+        ref.update(LOCATION, location);}
+
+        ref = getDocRef(getUid(), COLLECTION_STUDENT);
+        ref.update(LOCATION, location);}
+
 }
 

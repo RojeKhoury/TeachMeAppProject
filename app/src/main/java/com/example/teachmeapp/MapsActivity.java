@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.tabs.TabLayout;
 
+import static com.example.teachmeapp.Helpers.Globals.MAPS_REGULAR;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class MapsActivity extends AppCompatActivity {
@@ -32,7 +33,7 @@ public class MapsActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), this);
+        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), this, MAPS_REGULAR);
         viewPager.setAdapter(fragmentAdapter);
 
         tabLayout.setupWithViewPager(viewPager);

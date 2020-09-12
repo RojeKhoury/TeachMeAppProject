@@ -37,10 +37,18 @@ public class Globals
 
 
     public static final String FIELD_ZOOM = "zoom";
-    public static final String FIELD_MYPLACE = "my place";
-    public static final String FIELD_YOURPLACE = "your place";
+    public static final String FIELD_TEACHERHOME = "teacherHome";
+    public static final String FIELD_STUDENTHOME = "studentHome";
     public static final String ERROR_LOADING_PICTURE = "Profile picture could not be loaded";
     public static final int SEARCH_RESULT = 1;
     public static final int SEARCH_FOR_TEACHER_VIEW = 2;
+    public static final String FIELD_UID = "uid";
+
+    public static final int MAPS_CHOOSE_LOCATION = 0;
+    public static final int MAPS_REGULAR = 1;
+    public static final String LOCATION = "location";
+    public static final String LONGITUDE = "longitude";
+    public static final String LALTITUDE = "laltitude";
+
     public static communicationWithDatabase comm = new communicationWithDatabase();
 }

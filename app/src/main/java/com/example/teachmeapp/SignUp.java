@@ -3,6 +3,7 @@ package com.example.teachmeapp;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -10,17 +11,22 @@ import android.provider.SyncStateContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.example.teachmeapp.Fragments.MapsFragmentChooseLocation;
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.Helpers.communicationWithDatabase;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,6 +45,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.teachmeapp.Helpers.Globals.LOCATION;
+import static com.example.teachmeapp.Helpers.Globals.LONGITUDE;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class SignUp extends AppCompatActivity {
@@ -56,18 +64,20 @@ public class SignUp extends AppCompatActivity {
     Uri filePath;
     final Map<String, Object> user = new HashMap<>();
     AwesomeValidation awesomeValidation;
+    private LatLng m_location = null;
+    CheckBox m_teacher_checkbox = null;
+    private Button ChooseLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
         updateUI();
     }
 
     private void updateUI() {
-        m_city = findViewById(R.id.signUp_editText_enterCity);
-        m_country = findViewById(R.id.signUp_editText_enterCountry);
+      //  m_city = findViewById(R.id.signUp_editText_enterCity);
+       // m_country = findViewById(R.id.signUp_editText_enterCountry);
 
         m_fName = findViewById(R.id.signUp_editText_enterName);
         m_lName = findViewById(R.id.signUp_editText_enterSurname);
@@ -82,7 +92,8 @@ public class SignUp extends AppCompatActivity {
         bUploadImage = (Button) findViewById(R.id.buttonUpload);
         bNext = (Button) findViewById(R.id.buttonNext);
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
-
+        m_teacher_checkbox = findViewById(R.id.CheckBox_Student);
+     //   ChooseLocation = findViewById(R.id.Choose_location);
         String regexPassword = "^[A-Za-z\\d].{5,}$";
         String regexPhone = "^(?=.*\\d).{10,10}$";
         String regexAddress = "^[A-Za-z\\d].{3,}$";
@@ -92,6 +103,14 @@ public class SignUp extends AppCompatActivity {
         awesomeValidation.addValidation(SignUp.this, R.id.signUp_editText_enterEmail, android.util.Patterns.EMAIL_ADDRESS, R.string.emailerr);
         awesomeValidation.addValidation(SignUp.this, R.id.signUp_editText_enterPhone, regexPhone, R.string.phoneerr);
         awesomeValidation.addValidation(SignUp.this, R.id.signUp_editText_enterPassword, regexPassword, R.string.passerr);
+
+       /* ChooseLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), maps_activity_get_location.class);
+                startActivity(intent);
+            }
+        });*/
     }
 
     public void onClickNext(View view) {
@@ -136,14 +155,19 @@ public class SignUp extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
-        comm.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString(), "LA");
-        comm.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString(), "LA");
+        if(m_teacher_checkbox.isChecked())
+        {
+            comm.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString(), "LA", m_location);
+            comm.setTeacher(true);
+        }
+
+        comm.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), mImageVUpload.toString(), m_phone.getText().toString(), "LA", m_location);
 
         StorageReference pPic = storageRef.child("images/" + comm.getUid() + "/profile picture");
         pPic.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Intent intent = new Intent(getApplicationContext(), test_profile_page.class);
+                Intent intent = new Intent(getApplicationContext(), maps_activity_get_location.class);
                 startActivity(intent);
             }
         });
@@ -211,4 +235,8 @@ public class SignUp extends AppCompatActivity {
         return mAuth.getCurrentUser().getUid();
     }
 
+    public void setLocation(LatLng location)
+    {
+        m_location = location;
+    }
 }

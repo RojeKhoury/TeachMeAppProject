@@ -6,47 +6,42 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.teachmeapp.Fragments.FirstFragment;
 import com.example.teachmeapp.Fragments.MapsFragment;
+import com.example.teachmeapp.Fragments.MapsFragmentChooseLocation;
+import com.example.teachmeapp.Helpers.Globals;
 
 import javax.annotation.Nullable;
 
 public class FragmentAdapter extends FragmentPagerAdapter {
     Context context;
+    int m_fragmentNumber;
 
-    public FragmentAdapter(FragmentManager fm, Context context) {
+    public FragmentAdapter(FragmentManager fm, Context context, int fragmentNumber) {
         super(fm);
         this.context = context;
+        this.m_fragmentNumber = fragmentNumber;
     }
 
     @Override
     public Fragment getItem(int position) {
-
-        if (position == 0)
-            return MapsFragment.getINSTANCE();
-        if (position == 1) {
-            return FirstFragment.getINSTANCE();
+        switch (m_fragmentNumber) {
+            case Globals.MAPS_CHOOSE_LOCATION: {
+                return MapsFragmentChooseLocation.getINSTANCE();
+            }
+            case Globals.MAPS_REGULAR: {
+                return MapsFragment.getINSTANCE();
+            }
         }
-
-        else
-            return null;
+        return null;
     }
-
     @Override
     public int getCount() {
-        return 2;
+        return 1;
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0:
-                return "Maps Fragment";
-            case 1:
-                return "First Fragment";
-            default:
-                return "invalid";
-        }
+        return "Maps Fragment";
     }
 }

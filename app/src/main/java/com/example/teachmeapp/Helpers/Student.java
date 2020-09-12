@@ -5,6 +5,8 @@ import android.location.Location;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -21,11 +23,12 @@ public class Student {
     private String local;
     private List<String> ratings;
     private List<String> favourites;
+private LatLng location;
 
     public Student() {
     }
 
-    public Student(String name, String surname, String phone, List<Lesson> classes, String email, String uid, String local) {
+    public Student(String name, String surname, String phone, List<Lesson> classes, String email, String uid, String local, LatLng location) {
 
         // [START_EXCLUDE]
         this.name = name;
@@ -279,6 +282,7 @@ public class Student {
                 return null;
             }
         };
+        this.location = location;
         // [END_EXCLUDE]
     }
 
@@ -313,6 +317,8 @@ public class Student {
     public List<String> getRatings(){return  ratings;}
 
     public List<String> getFavourites(){return  favourites;}
+
+    public LatLng getLocation(){return location;}
 
 
 }

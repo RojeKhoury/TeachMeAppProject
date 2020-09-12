@@ -2,6 +2,7 @@ package com.example.teachmeapp.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.teachmeapp.R;
 import com.example.teachmeapp.ScheduleExpandingButton;
 import com.example.teachmeapp.SearchForTeacher;
+import com.squareup.picasso.Picasso;
 
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
@@ -27,12 +29,11 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
     Button button;
     Context context;
     int recyclerViewName;
-    int images[];
+    Uri images[];
     double rating[];
 
 
-    public AdapterCardViewList(int RecyclerViewName, Context ct, String s1[], String s2[], String s3[], Button b1, int i1[], double r1[]) {
-        recyclerViewName = RecyclerViewName;
+    public AdapterCardViewList(int RecyclerViewName, Context ct, String s1[], String s2[], String s3[], Button b1, Uri i1[],double r1[]) {     recyclerViewName = RecyclerViewName;
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -88,7 +89,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 holder.textView2.setText(data2[position]);
                 holder.textView3.setText(data3[position]);
 
-                holder.image.setImageResource(images[position]);
+                Picasso.get().load(images[position]).into(holder.image);//holder.image.setImageResource(images[position]);
 
                 holder.ratingBar.setRating(Float.parseFloat(String.valueOf(rating[position])));
                 holder.cardView.setOnClickListener(new View.OnClickListener() {
