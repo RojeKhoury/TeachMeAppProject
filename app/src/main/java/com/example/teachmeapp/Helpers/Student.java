@@ -11,13 +11,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 public class Student {
 
     private String name;
     private String surname;
     private String phone;
-    private List<Lesson> classes;
+    private Map<String, UserLesson> classes;
     private String email;
     private String uid;
     private List<String> ratings;
@@ -30,7 +31,7 @@ public class Student {
     public Student() {
     }
 
-    public Student(String name, String surname, String phone, List<Lesson> classes, String email, String uid) {
+    public Student(String name, String surname, String phone, Map<String, UserLesson> classes, String email, String uid) {
 
         // [START_EXCLUDE]
         this.name = name;
@@ -310,7 +311,7 @@ public class Student {
         return uid;
     }
 
-    public List<Lesson> getLessons() {
+    public Map<String, UserLesson> getLessons() {
         return classes;
     }
 

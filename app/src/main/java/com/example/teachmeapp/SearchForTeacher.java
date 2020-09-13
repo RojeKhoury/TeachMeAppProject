@@ -13,10 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.teachmeapp.Adapter.AdapterCardViewList;
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.Helpers.Lesson;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,7 +23,6 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.ThrowOnExtraProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,16 +49,15 @@ public class SearchForTeacher extends HamburgerMenu {
 
     Uri images[];
 
+    boolean foundTeacherFlag = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_for_teacher);
 
-
         this.editTextKeyword = (EditText) this.findViewById(R.id.editText_keyword);
         this.chipGroup = (ChipGroup) this.findViewById(R.id.chipGroup);
-
-
     }
 
     public void searchForTeachers(final String subject, String level, boolean zoom, boolean teachersPlace, boolean studentsPlace, final int price) {
@@ -71,6 +66,7 @@ public class SearchForTeacher extends HamburgerMenu {
         //.whereEqualTo(FIELD_ZOOM, false)
         CollectionReference teacherRef = comm.db.collection(COLLECTION_TEACHER);
         String[] searchOptions = new String[3];
+        foundTeacherFlag = false;
 
         if (zoom) {
             searchOptions[0] = FIELD_ZOOM;
@@ -115,6 +111,7 @@ public class SearchForTeacher extends HamburgerMenu {
                         images = new Uri[task.getResult().size()];
                         int i = 0;
 
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
 
                             ArrayList<HashMap<String, Lesson>> maps = new ArrayList<>();
@@ -131,6 +128,7 @@ public class SearchForTeacher extends HamburgerMenu {
                                     String uid = document.getString(Globals.FIELD_UID);
                                     images[i] = comm.profileImagePicRef(uid).getDownloadUrl().getResult();
                                     i += 1;
+                                    foundTeacherFlag = true;
                                     break;
                                 }
                             }
@@ -168,6 +166,7 @@ public class SearchForTeacher extends HamburgerMenu {
                                     String uid = document.getString(Globals.FIELD_UID);
                                     images[i] = comm.profileImagePicRef(uid).getDownloadUrl().getResult();
                                     i += 1;
+                                    foundTeacherFlag = true;
                                     break;
                                 }
                             }

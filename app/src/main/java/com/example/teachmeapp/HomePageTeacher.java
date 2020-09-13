@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -30,22 +31,30 @@ import static com.example.teachmeapp.SignUp.PICK_IMAGE_REQUEST;
 public class HomePageTeacher extends HamburgerMenu {
     private ImageView m_profilePic;
     Uri filePath;
+    ImageButton m_addLesson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page_teacher);
         m_profilePic = findViewById(R.id.ImageView_profilePic);
+        m_addLesson = findViewById(R.id.homepage_teacher_button_requests);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         m_profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chooseImage(view);
+            }
+        });
+
+        m_addLesson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClick_searchButton();
             }
         });
     }
@@ -111,5 +120,11 @@ public class HomePageTeacher extends HamburgerMenu {
                         System.exit(0);
                     }
                 }).create().show();
+    }
+
+    public void onClick_searchButton()
+    {
+        Intent intent = new Intent(this, TeacherLessonsAddOrRemove.class);
+        startActivity(intent);
     }
 }

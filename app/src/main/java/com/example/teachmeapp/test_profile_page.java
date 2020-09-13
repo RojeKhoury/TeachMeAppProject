@@ -102,7 +102,7 @@ public class test_profile_page extends AppCompatActivity {
         m_addLesson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comm.addCourse(new Lesson(m_fName.getText().toString(), new ArrayList<String>()), comm.getUid(), new Float(149.5), "telaviv");
+       //         comm.addCourse(new Lesson(m_fName.getText().toString(), new ArrayList<String>()), comm.getUid(), new Float(149.5), "telaviv");
             }
         });
 

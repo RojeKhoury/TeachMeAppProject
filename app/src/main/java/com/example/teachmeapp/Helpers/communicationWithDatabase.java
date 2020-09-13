@@ -326,7 +326,7 @@ public class communicationWithDatabase {
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Student student = new Student(name, surname, phoneNumber, new ArrayList<Lesson>(), email, m_user.getUid());
+        Student student = new Student(name, surname, phoneNumber, new HashMap<String, UserLesson>(), email, m_user.getUid());
         insertStudentToDatabase(student, "Students", m_user.getUid());
     }
 
@@ -348,21 +348,55 @@ public class communicationWithDatabase {
     }
 
 
-    public void addCourse(Lesson lesson, String Uid, Float price, String location) {
+    public void addCourse(String lesson, String uid, Float price, String level) {
         //addLessonToDatabase(lesson);
         if (teacher) {
             Map temp = new HashMap<String, UserLesson>();
-            temp.put(lesson.getName(), new UserLesson(lesson.getName(), price, location));
-            addLessonToTeacher(temp, lesson.getName());
+            temp.put(lesson, new UserLesson(lesson, price, level));
+            addLessonToTeacher(temp, lesson);
+            addTeacherToLesson(lesson, getUid());
         } else {
-            addLessonToStudent(lesson);
+            addLessonToStudent(new UserLesson(lesson, price, level), uid);
         }
     }
 
+    private void addTeacherToLesson(final String name,final String uid) {
+        db.collection("lessons").document(name)
+                .update(name, FieldValue.arrayUnion(uid))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        ArrayList<String> uids = new ArrayList<>();
+                        uids.add(uid);
+                        db.collection("lessons").document(name).set(new Lesson(name, uids))
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+                    }
+                });
+    }
 
-    private void addLessonToStudent(Lesson lesson) {
+    private void addLessonToStudent(UserLesson lesson, String uid) {
+        Map<String, UserLesson> add = new HashMap<String, UserLesson>();
+        add.put(uid, lesson);
+
         db.collection("Students").document(m_user.getUid())
-                .update("classes", lesson)
+                .update("classes", add)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

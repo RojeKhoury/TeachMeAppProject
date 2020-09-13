@@ -53,6 +53,7 @@ public class Globals
     public static final String CITY = "city";
     public static final String COUNTRY = "country";
     public static final String ADDRESS = "address";
+    public static final String ADD_NEW_LESSON = "add a new lesson!";
 
     public static communicationWithDatabase comm = new communicationWithDatabase();
 }
