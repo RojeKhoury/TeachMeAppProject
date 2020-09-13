@@ -155,7 +155,5 @@ public class SearchForTeacher extends HamburgerMenu {
             Toast.makeText(this, "Please add and pick a Tag", Toast.LENGTH_LONG).show();
 
         }
-
-
     }
 }
