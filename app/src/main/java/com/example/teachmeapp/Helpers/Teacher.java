@@ -1,18 +1,10 @@
 package com.example.teachmeapp.Helpers;
 
-import android.location.Location;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class Teacher {
 
@@ -20,7 +12,7 @@ public class Teacher {
     private String surname;
     private String email;
     private String phone;
-    private Map<String ,UserLesson> classes;
+    private ArrayList<Map<String ,UserLesson>> lessons;
     private List<Comment> comments;
     private boolean zoom;
     private boolean studentHome;
@@ -40,14 +32,14 @@ public class Teacher {
 
     public Teacher(String name, String surname, String phone, List<Comment> comments, String email, String uid) {
         // [START_EXCLUDE]
-        Map<String, UserLesson> temp = new HashMap<String, UserLesson>();
+        ArrayList<Map<String, UserLesson>> temp = new ArrayList<>();
 
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.rating = 0;
         this.numberOFRatings = 0;
-        this.classes = temp;
+        this.lessons = temp;
         this.comments = comments;
         this.email = email;
         this.zoom = true;
@@ -106,8 +98,8 @@ public class Teacher {
         return uid;
     }
 
-    public Map<String ,UserLesson> getLessons() {
-        return classes;
+    public ArrayList<Map<String, UserLesson>> getLessons() {
+        return lessons;
     }
 
     public String getCity(){return city;}

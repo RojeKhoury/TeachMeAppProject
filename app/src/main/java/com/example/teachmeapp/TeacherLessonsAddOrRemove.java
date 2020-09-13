@@ -21,14 +21,11 @@ import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class TeacherLessonsAddOrRemove extends HamburgerMenu {
-<<<<<<< HEAD
     String s1[] = {"Math", "biology", "chemistry"};
     String s2[] = {"50", "20", "40"};
     String s3[] = {"middle school", "elementary", "college"};
     Button MoreInfoButton;
     String level;
-=======
->>>>>>> 8eba8632c9ff1a1ea7b43ab43e6f354dba06367b
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
