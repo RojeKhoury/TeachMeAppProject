@@ -27,8 +27,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TeacherLessonsAddOrRemove"
-            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".History"></activity>
+        <activity
+            android:name=".TeacherLessonsAddOrRemove"
+            android:windowSoftInputMode="adjustPan" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -89,7 +91,7 @@
             android:name=".HamburgerMenu"
             android:theme="@style/AppThemeNoBar" />
         <activity
-            android:name=".searchResult"
+            android:name=".SearchResult"
             android:theme="@style/AppThemeNoBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

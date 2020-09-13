@@ -24,7 +24,7 @@
             android:layout_marginHorizontal="@dimen/StandardPadding">
 
             <TextView
-                android:id="@+id/textViewScheduleName"
+                android:id="@+id/textViewHistoryName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textViewScheduleSubject"
+                android:id="@+id/textViewHistorySubject"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,10 +44,10 @@
                 android:text="Subject"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewScheduleName" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewHistoryName" />
 
             <TextView
-                android:id="@+id/textViewScheduleTime"
+                android:id="@+id/textViewHistoryTime"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,20 +58,20 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewScheduleSubject" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewHistorySubject" />
 
             <Button
-                android:id="@+id/textViewScheduleButton"
+                android:id="@+id/PointsAndDeleteHistoryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:background="@color/colorPrimary"
-                android:text="More Info"
+                android:text="Points / Delete"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/textViewScheduleTime"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewHistoryTime"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textViewScheduleName" />
+                app:layout_constraintTop_toTopOf="@+id/textViewHistoryName" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

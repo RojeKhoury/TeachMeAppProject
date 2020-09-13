@@ -22,13 +22,11 @@ import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.Helpers.Lesson;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.chip.Chip;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.ThrowOnExtraProperties;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,6 +37,7 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
+import static com.example.teachmeapp.Helpers.Globals.HISTORY_OF_LESSONS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
@@ -51,7 +50,7 @@ public class HamburgerMenu extends Activity {
     String TempStringArray1[];
     String TempStringArray2[];
     String TempStringArray3[];
-    Double TempRatingArray1[] ={};
+    Double TempRatingArray1[] = {};
 
     String ChipTagSearchedArray[] = {};
 
@@ -68,8 +67,9 @@ public class HamburgerMenu extends Activity {
         TempStringArray2 = new String[100];
         TempStringArray3 = new String[100];
         TempRatingArray1 = new Double[100];
-        ChipTagSearchedArray = new String[100];
         TempImageArray = new Uri[100];
+        ChipTagSearchedArray = new String[100];
+
         arrayListString1 = new ArrayList<>();
         arrayListString2 = new ArrayList<>();
         arrayListString3 = new ArrayList<>();
@@ -179,54 +179,67 @@ public class HamburgerMenu extends Activity {
             case SEARCH_RESULT:
                 recyclerView = findViewById(R.id.recyclerView);
                 //TODO do a search for results from database
-
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No Schedules Appointed", Toast.LENGTH_SHORT).show();
-                }else
-                {
-                    adapterCardViewList = new AdapterCardViewList(SEARCH_RESULT, this, arrayListString1, arrayListString2, arrayListString3,
+                } else {
+                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
                             null, null);
                 }
                 break;
+
             case SEARCH_FOR_TEACHER_VIEW:
-                recyclerView = findViewById(R.id.recyclerViewSearchResult);
+                if (ChipTagSearchedArray.length > 0) {
+                    recyclerView = findViewById(R.id.recyclerViewSearchResult);
+                    CheckBox zoom = findViewById(R.id.checkbox_zoom);
+                    CheckBox teacherPlace = findViewById(R.id.checkbox_at_teacher_place);
+                    CheckBox studentPlace = findViewById(R.id.checkbox_at_student_place);
+                    Spinner spinner = findViewById(R.id.spinner_for_education_level);
+                    String EducationLevel = spinner.getContext().toString();
 
-                CheckBox zoom = findViewById(R.id.checkbox_zoom);
-                CheckBox teacherPlace = findViewById(R.id.checkbox_at_teacher_place);
-                CheckBox studentPlace = findViewById(R.id.checkbox_at_student_place);
-                Spinner spinner = findViewById(R.id.spinner_for_education_level);
-                String EducationLevel = spinner.getContext().toString();
-
-                for (int i = 0; i < ChipTagSearchedArray.length; i++) {
-                    searchForTeachers(ChipTagSearchedArray[i], EducationLevel, zoom.isChecked(), teacherPlace.isChecked(), studentPlace.isChecked(), 1000);
+                    for (int i = 0; i < ChipTagSearchedArray.length; i++) {
+                        searchForTeachers(ChipTagSearchedArray[i], EducationLevel, zoom.isChecked(),
+                                teacherPlace.isChecked(), studentPlace.isChecked(), 1000);
+                    }
+                    if (arrayListString1.isEmpty()) {
+                        Toast.makeText(this, "No Teachers Found", Toast.LENGTH_SHORT).show();
+                    } else {
+                        adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+                                arrayListUri1, arrayListDouble1);
+                    }
                 }
-                if (arrayListString1.isEmpty()) {
-                    Toast.makeText(this, "No Teachers Found", Toast.LENGTH_SHORT).show();
-                }else
-                {
-                    adapterCardViewList = new AdapterCardViewList(SEARCH_FOR_TEACHER_VIEW, this, arrayListString1, arrayListString2, arrayListString3,
-                            arrayListUri1, arrayListDouble1);
-                }
-
                 break;
+
             case LESSONS_FOR_TEACHER_VIEW:
                 recyclerView = findViewById(R.id.recyclerView_MyLessons);
                 //TODO do a list of teachers from database
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
-                }else
-                {
-                    adapterCardViewList = new AdapterCardViewList(LESSONS_FOR_TEACHER_VIEW, this, arrayListString1, arrayListString2, arrayListString3,
+                } else {
+                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
                             null, null);
                 }
-
                 break;
+
+            case HISTORY_OF_LESSONS_VIEW:
+                recyclerView = findViewById(R.id.recyclerViewHistory);
+                //TODO do a list of History from database
+                if (arrayListString1.isEmpty()) {
+                    Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
+                } else {
+                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+                            null, null);
+                }
+                break;
+
             default:
                 break;
 
         }
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapterCardViewList);
+        if (!arrayListString1.isEmpty()) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapterCardViewList);
+        }
+
     }
 
 
@@ -342,7 +355,7 @@ public class HamburgerMenu extends Activity {
                 }
             });
         }
-        if (TempStringArray1.length>0){
+        if (TempStringArray1.length > 0) {
             Collections.addAll(arrayListString1, TempStringArray1);
             Collections.addAll(arrayListString2, TempStringArray2);
             Collections.addAll(arrayListString3, TempStringArray3);

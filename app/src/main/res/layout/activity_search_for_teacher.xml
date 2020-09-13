@@ -51,7 +51,6 @@
                 android:orientation="vertical">
 
                 <CheckBox
-                    android:onClick="OnClick_SearchForTeacher_CheckBox_AtStudentPlace"
                     android:id="@+id/checkbox_at_student_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +63,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <CheckBox
-                    android:onClick="OnClick_SearchForTeacher_CheckBox_AtTeacherPlace"
                     android:id="@+id/checkbox_at_teacher_place"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -75,7 +73,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/checkbox_at_student_place" />
 
                 <CheckBox
-                    android:onClick="OnClick_SearchForTeacher_CheckBox_Zoom"
                     android:id="@+id/checkbox_zoom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
