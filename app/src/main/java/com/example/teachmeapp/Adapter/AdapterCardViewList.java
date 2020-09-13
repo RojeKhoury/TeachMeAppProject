@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,22 +24,22 @@ import com.example.teachmeapp.ScheduleExpandingButton;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import static com.example.teachmeapp.Helpers.Globals.HISTORY_OF_LESSONS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
 
 public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewList.ViewHolder> {
     ArrayList<String> data1, data2, data3;
-    Context context;
-    int recyclerViewName;
     ArrayList<Uri> images;
     ArrayList<Double> rating;
 
+    Context context;
+    int recyclerViewName;
 
-    public AdapterCardViewList(int RecyclerViewName, Context ct,  ArrayList<String> s1,  ArrayList<String> s2,  ArrayList<String> s3,
-                               ArrayList<Uri> i1,  ArrayList<Double> r1) {
+    public AdapterCardViewList(int RecyclerViewName, Context ct, ArrayList<String> s1, ArrayList<String> s2, ArrayList<String> s3,
+                               ArrayList<Uri> i1, ArrayList<Double> r1) {
         recyclerViewName = RecyclerViewName;
         context = ct;
         data1 = s1;
@@ -66,6 +67,9 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
             case LESSONS_FOR_TEACHER_VIEW:
                 view = layoutInflater.inflate(R.layout.teacher_lessons_row, parent, false);
                 break;
+            case HISTORY_OF_LESSONS_VIEW:
+                view = layoutInflater.inflate(R.layout.history_row_layout, parent, false);
+                break;
             default:
                 break;
 
@@ -92,14 +96,16 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     }
                 });
                 break;
+
             case SEARCH_FOR_TEACHER_VIEW:
                 holder.textView1.setText(data1.get(position));
                 holder.textView2.setText(data2.get(position));
                 holder.textView3.setText(data3.get(position));
 
                 Picasso.get().load((Uri) images.get(position)).into(holder.image);//holder.image.setImageResource(images[position]);
-
-                holder.ratingBar.setRating(Float.parseFloat(String.valueOf(rating.get(position))));
+                holder.ratingBar.setMax(5);
+                holder.ratingBar.setStepSize((float) 0.1);
+                holder.ratingBar.setRating(3);//Float.parseFloat(String.valueOf(rating.get(position))));
                 holder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -108,6 +114,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     }
                 });
                 break;
+
             case LESSONS_FOR_TEACHER_VIEW:
                 holder.textView1.setText(data1.get(position));
                 holder.textView2.setText(data2.get(position));
@@ -125,6 +132,19 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                                         //TODO Delete lesson from database
                                     }
                                 }).create().show();
+                    }
+                });
+                break;
+            case HISTORY_OF_LESSONS_VIEW:
+                holder.textView1.setText(data1.get(position));
+                holder.textView2.setText(data2.get(position));
+                holder.textView3.setText(data3.get(position));
+
+                holder.button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        //TODO Delete History from database
                     }
                 });
                 break;
@@ -152,10 +172,10 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
             super(itemView);
             switch (recyclerViewName) {
                 case SEARCH_RESULT:
-                    textView1 = itemView.findViewById(R.id.textViewName);
-                    textView2 = itemView.findViewById(R.id.textViewSubject);
-                    textView3 = itemView.findViewById(R.id.textViewTime);
-                    button = itemView.findViewById(R.id.moreInfoButton);
+                    textView1 = itemView.findViewById(R.id.textViewScheduleName);
+                    textView2 = itemView.findViewById(R.id.textViewScheduleSubject);
+                    textView3 = itemView.findViewById(R.id.textViewScheduleTime);
+                    button = itemView.findViewById(R.id.textViewScheduleButton);
                     break;
                 case SEARCH_FOR_TEACHER_VIEW:
                     textView1 = itemView.findViewById(R.id.SearchView_TeacherResult_TextView_TeacherName);
@@ -163,8 +183,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     textView3 = itemView.findViewById(R.id.SearchView_TeacherResult_TextView_TeacherPrice);
                     image = itemView.findViewById(R.id.SearchView_TeacherResult_ImageView_TeacherImage);
                     ratingBar = itemView.findViewById(R.id.SearchView_TeacherResult_RatingBar);
-                    ratingBar.setMax(5);
-                    ratingBar.setStepSize((float) 0.1);
+
                     cardView = itemView.findViewById(R.id.SearchResultsCardView);
                     break;
                 case LESSONS_FOR_TEACHER_VIEW:
@@ -172,6 +191,12 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     textView2 = itemView.findViewById(R.id.textViewPrice_addLesson);
                     textView3 = itemView.findViewById(R.id.textViewLevel_addLesson);
                     button = itemView.findViewById(R.id.Button_DeleteLesson_addLesson);
+                    break;
+                case HISTORY_OF_LESSONS_VIEW:
+                    textView1 = itemView.findViewById(R.id.textViewHistoryName);
+                    textView2 = itemView.findViewById(R.id.textViewHistorySubject);
+                    textView3 = itemView.findViewById(R.id.textViewHistoryTime);
+                    button = itemView.findViewById(R.id.PointsAndDeleteHistoryButton);
                     break;
                 default:
 

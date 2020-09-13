@@ -43,6 +43,7 @@ public class Globals
     public static final int SEARCH_RESULT = 1;
     public static final int SEARCH_FOR_TEACHER_VIEW = 2;
     public static final int LESSONS_FOR_TEACHER_VIEW = 3;
+    public static final int HISTORY_OF_LESSONS_VIEW = 4;
     public static final String FIELD_UID = "uid";
 
     public static final int MAPS_CHOOSE_LOCATION = 0;
