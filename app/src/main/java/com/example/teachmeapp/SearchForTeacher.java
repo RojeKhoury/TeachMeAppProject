@@ -276,9 +276,6 @@ public class SearchForTeacher extends HamburgerMenu {
         Spinner spinner = findViewById(R.id.spinner_for_education_level);
         String EducationLevel = spinner.getContext().toString();
 
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewSearchResult);
-
         int count = this.chipGroup.getChildCount();
         if (count > 0) {
             String s = null;
@@ -299,14 +296,11 @@ public class SearchForTeacher extends HamburgerMenu {
                 searchForTeachers(s, EducationLevel, zoom.isChecked(), teacherPlace.isChecked(), studentPlace.isChecked(), 1000);
 
                 if(s1!=null&&s1.length>0){
-                    AdapterCardViewList adapterCardViewList = new AdapterCardViewList(SEARCH_FOR_TEACHER_VIEW, this, s1, s2, s3, null, images, r1);
-                    recyclerView.setAdapter(adapterCardViewList);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                    CallViewAdapter(SEARCH_FOR_TEACHER_VIEW, this, s1, s2, s3, null, images, r1);
                 }
                 else {
                     Toast.makeText(this, "Sorry No Teachers Found", Toast.LENGTH_LONG).show();
                 }
-
             }
         }
         else {

@@ -1,6 +1,8 @@
 package com.example.teachmeapp.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -18,9 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teachmeapp.R;
 import com.example.teachmeapp.ScheduleExpandingButton;
-import com.example.teachmeapp.SearchForTeacher;
 import com.squareup.picasso.Picasso;
 
+import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
 
@@ -33,7 +35,8 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
     double rating[];
 
 
-    public AdapterCardViewList(int RecyclerViewName, Context ct, String s1[], String s2[], String s3[], Button b1, Uri i1[],double r1[]) {     recyclerViewName = RecyclerViewName;
+    public AdapterCardViewList(int RecyclerViewName, Context ct, String s1[], String s2[], String s3[], Button b1, Uri i1[], double r1[]) {
+        recyclerViewName = RecyclerViewName;
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -57,6 +60,9 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 break;
             case SEARCH_FOR_TEACHER_VIEW:
                 view = layoutInflater.inflate(R.layout.search_results_row, parent, false);
+                break;
+            case LESSONS_FOR_TEACHER_VIEW:
+                view = layoutInflater.inflate(R.layout.teacher_lessons_row, parent, false);
                 break;
             default:
                 break;
@@ -100,6 +106,26 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     }
                 });
                 break;
+            case LESSONS_FOR_TEACHER_VIEW:
+                holder.textView1.setText(data1[position]);
+                holder.textView2.setText(data2[position]);
+                holder.textView3.setText(data3[position]);
+
+                holder.button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new AlertDialog.Builder(view.getContext())
+                                .setTitle("Delete Lesson?")
+                                .setMessage("Are you sure you want to delete the lesson?")
+                                .setNegativeButton("Back", null)
+                                .setPositiveButton("Yes, Delete Lesson", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        //TODO Delete lesson from database
+                                    }
+                                }).create().show();
+                    }
+                });
+                break;
             default:
 
                 break;
@@ -138,6 +164,12 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     ratingBar.setMax(5);
                     ratingBar.setStepSize((float) 0.1);
                     cardView = itemView.findViewById(R.id.SearchResultsCardView);
+                    break;
+                case LESSONS_FOR_TEACHER_VIEW:
+                    textView1 = itemView.findViewById(R.id.textViewSubject_addLesson);
+                    textView2 = itemView.findViewById(R.id.textViewPrice_addLesson);
+                    textView3 = itemView.findViewById(R.id.textViewLevel_addLesson);
+                    button = itemView.findViewById(R.id.Button_DeleteLesson_addLesson);
                     break;
                 default:
 

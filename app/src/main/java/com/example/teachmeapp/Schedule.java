@@ -23,11 +23,8 @@ public class Schedule extends HamburgerMenu {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schedule_item_cardview);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
-        AdapterCardViewList adapterCardViewList = new AdapterCardViewList(SEARCH_RESULT,this, s1, s2, s3,MoreInfoButton,null,null);
-        recyclerView.setAdapter(adapterCardViewList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        CallViewAdapter(SEARCH_RESULT,this, s1, s2, s3,MoreInfoButton,null,null);
 
     }
 
