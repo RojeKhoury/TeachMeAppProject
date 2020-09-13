@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void TESTER(View view) {
-        Intent intent = new Intent(this, TeacherLessonsAddOrRemove.class);
+        Intent intent = new Intent(this, SearchForTeacher.class);
         startActivity(intent);
     }
 }

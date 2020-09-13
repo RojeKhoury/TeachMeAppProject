@@ -14,19 +14,12 @@ import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
 
 public class Schedule extends HamburgerMenu {
 
-    String s1[] = {"testing", "this","helo"};
-    String s2[] = {"stirng 2", "amazing","broo"};
-    String s3[] = {"stirng 3", "amazingsad","bro3o"};
-    Button MoreInfoButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schedule_item_cardview);
 
-
-        CallViewAdapter(SEARCH_RESULT,this, s1, s2, s3,MoreInfoButton,null,null);
-
+        CallViewAdapter(SEARCH_RESULT);
     }
-
-
 }
