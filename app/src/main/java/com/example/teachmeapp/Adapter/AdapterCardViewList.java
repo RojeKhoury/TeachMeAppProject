@@ -22,26 +22,28 @@ import com.example.teachmeapp.R;
 import com.example.teachmeapp.ScheduleExpandingButton;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
 
 public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewList.ViewHolder> {
-    String data1[], data2[], data3[];
-    Button button;
+    ArrayList<String> data1, data2, data3;
     Context context;
     int recyclerViewName;
-    Uri images[];
-    double rating[];
+    ArrayList<Uri> images;
+    ArrayList<Double> rating;
 
 
-    public AdapterCardViewList(int RecyclerViewName, Context ct, String s1[], String s2[], String s3[], Button b1, Uri i1[], double r1[]) {
+    public AdapterCardViewList(int RecyclerViewName, Context ct,  ArrayList<String> s1,  ArrayList<String> s2,  ArrayList<String> s3,
+                               ArrayList<Uri> i1,  ArrayList<Double> r1) {
         recyclerViewName = RecyclerViewName;
         context = ct;
         data1 = s1;
         data2 = s2;
         data3 = s3;
-        button = b1;
         images = i1;
         rating = r1;
     }
@@ -75,41 +77,41 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         switch (recyclerViewName) {
             case SEARCH_RESULT:
-                holder.textView1.setText(data1[position]);
-                holder.textView2.setText(data2[position]);
-                holder.textView3.setText(data3[position]);
+                holder.textView1.setText(data1.get(position));
+                holder.textView2.setText(data2.get(position));
+                holder.textView3.setText(data3.get(position));
 
                 holder.button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, ScheduleExpandingButton.class);
-                        intent.putExtra("data1", data1[position]);
-                        intent.putExtra("data2", data2[position]);
-                        intent.putExtra("data3", data3[position]);
+                        intent.putExtra("data1", data1.get(position));
+                        intent.putExtra("data2", data2.get(position));
+                        intent.putExtra("data3", data3.get(position));
                         context.startActivity(intent);
                     }
                 });
                 break;
             case SEARCH_FOR_TEACHER_VIEW:
-                holder.textView1.setText(data1[position]);
-                holder.textView2.setText(data2[position]);
-                holder.textView3.setText(data3[position]);
+                holder.textView1.setText(data1.get(position));
+                holder.textView2.setText(data2.get(position));
+                holder.textView3.setText(data3.get(position));
 
-                Picasso.get().load(images[position]).into(holder.image);//holder.image.setImageResource(images[position]);
+                Picasso.get().load((Uri) images.get(position)).into(holder.image);//holder.image.setImageResource(images[position]);
 
-                holder.ratingBar.setRating(Float.parseFloat(String.valueOf(rating[position])));
+                holder.ratingBar.setRating(Float.parseFloat(String.valueOf(rating.get(position))));
                 holder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //TODO send student to teacher profile
-                        Toast.makeText(context, data1[position], Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, data1.get(position), Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
             case LESSONS_FOR_TEACHER_VIEW:
-                holder.textView1.setText(data1[position]);
-                holder.textView2.setText(data2[position]);
-                holder.textView3.setText(data3[position]);
+                holder.textView1.setText(data1.get(position));
+                holder.textView2.setText(data2.get(position));
+                holder.textView3.setText(data3.get(position));
 
                 holder.button.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -136,7 +138,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
 
     @Override
     public int getItemCount() {
-        return data1.length;
+        return data1.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

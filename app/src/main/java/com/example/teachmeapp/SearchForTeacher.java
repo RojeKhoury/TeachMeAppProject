@@ -1,19 +1,17 @@
 package com.example.teachmeapp;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+<<<<<<< HEAD
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.Helpers.Lesson;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,8 +30,12 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
+=======
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+>>>>>>> 8eba8632c9ff1a1ea7b43ab43e6f354dba06367b
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
-import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class SearchForTeacher extends HamburgerMenu {
 
@@ -42,12 +44,6 @@ public class SearchForTeacher extends HamburgerMenu {
     private Button buttonAdd;
     private Button buttonShow;
 
-    String s1[];
-    String s2[];
-    String s3[];
-    double r1[];
-
-    Uri images[];
 
     boolean foundTeacherFlag = false;
 
@@ -60,6 +56,7 @@ public class SearchForTeacher extends HamburgerMenu {
         this.chipGroup = (ChipGroup) this.findViewById(R.id.chipGroup);
     }
 
+<<<<<<< HEAD
     public void searchForTeachers(final String subject, String level, boolean zoom, boolean teachersPlace, boolean studentsPlace, final int price) {
         //here I am assuming that the data was collected so these are temporary values that need to be changed when the page is done
         //float maxPrice = 150;
@@ -178,6 +175,8 @@ public class SearchForTeacher extends HamburgerMenu {
         }
 
     }
+=======
+>>>>>>> 8eba8632c9ff1a1ea7b43ab43e6f354dba06367b
 
     // User close a Chip.
     private void handleChipCloseIconClicked(Chip chip) {
@@ -269,11 +268,7 @@ public class SearchForTeacher extends HamburgerMenu {
     }
 
     public void OnClick_SearchForTeacher_Button_ShowSelections(View view) {
-        CheckBox zoom = findViewById(R.id.checkbox_zoom);
-        CheckBox teacherPlace = findViewById(R.id.checkbox_at_teacher_place);
-        CheckBox studentPlace = findViewById(R.id.checkbox_at_student_place);
-        Spinner spinner = findViewById(R.id.spinner_for_education_level);
-        String EducationLevel = spinner.getContext().toString();
+
 
         int count = this.chipGroup.getChildCount();
         if (count > 0) {
@@ -290,23 +285,16 @@ public class SearchForTeacher extends HamburgerMenu {
                 } else {
                     s += ", " + child.getText().toString();
                 }
-
-
-                searchForTeachers(s, EducationLevel, zoom.isChecked(), teacherPlace.isChecked(), studentPlace.isChecked(), 1000);
-
-                if(s1!=null&&s1.length>0){
-                    CallViewAdapter(SEARCH_FOR_TEACHER_VIEW, this, s1, s2, s3, null, images, r1);
-                }
-                else {
-                    Toast.makeText(this, "Sorry No Teachers Found", Toast.LENGTH_LONG).show();
-                }
+                ChipTagSearchedArray[i] = s;
             }
-        }
-        else {
+            if (TempStringArray1 != null && TempStringArray1.length > 0) {
+                CallViewAdapter(SEARCH_FOR_TEACHER_VIEW);
+            } else {
+                Toast.makeText(this, "Sorry No Teachers Found", Toast.LENGTH_LONG).show();
+            }
+        } else {
             Toast.makeText(this, "Please add and pick a Tag", Toast.LENGTH_LONG).show();
 
         }
-
-
     }
 }

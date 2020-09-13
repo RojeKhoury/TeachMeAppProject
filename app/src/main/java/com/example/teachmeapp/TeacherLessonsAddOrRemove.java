@@ -21,11 +21,14 @@ import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class TeacherLessonsAddOrRemove extends HamburgerMenu {
+<<<<<<< HEAD
     String s1[] = {"Math", "biology", "chemistry"};
     String s2[] = {"50", "20", "40"};
     String s3[] = {"middle school", "elementary", "college"};
     Button MoreInfoButton;
     String level;
+=======
+>>>>>>> 8eba8632c9ff1a1ea7b43ab43e6f354dba06367b
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         setContentView(R.layout.activity_teacher_lessons_add_or_remove);
 
         //TODO pull data from data base and call view adapter using them
-        CallViewAdapter(LESSONS_FOR_TEACHER_VIEW, this, s1, s2, s3, MoreInfoButton, null, null);
+        CallViewAdapter(LESSONS_FOR_TEACHER_VIEW);
 
     }
 
