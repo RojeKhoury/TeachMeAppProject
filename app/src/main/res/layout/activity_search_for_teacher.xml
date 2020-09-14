@@ -50,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+
                 <CheckBox
                     android:id="@+id/checkbox_at_student_place"
                     android:layout_width="match_parent"

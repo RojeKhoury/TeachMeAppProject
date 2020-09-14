@@ -51,6 +51,7 @@
     <string name="search_for_teacher">Search For Teacher</string>
     <string name="google_maps_key">AIzaSyAw0VWSf0gd9c79VhY4bakDnvsIKZ_3Zck</string>
     <string name="title_activity_maps_get_location">maps_activity_get_location</string>
+    <string name="google_place_api_key">AIzaSyCx8KKk_OHGhFXomk3izCBCYmWM0jMPqoM</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
