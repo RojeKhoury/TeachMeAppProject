@@ -22,19 +22,25 @@ import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class TeacherLessonsAddOrRemove extends HamburgerMenu {
 
+    EditText SubjectEditText;
+    EditText PriceEditText;
+    Spinner EducationSpinner;
     String level;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_lessons_add_or_remove);
-
+        SubjectEditText = findViewById(R.id.EditTeacherLessonsSubject);
+        PriceEditText = findViewById(R.id.EditTeacherLessonsPrice);
+        EducationSpinner = findViewById(R.id.SpinnerTeacherLessonsEducationLevel);
         //TODO pull data from data base and call view adapter using them
         CallViewAdapter(LESSONS_FOR_TEACHER_VIEW);
 
     }
 
     public void OnClick_add_lessons_button(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(TeacherLessonsAddOrRemove.this);
+       /* AlertDialog.Builder builder = new AlertDialog.Builder(TeacherLessonsAddOrRemove.this);
 
         Context context = getApplicationContext();
         LinearLayout layout = new LinearLayout(context);
@@ -78,16 +84,13 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         builder.setView(layout); // Again this is a set method, not add
 
         builder.show();
+*/
 
-     /*   EditText SubjectEditText = findViewById(R.id.EditTeacherLessonsSubject);
-        EditText PriceEditText = findViewById(R.id.EditTeacherLessonsPrice);
-        Spinner EducationSpinner = findViewById(R.id.SpinnerTeacherLessonsEducationLevel);
 
         String subject = SubjectEditText.getText().toString();
         String price = PriceEditText.getText().toString();
-        String education = EducationSpinner.getContext().toString();
-
-        comm.addCourse(subject, comm.getUid(), Float.parseFloat(price), education);*/
+        level = EducationSpinner.getSelectedItem().toString();
+        comm.addCourse(subject, comm.getUid(), Float.parseFloat(price), level);
         //TODO Add params to database
     }
 }

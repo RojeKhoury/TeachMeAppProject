@@ -82,7 +82,7 @@ public class test_profile_page extends AppCompatActivity {
         m_ImageVUpload = (ImageView) findViewById(R.id.test_profile_pic);
         docref = db.collection("Teachers").document(comm.getUid());
         m_addLesson = findViewById(R.id.test_add_lesson_button);
-        comm.setTeacher(true);
+        comm.setM_teacher(true);
         m_logOut = findViewById(R.id.test_logout_button);
         m_teachers = findViewById(R.id.Test_Scroll_view);
         m_search_button = findViewById(R.id.test_search_button);

@@ -15,15 +15,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.SearchView;
 
-import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.HomePageStudent;
 import com.example.teachmeapp.HomePageTeacher;
 import com.example.teachmeapp.R;
-import com.example.teachmeapp.SignUp;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,7 +28,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -42,7 +38,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import static androidx.constraintlayout.motion.widget.Debug.getLocation;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCallback {
@@ -139,7 +134,7 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
 
                 Intent intent;
 
-                if(comm.isTeacher())
+                if(comm.isM_teacher())
                 {intent= new Intent(getActivity(), HomePageTeacher.class);}
 
                 else

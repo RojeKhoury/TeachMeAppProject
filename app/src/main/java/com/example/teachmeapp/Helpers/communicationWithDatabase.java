@@ -2,11 +2,9 @@ package com.example.teachmeapp.Helpers;
 
 import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.teachmeapp.EditTeacherInfo;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -16,6 +14,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -55,7 +54,7 @@ public class communicationWithDatabase {
     private ArrayList<Integer> m_starRating;
     private float m_rating;
 
-    private boolean teacher = false;
+    private boolean m_teacher = false;
     private String m_phone;
     private String m_email;
 
@@ -65,12 +64,12 @@ public class communicationWithDatabase {
     Calendar m_targetCalendar,m_userCalendar;
 
 
-    public boolean isTeacher() {
-        return teacher;
+    public boolean isM_teacher() {
+        return m_teacher;
     }
 
-    public void setTeacher(boolean teacher) {
-        this.teacher = teacher;
+    public void setM_teacher(boolean m_teacher) {
+        this.m_teacher = m_teacher;
     }
 
 
@@ -178,7 +177,7 @@ public class communicationWithDatabase {
     public void getData() {
         m_user = mAuth.getCurrentUser();
         String collection;
-        if (teacher)
+        if (m_teacher)
             collection = COLLECTION_TEACHER;
         else
             collection = COLLECTION_STUDENT;
@@ -192,7 +191,7 @@ public class communicationWithDatabase {
                     m_lastName = document.get(Globals.FIELD_SURNAME).toString();
                     m_phone = document.get(Globals.FIELD_PHONE).toString();
                     m_email = document.get(Globals.FIELD_EMAIL).toString();
-                    if (teacher) {
+                    if (m_teacher) {
                         m_starRating = (ArrayList<Integer>) document.get(Globals.FIELD_RATING);
                         m_bio = document.get(Globals.FIELD_BIO).toString();
                     }
@@ -202,7 +201,7 @@ public class communicationWithDatabase {
 
         Integer total = 0;
 
-        if (teacher) {
+        if (m_teacher) {
             if (m_starRating != null) {
                 for (Integer element : m_starRating) {
                     total += element;
@@ -254,7 +253,7 @@ public class communicationWithDatabase {
     }
 
     public DocumentReference getStorageRef() {
-        if(teacher)
+        if(m_teacher)
             return db.collection(Globals.COLLECTION_TEACHER).document(getUid());
         else
             return db.collection(Globals.COLLECTION_STUDENT).document(getUid());
@@ -365,7 +364,7 @@ public class communicationWithDatabase {
 
     public void addCourse(String lesson, String uid, Float price, String level) {
         //addLessonToDatabase(lesson);
-        if (teacher) {
+        if (m_teacher) {
             Map temp = new HashMap<String, UserLesson>();
             temp.put(lesson, new UserLesson(lesson, price, level));
             addLessonToTeacher(temp, lesson);
@@ -584,7 +583,7 @@ public class communicationWithDatabase {
 
     public void setLocation(LatLng location, String city, String country, String address) {
         DocumentReference ref;
-        if(teacher)
+        if(m_teacher)
         {ref = getDocRef(getUid(), COLLECTION_TEACHER);
         ref.update(LOCATION, location);
             ref.update(Globals.CITY, city);
@@ -606,6 +605,22 @@ public class communicationWithDatabase {
                // Toast.makeText(EditTeacherInfo.this, "Profile picture updated", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public CollectionReference getCollectionReference(String uid, Boolean teacher)
+    {
+        if(teacher)
+            return db.collection(COLLECTION_TEACHER);
+        else
+            return db.collection(COLLECTION_STUDENT);
+    }
+
+    public DocumentReference getDocumentReference(String uid, Boolean teacher)
+    {
+        if(teacher)
+            return db.collection(COLLECTION_TEACHER).document(uid);
+        else
+            return db.collection(COLLECTION_STUDENT).document(uid);
     }
 }
 

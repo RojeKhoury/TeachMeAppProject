@@ -2,12 +2,9 @@ package com.example.teachmeapp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.SyncStateContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,17 +15,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
-import com.example.teachmeapp.Fragments.MapsFragmentChooseLocation;
 import com.example.teachmeapp.Helpers.Globals;
-import com.example.teachmeapp.Helpers.communicationWithDatabase;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -40,13 +32,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.teachmeapp.Helpers.Globals.LOCATION;
-import static com.example.teachmeapp.Helpers.Globals.LONGITUDE;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class SignUp extends AppCompatActivity {
@@ -158,7 +147,7 @@ public class SignUp extends AppCompatActivity {
         if(m_teacher_checkbox.isChecked())
         {
             comm.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString());
-            comm.setTeacher(true);
+            comm.setM_teacher(true);
         }
 
         comm.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString());

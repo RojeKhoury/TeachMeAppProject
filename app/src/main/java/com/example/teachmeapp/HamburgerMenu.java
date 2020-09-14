@@ -92,7 +92,7 @@ public class HamburgerMenu extends Activity {
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.hamburger_menu, popup.getMenu());
 
-        if (comm.isTeacher()) {
+        if (comm.isM_teacher()) {
             popup.getMenu().removeItem(R.id.HamburgerMenuHomePageStudent);
             if (this.getLocalClassName().equals(HomePageTeacher.class.getSimpleName())) {
                 popup.getMenu().removeItem(R.id.HamburgerMenuHomePageTeacher);
@@ -177,7 +177,7 @@ public class HamburgerMenu extends Activity {
 
         switch (RecyclerViewName) {
             case SEARCH_RESULT:
-                recyclerView = findViewById(R.id.recyclerView);
+               // recyclerView = findViewById(R.id.recyclerView);
                 //TODO do a search for results from database
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No Schedules Appointed", Toast.LENGTH_SHORT).show();
@@ -194,7 +194,7 @@ public class HamburgerMenu extends Activity {
                     CheckBox teacherPlace = findViewById(R.id.checkbox_at_teacher_place);
                     CheckBox studentPlace = findViewById(R.id.checkbox_at_student_place);
                     Spinner spinner = findViewById(R.id.spinner_for_education_level);
-                    String EducationLevel = spinner.getContext().toString();
+                    String EducationLevel = spinner.getSelectedItem().toString();
 
                     for (int i = 0; i < ChipTagSearchedArray.length; i++) {
                         searchForTeachers(ChipTagSearchedArray[i], EducationLevel, zoom.isChecked(),
