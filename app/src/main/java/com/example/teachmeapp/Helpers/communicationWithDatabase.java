@@ -362,7 +362,7 @@ public class communicationWithDatabase {
     }
 
 
-    public void addCourse(String lesson, String uid, Float price, String level) {
+    public void addCourse(String lesson, String uid, Double price, String level) {
         //addLessonToDatabase(lesson);
         if (m_teacher) {
             Map temp = new HashMap<String, UserLesson>();

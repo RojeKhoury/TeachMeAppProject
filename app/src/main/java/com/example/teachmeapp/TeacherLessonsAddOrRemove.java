@@ -90,7 +90,7 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         String subject = SubjectEditText.getText().toString();
         String price = PriceEditText.getText().toString();
         level = EducationSpinner.getSelectedItem().toString();
-        comm.addCourse(subject, comm.getUid(), Float.parseFloat(price), level);
+        comm.addCourse(subject, comm.getUid(), Double.parseDouble(price), level);
         //TODO Add params to database
     }
 }
