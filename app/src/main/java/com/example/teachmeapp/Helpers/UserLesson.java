@@ -7,13 +7,13 @@ import java.util.List;
 public class UserLesson {
 
     private String name;
-    private float price;
+    private Double price;
     private String level;
 
     public UserLesson() {
     }
 
-    public UserLesson(String name, Float price, String level) {
+    public UserLesson(String name, Double price, String level) {
         // [START_EXCLUDE]
         this.name = name;
         this.price = price;
@@ -25,7 +25,7 @@ public class UserLesson {
         return name;
     }
 
-    public float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
