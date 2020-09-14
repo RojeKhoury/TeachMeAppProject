@@ -178,7 +178,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
                        Map.Entry pair = (Map.Entry)it.next();
                        UserLesson lesson = (UserLesson) pair.getValue();
                        String name = lesson.getName();
-                       float price = lesson.getPrice();;
+                       Double price = lesson.getPrice();;
                        String level = lesson.getlevel();;
                        //statesList.add(document.getData().get(FIELD_NAME).toString() + "\n" + "price = " + price);
                        //statesList.add("price = " + price);
