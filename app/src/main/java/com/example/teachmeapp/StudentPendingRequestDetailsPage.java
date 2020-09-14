@@ -4,14 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import static com.example.teachmeapp.Helpers.Globals.comm;
-
-public class FavoriteTeachers extends AppCompatActivity {
+public class StudentPendingRequestDetailsPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite_teachers);
+        setContentView(R.layout.activity_student_pending_request_details_page);
     }
-
 }

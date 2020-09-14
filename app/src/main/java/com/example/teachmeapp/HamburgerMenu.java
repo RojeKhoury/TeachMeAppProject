@@ -23,8 +23,6 @@ import com.example.teachmeapp.Helpers.Lesson;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -41,38 +39,45 @@ import static com.example.teachmeapp.Helpers.Globals.HISTORY_OF_LESSONS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
+import static com.example.teachmeapp.Helpers.Globals.STUDENT_PENDING_REQUESTS_VIEW;
+import static com.example.teachmeapp.Helpers.Globals.TEACHER_PENDING_REQUESTS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class HamburgerMenu extends Activity {
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    DocumentReference docref;
-    String TempStringArray1[];
-    String TempStringArray2[];
-    String TempStringArray3[];
-    Double TempRatingArray1[] = {};
 
-    String ChipTagSearchedArray[] = {};
+    private String[] TempStringArray1;
+    private String[] TempStringArray2;
+    private String[] TempStringArray3;
+    private String[] TempStringArray4;
+    private Double[] TempRatingArray1;
+    public int ChipTagSearchedArraySize;
+    String[] ChipTagSearchedArray ;
 
-    Uri TempImageArray[];
+    private Uri[] TempImageArray;
+
 
     ArrayList<String> arrayListString1;
     ArrayList<String> arrayListString2;
     ArrayList<String> arrayListString3;
+    ArrayList<String> arrayListString4;
     ArrayList<Uri> arrayListUri1;
     ArrayList<Double> arrayListDouble1;
 
     public HamburgerMenu() {
-        TempStringArray1 = new String[100];
-        TempStringArray2 = new String[100];
-        TempStringArray3 = new String[100];
-        TempRatingArray1 = new Double[100];
-        TempImageArray = new Uri[100];
-        ChipTagSearchedArray = new String[100];
+        TempStringArray1 = new String[0];
+        TempStringArray2 = new String[0];
+        TempStringArray3 = new String[0];
+        TempStringArray4 = new String[0];
+        ChipTagSearchedArray = new String[ChipTagSearchedArraySize];
+
+        TempRatingArray1 = new Double[0];
+        TempImageArray = new Uri[0];
 
         arrayListString1 = new ArrayList<>();
         arrayListString2 = new ArrayList<>();
         arrayListString3 = new ArrayList<>();
+        arrayListString4 = new ArrayList<>();
         arrayListUri1 = new ArrayList<>();
         arrayListDouble1 = new ArrayList<>();
     }
@@ -172,23 +177,24 @@ public class HamburgerMenu extends Activity {
         arrayListString1.clear();
         arrayListString2.clear();
         arrayListString3.clear();
+        arrayListString4.clear();
         arrayListUri1.clear();
         arrayListDouble1.clear();
 
         switch (RecyclerViewName) {
             case SEARCH_RESULT:
-               // recyclerView = findViewById(R.id.recyclerView);
+                recyclerView = findViewById(R.id.recyclerViewSearchResult);
                 //TODO do a search for results from database
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No Schedules Appointed", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null);
+                            null, null, null);
                 }
                 break;
 
             case SEARCH_FOR_TEACHER_VIEW:
-                if (ChipTagSearchedArray.length > 0) {
+                if (ChipTagSearchedArray.length>0) {
                     recyclerView = findViewById(R.id.recyclerViewSearchResult);
                     CheckBox zoom = findViewById(R.id.checkbox_zoom);
                     CheckBox teacherPlace = findViewById(R.id.checkbox_at_teacher_place);
@@ -196,7 +202,7 @@ public class HamburgerMenu extends Activity {
                     Spinner spinner = findViewById(R.id.spinner_for_education_level);
                     String EducationLevel = spinner.getSelectedItem().toString();
 
-                    for (int i = 0; i < ChipTagSearchedArray.length; i++) {
+                    for (int i = 0;i < ChipTagSearchedArray.length; i++) {
                         searchForTeachers(ChipTagSearchedArray[i], EducationLevel, zoom.isChecked(),
                                 teacherPlace.isChecked(), studentPlace.isChecked(), 1000);
                     }
@@ -204,7 +210,7 @@ public class HamburgerMenu extends Activity {
                         Toast.makeText(this, "No Teachers Found", Toast.LENGTH_SHORT).show();
                     } else {
                         adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                                arrayListUri1, arrayListDouble1);
+                                null, arrayListUri1, arrayListDouble1);
                     }
                 }
                 break;
@@ -216,7 +222,7 @@ public class HamburgerMenu extends Activity {
                     Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null);
+                            null, null, null);
                 }
                 break;
 
@@ -227,10 +233,29 @@ public class HamburgerMenu extends Activity {
                     Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null);
+                            null, null, null);
                 }
                 break;
-
+            case TEACHER_PENDING_REQUESTS_VIEW:
+                recyclerView = findViewById(R.id.recyclerViewPendingRequestTeacher);
+                //TODO do a search for results from database
+                if (arrayListString1.isEmpty()) {
+                    Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
+                } else {
+                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+                            null, null, null);
+                }
+                break;
+            case STUDENT_PENDING_REQUESTS_VIEW:
+                recyclerView = findViewById(R.id.recyclerViewPendingRequestStudent);
+                //TODO do a search for results from database
+                if (arrayListString1.isEmpty()) {
+                    Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
+                } else {
+                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+                            arrayListString4, null, null);
+                }
+                break;
             default:
                 break;
 
@@ -304,10 +329,11 @@ public class HamburgerMenu extends Activity {
 
                                     TempStringArray1[i] = document.getString("name");
                                     TempStringArray3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
-                                    TempStringArray2[i] = ((HashMap) map).get("city").toString();
+                                    TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
                                     String uid = document.getString(Globals.FIELD_UID);
-                                    TempImageArray[i] = comm.profileImagePicRef(uid).getDownloadUrl().getResult();
+                                    //TODO HERE ERROR PIC
+                                    //TempImageArray[i] = comm.profileImagePicRef(uid).getDownloadUrl().getResult();
                                     i += 1;
                                     break;
                                 }
@@ -341,7 +367,7 @@ public class HamburgerMenu extends Activity {
 
                                     TempStringArray1[i] = document.getString("name");
                                     TempStringArray3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
-                                    TempStringArray2[i] = ((HashMap) map).get("city").toString();
+                                    TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
                                     String uid = document.getString(Globals.FIELD_UID);
                                     TempImageArray[i] = comm.profileImagePicRef(uid).getDownloadUrl().getResult();
@@ -359,6 +385,7 @@ public class HamburgerMenu extends Activity {
             Collections.addAll(arrayListString1, TempStringArray1);
             Collections.addAll(arrayListString2, TempStringArray2);
             Collections.addAll(arrayListString3, TempStringArray3);
+            Collections.addAll(arrayListString4, TempStringArray4);
             Collections.addAll(arrayListUri1, TempImageArray);
             Collections.addAll(arrayListDouble1, TempRatingArray1);
         }

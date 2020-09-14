@@ -27,7 +27,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".History"></activity>
+        <activity android:name=".StudentPendingRequestDetailsPage"></activity>
+        <activity android:name=".TeacherPendingRequestDetailsPage" />
+        <activity android:name=".StudentPendingRequests" />
+        <activity android:name=".TeacherPendingRequests" />
+        <activity android:name=".History" />
         <activity
             android:name=".TeacherLessonsAddOrRemove"
             android:windowSoftInputMode="adjustPan" />
@@ -56,15 +60,12 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".ScheduleExpandingButton" />
-        <activity
-            android:name=".FavoriteTeachers"
-            android:theme="@style/AppThemeNoBar" />
+        <activity android:name=".ScheduleOfStudentExpandingButton" />
         <activity
             android:name=".RecommendationForStudent"
             android:theme="@style/AppThemeNoBar" />
         <activity
-            android:name=".Schedule"
+            android:name=".ScheduleOfStudent"
             android:theme="@style/AppThemeNoBar" />
         <activity
             android:name=".HistoryClassesPage"

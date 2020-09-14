@@ -61,7 +61,6 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         m_profile_pic = findViewById(R.id.profile_page_user_picture);
         m_teacherRating = findViewById(R.id.profile_page_rating_bar);
         m_teacherName = findViewById(R.id.profile_page_teacher_name);
-        ButtonStar = findViewById(R.id.profile_page_btn_favorite_star);
     }
 
     @Override
@@ -151,18 +150,6 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
     }
 
-    public void OnClick_profile_button_check_location(View view) {
-
-    }
-
-    public void OnClick_profile_button_check_radius(View view) {
-
-    }
-
-    public void OnClick_profile_button_get_lessons_now(View view) {
-
-    }
-
     public void loadTeacherData()
     {
         comm.getDocRef(m_uid, COLLECTION_TEACHER).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -197,4 +184,13 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         });
     }
 
+    public void OnClick_profile_button_get_lessons_now(View view) {
+
+    }
+
+    public void OnClick_profile_button_check_location(View view) {
+    }
+
+    public void OnClick_profile_button_check_radius(View view) {
+    }
 }

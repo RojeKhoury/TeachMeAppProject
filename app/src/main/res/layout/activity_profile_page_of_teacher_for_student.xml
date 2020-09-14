@@ -41,23 +41,6 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/profile_page_background_view" />
 
-            <RelativeLayout
-                android:layout_width="@dimen/HalfTopBarHeight"
-                android:layout_height="@dimen/HalfTopBarHeight"
-                android:background="@android:color/transparent">
-
-                <ImageButton
-                    android:id="@+id/profile_page_btn_favorite_star"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:onClick="onToggleStar"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/favorite_btn_star_off"
-                    android:tag="off" />
-
-            </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

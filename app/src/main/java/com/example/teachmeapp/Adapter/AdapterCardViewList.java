@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teachmeapp.R;
 import com.example.teachmeapp.ScheduleExpandingButton;
+import com.example.teachmeapp.TeacherPendingRequestDetailsPage;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,22 +29,25 @@ import static com.example.teachmeapp.Helpers.Globals.HISTORY_OF_LESSONS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
+import static com.example.teachmeapp.Helpers.Globals.STUDENT_PENDING_REQUESTS_VIEW;
+import static com.example.teachmeapp.Helpers.Globals.TEACHER_PENDING_REQUESTS_VIEW;
 
 public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewList.ViewHolder> {
-    ArrayList<String> data1, data2, data3;
+    ArrayList<String> data1, data2, data3,data4;
     ArrayList<Uri> images;
     ArrayList<Double> rating;
 
     Context context;
     int recyclerViewName;
 
-    public AdapterCardViewList(int RecyclerViewName, Context ct, ArrayList<String> s1, ArrayList<String> s2, ArrayList<String> s3,
+    public AdapterCardViewList(int RecyclerViewName, Context ct, ArrayList<String> s1, ArrayList<String> s2, ArrayList<String> s3, ArrayList<String> s4,
                                ArrayList<Uri> i1, ArrayList<Double> r1) {
         recyclerViewName = RecyclerViewName;
         context = ct;
         data1 = s1;
         data2 = s2;
         data3 = s3;
+        data4 = s4;
         images = i1;
         rating = r1;
     }
@@ -58,7 +61,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
 
         switch (recyclerViewName) {
 
-            case SEARCH_RESULT:
+            case SEARCH_RESULT | TEACHER_PENDING_REQUESTS_VIEW:
                 view = layoutInflater.inflate(R.layout.schedule_row_layout, parent, false);
                 break;
             case SEARCH_FOR_TEACHER_VIEW:
@@ -69,6 +72,9 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 break;
             case HISTORY_OF_LESSONS_VIEW:
                 view = layoutInflater.inflate(R.layout.history_row_layout, parent, false);
+                break;
+            case STUDENT_PENDING_REQUESTS_VIEW:
+                view = layoutInflater.inflate(R.layout.student_pending_request_row, parent, false);
                 break;
             default:
                 break;
@@ -102,10 +108,15 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 holder.textView2.setText(data2.get(position));
                 holder.textView3.setText(data3.get(position));
 
-                Picasso.get().load((Uri) images.get(position)).into(holder.image);//holder.image.setImageResource(images[position]);
+                Picasso.get().load((Uri)images.get(position)).into(holder.image);
+
                 holder.ratingBar.setMax(5);
                 holder.ratingBar.setStepSize((float) 0.1);
-                holder.ratingBar.setRating(3);//Float.parseFloat(String.valueOf(rating.get(position))));
+                if (rating.get(position) == null) {
+                    holder.ratingBar.setRating(0);
+                } else {
+                    holder.ratingBar.setRating(Float.parseFloat(String.valueOf(rating.get(position))));
+                }
                 holder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -148,6 +159,36 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     }
                 });
                 break;
+            case TEACHER_PENDING_REQUESTS_VIEW:
+                holder.textView1.setText(data1.get(position));
+                holder.textView2.setText(data2.get(position));
+                holder.textView3.setText(data3.get(position));
+
+                holder.button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, TeacherPendingRequestDetailsPage.class);
+                        intent.putExtra("data1", data1.get(position));
+                        intent.putExtra("data2", data2.get(position));
+                        intent.putExtra("data3", data3.get(position));
+                        context.startActivity(intent);
+                    }
+                });
+                break;
+            case STUDENT_PENDING_REQUESTS_VIEW:
+                holder.textView1.setText(data1.get(position));
+                holder.textView2.setText(data2.get(position));
+                holder.textView3.setText(data3.get(position));
+                holder.textView4.setText(data4.get(position));
+
+                holder.button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        //TODO Delete History from database
+                    }
+                });
+                break;
             default:
 
                 break;
@@ -162,7 +203,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView1, textView2, textView3;
+        TextView textView1, textView2, textView3, textView4;
         Button button;
         ImageView image;
         RatingBar ratingBar;
@@ -171,7 +212,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             switch (recyclerViewName) {
-                case SEARCH_RESULT:
+                case SEARCH_RESULT|TEACHER_PENDING_REQUESTS_VIEW:
                     textView1 = itemView.findViewById(R.id.textViewScheduleName);
                     textView2 = itemView.findViewById(R.id.textViewScheduleSubject);
                     textView3 = itemView.findViewById(R.id.textViewScheduleTime);
@@ -198,6 +239,14 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     textView3 = itemView.findViewById(R.id.textViewHistoryTime);
                     button = itemView.findViewById(R.id.PointsAndDeleteHistoryButton);
                     break;
+                case STUDENT_PENDING_REQUESTS_VIEW:
+                    textView1 = itemView.findViewById(R.id.textViewPendingRequestName);
+                    textView2 = itemView.findViewById(R.id.textViewPendingRequestSubject);
+                    textView3 = itemView.findViewById(R.id.textViewPendingRequestLevel);
+                    textView4 = itemView.findViewById(R.id.textViewPendingRequestStatus);
+                    button = itemView.findViewById(R.id.textViewPendingRequestDetails);
+                    break;
+
                 default:
 
                     break;

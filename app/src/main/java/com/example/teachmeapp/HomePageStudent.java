@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import static com.example.teachmeapp.Helpers.Globals.comm;
-
 public class HomePageStudent extends HamburgerMenu {
 
     @Override

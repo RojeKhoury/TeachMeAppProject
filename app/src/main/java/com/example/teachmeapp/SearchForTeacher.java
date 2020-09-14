@@ -5,36 +5,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.teachmeapp.Helpers.Globals;
-import com.example.teachmeapp.Helpers.Lesson;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 
 public class SearchForTeacher extends HamburgerMenu {
+
 
     private EditText editTextKeyword;
     private ChipGroup chipGroup;
@@ -108,6 +90,8 @@ public class SearchForTeacher extends HamburgerMenu {
         if (count > 0) {
             String s = null;
             for (int i = 0; i < count; i++) {
+                ChipTagSearchedArraySize =count;
+                ChipTagSearchedArray =new String[count];
                 Chip child = (Chip) this.chipGroup.getChildAt(i);
 
                 if (!child.isChecked()) {
@@ -121,11 +105,7 @@ public class SearchForTeacher extends HamburgerMenu {
                 }
                 ChipTagSearchedArray[i] = s;
             }
-            if (TempStringArray1 != null && TempStringArray1.length > 0) {
-                CallViewAdapter(SEARCH_FOR_TEACHER_VIEW);
-            } else {
-                Toast.makeText(this, "Sorry No Teachers Found", Toast.LENGTH_LONG).show();
-            }
+            CallViewAdapter(SEARCH_FOR_TEACHER_VIEW);
         } else {
             Toast.makeText(this, "Please add and pick a Tag", Toast.LENGTH_LONG).show();
 

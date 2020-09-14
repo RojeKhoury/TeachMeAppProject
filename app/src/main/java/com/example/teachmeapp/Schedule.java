@@ -32,8 +32,6 @@ public class Schedule extends HamburgerMenu {
 
         cal = findViewById(R.id.shcedule_calenderView);
 
-        CallViewAdapter(SEARCH_RESULT);
-
         cal.setDate(dater.getTime().getTime());
 
         cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -53,6 +51,7 @@ public class Schedule extends HamburgerMenu {
     }
 
     private void addLessonToList(BookedLesson lesson) {
+        CallViewAdapter(SEARCH_RESULT);
         //do your thing abed!
         //uid is there so if they click on the lesson a page will open with more details and among the details the teacher's/student info
     }
