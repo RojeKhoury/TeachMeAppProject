@@ -73,7 +73,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     }
 
     private void setStar() {
-        comm.getStudentStorageRef().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        comm.getStorageRef().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful())

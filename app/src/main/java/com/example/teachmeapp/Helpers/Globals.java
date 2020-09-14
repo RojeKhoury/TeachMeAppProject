@@ -13,6 +13,9 @@ public class Globals
     public static final String BIO_ALERT_TITLE = "Enter Bio";
     public static final String BIO_ALERT_TEXT ="Enter your Bio";
 
+    public static final String PHONE_ALERT_TITLE = "Enter phone!";
+    public static final String PHONE_ALERT_TEXT = "Enter your new phone number";
+
     public static final String FAILED_TO_UPLOAD_IMAGE = "failed to upload image";
 
     public static final int AT_MY_PLACE = 0;

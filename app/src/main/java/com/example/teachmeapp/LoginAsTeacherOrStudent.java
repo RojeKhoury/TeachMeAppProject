@@ -11,7 +11,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.storage.StorageReference;
 
 import static com.example.teachmeapp.Helpers.Globals.comm;
 import static com.example.teachmeapp.SignUp.TAG;
@@ -27,7 +26,7 @@ public class LoginAsTeacherOrStudent extends HamburgerMenu {
     protected void onStart()
     {
         super.onStart();
-        DocumentReference ref = comm.getTeacherStorageRef();
+        DocumentReference ref = comm.getStorageRef();
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

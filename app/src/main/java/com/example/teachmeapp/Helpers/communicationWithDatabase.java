@@ -2,9 +2,11 @@ package com.example.teachmeapp.Helpers;
 
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.teachmeapp.EditTeacherInfo;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,7 +27,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
@@ -60,6 +61,8 @@ public class communicationWithDatabase {
 
     private String city, country;
     private Uri temp;
+
+    Calendar m_targetCalendar,m_userCalendar;
 
 
     public boolean isTeacher() {
@@ -128,7 +131,7 @@ public class communicationWithDatabase {
                         // ...
                     }
                 });
-
+    }
         /*ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -144,7 +147,7 @@ public class communicationWithDatabase {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
             }
         });*/
-    }
+
 
     public void insertImageUrlToFirestore(String toString, String owner) //owner is Teacher/Student
     {
@@ -172,31 +175,40 @@ public class communicationWithDatabase {
         FirebaseAuth.getInstance().signOut();
     }
 
-    public void getTeacherData() {
+    public void getData() {
         m_user = mAuth.getCurrentUser();
-        db.collection(Globals.COLLECTION_TEACHER).document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        String collection;
+        if (teacher)
+            collection = COLLECTION_TEACHER;
+        else
+            collection = COLLECTION_STUDENT;
+
+        db.collection(collection).document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     m_firstName = document.get(Globals.FIELD_NAME).toString();
                     m_lastName = document.get(Globals.FIELD_SURNAME).toString();
-                    m_bio = document.get(Globals.FIELD_BIO).toString();
                     m_phone = document.get(Globals.FIELD_PHONE).toString();
                     m_email = document.get(Globals.FIELD_EMAIL).toString();
-                    m_starRating = (ArrayList<Integer>) document.get(Globals.FIELD_RATING);
+                    if (teacher) {
+                        m_starRating = (ArrayList<Integer>) document.get(Globals.FIELD_RATING);
+                        m_bio = document.get(Globals.FIELD_BIO).toString();
+                    }
                 }
             }
         });
 
         Integer total = 0;
 
-        if (m_starRating != null) {
-            for (Integer element : m_starRating) {
-                total += element;
+        if (teacher) {
+            if (m_starRating != null) {
+                for (Integer element : m_starRating) {
+                    total += element;
+                }
+                m_rating = total / m_starRating.size();
             }
-
-            m_rating = total / m_starRating.size();
         }
     }
 
@@ -241,13 +253,16 @@ public class communicationWithDatabase {
         return m_bio;
     }
 
-    public DocumentReference getTeacherStorageRef() {
-        return db.collection(Globals.COLLECTION_TEACHER).document(getUid());
+    public DocumentReference getStorageRef() {
+        if(teacher)
+            return db.collection(Globals.COLLECTION_TEACHER).document(getUid());
+        else
+            return db.collection(Globals.COLLECTION_STUDENT).document(getUid());
     }
 
-    public DocumentReference getStudentStorageRef() {
+    /*public DocumentReference getStudentStorageRef() {
         return db.collection(Globals.COLLECTION_STUDENT).document(getUid());
-    }
+    }*/
 
     private void updateElementInDatabase(DocumentReference docRef, String element, String newValue) {
         docRef.update(element, newValue)
@@ -481,24 +496,23 @@ public class communicationWithDatabase {
                 });
     }
 
-    public void changeTeacherName(String name) {
-        updateElementInDatabase(getTeacherStorageRef(), Globals.FIELD_NAME, name);
+    public void changeName(String name) {
+            updateElementInDatabase(getStorageRef(), Globals.FIELD_NAME, name);
+        m_firstName = name;
     }
 
-    public void changeTeacherSurname(String surname) {
-        updateElementInDatabase(getTeacherStorageRef(), Globals.FIELD_SURNAME, surname);
+    public void changeSurname(String surname) {
+        updateElementInDatabase(getStorageRef(), Globals.FIELD_SURNAME, surname);
+
+        m_lastName = surname;
     }
 
-    public void changeStudentName(String name) {
-        updateElementInDatabase(getStudentStorageRef(), Globals.FIELD_NAME, name);
+    public void changeBio(String bio) {
+        updateElementInDatabase(getStorageRef(), Globals.FIELD_NAME, bio);
     }
 
-    public void changeStudentSurname(String surname) {
-        updateElementInDatabase(getStudentStorageRef(), Globals.FIELD_SURNAME, surname);
-    }
-
-    public void changeTeacherBio(String bio) {
-        updateElementInDatabase(getTeacherStorageRef(), Globals.FIELD_NAME, bio);
+    public void changePhoneNumber(String phone) {
+        updateElementInDatabase(getStorageRef(), Globals.FIELD_PHONE, phone);
     }
 
     public void signIn(String email, String password) {
@@ -580,5 +594,18 @@ public class communicationWithDatabase {
         ref = getDocRef(getUid(), COLLECTION_STUDENT);
         ref.update(LOCATION, location);}
 
+    public FirebaseStorage getStorage() {
+        return storage;
+    }
+
+    public void uploadImage(Uri data) {
+        StorageReference pPic = storageRef.child("images/" + comm.getUid() + "/profile picture");
+        pPic.putFile(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+               // Toast.makeText(EditTeacherInfo.this, "Profile picture updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
 

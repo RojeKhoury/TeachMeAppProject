@@ -27,6 +27,7 @@ public class Student {
     private String city;
     private String country;
     private String address;
+    private Calendar schedule;
 
     public Student() {
     }
@@ -287,8 +288,13 @@ public class Student {
         this.city = "";
         this.country = "";
         this.address = "";
+        this.schedule = new Calendar();
         this.location = null;
         // [END_EXCLUDE]
+    }
+
+    public Calendar getSchedule() {
+        return schedule;
     }
 
     public String getName() {

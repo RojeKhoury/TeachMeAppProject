@@ -25,7 +25,7 @@ public class Teacher {
     private double rating;
     private int numberOFRatings;
     private LatLng location;
-
+    private Calendar schedule;
 
     public Teacher() {
     }
@@ -51,7 +51,12 @@ public class Teacher {
         this.country = "";
         this.address = "";
         this.location = null;
+        this.schedule = new Calendar();
         // [END_EXCLUDE]
+    }
+
+    public Calendar getSchedule() {
+        return schedule;
     }
 
     public String getName() {

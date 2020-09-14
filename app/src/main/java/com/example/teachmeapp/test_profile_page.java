@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,7 +35,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
@@ -148,7 +146,7 @@ public class test_profile_page extends AppCompatActivity {
             }
         });
 
-        comm.getTeacherData();
+        comm.getData();
         killme = comm.getStarRating();
         Integer polio = 0;
     }
