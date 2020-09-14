@@ -300,7 +300,7 @@ public class HamburgerMenu extends Activity {
 
                             for (Object map : maps.toArray()) {
 
-                                if (((HashMap) map).containsKey(subject) && ((float) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
+                                if (((HashMap) map).containsKey(subject) && ((Double) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
 
                                     TempStringArray1[i] = document.getString("name");
                                     TempStringArray3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
@@ -337,7 +337,7 @@ public class HamburgerMenu extends Activity {
 
                             for (Object map : maps.toArray()) {
 
-                                if (((HashMap) map).containsKey(subject) && ((float) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
+                                if (((HashMap) map).containsKey(subject) && ((Double) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
 
                                     TempStringArray1[i] = document.getString("name");
                                     TempStringArray3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
