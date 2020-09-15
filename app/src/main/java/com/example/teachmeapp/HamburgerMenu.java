@@ -21,10 +21,13 @@ import com.example.teachmeapp.Adapter.AdapterCardViewList;
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.Helpers.Lesson;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +56,7 @@ public class HamburgerMenu extends Activity {
     private Double[] TempRatingArray1;
     public int ChipTagSearchedArraySize;
     String[] ChipTagSearchedArray ;
-
+    int i;
     private Uri[] TempImageArray;
 
 
@@ -316,7 +319,7 @@ public class HamburgerMenu extends Activity {
                         TempStringArray3 = new String[task.getResult().size()];
                         TempRatingArray1 = new Double[task.getResult().size()];
                         TempImageArray = new Uri[task.getResult().size()];
-                        int i = 0;
+                        i = 0;
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
 
@@ -332,8 +335,17 @@ public class HamburgerMenu extends Activity {
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
                                     String uid = document.getString(Globals.FIELD_UID);
-                                    //TODO HERE ERROR PIC
-                                    //TempImageArray[i] = comm.profileImagePicRef(uid).getDownloadUrl().getResult();
+                                    comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            TempImageArray[i] = uri;
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                        }
+                                    });
                                     i += 1;
                                     break;
                                 }
@@ -354,7 +366,7 @@ public class HamburgerMenu extends Activity {
                         TempStringArray3 = new String[task.getResult().size()];
                         TempRatingArray1 = new Double[task.getResult().size()];
                         TempImageArray = new Uri[task.getResult().size()];
-                        int i = 0;
+                        i = 0;
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
 
@@ -370,7 +382,17 @@ public class HamburgerMenu extends Activity {
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
                                     String uid = document.getString(Globals.FIELD_UID);
-                                    TempImageArray[i] = comm.profileImagePicRef(uid).getDownloadUrl().getResult();
+                                    comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            TempImageArray[i] = uri;
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                        }
+                                    });
                                     i += 1;
                                     break;
                                 }
@@ -381,7 +403,7 @@ public class HamburgerMenu extends Activity {
                 }
             });
         }
-        if (TempStringArray1.length > 0) {
+        if (i > 0) {
             Collections.addAll(arrayListString1, TempStringArray1);
             Collections.addAll(arrayListString2, TempStringArray2);
             Collections.addAll(arrayListString3, TempStringArray3);
