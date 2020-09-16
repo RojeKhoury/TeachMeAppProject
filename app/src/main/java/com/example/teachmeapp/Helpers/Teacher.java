@@ -12,7 +12,7 @@ public class Teacher {
     private String surname;
     private String email;
     private String phone;
-    private ArrayList<Map<String ,UserLesson>> lessons;
+    private ArrayList<Map<String ,BookedLesson>> lessons;
     private List<Comment> comments;
     private boolean zoom;
     private boolean studentHome;
@@ -26,13 +26,14 @@ public class Teacher {
     private int numberOFRatings;
     private LatLng location;
     private Calendar schedule;
+    private Calendar pendingLessonRequests;
 
     public Teacher() {
     }
 
     public Teacher(String name, String surname, String phone, List<Comment> comments, String email, String uid) {
         // [START_EXCLUDE]
-        ArrayList<Map<String, UserLesson>> temp = new ArrayList<>();
+        ArrayList<Map<String, BookedLesson>> temp = new ArrayList<>();
 
         this.name = name;
         this.surname = surname;
@@ -52,6 +53,7 @@ public class Teacher {
         this.address = "";
         this.location = null;
         this.schedule = new Calendar();
+        this.pendingLessonRequests = new Calendar();
         // [END_EXCLUDE]
     }
 
@@ -103,7 +105,7 @@ public class Teacher {
         return uid;
     }
 
-    public ArrayList<Map<String, UserLesson>> getLessons() {
+    public ArrayList<Map<String, BookedLesson>> getLessons() {
         return lessons;
     }
 

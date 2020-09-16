@@ -31,6 +31,7 @@ import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
 import static com.example.teachmeapp.Helpers.Globals.STUDENT_PENDING_REQUESTS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.TEACHER_PENDING_REQUESTS_VIEW;
+import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewList.ViewHolder> {
     ArrayList<String> data1, data2, data3,data4;
@@ -140,7 +141,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                                 .setNegativeButton("Back", null)
                                 .setPositiveButton("Yes, Delete Lesson", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface arg0, int arg1) {
-                                        //TODO Delete lesson from database
+                                        comm.removeCourseFromTeacher("temp string");/*TODO place lesson name as string to be deleted #ABED*/
                                     }
                                 }).create().show();
                     }

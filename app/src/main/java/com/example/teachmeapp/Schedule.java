@@ -2,22 +2,15 @@ package com.example.teachmeapp;
 
 
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.CalendarView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.teachmeapp.Adapter.AdapterCardViewList;
 import com.example.teachmeapp.Helpers.BookedLesson;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 
-import java.sql.Timestamp;
 import java.util.Calendar;
 
-import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
@@ -41,9 +34,9 @@ public class Schedule extends HamburgerMenu {
                 com.example.teachmeapp.Helpers.Calendar cal = (com.example.teachmeapp.Helpers.Calendar) ref.get().getResult().get("schedule");
                 for(BookedLesson lesson: cal.getSchedule())
                 {
-                    if(lesson.getTime().toDate().getDay() == day && lesson.getTime().toDate().getYear() == year && lesson.getTime().toDate().getMonth() == month)
+                    if(lesson.getTimeStart().toDate().getDay() == day && lesson.getTimeStart().toDate().getYear() == year && lesson.getTimeStart().toDate().getMonth() == month)
                     {
-                        addLessonToList(lesson);
+                        addLessonToList(lesson);//here the list will be created
                     }
                 }
             }
@@ -52,7 +45,7 @@ public class Schedule extends HamburgerMenu {
 
     private void addLessonToList(BookedLesson lesson) {
         CallViewAdapter(SEARCH_RESULT);
-        //do your thing abed!
+        //TODO do your thing abed!
         //uid is there so if they click on the lesson a page will open with more details and among the details the teacher's/student info
     }
 }

@@ -191,6 +191,8 @@ public class communicationWithDatabase {
                     m_lastName = document.get(Globals.FIELD_SURNAME).toString();
                     m_phone = document.get(Globals.FIELD_PHONE).toString();
                     m_email = document.get(Globals.FIELD_EMAIL).toString();
+                    city = document.get(Globals.CITY).toString();
+                    country = document.get(Globals.COUNTRY).toString();
                     if (m_teacher) {
                         m_starRating = (ArrayList<Integer>) document.get(Globals.FIELD_RATING);
                         m_bio = document.get(Globals.FIELD_BIO).toString();
@@ -621,6 +623,71 @@ public class communicationWithDatabase {
             return db.collection(COLLECTION_TEACHER).document(uid);
         else
             return db.collection(COLLECTION_STUDENT).document(uid);
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void removeCourseFromTeacher(String lesson) {
+        Map<String,Object> updates = new HashMap<>();
+        updates.put(lesson, FieldValue.delete());
+        db.collection(COLLECTION_TEACHER).document(m_user.getUid())
+                .update("lessons", FieldValue.arrayUnion(lesson))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    public void removeLessonFomSchedule(BookedLesson lesson) {
+        if(m_teacher)
+        {
+            db.collection(COLLECTION_TEACHER).document(m_user.getUid())
+                .update("lessons", FieldValue.arrayUnion(lesson))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });}
+
+        else
+        {
+            db.collection(COLLECTION_TEACHER).document(m_user.getUid())
+                    .update("lessons", FieldValue.arrayUnion(lesson))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
     }
 }
 

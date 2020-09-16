@@ -33,7 +33,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import static com.example.teachmeapp.Helpers.Globals.CITY;
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
+import static com.example.teachmeapp.Helpers.Globals.COUNTRY;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
@@ -308,7 +310,54 @@ public class HamburgerMenu extends Activity {
                 searchOptions[2] = FIELD_TEACHERHOME;
         }
 
-        if (zoom || teachersPlace || studentsPlace) {
+        if (zoom || teachersPlace || studentsPlace && !zoom) {
+            teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        TempStringArray1 = new String[task.getResult().size()];
+                        TempStringArray2 = new String[task.getResult().size()];
+                        TempStringArray3 = new String[task.getResult().size()];
+                        TempRatingArray1 = new Double[task.getResult().size()];
+                        TempImageArray = new Uri[task.getResult().size()];
+                        i = 0;
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            ArrayList<HashMap<String, Lesson>> maps = new ArrayList<>();
+                            maps = (ArrayList<HashMap<String, Lesson>>) document.get(FIELD_LESSONS);
+
+                            for (Object map : maps.toArray()) {
+
+                                if (((HashMap) map).containsKey(subject) && ((Double) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
+
+                                    TempStringArray1[i] = document.getString("name");
+                                    TempStringArray3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
+                                    TempStringArray2[i] = document.get("city").toString();
+                                    TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
+                                    String uid = document.getString(Globals.FIELD_UID);
+                                    comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            TempImageArray[i] = uri;
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                        }
+                                    });
+                                    i += 1;
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            });
+        } else if(zoom || teachersPlace || studentsPlace){
             teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -355,7 +404,8 @@ public class HamburgerMenu extends Activity {
                     }
                 }
             });
-        } else {
+        }
+        else {
             teacherRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {

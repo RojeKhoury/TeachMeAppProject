@@ -18,7 +18,7 @@ public class Student {
     private String name;
     private String surname;
     private String phone;
-    private Map<String, UserLesson> classes;
+    private Map<String, BookedLesson> classes;
     private String email;
     private String uid;
     private List<String> ratings;
@@ -28,11 +28,12 @@ public class Student {
     private String country;
     private String address;
     private Calendar schedule;
+    private Calendar pendingLessonRequests;
 
     public Student() {
     }
 
-    public Student(String name, String surname, String phone, Map<String, UserLesson> classes, String email, String uid) {
+    public Student(String name, String surname, String phone, Map<String, BookedLesson> classes, String email, String uid) {
 
         // [START_EXCLUDE]
         this.name = name;
@@ -289,6 +290,7 @@ public class Student {
         this.country = "";
         this.address = "";
         this.schedule = new Calendar();
+        this.pendingLessonRequests = new Calendar();
         this.location = null;
         // [END_EXCLUDE]
     }
@@ -317,7 +319,7 @@ public class Student {
         return uid;
     }
 
-    public Map<String, UserLesson> getLessons() {
+    public Map<String, BookedLesson> getLessons() {
         return classes;
     }
 

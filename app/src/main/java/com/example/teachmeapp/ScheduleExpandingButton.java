@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class ScheduleExpandingButton extends AppCompatActivity {
 
     ImageView imageView;
@@ -51,6 +53,7 @@ public class ScheduleExpandingButton extends AppCompatActivity {
 
     private void DeleteLessonFromDataBase() {
         //TODO Delete Lesson from data base
+        comm.removeLessonFomSchedule();
         super.onBackPressed();// to go back to the previous activity
     }
 }
