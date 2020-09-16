@@ -11,7 +11,7 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Calendar;
 
-import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
+import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT_FOR_SCHDULE;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 
@@ -44,7 +44,7 @@ public class Schedule extends HamburgerMenu {
                 }
             }
         });
-        CallViewAdapter(SEARCH_RESULT);
+        CallViewAdapter(SEARCH_RESULT_FOR_SCHDULE);
     }
 
 }

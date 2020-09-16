@@ -41,8 +41,9 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.HISTORY_OF_LESSONS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
+import static com.example.teachmeapp.Helpers.Globals.PROFILE_PAGE_OF_SPECIFIC_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
-import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
+import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT_FOR_SCHDULE;
 import static com.example.teachmeapp.Helpers.Globals.STUDENT_PENDING_REQUESTS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.TEACHER_PENDING_REQUESTS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.comm;
@@ -179,7 +180,7 @@ public class HamburgerMenu extends Activity {
         RecyclerView recyclerView = null;
 
         switch (RecyclerViewName) {
-            case SEARCH_RESULT:
+            case SEARCH_RESULT_FOR_SCHDULE:
                 recyclerView = findViewById(R.id.recyclerViewSearchResult);
                 //TODO do a search for results from database
                 if (arrayListString1.isEmpty()) {
@@ -235,7 +236,6 @@ public class HamburgerMenu extends Activity {
                 break;
             case TEACHER_PENDING_REQUESTS_VIEW:
                 recyclerView = findViewById(R.id.recyclerViewPendingRequestTeacher);
-                //TODO do a search for results from database
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
                 } else {
@@ -245,12 +245,28 @@ public class HamburgerMenu extends Activity {
                 break;
             case STUDENT_PENDING_REQUESTS_VIEW:
                 recyclerView = findViewById(R.id.recyclerViewPendingRequestStudent);
-                //TODO do a search for results from database
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
                             arrayListString4, null, null);
+                }
+                break;
+            case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
+                recyclerView = findViewById(R.id.Recycler_View_TeacherProfile_LessonsOffered);
+                ClearArrays();
+//                TODO get teacher lessons here and place in here ull get the teacher name your way
+//                 since theres another to do in the ProfilePageOfTeacherForStudent class connect the 2 so this shit will work gl!
+//                TempStringArray1[i] = lessons.getSubject;
+//                TempStringArray2[i] = lessons.getPrice;
+//                TempStringArray3[i] = lessons.getLevel
+//                then use CombineArrays();
+
+                if (arrayListString1.isEmpty()) {
+                    Toast.makeText(this, "No lessons offered", Toast.LENGTH_SHORT).show();
+                } else {
+                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+                            null, null, null);
                 }
                 break;
             default:

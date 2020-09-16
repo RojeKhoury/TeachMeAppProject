@@ -297,13 +297,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
-
-                    <ListView
-                        android:id="@+id/profile_page_list_lesson_offered"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/Recycler_View_TeacherProfile_LessonsOffered"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:drawSelectorOnTop="false"
-                        android:gravity="center" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
                 </LinearLayout>
 
             </LinearLayout>

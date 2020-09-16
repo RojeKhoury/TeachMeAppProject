@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -28,14 +27,14 @@ import java.util.ArrayList;
 
 import static com.example.teachmeapp.Helpers.Globals.HISTORY_OF_LESSONS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
+import static com.example.teachmeapp.Helpers.Globals.PROFILE_PAGE_OF_SPECIFIC_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
-import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
+import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT_FOR_SCHDULE;
 import static com.example.teachmeapp.Helpers.Globals.STUDENT_PENDING_REQUESTS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.TEACHER_PENDING_REQUESTS_VIEW;
-import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewList.ViewHolder> {
-    ArrayList<String> data1, data2, data3,data4;
+    ArrayList<String> data1, data2, data3, data4;
     ArrayList<Uri> images;
     ArrayList<Double> rating;
 
@@ -62,7 +61,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
         View view = null;
 
         switch (recyclerViewName) {
-            case SEARCH_RESULT | TEACHER_PENDING_REQUESTS_VIEW:
+            case SEARCH_RESULT_FOR_SCHDULE | TEACHER_PENDING_REQUESTS_VIEW:
                 view = layoutInflater.inflate(R.layout.schedule_row_layout, parent, false);
                 break;
             case SEARCH_FOR_TEACHER_VIEW:
@@ -77,6 +76,9 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
             case STUDENT_PENDING_REQUESTS_VIEW:
                 view = layoutInflater.inflate(R.layout.student_pending_request_row, parent, false);
                 break;
+            case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
+                view = layoutInflater.inflate(R.layout.profile_page_for_specific_teacher_row, parent, false);
+                break;
             default:
                 break;
         }
@@ -86,7 +88,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         switch (recyclerViewName) {
-            case SEARCH_RESULT:
+            case SEARCH_RESULT_FOR_SCHDULE:
                 holder.textView1.setText(data1.get(position));
                 holder.textView2.setText(data2.get(position));
                 holder.textView3.setText(data3.get(position));
@@ -108,7 +110,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 holder.textView2.setText(data2.get(position));
                 holder.textView3.setText(data3.get(position));
 
-                Picasso.get().load((Uri)images.get(position)).into(holder.image);
+                Picasso.get().load((Uri) images.get(position)).into(holder.image);
 
                 holder.ratingBar.setMax(5);
                 holder.ratingBar.setStepSize((float) 0.1);
@@ -195,6 +197,11 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     }
                 });
                 break;
+            case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
+                holder.textView1.setText(data1.get(position));
+                holder.textView2.setText(data2.get(position));
+                holder.textView3.setText(data3.get(position));
+                break;
             default:
 
                 break;
@@ -218,7 +225,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             switch (recyclerViewName) {
-                case SEARCH_RESULT|TEACHER_PENDING_REQUESTS_VIEW:
+                case SEARCH_RESULT_FOR_SCHDULE | TEACHER_PENDING_REQUESTS_VIEW:
                     textView1 = itemView.findViewById(R.id.textViewScheduleName);
                     textView2 = itemView.findViewById(R.id.textViewScheduleSubject);
                     textView3 = itemView.findViewById(R.id.textViewScheduleTime);
@@ -251,6 +258,12 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     textView3 = itemView.findViewById(R.id.textViewPendingRequestLevel);
                     textView4 = itemView.findViewById(R.id.textViewPendingRequestStatus);
                     button = itemView.findViewById(R.id.textViewPendingRequestDetails);
+                    break;
+                case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
+                    textView1 = itemView.findViewById(R.id.textView_Subject_ProfilePage);
+                    textView2 = itemView.findViewById(R.id.textView_Price_ProfilePage);
+                    textView3 = itemView.findViewById(R.id.textView_Level_ProfilePage);
+
                     break;
 
                 default:

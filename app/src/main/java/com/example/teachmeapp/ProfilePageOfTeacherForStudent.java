@@ -35,13 +35,14 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
+import static com.example.teachmeapp.Helpers.Globals.PROFILE_PAGE_OF_SPECIFIC_TEACHER;
+import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT_FOR_SCHDULE;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 
 public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
 
-    private ListView profile_page_list_lesson_offered;
     String m_uid;
     ImageView m_profile_pic;
     TextView m_teacherName;
@@ -55,12 +56,17 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         super.onCreate(savedInstanceState);
         String TeacherName = getIntent().getStringExtra("data1");
         if (TeacherName != null) {
-            //TODO heres the teacher name from the search adapter, now send the name to data base and put the info of said teacher profile in this.
+
+            //TODO here youll know with the teachers name which teaceher
+            // was pressed so we can send him to the correct profile page save the teachers
+            // name or data since theres another to do in the hambugermenu
+            // under PROFILE_PAGE_OF_SPECIFIC_TEACHER clause which will use said
+            // teacher info to build his profile page list of lessons offered !! contact abed for more info
+
         }
 
         setContentView(R.layout.activity_profile_page_of_teacher_for_student);
         m_uid = "CosM3yLfsTOxwnZvc91hY0Um4fn1";//getIntent().getStringExtra("uid");//temporary
-        profile_page_list_lesson_offered = findViewById(R.id.profile_page_list_lesson_offered);
         m_getLessonButton = findViewById(R.id.button_getLesson_displayProfile);
         m_goToLocationButton = findViewById(R.id.button_showLocation_displayProfile);
         m_profile_pic = findViewById(R.id.profile_page_user_picture);
@@ -68,6 +74,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         m_teacherName = findViewById(R.id.profile_page_teacher_name);
 
 
+        CallViewAdapter(PROFILE_PAGE_OF_SPECIFIC_TEACHER);
     }
 
     @Override
@@ -186,5 +193,9 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
             }
         });
+    }
+
+    public void OnClick_profile_button_get_lessons_now(View view) {
+
     }
 }
