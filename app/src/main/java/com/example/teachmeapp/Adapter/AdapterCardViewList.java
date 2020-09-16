@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.teachmeapp.ProfilePageOfTeacherForStudent;
 import com.example.teachmeapp.R;
 import com.example.teachmeapp.ScheduleExpandingButton;
 import com.example.teachmeapp.TeacherPendingRequestDetailsPage;
@@ -61,7 +62,6 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
         View view = null;
 
         switch (recyclerViewName) {
-
             case SEARCH_RESULT | TEACHER_PENDING_REQUESTS_VIEW:
                 view = layoutInflater.inflate(R.layout.schedule_row_layout, parent, false);
                 break;
@@ -79,7 +79,6 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 break;
             default:
                 break;
-
         }
         return new ViewHolder(view);
     }
@@ -121,8 +120,9 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 holder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //TODO send student to teacher profile
-                        Toast.makeText(context, data1.get(position), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, ProfilePageOfTeacherForStudent.class);
+                        intent.putExtra("data1", data1.get(position));
+                        context.startActivity(intent);
                     }
                 });
                 break;
@@ -141,7 +141,10 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                                 .setNegativeButton("Back", null)
                                 .setPositiveButton("Yes, Delete Lesson", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface arg0, int arg1) {
-                                        comm.removeCourseFromTeacher("temp string");/*TODO place lesson name as string to be deleted #ABED*/
+                                        String Subject = data1.get(position);
+                                        String Price = data2.get(position);
+                                        String Level = data3.get(position);
+                                        //TODO Delete lesson from database use these to identify ur lesson in the database and delete
                                     }
                                 }).create().show();
                     }
@@ -155,8 +158,10 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 holder.button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        //TODO Delete History from database
+                        String Subject = data1.get(position);
+                        String Price = data2.get(position);
+                        String Level = data3.get(position);
+                        //TODO Delete History from database use these to identify ur History in the database and delete
                     }
                 });
                 break;
@@ -186,7 +191,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     @Override
                     public void onClick(View view) {
 
-                        //TODO Delete History from database
+                        //TODO Delete PendingRe from database
                     }
                 });
                 break;

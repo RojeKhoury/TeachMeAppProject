@@ -24,15 +24,6 @@ public class ScheduleExpandingButton extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_expanding_button);
-
-        // TODO put data into the vaules below from database
-
-        imageView = findViewById(R.id.ScheduleExpanding_ImageView);
-        textViewSubject = findViewById(R.id.ScheduleExpanding_TextView_Subject);
-        textViewLevel = findViewById(R.id.ScheduleExpanding_TextView_Level);
-        textViewTimeStart = findViewById(R.id.ScheduleExpanding_TextView_TimeStart_Value);
-        textViewTimeEnd = findViewById(R.id.ScheduleExpanding_TextView_TimeEnd_Value);
-        textViewAddress = findViewById(R.id.ScheduleExpanding_TextView_Address);
     }
 
     public void OnClick_schedule_expanding_button_back(View view) {
@@ -52,8 +43,16 @@ public class ScheduleExpandingButton extends AppCompatActivity {
     }
 
     private void DeleteLessonFromDataBase() {
-        //TODO Delete Lesson from data base
-        comm.removeLessonFomSchedule();
+
+        //TODO Delete Lesson from data base using these params enjoy
+        imageView = findViewById(R.id.ScheduleExpanding_ImageView);
+        textViewSubject = findViewById(R.id.ScheduleExpanding_TextView_Subject);
+        textViewLevel = findViewById(R.id.ScheduleExpanding_TextView_Level);
+        textViewTimeStart = findViewById(R.id.ScheduleExpanding_TextView_TimeStart_Value);
+        textViewTimeEnd = findViewById(R.id.ScheduleExpanding_TextView_TimeEnd_Value);
+        textViewAddress = findViewById(R.id.ScheduleExpanding_TextView_Address);
+
+       // comm.removeLessonFomSchedule();
         super.onBackPressed();// to go back to the previous activity
     }
 }

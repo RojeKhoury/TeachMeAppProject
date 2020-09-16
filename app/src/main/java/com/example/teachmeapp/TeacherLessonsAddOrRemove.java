@@ -34,9 +34,8 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         SubjectEditText = findViewById(R.id.EditTeacherLessonsSubject);
         PriceEditText = findViewById(R.id.EditTeacherLessonsPrice);
         EducationSpinner = findViewById(R.id.SpinnerTeacherLessonsEducationLevel);
-        //TODO pull data from data base and call view adapter using them
-        CallViewAdapter(LESSONS_FOR_TEACHER_VIEW);
 
+        CallViewAdapter(LESSONS_FOR_TEACHER_VIEW);
     }
 
     public void OnClick_add_lessons_button(View view) {
@@ -90,7 +89,14 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         String subject = SubjectEditText.getText().toString();
         String price = PriceEditText.getText().toString();
         level = EducationSpinner.getSelectedItem().toString();
-        comm.addCourse(subject, comm.getUid(), Double.parseDouble(price), level);
-        //TODO Add params to database
+        if (subject!=null){
+            if(price!=null){
+                comm.addCourse(subject, comm.getUid(), Double.parseDouble(price), level);
+            }else{
+                Toast.makeText(this, "Please add a Price in $", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(this, "Please add a Subject", Toast.LENGTH_SHORT).show();
+        }
     }
 }

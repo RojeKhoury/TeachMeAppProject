@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,6 +18,16 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/TeacherPendingRequestDetailsPage_TextView_Price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Price"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/TeacherPendingRequestDetailsPage_TextView_Level"
+                    app:layout_constraintTop_toBottomOf="@+id/TeacherPendingRequestDetailsPage_TextView_Level" />
 
                 <ImageButton
                     android:id="@+id/imageButton"
@@ -118,6 +129,7 @@
                     app:layout_constraintTop_toTopOf="@+id/textView8" />
 
                 <Button
+                    android:onClick="RejectClass"
                     android:id="@+id/TeacherPendingRequestDetailsPage_Button_Reject_Lesson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -128,6 +140,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/TeacherPendingRequestDetailsPage_TextView_Address" />
 
                 <Button
+                    android:onClick="AcceptClass"
                     android:id="@+id/TeacherPendingRequestDetailsPage_Button_Accept_Lesson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

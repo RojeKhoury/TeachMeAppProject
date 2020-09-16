@@ -27,7 +27,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,23 +50,23 @@ import static com.example.teachmeapp.Helpers.Globals.comm;
 public class HamburgerMenu extends Activity {
 
 
-    private String[] TempStringArray1;
-    private String[] TempStringArray2;
-    private String[] TempStringArray3;
-    private String[] TempStringArray4;
-    private Double[] TempRatingArray1;
+    public String[] TempStringArray1;
+    public String[] TempStringArray2;
+    public String[] TempStringArray3;
+    public String[] TempStringArray4;
+    public Double[] TempRatingArray1;
     public int ChipTagSearchedArraySize;
-    String[] ChipTagSearchedArray ;
+    String[] ChipTagSearchedArray;
     int i;
-    private Uri[] TempImageArray;
+    public Uri[] TempImageArray;
 
 
-    ArrayList<String> arrayListString1;
-    ArrayList<String> arrayListString2;
-    ArrayList<String> arrayListString3;
-    ArrayList<String> arrayListString4;
-    ArrayList<Uri> arrayListUri1;
-    ArrayList<Double> arrayListDouble1;
+    public ArrayList<String> arrayListString1;
+    public ArrayList<String> arrayListString2;
+    public ArrayList<String> arrayListString3;
+    public ArrayList<String> arrayListString4;
+    public ArrayList<Uri> arrayListUri1;
+    public ArrayList<Double> arrayListDouble1;
 
     public HamburgerMenu() {
         TempStringArray1 = new String[0];
@@ -179,13 +178,6 @@ public class HamburgerMenu extends Activity {
         AdapterCardViewList adapterCardViewList = null;
         RecyclerView recyclerView = null;
 
-        arrayListString1.clear();
-        arrayListString2.clear();
-        arrayListString3.clear();
-        arrayListString4.clear();
-        arrayListUri1.clear();
-        arrayListDouble1.clear();
-
         switch (RecyclerViewName) {
             case SEARCH_RESULT:
                 recyclerView = findViewById(R.id.recyclerViewSearchResult);
@@ -199,15 +191,15 @@ public class HamburgerMenu extends Activity {
                 break;
 
             case SEARCH_FOR_TEACHER_VIEW:
-                if (ChipTagSearchedArray.length>0) {
+                if (ChipTagSearchedArray.length > 0) {
+                    ClearArrays();
                     recyclerView = findViewById(R.id.recyclerViewSearchResult);
                     CheckBox zoom = findViewById(R.id.checkbox_zoom);
                     CheckBox teacherPlace = findViewById(R.id.checkbox_at_teacher_place);
                     CheckBox studentPlace = findViewById(R.id.checkbox_at_student_place);
                     Spinner spinner = findViewById(R.id.spinner_for_education_level);
                     String EducationLevel = spinner.getSelectedItem().toString();
-
-                    for (int i = 0;i < ChipTagSearchedArray.length; i++) {
+                    for (int i = 0; i < ChipTagSearchedArray.length; i++) {
                         searchForTeachers(ChipTagSearchedArray[i], EducationLevel, zoom.isChecked(),
                                 teacherPlace.isChecked(), studentPlace.isChecked(), 1000);
                     }
@@ -357,7 +349,7 @@ public class HamburgerMenu extends Activity {
                     }
                 }
             });
-        } else if(zoom || teachersPlace || studentsPlace){
+        } else if (zoom || teachersPlace || studentsPlace) {
             teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -404,8 +396,7 @@ public class HamburgerMenu extends Activity {
                     }
                 }
             });
-        }
-        else {
+        } else {
             teacherRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -454,14 +445,26 @@ public class HamburgerMenu extends Activity {
             });
         }
         if (i > 0) {
-            Collections.addAll(arrayListString1, TempStringArray1);
-            Collections.addAll(arrayListString2, TempStringArray2);
-            Collections.addAll(arrayListString3, TempStringArray3);
-            Collections.addAll(arrayListString4, TempStringArray4);
-            Collections.addAll(arrayListUri1, TempImageArray);
-            Collections.addAll(arrayListDouble1, TempRatingArray1);
+            CombineArrays();
         }
 
     }
 
+    public void CombineArrays() {
+        Collections.addAll(arrayListString1, TempStringArray1);
+        Collections.addAll(arrayListString2, TempStringArray2);
+        Collections.addAll(arrayListString3, TempStringArray3);
+        Collections.addAll(arrayListString4, TempStringArray4);
+        Collections.addAll(arrayListUri1, TempImageArray);
+        Collections.addAll(arrayListDouble1, TempRatingArray1);
+    }
+
+    public void ClearArrays() {
+        arrayListString1.clear();
+        arrayListString2.clear();
+        arrayListString3.clear();
+        arrayListString4.clear();
+        arrayListUri1.clear();
+        arrayListDouble1.clear();
+    }
 }

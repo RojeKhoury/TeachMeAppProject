@@ -21,7 +21,7 @@ public class Schedule extends HamburgerMenu {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.schedule_item_cardview);
+        setContentView(R.layout.activity_schedule);
 
         cal = findViewById(R.id.shcedule_calenderView);
 
@@ -36,16 +36,15 @@ public class Schedule extends HamburgerMenu {
                 {
                     if(lesson.getTimeStart().toDate().getDay() == day && lesson.getTimeStart().toDate().getYear() == year && lesson.getTimeStart().toDate().getMonth() == month)
                     {
-                        addLessonToList(lesson);//here the list will be created
+                        TempStringArray1[0] = lesson.getTeacherStudentName();
+                        //TODO add a lesson getSubject then place this so itll work  [TempStringArray2[0] = lesson.getSubject();]
+                        TempStringArray3[0] = lesson.getTimeStart().toString();
                     }
+                    CombineArrays();
                 }
             }
         });
+        CallViewAdapter(SEARCH_RESULT);
     }
 
-    private void addLessonToList(BookedLesson lesson) {
-        CallViewAdapter(SEARCH_RESULT);
-        //TODO do your thing abed!
-        //uid is there so if they click on the lesson a page will open with more details and among the details the teacher's/student info
-    }
 }

@@ -342,7 +342,7 @@ public class communicationWithDatabase {
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Student student = new Student(name, surname, phoneNumber, new HashMap<String, UserLesson>(), email, m_user.getUid());
+        Student student = new Student(name, surname, phoneNumber, new HashMap<String, BookedLesson>(), email, m_user.getUid());
         insertStudentToDatabase(student, "Students", m_user.getUid());
     }
 
