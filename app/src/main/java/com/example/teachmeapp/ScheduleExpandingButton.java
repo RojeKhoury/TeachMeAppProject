@@ -58,6 +58,7 @@ public class ScheduleExpandingButton extends AppCompatActivity {
         textViewTimeEnd = findViewById(R.id.ScheduleExpanding_TextView_TimeEnd_Value);
         textViewAddress = findViewById(R.id.ScheduleExpanding_TextView_Address);
 
+
         /*TODO there are not enough parameters to remove the lesson from the database (we need to basically copy the entire lesson to be able to remove it from the DB),
         regardless this function will remove the lesson from the database all you need to do is give it the lesson to remove (BookedLesson)
          */
