@@ -93,6 +93,7 @@ public class HamburgerMenu extends Activity {
         arrayListString4 = new ArrayList<>();
         arrayListUri1 = new ArrayList<>();
         arrayListDouble1 = new ArrayList<>();
+        arrayListUID = new ArrayList<>();
     }
 
     @Override
@@ -351,9 +352,9 @@ public class HamburgerMenu extends Activity {
                             HashMap<String, UserLesson> maps = new HashMap<>();
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
                             if (maps.containsKey(subject)) {
-                                if (maps.get(subject).getPrice() <= price) {
+                                if ((Double) document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE) <= price) {
                                     TempStringArray1[i] = document.getString("name");
-                                    TempStringArray3[i] = maps.get(subject).getPrice().toString();
+                                    TempStringArray3[i] = document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE).toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
                                     String uid = document.getString(Globals.FIELD_UID);
@@ -370,13 +371,15 @@ public class HamburgerMenu extends Activity {
                                         }
                                     });
                                     i += 1;
-                                    break;
                                 }
                             }
                         }
-
+                        if (i > 0) {
+                            CombineArrays();
+                        }
                     }
                 }
+
             });
         } else if (zoom || teachersPlace || studentsPlace) {
             teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -397,9 +400,9 @@ public class HamburgerMenu extends Activity {
                             HashMap<String, UserLesson> maps = new HashMap<>();
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
                             if (maps.containsKey(subject)) {
-                                if (maps.get(subject).getPrice() <= price) {
+                                if ((Double) document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE) <= price) {
                                     TempStringArray1[i] = document.getString("name");
-                                    TempStringArray3[i] = maps.get(subject).getPrice().toString();
+                                    TempStringArray3[i] = document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE).toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
                                     String uid = document.getString(Globals.FIELD_UID);
@@ -416,11 +419,12 @@ public class HamburgerMenu extends Activity {
                                         }
                                     });
                                     i += 1;
-                                    break;
                                 }
                             }
                         }
-
+                        if (i > 0) {
+                            CombineArrays();
+                        }
                     }
                 }
             });
@@ -444,9 +448,9 @@ public class HamburgerMenu extends Activity {
                             HashMap<String, UserLesson> maps = new HashMap<>();
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
                             if (maps.containsKey(subject)) {
-                                if (maps.get(subject).getPrice() <= price) {
+                                if ((Double) document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE) <= price) {
                                     TempStringArray1[i] = document.getString("name");
-                                    TempStringArray3[i] = maps.get(subject).getPrice().toString();
+                                    TempStringArray3[i] = document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE).toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
                                     String uid = document.getString(Globals.FIELD_UID);
@@ -463,18 +467,17 @@ public class HamburgerMenu extends Activity {
                                         }
                                     });
                                     i += 1;
-                                    break;
                                 }
                             }
                         }
-
+                        if (i > 0) {
+                            CombineArrays();
+                        }
                     }
                 }
             });
         }
-        if (i > 0) {
-            CombineArrays();
-        }
+
 
     }
 
