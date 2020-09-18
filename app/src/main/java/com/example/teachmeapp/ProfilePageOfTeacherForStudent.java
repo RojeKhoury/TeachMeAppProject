@@ -55,19 +55,12 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String UID = getIntent().getStringExtra("UID" );
-        if (UID != null) {
 
-            //TODO here youll know with the teachers name which teaceher
-            // was pressed so we can send him to the correct profile page save the teachers
-            // name or data since theres another to do in the hambugermenu
-            // under PROFILE_PAGE_OF_SPECIFIC_TEACHER clause which will use said
-            // teacher info to build his profile page list of lessons offered !! contact abed for more info
-
-        }
         setContentView(R.layout.activity_profile_page_of_teacher_for_student);
+
         m_uid = "CosM3yLfsTOxwnZvc91hY0Um4fn1";//getIntent().getStringExtra("uid");//temporary
+
         if (UID != null) {
-            //TODO I dont need his name i need his UID and then everything else is set...
             uidSendToTeacherProfilePageToGetLessonsOffered = UID;
             m_uid = UID;
         }
