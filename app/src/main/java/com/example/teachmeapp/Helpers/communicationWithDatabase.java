@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -31,10 +33,13 @@ import java.util.concurrent.Executor;
 
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_STUDENT;
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_SCHEDULE;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
 import static com.example.teachmeapp.Helpers.Globals.LOCATION;
+import static com.example.teachmeapp.Helpers.Globals.PENDING_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class communicationWithDatabase {
@@ -191,6 +196,8 @@ public class communicationWithDatabase {
                     m_lastName = document.get(Globals.FIELD_SURNAME).toString();
                     m_phone = document.get(Globals.FIELD_PHONE).toString();
                     m_email = document.get(Globals.FIELD_EMAIL).toString();
+                    city = document.get(Globals.CITY).toString();
+                    country = document.get(Globals.COUNTRY).toString();
                     if (m_teacher) {
                         m_starRating = (ArrayList<Integer>) document.get(Globals.FIELD_RATING);
                         m_bio = document.get(Globals.FIELD_BIO).toString();
@@ -279,13 +286,13 @@ public class communicationWithDatabase {
                 });
     }
 
-    public void createTeacher(String name, String surname, String email, String phoneNumber) {// will now also upload the image, all I need is the location on the device of the image.
+    public void createTeacher(String name, String surname, String email, String phoneNumber, ArrayList<String> languages) {// will now also upload the image, all I need is the location on the device of the image.
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Teacher teacher = new Teacher(name, surname, phoneNumber, new ArrayList<Comment>(), email, m_user.getUid());
+        Teacher teacher = new Teacher(name, surname, phoneNumber, new ArrayList<Comment>(), email, m_user.getUid(), languages);
         insertTeacherToDatabase(teacher, "Teachers", m_user.getUid());
 
     }
@@ -333,14 +340,14 @@ public class communicationWithDatabase {
         return res;
     }
 
-    public void createStudent(String name, String surname, String email, String phoneNumber) {// will now also upload the image, all I need is the location on the device of the image.
+    public void createStudent(String name, String surname, String email, String phoneNumber, ArrayList<String> languages) {// will now also upload the image, all I need is the location on the device of the image.
 
         final Map<String, Object> user = new HashMap<>();
         float rating = 0;
         m_user = mAuth.getCurrentUser();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Student student = new Student(name, surname, phoneNumber, new HashMap<String, UserLesson>(), email, m_user.getUid());
+        Student student = new Student(name, surname, phoneNumber, new HashMap<String, UserLesson>(), email, m_user.getUid(), languages);
         insertStudentToDatabase(student, "Students", m_user.getUid());
     }
 
@@ -361,13 +368,12 @@ public class communicationWithDatabase {
                 });
     }
 
-
     public void addCourse(String lesson, String uid, Double price, String level) {
         //addLessonToDatabase(lesson);
         if (m_teacher) {
             Map temp = new HashMap<String, UserLesson>();
             temp.put(lesson, new UserLesson(lesson, price, level));
-            addLessonToTeacher(temp, lesson);
+            addLessonToTeacher(new UserLesson(lesson, price, level), lesson);
             addTeacherToLesson(lesson, getUid());
         } else {
             addLessonToStudent(new UserLesson(lesson, price, level), uid);
@@ -376,7 +382,7 @@ public class communicationWithDatabase {
 
     private void addTeacherToLesson(final String name,final String uid) {
         db.collection("lessons").document(name)
-                .update(name, FieldValue.arrayUnion(uid))
+                .update(Globals.FIELD_TEACHERS, FieldValue.arrayUnion(uid))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -443,24 +449,11 @@ public class communicationWithDatabase {
     }
 
 
-    private void addLessonToTeacher(Map<String, UserLesson> lesson, String name) {
+    private void addLessonToTeacher(final /*Map<String, */UserLesson lesson, String name) {
         String collection;
         collection = "Teachers";
         m_user = mAuth.getCurrentUser();
-        db.collection(collection).document(m_user.getUid())
-                .update("lessons", FieldValue.arrayUnion(lesson))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
+        db.collection(collection).document(m_user.getUid()).update("lessons."+name, lesson);
 
        /* db.collection("lessons").document(name)
                 .update("teachers", FieldValue.arrayUnion(m_user.getUid()))
@@ -583,15 +576,20 @@ public class communicationWithDatabase {
 
     public void setLocation(LatLng location, String city, String country, String address) {
         DocumentReference ref;
-        if(m_teacher)
-        {ref = getDocRef(getUid(), COLLECTION_TEACHER);
-        ref.update(LOCATION, location);
+        if (m_teacher) {
+            ref = getDocRef(getUid(), COLLECTION_TEACHER);
+            ref.update(LOCATION, location);
             ref.update(Globals.CITY, city);
             ref.update(Globals.COUNTRY, country);
-            ref.update(Globals.ADDRESS, address);}
+            ref.update(Globals.ADDRESS, address);
+        }
 
         ref = getDocRef(getUid(), COLLECTION_STUDENT);
-        ref.update(LOCATION, location);}
+        ref.update(LOCATION, location);
+        ref.update(Globals.CITY, city);
+        ref.update(Globals.COUNTRY, country);
+        ref.update(Globals.ADDRESS, address);
+    }
 
     public FirebaseStorage getStorage() {
         return storage;
@@ -621,6 +619,186 @@ public class communicationWithDatabase {
             return db.collection(COLLECTION_TEACHER).document(uid);
         else
             return db.collection(COLLECTION_STUDENT).document(uid);
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void removeCourseFromTeacher(String lesson) {
+        Map<String,Object> updates = new HashMap<>();
+        updates.put(lesson, FieldValue.delete());
+        db.collection(COLLECTION_TEACHER).document(m_user.getUid())
+                .update("lessons", FieldValue.arrayUnion(lesson))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    public void removeBookedLesson(BookedLesson lesson) {
+        if(m_teacher)
+        {
+            db.collection(COLLECTION_TEACHER).document(m_user.getUid())
+                .update(Globals.FIELD_SCHEDULE, FieldValue.arrayRemove(lesson))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully removed!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        db.collection(COLLECTION_STUDENT).document(lesson.getTeacherStudentUID())
+                .update(Globals.FIELD_SCHEDULE, FieldValue.arrayRemove(lesson))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully removed!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });}
+
+        else
+        {
+            db.collection(COLLECTION_STUDENT).document(m_user.getUid())
+                    .update(FIELD_SCHEDULE, FieldValue.arrayRemove(lesson))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully removed!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            db.collection(COLLECTION_TEACHER).document(lesson.getTeacherStudentUID())
+                    .update(Globals.FIELD_SCHEDULE, FieldValue.arrayRemove(lesson))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully removed!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
+    }
+
+    public void addBookedLesson(final BookedLesson lesson) {
+        //addLessonToDatabase(lesson)
+        if(m_teacher)
+        {
+            db.collection(COLLECTION_TEACHER).document(m_user.getUid())
+                    .update(Globals.FIELD_SCHEDULE, FieldValue.arrayUnion(lesson))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            removeLessonFromPending(lesson, getUid(), COLLECTION_TEACHER);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            db.collection(COLLECTION_STUDENT).document(lesson.getTeacherStudentUID())
+                    .update(Globals.FIELD_SCHEDULE, FieldValue.arrayUnion(lesson))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            removeLessonFromPending(lesson, lesson.getTeacherStudentUID(), COLLECTION_STUDENT);
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });}
+
+        else
+        {
+            db.collection(COLLECTION_STUDENT).document(getUid())
+                    .update(FIELD_SCHEDULE, FieldValue.arrayUnion(lesson))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            removeLessonFromPending(lesson, getUid(), COLLECTION_TEACHER);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            db.collection(COLLECTION_TEACHER).document(lesson.getTeacherStudentUID())
+                    .update(Globals.FIELD_SCHEDULE, FieldValue.arrayUnion(lesson))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully removed!");
+                            removeLessonFromPending(lesson, lesson.getTeacherStudentUID(), COLLECTION_STUDENT);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
+    }
+
+    private void removeLessonFromPending(BookedLesson lesson, String teacherStudentUID, String collection) {
+        db.collection(collection).document(teacherStudentUID)
+                .update(PENDING_LESSONS, FieldValue.arrayRemove(lesson)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "DocumentSnapshot successfully removed!"); }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });;
     }
 }
 

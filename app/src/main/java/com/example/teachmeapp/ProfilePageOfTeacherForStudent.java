@@ -35,13 +35,14 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
+import static com.example.teachmeapp.Helpers.Globals.PROFILE_PAGE_OF_SPECIFIC_TEACHER;
+import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT_FOR_SCHDULE;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 
 public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
 
-    private ListView profile_page_list_lesson_offered;
     String m_uid;
     ImageView m_profile_pic;
     TextView m_teacherName;
@@ -53,14 +54,38 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String TeacherName = getIntent().getStringExtra("data1");
+        if (TeacherName != null) {
+
+            //TODO here youll know with the teachers name which teaceher
+            // was pressed so we can send him to the correct profile page save the teachers
+            // name or data since theres another to do in the hambugermenu
+            // under PROFILE_PAGE_OF_SPECIFIC_TEACHER clause which will use said
+            // teacher info to build his profile page list of lessons offered !! contact abed for more info
+
+        }
         setContentView(R.layout.activity_profile_page_of_teacher_for_student);
         m_uid = "CosM3yLfsTOxwnZvc91hY0Um4fn1";//getIntent().getStringExtra("uid");//temporary
-        profile_page_list_lesson_offered = findViewById(R.id.profile_page_list_lesson_offered);
+        String uid = getIntent().getStringExtra("data1");
+        if (uid != null) {
+            //TODO I dont need his name i need his UID and then everything else is set...
+            m_uid = uid;
+        }
+        else
+        {
+            m_uid = "CosM3yLfsTOxwnZvc91hY0Um4fn1";//getIntent().getStringExtra("uid");//temporary
+        }
+
+        setContentView(R.layout.activity_profile_page_of_teacher_for_student);
+        //profile_page_list_lesson_offered = findViewById(R.id.profile_page_list_lesson_offered);
         m_getLessonButton = findViewById(R.id.button_getLesson_displayProfile);
         m_goToLocationButton = findViewById(R.id.button_showLocation_displayProfile);
         m_profile_pic = findViewById(R.id.profile_page_user_picture);
         m_teacherRating = findViewById(R.id.profile_page_rating_bar);
         m_teacherName = findViewById(R.id.profile_page_teacher_name);
+
+
+        CallViewAdapter(PROFILE_PAGE_OF_SPECIFIC_TEACHER);
     }
 
     @Override
@@ -75,15 +100,12 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         comm.getStorageRef().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     List<String> fav = (ArrayList<String>) document.get("favourites");
 
-                    for (String teacher : fav)
-                    {
-                        if (teacher.equals(m_uid))
-                        {
+                    for (String teacher : fav) {
+                        if (teacher.equals(m_uid)) {
                             ButtonStar.setTag("on");
                             ButtonStar.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.favorite_btn_star_on));
                             break;
@@ -105,7 +127,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(getApplicationContext() ,Globals.ERROR_LOADING_PICTURE, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), Globals.ERROR_LOADING_PICTURE, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -124,7 +146,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         }
     }
 
-    public void ImageView_profile_page_check_or_cancel(boolean zoom,boolean teacherHome,boolean studentHome) {
+    public void ImageView_profile_page_check_or_cancel(boolean zoom, boolean teacherHome, boolean studentHome) {
 
         ImageView imageView = findViewById(R.id.profile_page_image_view_check_or_cancel_at_my_place);
 
@@ -150,27 +172,27 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
     }
 
-    public void loadTeacherData()
-    {
+    public void loadTeacherData() {
         comm.getDocRef(m_uid, COLLECTION_TEACHER).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
                     m_teacherName.setText(documentSnapshot.getString(FIELD_NAME) + " " + documentSnapshot.getString(FIELD_SURNAME));
                     m_teacherRating.setRating(Float.parseFloat(documentSnapshot.getDouble(FIELD_RATING).toString()));
-                    ImageView_profile_page_check_or_cancel(documentSnapshot.getBoolean(FIELD_ZOOM),documentSnapshot.getBoolean("teacherHome"),documentSnapshot.getBoolean("studentHome"));
+                    ImageView_profile_page_check_or_cancel(documentSnapshot.getBoolean(FIELD_ZOOM), documentSnapshot.getBoolean("teacherHome"), documentSnapshot.getBoolean("studentHome"));
                     Iterator it = ((HashMap<String, UserLesson>) documentSnapshot.get(FIELD_LESSONS)).entrySet().iterator();
-                   while(it.hasNext())
-                   {
-                       Map.Entry pair = (Map.Entry)it.next();
-                       UserLesson lesson = (UserLesson) pair.getValue();
-                       String name = lesson.getName();
-                       Double price = lesson.getPrice();;
-                       String level = lesson.getlevel();;
-                       //statesList.add(document.getData().get(FIELD_NAME).toString() + "\n" + "price = " + price);
-                       //statesList.add("price = " + price);
-                       //need abed's help in inserting this to the list
-                   }
+                    while (it.hasNext()) {
+                        Map.Entry pair = (Map.Entry) it.next();
+                        UserLesson lesson = (UserLesson) pair.getValue();
+                        String name = lesson.getName();
+                        Double price = lesson.getPrice();
+                        ;
+                        String level = lesson.getlevel();
+                        ;
+                        //statesList.add(document.getData().get(FIELD_NAME).toString() + "\n" + "price = " + price);
+                        //statesList.add("price = " + price);
+                        //need abed's help in inserting this to the list
+                    }
 
                 } else {
                     Toast.makeText(getApplicationContext(), "does not exist", Toast.LENGTH_LONG).show();
@@ -186,11 +208,5 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
     public void OnClick_profile_button_get_lessons_now(View view) {
 
-    }
-
-    public void OnClick_profile_button_check_location(View view) {
-    }
-
-    public void OnClick_profile_button_check_radius(View view) {
     }
 }

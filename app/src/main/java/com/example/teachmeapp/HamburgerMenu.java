@@ -20,7 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.teachmeapp.Adapter.AdapterCardViewList;
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.Helpers.Lesson;
+import com.example.teachmeapp.Helpers.UserLesson;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -30,15 +33,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import static com.example.teachmeapp.Helpers.Globals.CITY;
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
+import static com.example.teachmeapp.Helpers.Globals.COUNTRY;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_PRICE;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.HISTORY_OF_LESSONS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
+import static com.example.teachmeapp.Helpers.Globals.PROFILE_PAGE_OF_SPECIFIC_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
-import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT;
+import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT_FOR_SCHDULE;
 import static com.example.teachmeapp.Helpers.Globals.STUDENT_PENDING_REQUESTS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.TEACHER_PENDING_REQUESTS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.comm;
@@ -46,23 +53,27 @@ import static com.example.teachmeapp.Helpers.Globals.comm;
 public class HamburgerMenu extends Activity {
 
 
-    private String[] TempStringArray1;
-    private String[] TempStringArray2;
-    private String[] TempStringArray3;
-    private String[] TempStringArray4;
-    private Double[] TempRatingArray1;
+    public String[] TempStringArray1;
+    public String[] TempStringArray2;
+    public String[] TempStringArray3;
+    public String[] TempStringArray4;
+    public Double[] TempRatingArray1;
+    public String[] TempUIDArray;
+
     public int ChipTagSearchedArraySize;
-    String[] ChipTagSearchedArray ;
+    String[] ChipTagSearchedArray;
+    int i;
+    public Uri[] TempImageArray;
 
-    private Uri[] TempImageArray;
 
+    public ArrayList<String> arrayListString1;
+    public ArrayList<String> arrayListString2;
+    public ArrayList<String> arrayListString3;
+    public ArrayList<String> arrayListString4;
+    public ArrayList<Uri> arrayListUri1;
+    public ArrayList<Double> arrayListDouble1;
+    public ArrayList<String> arrayListUID;
 
-    ArrayList<String> arrayListString1;
-    ArrayList<String> arrayListString2;
-    ArrayList<String> arrayListString3;
-    ArrayList<String> arrayListString4;
-    ArrayList<Uri> arrayListUri1;
-    ArrayList<Double> arrayListDouble1;
 
     public HamburgerMenu() {
         TempStringArray1 = new String[0];
@@ -73,6 +84,7 @@ public class HamburgerMenu extends Activity {
 
         TempRatingArray1 = new Double[0];
         TempImageArray = new Uri[0];
+        TempUIDArray = new String[0];
 
         arrayListString1 = new ArrayList<>();
         arrayListString2 = new ArrayList<>();
@@ -174,17 +186,9 @@ public class HamburgerMenu extends Activity {
         AdapterCardViewList adapterCardViewList = null;
         RecyclerView recyclerView = null;
 
-        arrayListString1.clear();
-        arrayListString2.clear();
-        arrayListString3.clear();
-        arrayListString4.clear();
-        arrayListUri1.clear();
-        arrayListDouble1.clear();
-
         switch (RecyclerViewName) {
-            case SEARCH_RESULT:
+            case SEARCH_RESULT_FOR_SCHDULE:
                 recyclerView = findViewById(R.id.recyclerViewSearchResult);
-                //TODO do a search for results from database
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No Schedules Appointed", Toast.LENGTH_SHORT).show();
                 } else {
@@ -194,15 +198,15 @@ public class HamburgerMenu extends Activity {
                 break;
 
             case SEARCH_FOR_TEACHER_VIEW:
-                if (ChipTagSearchedArray.length>0) {
+                if (ChipTagSearchedArray.length > 0) {
+                    ClearArrays();
                     recyclerView = findViewById(R.id.recyclerViewSearchResult);
                     CheckBox zoom = findViewById(R.id.checkbox_zoom);
                     CheckBox teacherPlace = findViewById(R.id.checkbox_at_teacher_place);
                     CheckBox studentPlace = findViewById(R.id.checkbox_at_student_place);
                     Spinner spinner = findViewById(R.id.spinner_for_education_level);
                     String EducationLevel = spinner.getSelectedItem().toString();
-
-                    for (int i = 0;i < ChipTagSearchedArray.length; i++) {
+                    for (int i = 0; i < ChipTagSearchedArray.length; i++) {
                         searchForTeachers(ChipTagSearchedArray[i], EducationLevel, zoom.isChecked(),
                                 teacherPlace.isChecked(), studentPlace.isChecked(), 1000);
                     }
@@ -217,7 +221,7 @@ public class HamburgerMenu extends Activity {
 
             case LESSONS_FOR_TEACHER_VIEW:
                 recyclerView = findViewById(R.id.recyclerView_MyLessons);
-                //TODO do a list of teachers from database
+                //TODO do a list of teachers from database fakhri in comm
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
                 } else {
@@ -228,7 +232,7 @@ public class HamburgerMenu extends Activity {
 
             case HISTORY_OF_LESSONS_VIEW:
                 recyclerView = findViewById(R.id.recyclerViewHistory);
-                //TODO do a list of History from database
+                //TODO do a list of History from database implimented in schedule (may remove)
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
                 } else {
@@ -238,7 +242,6 @@ public class HamburgerMenu extends Activity {
                 break;
             case TEACHER_PENDING_REQUESTS_VIEW:
                 recyclerView = findViewById(R.id.recyclerViewPendingRequestTeacher);
-                //TODO do a search for results from database
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
                 } else {
@@ -248,12 +251,28 @@ public class HamburgerMenu extends Activity {
                 break;
             case STUDENT_PENDING_REQUESTS_VIEW:
                 recyclerView = findViewById(R.id.recyclerViewPendingRequestStudent);
-                //TODO do a search for results from database
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
                             arrayListString4, null, null);
+                }
+                break;
+            case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
+                recyclerView = findViewById(R.id.Recycler_View_TeacherProfile_LessonsOffered);
+                ClearArrays();
+//                TODO get teacher lessons here and place in here you'll get the teacher name your way
+//                 since theres another to do in the ProfilePageOfTeacherForStudent class connect the 2 so this shit will work gl!
+//                TempStringArray1[i] = lessons.getSubject;
+//                TempStringArray2[i] = lessons.getPrice;
+//                TempStringArray3[i] = lessons.getLevel
+//                then use CombineArrays();
+
+                if (arrayListString1.isEmpty()) {
+                    Toast.makeText(this, "No lessons offered", Toast.LENGTH_SHORT).show();
+                } else {
+                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+                            null, null, null);
                 }
                 break;
             default:
@@ -304,8 +323,53 @@ public class HamburgerMenu extends Activity {
             else
                 searchOptions[2] = FIELD_TEACHERHOME;
         }
+//.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry()).whereEqualTo(FIELD_LESSONS + "." + subject + "." + Globals.FIELD_NAME, subject)
+        if (zoom || teachersPlace || studentsPlace && !zoom) {
+            teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true)
+                    .whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
 
-        if (zoom || teachersPlace || studentsPlace) {
+                        TempStringArray1 = new String[task.getResult().size()];
+                        TempStringArray2 = new String[task.getResult().size()];
+                        TempStringArray3 = new String[task.getResult().size()];
+                        TempRatingArray1 = new Double[task.getResult().size()];
+                        TempImageArray = new Uri[task.getResult().size()];
+                        i = 0;
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            HashMap<String, UserLesson> maps = new HashMap<>();
+                            maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
+                            if (maps.containsKey(subject)) {
+                                if (maps.get(subject).getPrice() <= price) {
+                                    TempStringArray1[i] = document.getString("name");
+                                    TempStringArray3[i] = maps.get(subject).getPrice().toString();
+                                    TempStringArray2[i] = document.get("city").toString();
+                                    TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
+                                    String uid = document.getString(Globals.FIELD_UID);//TODO @abed when you create thetempUID array place this value in position i
+                                    comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            TempImageArray[i] = uri;
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                        }
+                                    });
+                                    i += 1;
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            });
+        } else if (zoom || teachersPlace || studentsPlace) {
             teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -316,35 +380,42 @@ public class HamburgerMenu extends Activity {
                         TempStringArray3 = new String[task.getResult().size()];
                         TempRatingArray1 = new Double[task.getResult().size()];
                         TempImageArray = new Uri[task.getResult().size()];
-                        int i = 0;
+                        i = 0;
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
 
-                            ArrayList<HashMap<String, Lesson>> maps = new ArrayList<>();
-                            maps = (ArrayList<HashMap<String, Lesson>>) document.get(FIELD_LESSONS);
-
-                            for (Object map : maps.toArray()) {
-
-                                if (((HashMap) map).containsKey(subject) && ((Double) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
-
+                            HashMap<String, UserLesson> maps = new HashMap<>();
+                            maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
+                            if (maps.containsKey(subject)) {
+                                if (maps.get(subject).getPrice() <= price) {
                                     TempStringArray1[i] = document.getString("name");
-                                    TempStringArray3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
+                                    TempStringArray3[i] = maps.get(subject).getPrice().toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
-                                    String uid = document.getString(Globals.FIELD_UID);
-                                    //TODO HERE ERROR PIC
-                                    //TempImageArray[i] = comm.profileImagePicRef(uid).getDownloadUrl().getResult();
+                                    String uid = document.getString(Globals.FIELD_UID);//TODO @abed when you create thetempUID array place this value in position i
+                                    comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            TempImageArray[i] = uri;
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                        }
+                                    });
                                     i += 1;
                                     break;
                                 }
                             }
-
                         }
+
                     }
                 }
             });
         } else {
-            teacherRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            teacherRef.whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry())
+                    .whereArrayContains(Globals.LANGUAGES, "english").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
@@ -354,42 +425,61 @@ public class HamburgerMenu extends Activity {
                         TempStringArray3 = new String[task.getResult().size()];
                         TempRatingArray1 = new Double[task.getResult().size()];
                         TempImageArray = new Uri[task.getResult().size()];
-                        int i = 0;
+                        i = 0;
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
 
-                            ArrayList<HashMap<String, Lesson>> maps = new ArrayList<>();
-                            maps = (ArrayList<HashMap<String, Lesson>>) document.get(FIELD_LESSONS);
-
-                            for (Object map : maps.toArray()) {
-
-                                if (((HashMap) map).containsKey(subject) && ((Double) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
-
+                            HashMap<String, UserLesson> maps = new HashMap<>();
+                            maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
+                            if (maps.containsKey(subject)) {
+                                if (maps.get(subject).getPrice() <= price) {
                                     TempStringArray1[i] = document.getString("name");
-                                    TempStringArray3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
+                                    TempStringArray3[i] = maps.get(subject).getPrice().toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
-                                    String uid = document.getString(Globals.FIELD_UID);
-                                    TempImageArray[i] = comm.profileImagePicRef(uid).getDownloadUrl().getResult();
+                                    String uid = document.getString(Globals.FIELD_UID);//TODO @abed when you create thetempUID array place this value in position i
+                                    comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            TempImageArray[i] = uri;
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                        }
+                                    });
                                     i += 1;
                                     break;
                                 }
                             }
-
                         }
+
                     }
                 }
             });
         }
-        if (TempStringArray1.length > 0) {
-            Collections.addAll(arrayListString1, TempStringArray1);
-            Collections.addAll(arrayListString2, TempStringArray2);
-            Collections.addAll(arrayListString3, TempStringArray3);
-            Collections.addAll(arrayListString4, TempStringArray4);
-            Collections.addAll(arrayListUri1, TempImageArray);
-            Collections.addAll(arrayListDouble1, TempRatingArray1);
+        if (i > 0) {
+            CombineArrays();
         }
 
     }
 
+    public void CombineArrays() {
+        Collections.addAll(arrayListString1, TempStringArray1);
+        Collections.addAll(arrayListString2, TempStringArray2);
+        Collections.addAll(arrayListString3, TempStringArray3);
+        Collections.addAll(arrayListString4, TempStringArray4);
+        Collections.addAll(arrayListUri1, TempImageArray);
+        Collections.addAll(arrayListDouble1, TempRatingArray1);
+    }
+
+    public void ClearArrays() {
+        arrayListString1.clear();
+        arrayListString2.clear();
+        arrayListString3.clear();
+        arrayListString4.clear();
+        arrayListUri1.clear();
+        arrayListDouble1.clear();
+    }
 }

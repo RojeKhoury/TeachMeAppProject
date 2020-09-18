@@ -1,12 +1,11 @@
 package com.example.teachmeapp.Helpers;
 
-import android.location.Location;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -28,11 +27,13 @@ public class Student {
     private String country;
     private String address;
     private Calendar schedule;
+    private Calendar pendingLessonRequests;
+    private ArrayList<String> languages;
 
     public Student() {
     }
 
-    public Student(String name, String surname, String phone, Map<String, UserLesson> classes, String email, String uid) {
+    public Student(String name, String surname, String phone, Map<String, UserLesson> classes, String email, String uid, ArrayList<String> languages) {
 
         // [START_EXCLUDE]
         this.name = name;
@@ -41,6 +42,7 @@ public class Student {
         this.classes = classes;
         this.email = email;
         this.uid = uid;
+        this.languages = languages;
         this.ratings = new List<String>() {
             @Override
             public int size() {
@@ -289,9 +291,12 @@ public class Student {
         this.country = "";
         this.address = "";
         this.schedule = new Calendar();
+        this.pendingLessonRequests = new Calendar();
         this.location = null;
         // [END_EXCLUDE]
     }
+
+    public ArrayList<String> getLanguages(){return languages;}
 
     public Calendar getSchedule() {
         return schedule;

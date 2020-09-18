@@ -127,4 +127,24 @@ public class HomePageTeacher extends HamburgerMenu {
         Intent intent = new Intent(this, TeacherLessonsAddOrRemove.class);
         startActivity(intent);
     }
+
+    public void onClick_conversationButton(View view) {
+        Intent intent = new Intent(this, ConversationChatPage.class);
+        startActivity(intent);
+    }
+
+    public void onClick_historyButton(View view) {
+        Intent intent = new Intent(this, ConversationChatPage.class);
+        startActivity(intent);
+    }
+
+    public void onClick_scheduleButton(View view) {
+        Intent intent = new Intent(this, Schedule.class);
+        startActivity(intent);
+    }
+
+    public void onClick_searchButton(View view) {
+        Intent intent = new Intent(this, SearchForTeacher.class);
+        startActivity(intent);
+    }
 }

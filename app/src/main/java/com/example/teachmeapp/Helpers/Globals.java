@@ -1,5 +1,7 @@
 package com.example.teachmeapp.Helpers;
 
+import java.util.Map;
+
 public class Globals
 {
     public static final String PROFILE_PIC_STORAGE_PATH = "images/profilePictures";
@@ -43,12 +45,13 @@ public class Globals
     public static final String FIELD_TEACHERHOME = "teacherHome";
     public static final String FIELD_STUDENTHOME = "studentHome";
     public static final String ERROR_LOADING_PICTURE = "Profile picture could not be loaded";
-    public static final int SEARCH_RESULT = 1;
+    public static final int SEARCH_RESULT_FOR_SCHDULE = 1;
     public static final int SEARCH_FOR_TEACHER_VIEW = 2;
     public static final int LESSONS_FOR_TEACHER_VIEW = 3;
     public static final int HISTORY_OF_LESSONS_VIEW = 4;
     public static final int TEACHER_PENDING_REQUESTS_VIEW = 5;
     public static final int STUDENT_PENDING_REQUESTS_VIEW = 6;
+    public static final int PROFILE_PAGE_OF_SPECIFIC_TEACHER = 7;
     public static final String FIELD_UID = "uid";
 
     public static final int MAPS_CHOOSE_LOCATION = 0;
@@ -60,6 +63,11 @@ public class Globals
     public static final String COUNTRY = "country";
     public static final String ADDRESS = "address";
     public static final String ADD_NEW_LESSON = "add a new lesson!";
+    public static final String FIELD_SCHEDULE = "schedule";
+    public static final String PENDING_LESSONS = "pendingLessonRequests";
+    public static final String FIELD_TEACHERS = "teachers";
+    public static final String FIELD_PRICE = "price";
+    public static final String LANGUAGES = "languages";
 
     public static communicationWithDatabase comm = new communicationWithDatabase();
 }
