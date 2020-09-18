@@ -63,6 +63,9 @@
             android:name=".ScheduleExpandingButton"
             android:theme="@style/AppThemeNoBar" />
         <activity
+            android:name=".RojeTest"
+            android:theme="@style/AppThemeNoBar" />
+        <activity
             android:name=".RecommendationForStudent"
             android:theme="@style/AppThemeNoBar" />
         <activity
@@ -91,9 +94,6 @@
             android:theme="@style/AppThemeNoBar" />
         <activity
             android:name=".HamburgerMenu"
-            android:theme="@style/AppThemeNoBar" />
-        <activity
-            android:name=".SearchResultForSchedule"
             android:theme="@style/AppThemeNoBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
