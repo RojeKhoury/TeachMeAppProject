@@ -58,6 +58,8 @@ public class HamburgerMenu extends Activity {
     public String[] TempStringArray3;
     public String[] TempStringArray4;
     public Double[] TempRatingArray1;
+    public String[] TempUIDArray;
+
     public int ChipTagSearchedArraySize;
     String[] ChipTagSearchedArray;
     int i;
@@ -70,6 +72,8 @@ public class HamburgerMenu extends Activity {
     public ArrayList<String> arrayListString4;
     public ArrayList<Uri> arrayListUri1;
     public ArrayList<Double> arrayListDouble1;
+    public ArrayList<String> arrayListUID;
+
 
     public HamburgerMenu() {
         TempStringArray1 = new String[0];
@@ -80,6 +84,7 @@ public class HamburgerMenu extends Activity {
 
         TempRatingArray1 = new Double[0];
         TempImageArray = new Uri[0];
+        TempUIDArray = new String[0];
 
         arrayListString1 = new ArrayList<>();
         arrayListString2 = new ArrayList<>();
@@ -184,7 +189,6 @@ public class HamburgerMenu extends Activity {
         switch (RecyclerViewName) {
             case SEARCH_RESULT_FOR_SCHDULE:
                 recyclerView = findViewById(R.id.recyclerViewSearchResult);
-                //TODO do a search for results from database
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No Schedules Appointed", Toast.LENGTH_SHORT).show();
                 } else {
@@ -217,7 +221,7 @@ public class HamburgerMenu extends Activity {
 
             case LESSONS_FOR_TEACHER_VIEW:
                 recyclerView = findViewById(R.id.recyclerView_MyLessons);
-                //TODO do a list of teachers from database
+                //TODO do a list of teachers from database fakhri in comm
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
                 } else {
@@ -228,7 +232,7 @@ public class HamburgerMenu extends Activity {
 
             case HISTORY_OF_LESSONS_VIEW:
                 recyclerView = findViewById(R.id.recyclerViewHistory);
-                //TODO do a list of History from database
+                //TODO do a list of History from database implimented in schedule (may remove)
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
                 } else {

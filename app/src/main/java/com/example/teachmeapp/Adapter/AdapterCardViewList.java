@@ -40,7 +40,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
 
     Context context;
     int recyclerViewName;
-
+//TODO add UID arrayList<string>
     public AdapterCardViewList(int RecyclerViewName, Context ct, ArrayList<String> s1, ArrayList<String> s2, ArrayList<String> s3, ArrayList<String> s4,
                                ArrayList<Uri> i1, ArrayList<Double> r1) {
         recyclerViewName = RecyclerViewName;
