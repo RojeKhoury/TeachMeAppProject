@@ -48,7 +48,6 @@ public class Schedule extends HamburgerMenu {
                         TempStringArray2[0] = lesson.getLesson().getName();
                         TempStringArray3[0] = lesson.getTimeStart().toString();
                     }
-
                     CombineArrays();
                 }
             }

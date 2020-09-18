@@ -825,11 +825,13 @@ public class communicationWithDatabase {
     public ArrayList<UserLesson> MapToArray(Map<String, UserLesson> target) {
         ArrayList<UserLesson> res = new ArrayList<>();
         int i = 0;
-        for (Map.Entry<String, UserLesson> lesson : target.entrySet()) {
-            res.add(lesson.getValue());
+        if (target != null) {
+            for (Map.Entry<String, UserLesson> lesson : target.entrySet()) {
+                res.add(lesson.getValue());
+                return res;
+            }
         }
-
-        return res;
+        return null;
     }
 
 }
