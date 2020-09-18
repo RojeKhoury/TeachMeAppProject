@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
 
     @Override
@@ -41,6 +43,7 @@ public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
 
     public void RejectClass(View view) {
         //TODO pahri here u Delete class from database and the function below after ur done is for going back activity
+       // comm.removeBookedLesson();
         super.onBackPressed();
     }
 

@@ -1,12 +1,11 @@
 package com.example.teachmeapp.Helpers;
 
-import android.location.Location;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +17,7 @@ public class Student {
     private String name;
     private String surname;
     private String phone;
-    private Map<String, BookedLesson> classes;
+    private Map<String, UserLesson> classes;
     private String email;
     private String uid;
     private List<String> ratings;
@@ -29,11 +28,12 @@ public class Student {
     private String address;
     private Calendar schedule;
     private Calendar pendingLessonRequests;
+    private ArrayList<String> languages;
 
     public Student() {
     }
 
-    public Student(String name, String surname, String phone, Map<String, BookedLesson> classes, String email, String uid) {
+    public Student(String name, String surname, String phone, Map<String, UserLesson> classes, String email, String uid, ArrayList<String> languages) {
 
         // [START_EXCLUDE]
         this.name = name;
@@ -42,6 +42,7 @@ public class Student {
         this.classes = classes;
         this.email = email;
         this.uid = uid;
+        this.languages = languages;
         this.ratings = new List<String>() {
             @Override
             public int size() {
@@ -295,6 +296,8 @@ public class Student {
         // [END_EXCLUDE]
     }
 
+    public ArrayList<String> getLanguages(){return languages;}
+
     public Calendar getSchedule() {
         return schedule;
     }
@@ -319,7 +322,7 @@ public class Student {
         return uid;
     }
 
-    public Map<String, BookedLesson> getLessons() {
+    public Map<String, UserLesson> getLessons() {
         return classes;
     }
 

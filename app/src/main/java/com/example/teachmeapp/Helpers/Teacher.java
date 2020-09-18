@@ -3,6 +3,7 @@ package com.example.teachmeapp.Helpers;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class Teacher {
     private String surname;
     private String email;
     private String phone;
-    private ArrayList<Map<String ,BookedLesson>> lessons;
+    private Map<String, UserLesson> lessons;
     private List<Comment> comments;
     private boolean zoom;
     private boolean studentHome;
@@ -27,13 +28,14 @@ public class Teacher {
     private LatLng location;
     private Calendar schedule;
     private Calendar pendingLessonRequests;
+    private ArrayList<String> languages;
 
     public Teacher() {
     }
 
-    public Teacher(String name, String surname, String phone, List<Comment> comments, String email, String uid) {
+    public Teacher(String name, String surname, String phone, List<Comment> comments, String email, String uid, ArrayList<String> language) {
         // [START_EXCLUDE]
-        ArrayList<Map<String, BookedLesson>> temp = new ArrayList<>();
+        Map<String, UserLesson> temp = new HashMap<>();
 
         this.name = name;
         this.surname = surname;
@@ -54,6 +56,7 @@ public class Teacher {
         this.location = null;
         this.schedule = new Calendar();
         this.pendingLessonRequests = new Calendar();
+        this.languages = language;
         // [END_EXCLUDE]
     }
 
@@ -105,7 +108,7 @@ public class Teacher {
         return uid;
     }
 
-    public ArrayList<Map<String, BookedLesson>> getLessons() {
+    public Map<String, UserLesson> getLessons() {
         return lessons;
     }
 
@@ -117,5 +120,5 @@ public class Teacher {
 
     public LatLng getLocation(){return location;}
 
-
+    public ArrayList<String> getLanguages(){return languages;}
 }

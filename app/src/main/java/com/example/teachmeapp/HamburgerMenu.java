@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.teachmeapp.Adapter.AdapterCardViewList;
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.Helpers.Lesson;
+import com.example.teachmeapp.Helpers.UserLesson;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,6 +37,7 @@ import static com.example.teachmeapp.Helpers.Globals.CITY;
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.COUNTRY;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_PRICE;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
@@ -255,7 +257,7 @@ public class HamburgerMenu extends Activity {
             case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
                 recyclerView = findViewById(R.id.Recycler_View_TeacherProfile_LessonsOffered);
                 ClearArrays();
-//                TODO get teacher lessons here and place in here ull get the teacher name your way
+//                TODO get teacher lessons here and place in here you'll get the teacher name your way
 //                 since theres another to do in the ProfilePageOfTeacherForStudent class connect the 2 so this shit will work gl!
 //                TempStringArray1[i] = lessons.getSubject;
 //                TempStringArray2[i] = lessons.getPrice;
@@ -317,9 +319,10 @@ public class HamburgerMenu extends Activity {
             else
                 searchOptions[2] = FIELD_TEACHERHOME;
         }
-
+//.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry()).whereEqualTo(FIELD_LESSONS + "." + subject + "." + Globals.FIELD_NAME, subject)
         if (zoom || teachersPlace || studentsPlace && !zoom) {
-            teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true)
+                    .whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
@@ -333,18 +336,15 @@ public class HamburgerMenu extends Activity {
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
 
-                            ArrayList<HashMap<String, Lesson>> maps = new ArrayList<>();
-                            maps = (ArrayList<HashMap<String, Lesson>>) document.get(FIELD_LESSONS);
-
-                            for (Object map : maps.toArray()) {
-
-                                if (((HashMap) map).containsKey(subject) && ((Double) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
-
+                            HashMap<String, UserLesson> maps = new HashMap<>();
+                            maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
+                            if (maps.containsKey(subject)) {
+                                if (maps.get(subject).getPrice() <= price) {
                                     TempStringArray1[i] = document.getString("name");
-                                    TempStringArray3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
+                                    TempStringArray3[i] = maps.get(subject).getPrice().toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
-                                    String uid = document.getString(Globals.FIELD_UID);
+                                    String uid = document.getString(Globals.FIELD_UID);//TODO @abed when you create thetempUID array place this value in position i
                                     comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
@@ -360,8 +360,8 @@ public class HamburgerMenu extends Activity {
                                     break;
                                 }
                             }
-
                         }
+
                     }
                 }
             });
@@ -380,18 +380,15 @@ public class HamburgerMenu extends Activity {
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
 
-                            ArrayList<HashMap<String, Lesson>> maps = new ArrayList<>();
-                            maps = (ArrayList<HashMap<String, Lesson>>) document.get(FIELD_LESSONS);
-
-                            for (Object map : maps.toArray()) {
-
-                                if (((HashMap) map).containsKey(subject) && ((Double) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
-
+                            HashMap<String, UserLesson> maps = new HashMap<>();
+                            maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
+                            if (maps.containsKey(subject)) {
+                                if (maps.get(subject).getPrice() <= price) {
                                     TempStringArray1[i] = document.getString("name");
-                                    TempStringArray3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
+                                    TempStringArray3[i] = maps.get(subject).getPrice().toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
-                                    String uid = document.getString(Globals.FIELD_UID);
+                                    String uid = document.getString(Globals.FIELD_UID);//TODO @abed when you create thetempUID array place this value in position i
                                     comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
@@ -407,13 +404,14 @@ public class HamburgerMenu extends Activity {
                                     break;
                                 }
                             }
-
                         }
+
                     }
                 }
             });
         } else {
-            teacherRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            teacherRef.whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry())
+                    .whereArrayContains(Globals.LANGUAGES, "english").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
@@ -427,18 +425,15 @@ public class HamburgerMenu extends Activity {
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
 
-                            ArrayList<HashMap<String, Lesson>> maps = new ArrayList<>();
-                            maps = (ArrayList<HashMap<String, Lesson>>) document.get(FIELD_LESSONS);
-
-                            for (Object map : maps.toArray()) {
-
-                                if (((HashMap) map).containsKey(subject) && ((Double) ((HashMap) ((HashMap) map).get(subject)).get("price")) <= price) {
-
+                            HashMap<String, UserLesson> maps = new HashMap<>();
+                            maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
+                            if (maps.containsKey(subject)) {
+                                if (maps.get(subject).getPrice() <= price) {
                                     TempStringArray1[i] = document.getString("name");
-                                    TempStringArray3[i] = ((HashMap) ((HashMap) map).get(subject)).get("price").toString();
+                                    TempStringArray3[i] = maps.get(subject).getPrice().toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
-                                    String uid = document.getString(Globals.FIELD_UID);
+                                    String uid = document.getString(Globals.FIELD_UID);//TODO @abed when you create thetempUID array place this value in position i
                                     comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
@@ -454,8 +449,8 @@ public class HamburgerMenu extends Activity {
                                     break;
                                 }
                             }
-
                         }
+
                     }
                 }
             });

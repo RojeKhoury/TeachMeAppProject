@@ -1,5 +1,7 @@
 package com.example.teachmeapp.Helpers;
 
+import java.util.Map;
+
 public class Globals
 {
     public static final String PROFILE_PIC_STORAGE_PATH = "images/profilePictures";
@@ -61,6 +63,11 @@ public class Globals
     public static final String COUNTRY = "country";
     public static final String ADDRESS = "address";
     public static final String ADD_NEW_LESSON = "add a new lesson!";
+    public static final String FIELD_SCHEDULE = "schedule";
+    public static final String PENDING_LESSONS = "pendingLessonRequests";
+    public static final String FIELD_TEACHERS = "teachers";
+    public static final String FIELD_PRICE = "price";
+    public static final String LANGUAGES = "languages";
 
     public static communicationWithDatabase comm = new communicationWithDatabase();
 }

@@ -33,6 +33,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -144,13 +145,15 @@ public class SignUp extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
+        ArrayList<String> langs = new ArrayList<>();
+        langs.add("english");
         if(m_teacher_checkbox.isChecked())
-        {
-            comm.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString());
+        {//TODO add the languages to the create teacher and student
+            comm.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString(),langs);
             comm.setM_teacher(true);
         }
 
-        comm.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString());
+        comm.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString(), langs);
 
         StorageReference pPic = storageRef.child("images/" + comm.getUid() + "/profile picture");
         pPic.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

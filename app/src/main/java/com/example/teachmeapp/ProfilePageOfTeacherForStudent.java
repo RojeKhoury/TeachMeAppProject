@@ -64,9 +64,20 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
             // teacher info to build his profile page list of lessons offered !! contact abed for more info
 
         }
-
         setContentView(R.layout.activity_profile_page_of_teacher_for_student);
         m_uid = "CosM3yLfsTOxwnZvc91hY0Um4fn1";//getIntent().getStringExtra("uid");//temporary
+        String uid = getIntent().getStringExtra("data1");
+        if (uid != null) {
+            //TODO I dont need his name i need his UID and then everything else is set...
+            m_uid = uid;
+        }
+        else
+        {
+            m_uid = "CosM3yLfsTOxwnZvc91hY0Um4fn1";//getIntent().getStringExtra("uid");//temporary
+        }
+
+        setContentView(R.layout.activity_profile_page_of_teacher_for_student);
+        //profile_page_list_lesson_offered = findViewById(R.id.profile_page_list_lesson_offered);
         m_getLessonButton = findViewById(R.id.button_getLesson_displayProfile);
         m_goToLocationButton = findViewById(R.id.button_showLocation_displayProfile);
         m_profile_pic = findViewById(R.id.profile_page_user_picture);

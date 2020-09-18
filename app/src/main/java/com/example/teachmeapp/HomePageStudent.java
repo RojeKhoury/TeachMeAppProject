@@ -6,13 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class HomePageStudent extends HamburgerMenu {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page_student);
-
+        comm.getData();
     }
 
     public void onClick_conversationButton(View view)
