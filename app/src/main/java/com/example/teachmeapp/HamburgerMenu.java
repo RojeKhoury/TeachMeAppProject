@@ -222,7 +222,9 @@ public class HamburgerMenu extends Activity {
 
             case LESSONS_FOR_TEACHER_VIEW:
                 recyclerView = findViewById(R.id.recyclerView_MyLessons);
-                //TODO do a list of teachers from database fakhri in comm
+                //TODO put uid in temp @abed
+                ArrayList<UserLesson> lessons = comm.MapToArray(comm.getTargetLessons("temp"));
+
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
                 } else {
@@ -265,7 +267,7 @@ public class HamburgerMenu extends Activity {
 
                 Map<String, UserLesson> temp = comm.getTargetLessons(uidSendToTeacherProfilePageToGetLessonsOffered);
 
-                for(Map.Entry lesson : temp.entrySet()) {
+                for (Map.Entry lesson : temp.entrySet()) {
                     TempStringArray1[i] = ((UserLesson) lesson.getValue()).getName();
                     TempStringArray2[i] = ((UserLesson) lesson.getValue()).getPrice().toString();
                     TempStringArray3[i] = ((UserLesson) lesson.getValue()).getlevel();

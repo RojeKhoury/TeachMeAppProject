@@ -29,7 +29,9 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_teacher_lessons_add_or_remove);
         SubjectEditText = findViewById(R.id.EditTeacherLessonsSubject);
         PriceEditText = findViewById(R.id.EditTeacherLessonsPrice);
@@ -43,15 +45,22 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         String subject = SubjectEditText.getText().toString();
         String price = PriceEditText.getText().toString();
         level = EducationSpinner.getSelectedItem().toString();
-        if (subject!=null){
-            if(price!=null){
+
+        if (subject != null) {
+            if (price != null) {
                 comm.addCourse(subject, comm.getUid(), Double.parseDouble(price), level);
-            }else{
+            }
+            else {
                 Toast.makeText(this, "Please add a Price in $", Toast.LENGTH_SHORT).show();
             }
-        }else {
+        }
+        else {
             Toast.makeText(this, "Please add a Subject", Toast.LENGTH_SHORT).show();
         }
     }
 
+    public void removeLesson(String lesson)
+    {
+        comm.removeCourseFromTeacher(lesson);
+    }
 }

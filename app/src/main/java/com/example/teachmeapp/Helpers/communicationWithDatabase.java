@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -828,5 +829,18 @@ public class communicationWithDatabase {
             }
         });
     }
+
+    public ArrayList<UserLesson> MapToArray(Map<String, UserLesson> target)
+    {
+        ArrayList <UserLesson> res = new ArrayList<>();
+        int i = 0;
+        for(Map.Entry<String, UserLesson> lesson : target.entrySet())
+        {
+            res.add(lesson.getValue());
+        }
+
+        return res;
+    }
+
 }
 
