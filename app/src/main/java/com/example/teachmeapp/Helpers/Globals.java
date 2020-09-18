@@ -69,5 +69,7 @@ public class Globals
     public static final String FIELD_PRICE = "price";
     public static final String LANGUAGES = "languages";
 
+
+
     public static communicationWithDatabase comm = new communicationWithDatabase();
 }

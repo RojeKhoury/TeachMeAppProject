@@ -336,6 +336,7 @@ public class HamburgerMenu extends Activity {
                         TempStringArray3 = new String[task.getResult().size()];
                         TempRatingArray1 = new Double[task.getResult().size()];
                         TempImageArray = new Uri[task.getResult().size()];
+                        TempUIDArray = new String[task.getResult().size()];
                         i = 0;
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
@@ -348,7 +349,8 @@ public class HamburgerMenu extends Activity {
                                     TempStringArray3[i] = maps.get(subject).getPrice().toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
-                                    String uid = document.getString(Globals.FIELD_UID);//TODO @abed when you create thetempUID array place this value in position i
+                                    String uid = document.getString(Globals.FIELD_UID);
+                                    TempUIDArray[i] = uid;
                                     comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
@@ -380,6 +382,7 @@ public class HamburgerMenu extends Activity {
                         TempStringArray3 = new String[task.getResult().size()];
                         TempRatingArray1 = new Double[task.getResult().size()];
                         TempImageArray = new Uri[task.getResult().size()];
+                        TempUIDArray = new String[task.getResult().size()];
                         i = 0;
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
@@ -392,7 +395,8 @@ public class HamburgerMenu extends Activity {
                                     TempStringArray3[i] = maps.get(subject).getPrice().toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
-                                    String uid = document.getString(Globals.FIELD_UID);//TODO @abed when you create thetempUID array place this value in position i
+                                    String uid = document.getString(Globals.FIELD_UID);
+                                    TempUIDArray[i] = uid;
                                     comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
@@ -425,6 +429,7 @@ public class HamburgerMenu extends Activity {
                         TempStringArray3 = new String[task.getResult().size()];
                         TempRatingArray1 = new Double[task.getResult().size()];
                         TempImageArray = new Uri[task.getResult().size()];
+                        TempUIDArray = new String[task.getResult().size()];
                         i = 0;
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
@@ -437,7 +442,8 @@ public class HamburgerMenu extends Activity {
                                     TempStringArray3[i] = maps.get(subject).getPrice().toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
-                                    String uid = document.getString(Globals.FIELD_UID);//TODO @abed when you create thetempUID array place this value in position i
+                                    String uid = document.getString(Globals.FIELD_UID);
+                                    TempUIDArray[i] = uid;
                                     comm.profileImagePicRef(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
@@ -472,6 +478,8 @@ public class HamburgerMenu extends Activity {
         Collections.addAll(arrayListString4, TempStringArray4);
         Collections.addAll(arrayListUri1, TempImageArray);
         Collections.addAll(arrayListDouble1, TempRatingArray1);
+        Collections.addAll(arrayListUID, TempUIDArray);
+
     }
 
     public void ClearArrays() {
