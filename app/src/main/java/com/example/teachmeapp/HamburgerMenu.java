@@ -283,6 +283,7 @@ public class HamburgerMenu extends Activity {
 
             default:
                 break;
+
         }
         if (!arrayListString1.isEmpty()) {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
