@@ -11,6 +11,14 @@ import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
 
+    /*TODO we need fields for:  @ABED
+    *  1. checkbox zoom
+    * 2. checkbox teacher's place
+    * 3. checkbox student's place
+    * 4. subject
+    * 5. level
+    **** price and the other person name and the other user UID will need to be transfered without being a field.*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +51,7 @@ public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
 
     public void RejectClass(View view) {
         //TODO pahri here u Delete class from database and the function below after ur done is for going back activity
-       // comm.removeBookedLesson();
+       // comm.removePendingBookedLesson();
         super.onBackPressed();
     }
 

@@ -71,7 +71,7 @@ public class communicationWithDatabase {
     private String city, country;
     private Uri temp;
 
-    Calendar m_targetCalendar,m_userCalendar;
+    Calendar m_targetCalendar, m_userCalendar;
 
 
     public boolean isM_teacher() {
@@ -266,7 +266,7 @@ public class communicationWithDatabase {
     }
 
     public DocumentReference getStorageRef() {
-        if(m_teacher)
+        if (m_teacher)
             return db.collection(Globals.COLLECTION_TEACHER).document(getUid());
         else
             return db.collection(Globals.COLLECTION_STUDENT).document(getUid());
@@ -386,7 +386,7 @@ public class communicationWithDatabase {
         }
     }
 
-    private void addTeacherToLesson(final String name,final String uid) {
+    private void addTeacherToLesson(final String name, final String uid) {
         db.collection("lessons").document(name)
                 .update(Globals.FIELD_TEACHERS, FieldValue.arrayUnion(uid))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -459,7 +459,7 @@ public class communicationWithDatabase {
         String collection;
         collection = "Teachers";
         m_user = mAuth.getCurrentUser();
-        db.collection(collection).document(m_user.getUid()).update("lessons."+name, lesson);
+        db.collection(collection).document(m_user.getUid()).update("lessons." + name, lesson);
 
        /* db.collection("lessons").document(name)
                 .update("teachers", FieldValue.arrayUnion(m_user.getUid()))
@@ -495,7 +495,7 @@ public class communicationWithDatabase {
     }
 
     public void changeName(String name) {
-            updateElementInDatabase(getStorageRef(), Globals.FIELD_NAME, name);
+        updateElementInDatabase(getStorageRef(), Globals.FIELD_NAME, name);
         m_firstName = name;
     }
 
@@ -540,7 +540,7 @@ public class communicationWithDatabase {
     }
 
     public StorageReference profileImagePicRef(String uid) {
-       return storage.getReference().child("images/" + uid + "/profile picture");
+        return storage.getReference().child("images/" + uid + "/profile picture");
     }
 
     public void addTeacherToFavourites(final String uid) {
@@ -557,7 +557,8 @@ public class communicationWithDatabase {
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error writing document", e);
                     }
-                }); }
+                });
+    }
 
     public void removeTeacherToFavourites(final String uid) {
         db.collection(COLLECTION_STUDENT).document(m_user.getUid())
@@ -606,22 +607,20 @@ public class communicationWithDatabase {
         pPic.putFile(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-               // Toast.makeText(EditTeacherInfo.this, "Profile picture updated", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(EditTeacherInfo.this, "Profile picture updated", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public CollectionReference getCollectionReference(String uid, Boolean teacher)
-    {
-        if(teacher)
+    public CollectionReference getCollectionReference(String uid, Boolean teacher) {
+        if (teacher)
             return db.collection(COLLECTION_TEACHER);
         else
             return db.collection(COLLECTION_STUDENT);
     }
 
-    public DocumentReference getDocumentReference(String uid, Boolean teacher)
-    {
-        if(teacher)
+    public DocumentReference getDocumentReference(String uid, Boolean teacher) {
+        if (teacher)
             return db.collection(COLLECTION_TEACHER).document(uid);
         else
             return db.collection(COLLECTION_STUDENT).document(uid);
@@ -637,7 +636,7 @@ public class communicationWithDatabase {
     }
 
     public void removeCourseFromTeacher(String lesson) {
-        Map<String,Object> updates = new HashMap<>();
+        Map<String, Object> updates = new HashMap<>();
         updates.put(lesson, FieldValue.delete());
         db.collection(COLLECTION_TEACHER).document(m_user.getUid())
                 .update("lessons", FieldValue.arrayUnion(lesson))
@@ -656,40 +655,37 @@ public class communicationWithDatabase {
     }
 
     public void removeBookedLesson(BookedLesson lesson) {
-        if(m_teacher)
-        {
+        if (m_teacher) {
             db.collection(COLLECTION_TEACHER).document(m_user.getUid())
-                .update(Globals.FIELD_SCHEDULE, FieldValue.arrayRemove(lesson))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully removed!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
+                    .update(Globals.FIELD_SCHEDULE, FieldValue.arrayRemove(lesson))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully removed!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
 
-        db.collection(COLLECTION_STUDENT).document(lesson.getTeacherStudentUID())
-                .update(Globals.FIELD_SCHEDULE, FieldValue.arrayRemove(lesson))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully removed!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });}
-
-        else
-        {
+            db.collection(COLLECTION_STUDENT).document(lesson.getTeacherStudentUID())
+                    .update(Globals.FIELD_SCHEDULE, FieldValue.arrayRemove(lesson))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully removed!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        } else {
             db.collection(COLLECTION_STUDENT).document(m_user.getUid())
                     .update(FIELD_SCHEDULE, FieldValue.arrayRemove(lesson))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -724,8 +720,7 @@ public class communicationWithDatabase {
 
     public void addBookedLesson(final BookedLesson lesson) {
         //addLessonToDatabase(lesson)
-        if(m_teacher)
-        {
+        if (m_teacher) {
             db.collection(COLLECTION_TEACHER).document(m_user.getUid())
                     .update(Globals.FIELD_SCHEDULE, FieldValue.arrayUnion(lesson))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -755,10 +750,8 @@ public class communicationWithDatabase {
                         public void onFailure(@NonNull Exception e) {
                             Log.w(TAG, "Error writing document", e);
                         }
-                    });}
-
-        else
-        {
+                    });
+        } else {
             db.collection(COLLECTION_STUDENT).document(getUid())
                     .update(FIELD_SCHEDULE, FieldValue.arrayUnion(lesson))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -797,23 +790,23 @@ public class communicationWithDatabase {
                 .update(PENDING_LESSONS, FieldValue.arrayRemove(lesson)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d(TAG, "DocumentSnapshot successfully removed!"); }
+                Log.d(TAG, "DocumentSnapshot successfully removed!");
+            }
         })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error writing document", e);
                     }
-                });;
+                });
+        ;
     }
 
-    public Map<String, UserLesson> getLessons()
-    {
+    public Map<String, UserLesson> getLessons() {
         return m_lessons;
     }
 
-    public Map<String, UserLesson> getTargetLessons(String uid)
-    {
+    public Map<String, UserLesson> getTargetLessons(String uid) {
         getTeacherLessons(uid);
         return targetLessons;
     }
@@ -822,20 +815,17 @@ public class communicationWithDatabase {
         db.collection(FIELD_TEACHERS).document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     targetLessons = (Map<String, UserLesson>) task.getResult().get(FIELD_LESSONS);
                 }
             }
         });
     }
 
-    public ArrayList<UserLesson> MapToArray(Map<String, UserLesson> target)
-    {
-        ArrayList <UserLesson> res = new ArrayList<>();
+    public ArrayList<UserLesson> MapToArray(Map<String, UserLesson> target) {
+        ArrayList<UserLesson> res = new ArrayList<>();
         int i = 0;
-        for(Map.Entry<String, UserLesson> lesson : target.entrySet())
-        {
+        for (Map.Entry<String, UserLesson> lesson : target.entrySet()) {
             res.add(lesson.getValue());
         }
 
