@@ -66,10 +66,10 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         }
         setContentView(R.layout.activity_profile_page_of_teacher_for_student);
         m_uid = "CosM3yLfsTOxwnZvc91hY0Um4fn1";//getIntent().getStringExtra("uid");//temporary
-        String uid = getIntent().getStringExtra("data1");
-        if (uid != null) {
+        if (UID != null) {
             //TODO I dont need his name i need his UID and then everything else is set...
-            m_uid = uid;
+            uidSendToTeacherProfilePageToGetLessonsOffered = UID;
+            m_uid = UID;
         }
         else
         {
@@ -186,9 +186,8 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
                         UserLesson lesson = (UserLesson) pair.getValue();
                         String name = lesson.getName();
                         Double price = lesson.getPrice();
-                        ;
                         String level = lesson.getlevel();
-                        ;
+
                         //statesList.add(document.getData().get(FIELD_NAME).toString() + "\n" + "price = " + price);
                         //statesList.add("price = " + price);
                         //need abed's help in inserting this to the list

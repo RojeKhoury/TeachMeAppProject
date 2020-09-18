@@ -38,6 +38,7 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SCHEDULE;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERS;
 import static com.example.teachmeapp.Helpers.Globals.LOCATION;
 import static com.example.teachmeapp.Helpers.Globals.PENDING_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.comm;
@@ -52,6 +53,9 @@ public class communicationWithDatabase {
     public FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DatabaseReference m_userDatabase;
     private String res;
+
+    private Map<String, UserLesson> m_lessons;
+    private Map<String, UserLesson> targetLessons;
 
     private String m_firstName;
     private String m_lastName;
@@ -201,6 +205,7 @@ public class communicationWithDatabase {
                     if (m_teacher) {
                         m_starRating = (ArrayList<Integer>) document.get(Globals.FIELD_RATING);
                         m_bio = document.get(Globals.FIELD_BIO).toString();
+                        m_lessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
                     }
                 }
             }
@@ -799,6 +804,29 @@ public class communicationWithDatabase {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });;
+    }
+
+    public Map<String, UserLesson> getLessons()
+    {
+        return m_lessons;
+    }
+
+    public Map<String, UserLesson> getTargetLessons(String uid)
+    {
+        getTeacherLessons(uid);
+        return targetLessons;
+    }
+
+    private void getTeacherLessons(String uid) {
+        db.collection(FIELD_TEACHERS).document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    targetLessons = (Map<String, UserLesson>) task.getResult().get(FIELD_LESSONS);
+                }
+            }
+        });
     }
 }
 
