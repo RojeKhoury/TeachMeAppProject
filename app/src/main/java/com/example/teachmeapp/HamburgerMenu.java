@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teachmeapp.Adapter.AdapterCardViewList;
 import com.example.teachmeapp.Helpers.Globals;
-import com.example.teachmeapp.Helpers.Lesson;
 import com.example.teachmeapp.Helpers.UserLesson;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -65,7 +64,7 @@ public class HamburgerMenu extends Activity {
     String[] ChipTagSearchedArray;
     int i;
     public Uri[] TempImageArray;
-    public String uidSendToTeacherProfilePageToGetLessonsOffered;
+    public String SingleUID;
 
     public ArrayList<String> arrayListString1;
     public ArrayList<String> arrayListString2;
@@ -101,8 +100,6 @@ public class HamburgerMenu extends Activity {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.hamburger_menu, menu);
-
-
     }
 
     public void HamburgerMenuOpen(@Nullable View v) {
@@ -223,8 +220,24 @@ public class HamburgerMenu extends Activity {
 
             case LESSONS_FOR_TEACHER_VIEW:
                 recyclerView = findViewById(R.id.recyclerView_MyLessons);
-                //TODO put uid in temp @abed
-                ArrayList<UserLesson> lessons = comm.MapToArray(comm.getTargetLessons("temp"));
+
+                ClearArrays();
+                ArrayList<UserLesson> lessons = comm.MapToArray(comm.getTargetLessons(comm.getUid()));
+                if (lessons != null) {
+                    i = 0;
+                    for (UserLesson lesson : lessons) {
+
+                        TempStringArray1[i] = lesson.getName();
+                        TempStringArray2[i] = lesson.getPrice().toString();
+                        TempStringArray3[i] = lesson.getlevel();
+                        i += 1;
+                    }
+
+                } else {
+                    Toast.makeText(this, "No lessons yet", Toast.LENGTH_SHORT).show();
+                }
+
+                CombineArrays();
 
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
@@ -246,11 +259,27 @@ public class HamburgerMenu extends Activity {
                 break;
             case TEACHER_PENDING_REQUESTS_VIEW:
                 recyclerView = findViewById(R.id.recyclerViewPendingRequestTeacher);
+                ClearArrays();
+                //TODO get the teachers pending requests
+                // subject , price, level , uid finish the code below
+              /*  ArrayList<Teacher> lessons = comm.MapToArray(comm.getTargetLessons(comm.getUid()));
+                i = 0;
+                for (UserLesson lesson : lessons) {
+
+                    TempStringArray1[i] = .getSubject();
+                    TempStringArray2[i] = .getPrice().toString();
+                    TempStringArray3[i] = .getlevel();
+                    TempUIDArray[i] = .getUID;
+                    i += 0;
+                }
+
+               */
+                CombineArrays();
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null, null, null);
+                            null, null, null, arrayListUID);
                 }
                 break;
             case STUDENT_PENDING_REQUESTS_VIEW:
@@ -266,7 +295,7 @@ public class HamburgerMenu extends Activity {
                 recyclerView = findViewById(R.id.Recycler_View_TeacherProfile_LessonsOffered);
                 ClearArrays();
 
-                Map<String, UserLesson> temp = comm.getTargetLessons(uidSendToTeacherProfilePageToGetLessonsOffered);
+                Map<String, UserLesson> temp = comm.getTargetLessons(SingleUID);
 
                 for (Map.Entry lesson : temp.entrySet()) {
                     TempStringArray1[i] = ((UserLesson) lesson.getValue()).getName();
@@ -353,9 +382,9 @@ public class HamburgerMenu extends Activity {
                             HashMap<String, UserLesson> maps = new HashMap<>();
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
                             if (maps.containsKey(subject)) {
-                                if ((Double) document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE) <= price) {
+                                if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price) {
                                     TempStringArray1[i] = document.getString("name");
-                                    TempStringArray3[i] = document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE).toString();
+                                    TempStringArray3[i] = document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE).toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
                                     String uid = document.getString(Globals.FIELD_UID);
@@ -401,9 +430,9 @@ public class HamburgerMenu extends Activity {
                             HashMap<String, UserLesson> maps = new HashMap<>();
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
                             if (maps.containsKey(subject)) {
-                                if ((Double) document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE) <= price) {
+                                if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price) {
                                     TempStringArray1[i] = document.getString("name");
-                                    TempStringArray3[i] = document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE).toString();
+                                    TempStringArray3[i] = document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE).toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
                                     String uid = document.getString(Globals.FIELD_UID);
@@ -449,9 +478,9 @@ public class HamburgerMenu extends Activity {
                             HashMap<String, UserLesson> maps = new HashMap<>();
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
                             if (maps.containsKey(subject)) {
-                                if ((Double) document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE) <= price) {
+                                if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price) {
                                     TempStringArray1[i] = document.getString("name");
-                                    TempStringArray3[i] = document.get(FIELD_LESSONS + "." + subject+ "." + FIELD_PRICE).toString();
+                                    TempStringArray3[i] = document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE).toString();
                                     TempStringArray2[i] = document.get("city").toString();
                                     TempRatingArray1[i] = document.getDouble(Globals.FIELD_RATING);
                                     String uid = document.getString(Globals.FIELD_UID);

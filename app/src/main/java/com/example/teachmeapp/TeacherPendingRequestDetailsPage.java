@@ -1,31 +1,31 @@
 package com.example.teachmeapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import static com.example.teachmeapp.Helpers.Globals.comm;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
 
     /*TODO we need fields for:  @ABED
-    *  1. checkbox zoom
-    * 2. checkbox teacher's place
-    * 3. checkbox student's place
-    * 4. subject
-    * 5. level
-    **** price and the other person name and the other user UID will need to be transfered without being a field.*/
+     *  1. checkbox zoom
+     * 2. checkbox teacher's place
+     * 3. checkbox student's place
+     * 4. subject
+     * 5. level
+     **** price and the other person name and the other user UID will need to be transfered without being a field.*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_pending_request_details_page);
-        String Subject = getIntent().getStringExtra("data1");
-        String Price = getIntent().getStringExtra("data2");
-        String Level = getIntent().getStringExtra("data3");
+        String Subject = getIntent().getStringExtra("Subject");
+        String Price = getIntent().getStringExtra("Price");
+        String Level = getIntent().getStringExtra("Level");
+
+        String UID = getIntent().getStringExtra("UID");//TODO UID acquired
+
 
         TextView textViewSubject = findViewById(R.id.TeacherPendingRequestDetailsPage_TextView_Subject);
         textViewSubject.setText(Subject);
@@ -42,7 +42,6 @@ public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
         TextView textViewTimeAddress = findViewById(R.id.TeacherPendingRequestDetailsPage_TextView_Address);
         textViewTimeAddress.setText("");
 
-
     }
 
     public void BackButton(View view) {
@@ -51,7 +50,7 @@ public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
 
     public void RejectClass(View view) {
         //TODO pahri here u Delete class from database and the function below after ur done is for going back activity
-       // comm.removePendingBookedLesson();
+        // comm.removePendingBookedLesson();
         super.onBackPressed();
     }
 

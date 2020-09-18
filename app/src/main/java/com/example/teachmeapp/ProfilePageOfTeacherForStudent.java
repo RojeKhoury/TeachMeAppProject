@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +35,6 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.PROFILE_PAGE_OF_SPECIFIC_TEACHER;
-import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT_FOR_SCHDULE;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 
@@ -61,7 +59,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         m_uid = "CosM3yLfsTOxwnZvc91hY0Um4fn1";//getIntent().getStringExtra("uid");//temporary
 
         if (UID != null) {
-            uidSendToTeacherProfilePageToGetLessonsOffered = UID;
+            SingleUID = UID;
             m_uid = UID;
         }
         else

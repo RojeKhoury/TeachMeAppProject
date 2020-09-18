@@ -28,6 +28,7 @@ public class ScheduleExpandingButton extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_expanding_button);
+
     }
 
     public void OnClick_schedule_expanding_button_back(View view) {

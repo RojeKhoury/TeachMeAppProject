@@ -40,7 +40,6 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
 
     Context context;
     int recyclerViewName;
-//TODO add UID arrayList<string>
     public AdapterCardViewList(int RecyclerViewName, Context ct, ArrayList<String> s1, ArrayList<String> s2, ArrayList<String> s3, ArrayList<String> s4,
                                ArrayList<Uri> i1, ArrayList<Double> r1,  ArrayList<String> UIDS) {
         recyclerViewName = RecyclerViewName;
@@ -164,7 +163,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                         String Subject = data1.get(position);
                         String Price = data2.get(position);
                         String Level = data3.get(position);
-                        //TODO Delete History from database use these to identify ur History in the database and delete
+                        //TODO Delete History from database use these to identify ur History in the database and delete (may remove)
                     }
                 });
                 break;
@@ -177,9 +176,10 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, TeacherPendingRequestDetailsPage.class);
-                        intent.putExtra("data1", data1.get(position));
-                        intent.putExtra("data2", data2.get(position));
-                        intent.putExtra("data3", data3.get(position));
+                        intent.putExtra("Subject", data1.get(position));
+                        intent.putExtra("Price", data2.get(position));
+                        intent.putExtra("Level", data3.get(position));
+                        intent.putExtra("UID", UID.get(position));
                         context.startActivity(intent);
                     }
                 });

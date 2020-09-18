@@ -42,7 +42,6 @@ public class SearchForTeacher extends HamburgerMenu {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -86,15 +85,14 @@ public class SearchForTeacher extends HamburgerMenu {
 
     public void OnClick_SearchForTeacher_Button_ShowSelections(View view) {
 
-        int count = this.chipGroup.getChildCount();
+        int count = this.chipGroup.getCheckedChipIds().size();
         if (count > 0) {
             ChipTagSearchedArraySize = count;
-            ChipTagSearchedArray =new String[count];
+            ChipTagSearchedArray = new String[count];
             String s = null;
             for (int i = 0; i < count; i++) {
 
                 Chip child = (Chip) this.chipGroup.getChildAt(i);
-
                 if (!child.isChecked()) {
                     continue;
                 }
@@ -108,7 +106,7 @@ public class SearchForTeacher extends HamburgerMenu {
             }
             CallViewAdapter(SEARCH_FOR_TEACHER_VIEW);
         } else {
-            Toast.makeText(this, "Please add and pick a Tag", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please add and tick the Tags", Toast.LENGTH_LONG).show();
 
         }
     }
