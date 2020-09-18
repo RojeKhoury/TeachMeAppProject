@@ -34,7 +34,7 @@ import static com.example.teachmeapp.Helpers.Globals.STUDENT_PENDING_REQUESTS_VI
 import static com.example.teachmeapp.Helpers.Globals.TEACHER_PENDING_REQUESTS_VIEW;
 
 public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewList.ViewHolder> {
-    ArrayList<String> data1, data2, data3, data4;
+    ArrayList<String> data1, data2, data3, data4,UID;
     ArrayList<Uri> images;
     ArrayList<Double> rating;
 
@@ -42,7 +42,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
     int recyclerViewName;
 //TODO add UID arrayList<string>
     public AdapterCardViewList(int RecyclerViewName, Context ct, ArrayList<String> s1, ArrayList<String> s2, ArrayList<String> s3, ArrayList<String> s4,
-                               ArrayList<Uri> i1, ArrayList<Double> r1) {
+                               ArrayList<Uri> i1, ArrayList<Double> r1,  ArrayList<String> UIDS) {
         recyclerViewName = RecyclerViewName;
         context = ct;
         data1 = s1;
@@ -51,6 +51,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
         data4 = s4;
         images = i1;
         rating = r1;
+        UID = UIDS;
     }
 
     @NonNull
@@ -123,7 +124,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, ProfilePageOfTeacherForStudent.class);
-                        intent.putExtra("data1", data1.get(position));
+                        intent.putExtra("UID", UID.get(position));
                         context.startActivity(intent);
                     }
                 });
@@ -188,7 +189,6 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 holder.textView2.setText(data2.get(position));
                 holder.textView3.setText(data3.get(position));
                 holder.textView4.setText(data4.get(position));
-
                 holder.button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

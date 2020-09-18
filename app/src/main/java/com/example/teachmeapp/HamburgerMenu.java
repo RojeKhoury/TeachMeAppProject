@@ -193,7 +193,7 @@ public class HamburgerMenu extends Activity {
                     Toast.makeText(this, "No Schedules Appointed", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null, null);
+                            null, null, null,null);
                 }
                 break;
 
@@ -214,7 +214,7 @@ public class HamburgerMenu extends Activity {
                         Toast.makeText(this, "No Teachers Found", Toast.LENGTH_SHORT).show();
                     } else {
                         adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                                null, arrayListUri1, arrayListDouble1);
+                                null, arrayListUri1, arrayListDouble1,arrayListUID);
                     }
                 }
                 break;
@@ -226,7 +226,7 @@ public class HamburgerMenu extends Activity {
                     Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null, null);
+                            null, null, null,null);
                 }
                 break;
 
@@ -237,7 +237,7 @@ public class HamburgerMenu extends Activity {
                     Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null, null);
+                            null, null, null,null);
                 }
                 break;
             case TEACHER_PENDING_REQUESTS_VIEW:
@@ -246,7 +246,7 @@ public class HamburgerMenu extends Activity {
                     Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null, null);
+                            null, null, null,null);
                 }
                 break;
             case STUDENT_PENDING_REQUESTS_VIEW:
@@ -255,7 +255,7 @@ public class HamburgerMenu extends Activity {
                     Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            arrayListString4, null, null);
+                            arrayListString4, null, null,null);
                 }
                 break;
             case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
@@ -272,7 +272,7 @@ public class HamburgerMenu extends Activity {
                     Toast.makeText(this, "No lessons offered", Toast.LENGTH_SHORT).show();
                 } else {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null, null);
+                            null, null, null,null);
                 }
                 break;
             default:

@@ -88,10 +88,11 @@ public class SearchForTeacher extends HamburgerMenu {
 
         int count = this.chipGroup.getChildCount();
         if (count > 0) {
+            ChipTagSearchedArraySize = count;
+            ChipTagSearchedArray =new String[count];
             String s = null;
             for (int i = 0; i < count; i++) {
-                ChipTagSearchedArraySize =count;
-                ChipTagSearchedArray =new String[count];
+
                 Chip child = (Chip) this.chipGroup.getChildAt(i);
 
                 if (!child.isChecked()) {

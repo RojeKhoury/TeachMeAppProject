@@ -54,8 +54,8 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String TeacherName = getIntent().getStringExtra("data1");
-        if (TeacherName != null) {
+        String UID = getIntent().getStringExtra("UID" );
+        if (UID != null) {
 
             //TODO here youll know with the teachers name which teaceher
             // was pressed so we can send him to the correct profile page save the teachers
