@@ -27,6 +27,25 @@
                     android:src="@drawable/profile_page_incogneto_mode" />
 
                 <TextView
+                    android:id="@+id/StudentPendingRequestDetailsPage_TextView_Price"
+                    android:layout_width="89dp"
+                    android:layout_height="37dp"
+                    android:layout_marginTop="24dp"
+                    android:text="TextView"
+                    app:layout_constraintStart_toStartOf="@+id/StudentPendingRequestDetailsPage_TextView_Level"
+                    app:layout_constraintTop_toBottomOf="@+id/StudentPendingRequestDetailsPage_TextView_Level" />
+
+                <TextView
+                    android:id="@+id/StudentPendingRequestDetailsPage_TextView_Status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    app:layout_constraintBottom_toBottomOf="@+id/StudentPendingRequestDetailsPage_Button_Back"
+                    app:layout_constraintEnd_toStartOf="@+id/StudentPendingRequestDetailsPage_Button_Cancel"
+                    app:layout_constraintStart_toEndOf="@+id/StudentPendingRequestDetailsPage_Button_Back"
+                    app:layout_constraintTop_toTopOf="@+id/StudentPendingRequestDetailsPage_Button_Back" />
+
+                <TextView
                     android:id="@+id/StudentPendingRequestDetailsPage_TextView_Subject"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -40,8 +59,8 @@
 
                 <TextView
                     android:id="@+id/StudentPendingRequestDetailsPage_TextView_Level"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="92dp"
+                    android:layout_height="43dp"
                     android:layout_marginTop="24dp"
                     android:text="Level"
                     android:textSize="30dp"
@@ -107,6 +126,7 @@
                     app:layout_constraintTop_toTopOf="@+id/textView8" />
 
                 <Button
+                    android:onClick="OnClick_StudentPending_RequestDetails_PageCancelButton"
                     android:id="@+id/StudentPendingRequestDetailsPage_Button_Cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -117,6 +137,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/StudentPendingRequestDetailsPage_TextView_Address" />
 
                 <Button
+                    android:onClick="OnClick_StudentPending_RequestDetails_PageBackButton"
+
                     android:id="@+id/StudentPendingRequestDetailsPage_Button_Back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

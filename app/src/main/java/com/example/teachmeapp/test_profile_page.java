@@ -147,7 +147,7 @@ public class test_profile_page extends AppCompatActivity {
         });
 
         comm.getData();
-        killme = comm.getStarRating();
+       // killme = comm.getStarRating();
         Integer polio = 0;
     }
 

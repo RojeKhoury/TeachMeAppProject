@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.teachmeapp.ProfilePageOfTeacherForStudent;
 import com.example.teachmeapp.R;
 import com.example.teachmeapp.ScheduleExpandingButton;
+import com.example.teachmeapp.StudentPendingRequestDetailsPage;
 import com.example.teachmeapp.TeacherPendingRequestDetailsPage;
 import com.squareup.picasso.Picasso;
 
@@ -192,8 +193,12 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 holder.button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        //TODO Delete PendingRe from database
+                        Intent intent = new Intent(context, StudentPendingRequestDetailsPage.class);
+                        intent.putExtra("Subject", data1.get(position));
+                        intent.putExtra("Price", data2.get(position));
+                        intent.putExtra("Level", data3.get(position));
+                        intent.putExtra("Status", data4.get(position));
+                        context.startActivity(intent);
                     }
                 });
                 break;
