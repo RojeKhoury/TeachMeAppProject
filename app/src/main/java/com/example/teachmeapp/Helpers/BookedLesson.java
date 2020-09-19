@@ -3,28 +3,35 @@ package com.example.teachmeapp.Helpers;
 import com.google.firebase.Timestamp;
 
 public class BookedLesson {
-    UserLesson lesson;
-    Timestamp timeStart;
-    Timestamp timeEnd;
-    String  teacherStudentName;
-    String  teacherStudentUID;
-    boolean zoom;
-    boolean teachersHome;
-    boolean studentsHome;
+
+    private UserLesson lesson;
+    private Timestamp timeStart;
+    private Timestamp timeEnd;
+    private String teacherName;
+    private String teacherUID;
+    private String  studentName;
+    private String  studentUID;
+    private Boolean zoom;
+    private Boolean teachersHome;
+    private Boolean studentsHome;
+    private Boolean teacherRequest;
 
     public BookedLesson()
     {}
 
-    public BookedLesson(UserLesson lesson, Timestamp timeStart, Timestamp timeEnd, String name, String uid, boolean zoom, boolean teachersHome, boolean studentsHome)
+    public BookedLesson(UserLesson lesson, Timestamp timeStart, Timestamp timeEnd, String teacherName, String teacherUID, String studentName, String studentUID, boolean zoom, boolean teachersHome, boolean studentsHome, Boolean teacherRequest)
     {
         this.lesson = lesson;
         this.timeStart = timeStart;
-        teacherStudentName = name;
-        teacherStudentUID = uid;
+        this.teacherName = teacherName;
+        this.teacherUID = teacherUID;
         this.timeEnd = timeEnd;
         this.zoom = zoom;
         this.teachersHome = teachersHome;
         this.studentsHome = studentsHome;
+        this.studentName = studentName;
+        this.studentUID = studentUID;
+        this.teacherRequest = teacherRequest;
     }
 
     public UserLesson getLesson()
@@ -37,23 +44,36 @@ public class BookedLesson {
         return timeStart;
     }
 
-    public String getTeacherStudentName() {
-        return teacherStudentName;
+    public Timestamp getTimeEnd()
+    {
+        return timeEnd;
     }
 
-    public String getTeacherStudentUID() {
-        return teacherStudentUID;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public boolean isStudentsHome() {
+    public String getTeacherUID() {
+        return teacherUID;
+    }
+
+    public Boolean isStudentsHome() {
         return studentsHome;
     }
 
-    public boolean isTeachersHome() {
+    public Boolean isTeachersHome() {
         return teachersHome;
     }
 
-    public boolean isZoom() {
+    public Boolean isZoom() {
         return zoom;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public String getStudentUID() {
+        return studentUID;
     }
 }

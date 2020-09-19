@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -99,6 +100,8 @@ public class communicationWithDatabase {
     private boolean m_viewedUserStudentHome;
     private boolean m_viewedUserTeacherHome;
     private String m_viewedUserUID;
+    private List<String> m_viewedUserRatingsList;
+    private List<String> m_viewedUserFavourites;
 
     public void setTeacher(boolean m_teacher) {
         this.m_teacher = m_teacher;
@@ -106,6 +109,15 @@ public class communicationWithDatabase {
 
     public boolean isTeacher() {
         return m_teacher;
+    }
+
+    public List<String> getViewedUserRatingsList() {
+        return m_viewedUserRatingsList;
+    }
+
+
+    public List<String> getViewedUserFavourites() {
+        return m_viewedUserFavourites;
     }
 
     public Calendar getUserCalendar() {
@@ -293,6 +305,7 @@ public class communicationWithDatabase {
                     }
                 });
     }
+
     //if you want to upload any image this is where you do it (in the storage reference you can add the location you want to place the image in the database)
     public void uploadImage(String imageLocation, StorageReference ref, final String owner) {
 
@@ -400,8 +413,7 @@ public class communicationWithDatabase {
         });
     }
 
-    public void getViewedTeacherData(String uid) {
-        m_user = mAuth.getCurrentUser();
+    public void getViewedUserData(String uid, final boolean teacher) {
 
         db.collection(FIELD_TEACHERS).document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -415,13 +427,18 @@ public class communicationWithDatabase {
                     m_viewedUserCity = document.get(Globals.CITY).toString();
                     m_viewedUserCountry = document.get(Globals.COUNTRY).toString();
                     m_viewedUserLocation = (Location) document.get(LOCATION);
-                    m_viewedUserPendingLessons = (Calendar) document.get(PENDING_LESSONS);
                     m_viewedUserCalendar = (Calendar) document.get(FIELD_SCHEDULE);
-                    m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
-                    m_viewedUserRatingCount = (int) document.get(Globals.RATING_COUNT);
                     m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
-                    m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
                     m_viewedUserUID = (String) document.get(Globals.FIELD_UID);
+
+                    if (teacher) {
+                        m_viewedUserPendingLessons = (Calendar) document.get(PENDING_LESSONS);
+                        m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
+                        m_viewedUserRatingCount = (int) document.get(Globals.RATING_COUNT);
+                        m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
+                    } else {
+
+                    }
                 }
             }
         });
@@ -850,7 +867,7 @@ public class communicationWithDatabase {
                         }
                     });
 
-            db.collection(COLLECTION_STUDENT).document(lesson.getTeacherStudentUID())
+            db.collection(COLLECTION_STUDENT).document(lesson.getTeacherUID())
                     .update(Globals.FIELD_SCHEDULE, FieldValue.arrayRemove(lesson))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -880,7 +897,7 @@ public class communicationWithDatabase {
                         }
                     });
 
-            db.collection(COLLECTION_TEACHER).document(lesson.getTeacherStudentUID())
+            db.collection(COLLECTION_TEACHER).document(lesson.getTeacherUID())
                     .update(Globals.FIELD_SCHEDULE, FieldValue.arrayRemove(lesson))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -915,12 +932,12 @@ public class communicationWithDatabase {
                         }
                     });
 
-            db.collection(COLLECTION_STUDENT).document(lesson.getTeacherStudentUID())
+            db.collection(COLLECTION_STUDENT).document(lesson.getTeacherUID())
                     .update(Globals.FIELD_SCHEDULE, FieldValue.arrayUnion(lesson))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            removeLessonFromPending(lesson, lesson.getTeacherStudentUID(), COLLECTION_STUDENT);
+                            removeLessonFromPending(lesson, lesson.getTeacherUID(), COLLECTION_STUDENT);
 
                         }
                     })
@@ -946,13 +963,13 @@ public class communicationWithDatabase {
                         }
                     });
 
-            db.collection(COLLECTION_TEACHER).document(lesson.getTeacherStudentUID())
+            db.collection(COLLECTION_TEACHER).document(lesson.getTeacherUID())
                     .update(Globals.FIELD_SCHEDULE, FieldValue.arrayUnion(lesson))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "DocumentSnapshot successfully removed!");
-                            removeLessonFromPending(lesson, lesson.getTeacherStudentUID(), COLLECTION_STUDENT);
+                            removeLessonFromPending(lesson, lesson.getTeacherUID(), COLLECTION_STUDENT);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -1010,5 +1027,97 @@ public class communicationWithDatabase {
         return null;
     }
 
+    public ArrayList<BookedLesson> MapToArrayBookedLessons(Map<String, BookedLesson> target) {
+        ArrayList<BookedLesson> res = new ArrayList<>();
+        int i = 0;
+        if (target != null) {
+            for (Map.Entry<String, BookedLesson> lesson : target.entrySet()) {
+                res.add(lesson.getValue());
+                return res;
+            }
+        }
+        return null;
+    }
+
+    public void addOrEditLessonRequest(Timestamp start, Timestamp end, String lesson, String level, double price, boolean zoom, boolean teachersPlace, boolean studentPlace) {
+
+
+        String teacherName, teacherUID, studentName, studentUID;
+        teacherName = ((isTeacher()) ? getUserName() : getViewedUserName());
+        teacherUID = ((isTeacher()) ? getUid() : getViewedUserUID());
+
+        studentName = ((!isTeacher()) ? getUserName() : getViewedUserName());
+        studentUID = ((!isTeacher()) ? getUid() : getViewedUserUID());
+
+        final BookedLesson bookedLesson = new BookedLesson(new UserLesson(lesson, price, level), start, end, teacherName, teacherUID, studentName, studentUID, zoom, teachersPlace, studentPlace, isTeacher());
+        final String key = teacherName + studentName + lesson + start.toDate();
+
+        final String collection = ((isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
+        final String secondCollection = ((!isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
+
+        db.collection(collection).document(getViewedUserUID()).update(PENDING_LESSONS + "." + key, bookedLesson).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                m_viewedUserPendingLessons.getSchedule().put(key, bookedLesson);
+                db.collection(secondCollection).document(m_viewedUserUID).update(PENDING_LESSONS + "." + key, bookedLesson);
+            }
+        });
+    }
+
+    public boolean acceptLessonRequest(final String lessonKey) {
+
+        final BookedLesson lesson = m_currentUserPendingLessons.getSchedule().get(lessonKey);
+        final String collection =  ((isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
+        final String secondCollection = ((isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
+
+
+        BookedLesson tester = m_currentUserPendingLessons.getSchedule().get(lessonKey);
+
+        if (tester != null) {
+            db.collection(collection).document(getUid()).update(FIELD_SCHEDULE + "." + lessonKey, lesson).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    db.collection(collection).document(getUid()).update(PENDING_LESSONS + "." + lessonKey, FieldValue.delete());
+                    db.collection(secondCollection).document(m_viewedUserUID).update(FIELD_SCHEDULE + "." + lessonKey, lesson).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            db.collection(secondCollection).document(lesson.getTeacherUID()).update(PENDING_LESSONS + "." + lessonKey, FieldValue.delete());
+                        }
+                    });
+                }
+            });
+
+            return true;
+        }
+
+    return false;
+
+    }
+
+    public void deleteLessonRequest(final String lessonKey)
+    {
+        final String collection =  ((isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
+
+        db.collection(collection).document(getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    final String teacherUID = ((Calendar) task.getResult().get(PENDING_LESSONS)).getSchedule().get(lessonKey).getTeacherUID();
+                    final String studentUID = ((Calendar) task.getResult().get(PENDING_LESSONS)).getSchedule().get(lessonKey).getTeacherUID();
+
+                    db.collection(COLLECTION_TEACHER).document(teacherUID).update(PENDING_LESSONS + "." + lessonKey, FieldValue.delete());
+                    db.collection(COLLECTION_STUDENT).document(studentUID).update(PENDING_LESSONS + "." + lessonKey, FieldValue.delete());
+                }
+            }
+        });
+    }
+
+
+    public String keyBuilder(String subject, String startTime) {
+        String teacherName = ((isTeacher()) ? getUserName() : getViewedUserName());
+        String studentName = ((!isTeacher()) ? getUserName() : getViewedUserName());
+
+        return teacherName + studentName + subject + startTime;
+    }
 }
 

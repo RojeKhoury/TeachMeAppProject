@@ -44,7 +44,7 @@ public class Schedule extends HamburgerMenu {
                     if(lesson.getTimeStart().toDate().getDay() == day && lesson.getTimeStart().toDate().getYear() == year && lesson.getTimeStart().toDate().getMonth() == month)
                     {
                         lessonsToShow.add(lesson);
-                        TempStringArray1[0] = lesson.getTeacherStudentName();
+                        TempStringArray1[0] = lesson.getTeacherName();
                         TempStringArray2[0] = lesson.getLesson().getName();
                         TempStringArray3[0] = lesson.getTimeStart().toString();
                     }

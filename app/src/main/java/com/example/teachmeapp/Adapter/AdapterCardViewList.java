@@ -33,6 +33,7 @@ import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT_FOR_SCHDULE;
 import static com.example.teachmeapp.Helpers.Globals.STUDENT_PENDING_REQUESTS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.TEACHER_PENDING_REQUESTS_VIEW;
+import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewList.ViewHolder> {
     ArrayList<String> data1, data2, data3, data4,UID;
@@ -147,7 +148,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                                         String Subject = data1.get(position);
                                         String Price = data2.get(position);
                                         String Level = data3.get(position);
-                                        //TODO Delete lesson from database use these to identify ur lesson in the database and delete
+                                        comm.removeCourseFromTeacher(Subject);
                                     }
                                 }).create().show();
                     }
@@ -181,6 +182,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                         intent.putExtra("Price", data2.get(position));
                         intent.putExtra("Level", data3.get(position));
                         intent.putExtra("UID", UID.get(position));
+
                         context.startActivity(intent);
                     }
                 });
@@ -198,6 +200,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                         intent.putExtra("Price", data2.get(position));
                         intent.putExtra("Level", data3.get(position));
                         intent.putExtra("Status", data4.get(position));
+                       //TODO get the uid to put in this function comm.getViewedUserData("uid", !comm.isTeacher());
                         context.startActivity(intent);
                     }
                 });

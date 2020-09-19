@@ -6,10 +6,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.teachmeapp.Helpers.BookedLesson;
+
+import javax.security.auth.Subject;
+
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
 
     /*TODO we need fields for:  @ABED
-     *  1. checkbox zoom
+     * 1. checkbox zoom
      * 2. checkbox teacher's place
      * 3. checkbox student's place
      * 4. subject
@@ -26,6 +32,7 @@ public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
 
         String UID = getIntent().getStringExtra("UID");//TODO UID acquired
 
+        comm.getViewedUserData(UID, !comm.isTeacher());
 
         TextView textViewSubject = findViewById(R.id.TeacherPendingRequestDetailsPage_TextView_Subject);
         textViewSubject.setText(Subject);
@@ -51,11 +58,18 @@ public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
     public void RejectClass(View view) {
         //TODO pahri here u Delete class from database and the function below after ur done is for going back activity
         // comm.removePendingBookedLesson();
+        String startTime = "this is a time";
+        comm.getViewedUserData("UID", !comm.isTeacher());
+        comm.deleteLessonRequest(comm.keyBuilder("Subject", startTime));
+        //comm.deleteLessonRequest();
         super.onBackPressed();
     }
 
     public void AcceptClass(View view) {
         //TODO pahri here u Accept class from database and the function below after ur done is for going back activity
+        String startTime = "this is a time";
+        comm.getViewedUserData("UID", !comm.isTeacher());
+        comm.acceptLessonRequest(comm.keyBuilder("Subject", startTime));
         super.onBackPressed();
     }
 }

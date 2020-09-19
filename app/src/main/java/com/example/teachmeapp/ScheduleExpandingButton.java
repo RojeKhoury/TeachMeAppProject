@@ -48,7 +48,11 @@ public class ScheduleExpandingButton extends AppCompatActivity {
     }
 
 
-    //TODO this is too generic, remove the lesson from the database completely? or just a booked lesson? or is this a subject this teacher is no longer teaching?
+    //TODO @ABED get me the following:
+    // 1. teacher name
+    // 2. student name
+    // 3. subject
+    // 4. starting time (hours + minutes)
 
     private void DeleteLessonFromDataBase() {
 
@@ -60,12 +64,7 @@ public class ScheduleExpandingButton extends AppCompatActivity {
         textViewAddress = findViewById(R.id.ScheduleExpanding_TextView_Address);
 
 
-        /*TODO there are not enough parameters to remove the lesson from the database (we need to basically copy the entire lesson to be able to remove it from the DB),
-        regardless this function will remove the lesson from the database all you need to do is give it the lesson to remove (BookedLesson)
-         */
-
-
-        //comm.removeBookedLesson(new BookedLesson(new UserLesson("name", "price", "level"), new Timestamp(), new Timestamp(), "lesson name", "the uid of the other person", true, true, true));
+        //comm.removeBookedLesson(key));
         // comm.removeLessonFomSchedule();
         super.onBackPressed();// to go back to the previous activity
     }

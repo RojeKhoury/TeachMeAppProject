@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teachmeapp.Adapter.AdapterCardViewList;
+import com.example.teachmeapp.Helpers.BookedLesson;
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.Helpers.UserLesson;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -73,6 +74,8 @@ public class HamburgerMenu extends Activity {
     public ArrayList<Uri> arrayListUri1;
     public ArrayList<Double> arrayListDouble1;
     public ArrayList<String> arrayListUID;
+    ArrayList<BookedLesson> les = comm.MapToArrayBookedLessons(comm.getUserPendingLessons().getSchedule());
+
 
 
     public HamburgerMenu() {
@@ -93,6 +96,7 @@ public class HamburgerMenu extends Activity {
         arrayListUri1 = new ArrayList<>();
         arrayListDouble1 = new ArrayList<>();
         arrayListUID = new ArrayList<>();
+
     }
 
     @Override
@@ -260,20 +264,11 @@ public class HamburgerMenu extends Activity {
             case TEACHER_PENDING_REQUESTS_VIEW:
                 recyclerView = findViewById(R.id.recyclerViewPendingRequestTeacher);
                 ClearArrays();
-                //TODO get the teachers pending requests
-                // subject , price, level , uid finish the code below
-              /*  ArrayList<Teacher> lessons = comm.MapToArray(comm.getTargetLessons(comm.getUid()));
-                i = 0;
-                for (UserLesson lesson : lessons) {
-
-                    TempStringArray1[i] = .getSubject();
-                    TempStringArray2[i] = .getPrice().toString();
-                    TempStringArray3[i] = .getlevel();
-                    TempUIDArray[i] = .getUID;
-                    i += 0;
+                //TODO @abed I gave you the pending requests in les
+                for(BookedLesson lesson : les)
+                {
+                    lesson.getLesson().getName();
                 }
-
-               */
                 CombineArrays();
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
@@ -282,7 +277,11 @@ public class HamburgerMenu extends Activity {
                             null, null, null, arrayListUID);
                 }
                 break;
-            case STUDENT_PENDING_REQUESTS_VIEW:
+            case STUDENT_PENDING_REQUESTS_VIEW://TODO @abed I gave you the pending requests in les
+                for(BookedLesson lesson : les)
+                {
+                    lesson.getLesson().getName();
+                }
                 recyclerView = findViewById(R.id.recyclerViewPendingRequestStudent);
                 if (arrayListString1.isEmpty()) {
                     Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
@@ -294,7 +293,7 @@ public class HamburgerMenu extends Activity {
             case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
                 recyclerView = findViewById(R.id.Recycler_View_TeacherProfile_LessonsOffered);
                 ClearArrays();
-                comm.getViewedTeacherData(SingleUID);
+                comm.getViewedUserData(SingleUID, !comm.isTeacher());
                 Map<String, UserLesson> temp = comm.getViewedUserLessons();
 
                 for (Map.Entry lesson : temp.entrySet()) {

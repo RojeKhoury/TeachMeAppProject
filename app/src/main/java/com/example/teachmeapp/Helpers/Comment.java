@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Comment {
-    String id;
-    String comment;
+    private String id;
+    private String comment;
     float rating;
 
     public Comment() {
