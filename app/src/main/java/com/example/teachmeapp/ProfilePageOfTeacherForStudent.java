@@ -1,5 +1,6 @@
 package com.example.teachmeapp;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -198,6 +199,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     }
 
     public void OnClick_profile_button_get_lessons_now(View view) {
-
+        Intent intent = new Intent(this, RequestLessons.class);
+        startActivity(intent);
     }
 }
