@@ -150,7 +150,7 @@ public class SignUp extends AppCompatActivity {
         if(m_teacher_checkbox.isChecked())
         {//TODO add the languages to the create teacher and student
             comm.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString(),langs);
-            comm.setM_teacher(true);
+            comm.setTeacher(true);
         }
 
         comm.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString(), langs);

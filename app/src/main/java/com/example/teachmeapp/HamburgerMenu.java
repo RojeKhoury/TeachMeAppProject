@@ -108,7 +108,7 @@ public class HamburgerMenu extends Activity {
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.hamburger_menu, popup.getMenu());
 
-        if (comm.isM_teacher()) {
+        if (comm.isTeacher()) {
             popup.getMenu().removeItem(R.id.HamburgerMenuHomePageStudent);
             if (this.getLocalClassName().equals(HomePageTeacher.class.getSimpleName())) {
                 popup.getMenu().removeItem(R.id.HamburgerMenuHomePageTeacher);
@@ -222,7 +222,7 @@ public class HamburgerMenu extends Activity {
                 recyclerView = findViewById(R.id.recyclerView_MyLessons);
 
                 ClearArrays();
-                ArrayList<UserLesson> lessons = comm.MapToArray(comm.getTargetLessons(comm.getUid()));
+                ArrayList<UserLesson> lessons = comm.MapToArray(comm.getUserLessons());
                 if (lessons != null) {
                     i = 0;
                     for (UserLesson lesson : lessons) {
@@ -294,8 +294,8 @@ public class HamburgerMenu extends Activity {
             case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
                 recyclerView = findViewById(R.id.Recycler_View_TeacherProfile_LessonsOffered);
                 ClearArrays();
-
-                Map<String, UserLesson> temp = comm.getTargetLessons(SingleUID);
+                comm.getViewedTeacherData(SingleUID);
+                Map<String, UserLesson> temp = comm.getViewedUserLessons();
 
                 for (Map.Entry lesson : temp.entrySet()) {
                     TempStringArray1[i] = ((UserLesson) lesson.getValue()).getName();
@@ -364,7 +364,7 @@ public class HamburgerMenu extends Activity {
 //.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry()).whereEqualTo(FIELD_LESSONS + "." + subject + "." + Globals.FIELD_NAME, subject)
         if (zoom || teachersPlace || studentsPlace && !zoom) {
             teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true)
-                    .whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    .whereEqualTo(CITY, comm.getUserCity()).whereEqualTo(COUNTRY, comm.getUserCountry()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
@@ -459,7 +459,7 @@ public class HamburgerMenu extends Activity {
                 }
             });
         } else {
-            teacherRef.whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry())
+            teacherRef.whereEqualTo(CITY, comm.getUserCity()).whereEqualTo(COUNTRY, comm.getUserCountry())
                     .whereArrayContains(Globals.LANGUAGES, "english").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {

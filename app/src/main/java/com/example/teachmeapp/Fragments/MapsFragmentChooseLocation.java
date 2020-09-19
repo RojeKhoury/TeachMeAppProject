@@ -134,7 +134,7 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
 
                 Intent intent;
 
-                if(comm.isM_teacher())
+                if(comm.isTeacher())
                 {intent= new Intent(getActivity(), HomePageTeacher.class);}
 
                 else

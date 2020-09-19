@@ -68,7 +68,9 @@ public class Globals
     public static final String FIELD_TEACHERS = "teachers";
     public static final String FIELD_PRICE = "price";
     public static final String LANGUAGES = "languages";
-
+    public static final String RATING_COUNT = "numberOFRatings";
+    public static final String RATINGS = "ratings";
+    public static final String FAVOURITES = "favourites";
 
 
     public static communicationWithDatabase comm = new communicationWithDatabase();

@@ -1,5 +1,6 @@
 package com.example.teachmeapp.Helpers;
 
+import android.location.Location;
 import android.net.Uri;
 import android.util.Log;
 
@@ -10,7 +11,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,10 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -29,17 +27,21 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_STUDENT;
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_COMMENTS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SCHEDULE;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERS;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.LOCATION;
 import static com.example.teachmeapp.Helpers.Globals.PENDING_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.comm;
@@ -55,36 +57,209 @@ public class communicationWithDatabase {
     private DatabaseReference m_userDatabase;
     private String res;
 
-    private Map<String, UserLesson> m_lessons;
-    private Map<String, UserLesson> targetLessons;
-
-    private String m_firstName;
-    private String m_lastName;
-    private String m_bio;
-    private ArrayList<Integer> m_starRating;
-    private float m_rating;
-
+    //current user
+    private Map<String, UserLesson> m_currentUserLessons;
+    private String m_currentUserFirstName;
+    private String m_currentUserLastName;
+    private String m_currentUserBio;
+    private Double m_currentUserStarRating;
+    private int m_currentUserRatingCount;
     private boolean m_teacher = false;
-    private String m_phone;
-    private String m_email;
+    private String m_currentUserPhone;
+    private String m_currentUserEmail;
+    private String m_currentUserCity, m_currentUserCountry;
+    private Calendar m_currentUserPendingLessons;
+    private Calendar m_currentUserCalendar;
+    private List<Comment> m_currentUserComments;
+    private Location m_currentUserLocation;
+    private boolean m_currentUserZoom;
+    private boolean m_currentUserStudentHome;
+    private boolean m_currentUserTeacherHome;
+    private List<String> m_currentUserRatingsList;
+    private List<String> m_currentUserFavourites;
 
-    private String city, country;
+
     private Uri temp;
 
-    Calendar m_targetCalendar, m_userCalendar;
+    //viewed user
+    private Map<String, UserLesson> m_viewedUserLessons;
+    private String m_viewedUserFirstName;
+    private String m_viewedUserLastName;
+    private String m_viewedUserBio;
+    private Double m_viewedUserStarRating;
+    private int m_viewedUserRatingCount;
+    private String m_viewedUserPhone;
+    private String m_viewedUserEmail;
+    private String m_viewedUserCity, m_viewedUserCountry;
+    private Calendar m_viewedUserCalendar;
+    private Location m_viewedUserLocation;
+    private Calendar m_viewedUserPendingLessons;
+    private List<Comment> m_viewedUserComments;
+    private boolean m_viewedUserZoom;
+    private boolean m_viewedUserStudentHome;
+    private boolean m_viewedUserTeacherHome;
+    private String m_viewedUserUID;
 
+    public void setTeacher(boolean m_teacher) {
+        this.m_teacher = m_teacher;
+    }
 
-    public boolean isM_teacher() {
+    public boolean isTeacher() {
         return m_teacher;
     }
 
-    public void setM_teacher(boolean m_teacher) {
-        this.m_teacher = m_teacher;
+    public Calendar getUserCalendar() {
+        return m_currentUserCalendar;
+    }
+
+    public Calendar getUserPendingLessons() {
+        return m_currentUserPendingLessons;
+    }
+
+    public Double getUserStarRating() {
+        return m_currentUserStarRating;
+    }
+
+    public String getUserPhone() {
+        return m_currentUserPhone;
+    }
+
+    public int getUserRatingCount() {
+        return m_currentUserRatingCount;
+    }
+
+    public List<Comment> getUserComments() {
+        return m_currentUserComments;
+    }
+
+    public Location getUserLocation() {
+        return m_currentUserLocation;
+    }
+
+    public String getUserCity() {
+        return m_currentUserCity;
+    }
+
+    public String getUserCountry() {
+        return m_currentUserCountry;
+    }
+
+    public boolean isUserZoom() {
+        return m_currentUserZoom;
+    }
+
+    public boolean isUserStudentHome() {
+        return m_currentUserStudentHome;
+    }
+
+    public boolean isUserTeacherHome() {
+        return m_currentUserTeacherHome;
+    }
+
+    public List<String> getUserRatingsList() {
+        return m_currentUserRatingsList;
+    }
+
+    public List<String> getUserFavourites() {
+        return m_currentUserFavourites;
+    }
+
+    public Map<String, UserLesson> getUserLessons() {
+        return m_currentUserLessons;
+    }
+
+    public String getUserSurname() {
+        return m_currentUserLastName;
+    }
+
+    public String getUserName() {
+        return m_currentUserFirstName;
+    }
+
+    public String getUserEmail() {
+        return m_currentUserEmail;
+    }
+
+    public String getUserBio() {
+        return m_currentUserBio;
+    }
+
+    public Map<String, UserLesson> getViewedUserLessons() {
+        return m_viewedUserLessons;
+    }
+
+    public Calendar getViewedUserCalendar() {
+        return m_viewedUserCalendar;
+    }
+
+    public Calendar getViewedUserPendingLessons() {
+        return m_viewedUserPendingLessons;
+    }
+
+    public Double getViewedUserStarRating() {
+        return m_viewedUserStarRating;
+    }
+
+    public String getViewedUserPhone() {
+        return m_viewedUserPhone;
+    }
+
+    public int getViewedUserRatingCount() {
+        return m_viewedUserRatingCount;
+    }
+
+    public List<Comment> getViewedUserComments() {
+        return m_viewedUserComments;
+    }
+
+    public Location getViewedUserLocation() {
+        return m_viewedUserLocation;
+    }
+
+    public String getViewedUserCity() {
+        return m_viewedUserCity;
+    }
+
+    public String getViewedUserCountry() {
+        return m_viewedUserCountry;
+    }
+
+    public boolean isViewedUserZoom() {
+        return m_viewedUserZoom;
+    }
+
+    public boolean isViewedUserStudentHome() {
+        return m_viewedUserStudentHome;
+    }
+
+    public boolean isViewedUserTeacherHome() {
+        return m_viewedUserTeacherHome;
+    }
+
+    public String getViewedUserSurname() {
+        return m_viewedUserLastName;
+    }
+
+    public String getViewedUserName() {
+        return m_viewedUserFirstName;
+    }
+
+    public String getViewedUserEmail() {
+        return m_viewedUserEmail;
+    }
+
+    public String getViewedUserBio() {
+        return m_viewedUserBio;
+    }
+
+    public String getViewedUserUID() {
+        return m_viewedUserUID;
     }
 
 
     //here you can insert data to the data base itself (no the storage just the database) you will need to specify the data (a map containing the fields) the collection (teacher/student/admin/ any other you may want to add)
     //and finally the collection (i have it set to be the user id of the user for easier access)
+
     private void insertToDatabase(Map<String, Object> data, String collection, String document) {
         db.collection(collection).document(document)
                 .set(data)
@@ -118,7 +293,6 @@ public class communicationWithDatabase {
                     }
                 });
     }
-
     //if you want to upload any image this is where you do it (in the storage reference you can add the location you want to place the image in the database)
     public void uploadImage(String imageLocation, StorageReference ref, final String owner) {
 
@@ -141,6 +315,7 @@ public class communicationWithDatabase {
                     }
                 });
     }
+
         /*ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -166,8 +341,8 @@ public class communicationWithDatabase {
         m_user = mAuth.getCurrentUser();
         updateDatabase(user, owner, m_user.getUid());
     }
-
     //just a little thing to help you with the storage ref building.
+
     public StorageReference buildStorageRef(String folder, String userId, String subFolder, String fileName) {
         return storageRef.child(folder + "/" + userId + "/" + subFolder + "/" + fileName);
     }
@@ -197,33 +372,60 @@ public class communicationWithDatabase {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    m_firstName = document.get(Globals.FIELD_NAME).toString();
-                    m_lastName = document.get(Globals.FIELD_SURNAME).toString();
-                    m_phone = document.get(Globals.FIELD_PHONE).toString();
-                    m_email = document.get(Globals.FIELD_EMAIL).toString();
-                    city = document.get(Globals.CITY).toString();
-                    country = document.get(Globals.COUNTRY).toString();
+                    m_currentUserFirstName = document.get(Globals.FIELD_NAME).toString();
+                    m_currentUserLastName = document.get(Globals.FIELD_SURNAME).toString();
+                    m_currentUserPhone = document.get(Globals.FIELD_PHONE).toString();
+                    m_currentUserEmail = document.get(Globals.FIELD_EMAIL).toString();
+                    m_currentUserCity = document.get(Globals.CITY).toString();
+                    m_currentUserCountry = document.get(Globals.COUNTRY).toString();
+                    m_currentUserLocation = (Location) document.get(LOCATION);
+                    m_currentUserPendingLessons = (Calendar) document.get(PENDING_LESSONS);
+                    m_currentUserCalendar = (Calendar) document.get(FIELD_SCHEDULE);
+
                     if (m_teacher) {
-                        m_starRating = (ArrayList<Integer>) document.get(Globals.FIELD_RATING);
-                        m_bio = document.get(Globals.FIELD_BIO).toString();
-                        m_lessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
+                        m_currentUserStarRating = (Double) document.get(Globals.FIELD_RATING);
+                        m_currentUserRatingCount = (int) document.get(Globals.RATING_COUNT);
+                        m_currentUserBio = document.get(Globals.FIELD_BIO).toString();
+                        m_currentUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
+                        m_currentUserComments = (List<Comment>) document.get(FIELD_COMMENTS);
+                        m_currentUserZoom = (boolean) document.get(FIELD_ZOOM);
+                        m_currentUserStudentHome = (boolean) document.get(FIELD_STUDENTHOME);
+                        m_currentUserTeacherHome = (boolean) document.get(FIELD_STUDENTHOME);
+                    } else {
+                        m_currentUserRatingsList = (List<String>) document.get(Globals.RATINGS);
+                        m_currentUserFavourites = (List<String>) document.get(Globals.FAVOURITES);
                     }
                 }
             }
         });
-
-        Integer total = 0;
-
-        if (m_teacher) {
-            if (m_starRating != null) {
-                for (Integer element : m_starRating) {
-                    total += element;
-                }
-                m_rating = total / m_starRating.size();
-            }
-        }
     }
 
+    public void getViewedTeacherData(String uid) {
+        m_user = mAuth.getCurrentUser();
+
+        db.collection(FIELD_TEACHERS).document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    m_viewedUserFirstName = document.get(Globals.FIELD_NAME).toString();
+                    m_viewedUserLastName = document.get(Globals.FIELD_SURNAME).toString();
+                    m_viewedUserPhone = document.get(Globals.FIELD_PHONE).toString();
+                    m_viewedUserEmail = document.get(Globals.FIELD_EMAIL).toString();
+                    m_viewedUserCity = document.get(Globals.CITY).toString();
+                    m_viewedUserCountry = document.get(Globals.COUNTRY).toString();
+                    m_viewedUserLocation = (Location) document.get(LOCATION);
+                    m_viewedUserPendingLessons = (Calendar) document.get(PENDING_LESSONS);
+                    m_viewedUserCalendar = (Calendar) document.get(FIELD_SCHEDULE);
+                    m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
+                    m_viewedUserRatingCount = (int) document.get(Globals.RATING_COUNT);
+                    m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
+                    m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
+                    m_viewedUserUID = (String) document.get(Globals.FIELD_UID);
+                }
+            }
+        });
+    }
     /*public String getName(String group) {
     return getData(group,"name");
     }
@@ -241,29 +443,6 @@ public class communicationWithDatabase {
                     }
                 });
 }*/
-    public String getSurname() {
-        return m_lastName;
-    }
-
-    public String getame() {
-        return m_firstName;
-    }
-
-    public String getPhone() {
-        return m_phone;
-    }
-
-    public String getEmail() {
-        return m_email;
-    }
-
-    public float getStarRating() {
-        return m_rating;
-    }
-
-    public String getBio() {
-        return m_bio;
-    }
 
     public DocumentReference getStorageRef() {
         if (m_teacher)
@@ -496,13 +675,13 @@ public class communicationWithDatabase {
 
     public void changeName(String name) {
         updateElementInDatabase(getStorageRef(), Globals.FIELD_NAME, name);
-        m_firstName = name;
+        m_currentUserFirstName = name;
     }
 
     public void changeSurname(String surname) {
         updateElementInDatabase(getStorageRef(), Globals.FIELD_SURNAME, surname);
 
-        m_lastName = surname;
+        m_currentUserLastName = surname;
     }
 
     public void changeBio(String bio) {
@@ -627,12 +806,12 @@ public class communicationWithDatabase {
     }
 
     public String getCity() {
-        return city;
+        return m_currentUserCity;
     }
 
 
     public String getCountry() {
-        return country;
+        return m_currentUserCountry;
     }
 
     public void removeCourseFromTeacher(String lesson) {
@@ -802,13 +981,10 @@ public class communicationWithDatabase {
         ;
     }
 
-    public Map<String, UserLesson> getLessons() {
-        return m_lessons;
-    }
-
+    /*
     public Map<String, UserLesson> getTargetLessons(String uid) {
         getTeacherLessons(uid);
-        return targetLessons;
+        return m_currentUserLessons;
     }
 
     private void getTeacherLessons(String uid) {
@@ -816,11 +992,11 @@ public class communicationWithDatabase {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    targetLessons = (Map<String, UserLesson>) task.getResult().get(FIELD_LESSONS);
+                    m_viewedUserLessons = (Map<String, UserLesson>) task.getResult().get(FIELD_LESSONS);
                 }
             }
         });
-    }
+    }*/
 
     public ArrayList<UserLesson> MapToArray(Map<String, UserLesson> target) {
         ArrayList<UserLesson> res = new ArrayList<>();

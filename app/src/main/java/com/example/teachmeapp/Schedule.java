@@ -36,7 +36,7 @@ public class Schedule extends HamburgerMenu {
         cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
-                DocumentReference ref = comm.getDocumentReference(comm.getUid(), comm.isM_teacher());
+                DocumentReference ref = comm.getDocumentReference(comm.getUid(), comm.isTeacher());
                 com.example.teachmeapp.Helpers.Calendar cal = (com.example.teachmeapp.Helpers.Calendar) ref.get().getResult().get(Globals.FIELD_SCHEDULE);
 
                 for(BookedLesson lesson: cal.getSchedule())
