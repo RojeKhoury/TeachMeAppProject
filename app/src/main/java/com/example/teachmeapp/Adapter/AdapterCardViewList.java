@@ -200,6 +200,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                         intent.putExtra("Price", data2.get(position));
                         intent.putExtra("Level", data3.get(position));
                         intent.putExtra("Status", data4.get(position));
+
                        //TODO get the uid to put in this function comm.getViewedUserData("uid", !comm.isTeacher());
                         context.startActivity(intent);
                     }

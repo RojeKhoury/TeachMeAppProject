@@ -26,8 +26,8 @@ public class Teacher {
     private double rating;
     private int numberOFRatings;
     private LatLng location;
-    private Calendar schedule;
-    private Calendar pendingLessonRequests;
+    private Schedule schedule;
+    private Schedule pendingLessonRequests;
     private ArrayList<String> languages;
 
     public Teacher() {
@@ -36,6 +36,7 @@ public class Teacher {
     public Teacher(String name, String surname, String phone, List<Comment> comments, String email, String uid, ArrayList<String> language) {
         // [START_EXCLUDE]
         Map<String, UserLesson> temp = new HashMap<>();
+        Map<String, BookedLesson> temp2 = new HashMap<>();
 
         this.name = name;
         this.surname = surname;
@@ -54,14 +55,18 @@ public class Teacher {
         this.country = "";
         this.address = "";
         this.location = null;
-        this.schedule = new Calendar();
-        this.pendingLessonRequests = new Calendar();
+        this.schedule = new Schedule();
+        this.pendingLessonRequests = new Schedule();
         this.languages = language;
         // [END_EXCLUDE]
     }
 
-    public Calendar getSchedule() {
+    public Schedule getSchedule() {
         return schedule;
+    }
+
+    public Schedule getPendingLessonRequests() {
+        return pendingLessonRequests;
     }
 
     public String getName() {

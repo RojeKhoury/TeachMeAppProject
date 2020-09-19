@@ -74,9 +74,7 @@ public class HamburgerMenu extends Activity {
     public ArrayList<Uri> arrayListUri1;
     public ArrayList<Double> arrayListDouble1;
     public ArrayList<String> arrayListUID;
-    ArrayList<BookedLesson> les = comm.MapToArrayBookedLessons(comm.getUserPendingLessons().getSchedule());
-
-
+    public ArrayList<BookedLesson> les;
 
     public HamburgerMenu() {
         TempStringArray1 = new String[0];
@@ -263,6 +261,7 @@ public class HamburgerMenu extends Activity {
                 break;
             case TEACHER_PENDING_REQUESTS_VIEW:
                 recyclerView = findViewById(R.id.recyclerViewPendingRequestTeacher);
+                les = comm.MapToArrayBookedLessons(comm.getUserPendingLessons().getLessons());
                 ClearArrays();
                 //TODO @abed I gave you the pending requests in les
                 for(BookedLesson lesson : les)
@@ -278,6 +277,7 @@ public class HamburgerMenu extends Activity {
                 }
                 break;
             case STUDENT_PENDING_REQUESTS_VIEW://TODO @abed I gave you the pending requests in les
+                les = comm.MapToArrayBookedLessons(comm.getUserPendingLessons().getLessons());
                 for(BookedLesson lesson : les)
                 {
                     lesson.getLesson().getName();
@@ -292,6 +292,7 @@ public class HamburgerMenu extends Activity {
                 break;
             case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
                 recyclerView = findViewById(R.id.Recycler_View_TeacherProfile_LessonsOffered);
+
                 ClearArrays();
                 comm.getViewedUserData(SingleUID, !comm.isTeacher());
                 Map<String, UserLesson> temp = comm.getViewedUserLessons();

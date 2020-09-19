@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -26,14 +27,16 @@ public class Student {
     private String city;
     private String country;
     private String address;
-    private Calendar schedule;
-    private Calendar pendingLessonRequests;
+    private Schedule schedule;
+    private Schedule pendingLessonRequests;
     private ArrayList<String> languages;
 
     public Student() {
     }
 
     public Student(String name, String surname, String phone, Map<String, UserLesson> classes, String email, String uid, ArrayList<String> languages) {
+
+        Map<String, BookedLesson> temp = new HashMap<>();
 
         // [START_EXCLUDE]
         this.name = name;
@@ -290,16 +293,20 @@ public class Student {
         this.city = "";
         this.country = "";
         this.address = "";
-        this.schedule = new Calendar();
-        this.pendingLessonRequests = new Calendar();
+        this.schedule = new Schedule();
+        this.pendingLessonRequests = new Schedule();
         this.location = null;
         // [END_EXCLUDE]
     }
 
     public ArrayList<String> getLanguages(){return languages;}
 
-    public Calendar getSchedule() {
+    public Schedule getSchedule() {
         return schedule;
+    }
+
+    public Schedule getPendingLessonRequests() {
+        return pendingLessonRequests;
     }
 
     public String getName() {

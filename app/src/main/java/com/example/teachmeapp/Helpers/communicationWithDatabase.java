@@ -41,7 +41,6 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SCHEDULE;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.LOCATION;
 import static com.example.teachmeapp.Helpers.Globals.PENDING_LESSONS;
@@ -69,8 +68,8 @@ public class communicationWithDatabase {
     private String m_currentUserPhone;
     private String m_currentUserEmail;
     private String m_currentUserCity, m_currentUserCountry;
-    private Calendar m_currentUserPendingLessons;
-    private Calendar m_currentUserCalendar;
+    private Schedule m_currentUserPendingLessons;
+    private Schedule m_currentUserCalendar;
     private List<Comment> m_currentUserComments;
     private Location m_currentUserLocation;
     private boolean m_currentUserZoom;
@@ -92,9 +91,9 @@ public class communicationWithDatabase {
     private String m_viewedUserPhone;
     private String m_viewedUserEmail;
     private String m_viewedUserCity, m_viewedUserCountry;
-    private Calendar m_viewedUserCalendar;
+    private Schedule m_viewedUserCalendar;
     private Location m_viewedUserLocation;
-    private Calendar m_viewedUserPendingLessons;
+    private Schedule m_viewedUserPendingLessons;
     private List<Comment> m_viewedUserComments;
     private boolean m_viewedUserZoom;
     private boolean m_viewedUserStudentHome;
@@ -120,11 +119,11 @@ public class communicationWithDatabase {
         return m_viewedUserFavourites;
     }
 
-    public Calendar getUserCalendar() {
+    public Schedule getUserCalendar() {
         return m_currentUserCalendar;
     }
 
-    public Calendar getUserPendingLessons() {
+    public Schedule getUserPendingLessons() {
         return m_currentUserPendingLessons;
     }
 
@@ -200,11 +199,11 @@ public class communicationWithDatabase {
         return m_viewedUserLessons;
     }
 
-    public Calendar getViewedUserCalendar() {
+    public Schedule getViewedUserCalendar() {
         return m_viewedUserCalendar;
     }
 
-    public Calendar getViewedUserPendingLessons() {
+    public Schedule getViewedUserPendingLessons() {
         return m_viewedUserPendingLessons;
     }
 
@@ -392,8 +391,8 @@ public class communicationWithDatabase {
                     m_currentUserCity = document.get(Globals.CITY).toString();
                     m_currentUserCountry = document.get(Globals.COUNTRY).toString();
                     m_currentUserLocation = (Location) document.get(LOCATION);
-                    m_currentUserPendingLessons = (Calendar) document.get(PENDING_LESSONS);
-                    m_currentUserCalendar = (Calendar) document.get(FIELD_SCHEDULE);
+                    m_currentUserPendingLessons = (Schedule) document.get(PENDING_LESSONS);
+                    m_currentUserCalendar = (Schedule) document.get(FIELD_SCHEDULE);
 
                     if (m_teacher) {
                         m_currentUserStarRating = (Double) document.get(Globals.FIELD_RATING);
@@ -415,7 +414,9 @@ public class communicationWithDatabase {
 
     public void getViewedUserData(String uid, final boolean teacher) {
 
-        db.collection(FIELD_TEACHERS).document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        String collection = ((teacher) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
+
+        db.collection(collection).document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -427,12 +428,12 @@ public class communicationWithDatabase {
                     m_viewedUserCity = document.get(Globals.CITY).toString();
                     m_viewedUserCountry = document.get(Globals.COUNTRY).toString();
                     m_viewedUserLocation = (Location) document.get(LOCATION);
-                    m_viewedUserCalendar = (Calendar) document.get(FIELD_SCHEDULE);
+                    m_viewedUserCalendar = (Schedule) document.get(FIELD_SCHEDULE);
                     m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                     m_viewedUserUID = (String) document.get(Globals.FIELD_UID);
 
                     if (teacher) {
-                        m_viewedUserPendingLessons = (Calendar) document.get(PENDING_LESSONS);
+                        m_viewedUserPendingLessons = (Schedule) document.get(PENDING_LESSONS);
                         m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
                         m_viewedUserRatingCount = (int) document.get(Globals.RATING_COUNT);
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
@@ -1058,7 +1059,7 @@ public class communicationWithDatabase {
         db.collection(collection).document(getViewedUserUID()).update(PENDING_LESSONS + "." + key, bookedLesson).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                m_viewedUserPendingLessons.getSchedule().put(key, bookedLesson);
+                m_viewedUserPendingLessons.getLessons().put(key, bookedLesson);
                 db.collection(secondCollection).document(m_viewedUserUID).update(PENDING_LESSONS + "." + key, bookedLesson);
             }
         });
@@ -1066,12 +1067,12 @@ public class communicationWithDatabase {
 
     public boolean acceptLessonRequest(final String lessonKey) {
 
-        final BookedLesson lesson = m_currentUserPendingLessons.getSchedule().get(lessonKey);
+        final BookedLesson lesson = m_currentUserPendingLessons.getLessons().get(lessonKey);
         final String collection =  ((isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
         final String secondCollection = ((isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
 
 
-        BookedLesson tester = m_currentUserPendingLessons.getSchedule().get(lessonKey);
+        BookedLesson tester = m_currentUserPendingLessons.getLessons().get(lessonKey);
 
         if (tester != null) {
             db.collection(collection).document(getUid()).update(FIELD_SCHEDULE + "." + lessonKey, lesson).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -1102,8 +1103,8 @@ public class communicationWithDatabase {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()) {
-                    final String teacherUID = ((Calendar) task.getResult().get(PENDING_LESSONS)).getSchedule().get(lessonKey).getTeacherUID();
-                    final String studentUID = ((Calendar) task.getResult().get(PENDING_LESSONS)).getSchedule().get(lessonKey).getTeacherUID();
+                    final String teacherUID = ((Schedule) task.getResult().get(PENDING_LESSONS)).getLessons().get(lessonKey).getTeacherUID();
+                    final String studentUID = ((Schedule) task.getResult().get(PENDING_LESSONS)).getLessons().get(lessonKey).getTeacherUID();
 
                     db.collection(COLLECTION_TEACHER).document(teacherUID).update(PENDING_LESSONS + "." + lessonKey, FieldValue.delete());
                     db.collection(COLLECTION_STUDENT).document(studentUID).update(PENDING_LESSONS + "." + lessonKey, FieldValue.delete());

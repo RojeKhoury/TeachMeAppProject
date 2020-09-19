@@ -71,6 +71,7 @@ public class Globals
     public static final String RATING_COUNT = "numberOFRatings";
     public static final String RATINGS = "ratings";
     public static final String FAVOURITES = "favourites";
+    public static final String BOOKED_LESSON = "BookedLesson";
 
 
     public static communicationWithDatabase comm = new communicationWithDatabase();

@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.teachmeapp.Helpers.BookedLesson;
+import com.example.teachmeapp.Helpers.Globals;
 
 import javax.security.auth.Subject;
 
@@ -29,7 +30,7 @@ public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
         String Subject = getIntent().getStringExtra("Subject");
         String Price = getIntent().getStringExtra("Price");
         String Level = getIntent().getStringExtra("Level");
-
+        BookedLesson lesson = (BookedLesson) getIntent().getExtras().get(Globals.BOOKED_LESSON);
         String UID = getIntent().getStringExtra("UID");//TODO UID acquired
 
         comm.getViewedUserData(UID, !comm.isTeacher());
