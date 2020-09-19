@@ -64,6 +64,7 @@ public class ScheduleExpandingButton extends AppCompatActivity {
         regardless this function will remove the lesson from the database all you need to do is give it the lesson to remove (BookedLesson)
          */
 
+
         //comm.removeBookedLesson(new BookedLesson(new UserLesson("name", "price", "level"), new Timestamp(), new Timestamp(), "lesson name", "the uid of the other person", true, true, true));
         // comm.removeLessonFomSchedule();
         super.onBackPressed();// to go back to the previous activity
