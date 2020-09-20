@@ -57,5 +57,6 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
+    <string name="write_a_message">write message</string>
 
 </resources>

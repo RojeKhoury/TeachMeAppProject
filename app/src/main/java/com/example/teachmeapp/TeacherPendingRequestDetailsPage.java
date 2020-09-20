@@ -33,6 +33,7 @@ public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
         BookedLesson lesson = (BookedLesson) getIntent().getExtras().get(Globals.BOOKED_LESSON);
         String UID = getIntent().getStringExtra("UID");//TODO UID acquired
 
+
         comm.getViewedUserData(UID, !comm.isTeacher());
 
         TextView textViewSubject = findViewById(R.id.TeacherPendingRequestDetailsPage_TextView_Subject);

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,8 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -416,12 +419,30 @@ public class communicationWithDatabase {
 
     public void getViewedUserData(String uid, final boolean teacher) {
 
-        String collection = ((teacher) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
+        final DocumentReference docRef = db.collection(COLLECTION_TEACHER).document(uid);
+        if (teacher) {
+            docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                    Log.d("TAGY", "Current data: " + snapshot.get(Globals.FIELD_NAME).toString());
+                    m_viewedUserFirstName = snapshot.get(Globals.FIELD_NAME).toString();
+//                    m_viewedUserLastName = snapshot.get(Globals.FIELD_SURNAME).toString();
+//                    m_viewedUserPhone = snapshot.get(Globals.FIELD_PHONE).toString();
+                }
+            });
+        }
+        else
+        {
 
+        }
+
+        /*
         db.collection(collection).document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                while(!task.isSuccessful());
                 if (task.isSuccessful()) {
+                    Log.d("GETSURENAME","task.isSuccessful()");
                     DocumentSnapshot document = task.getResult();
                     m_viewedUserFirstName = document.get(Globals.FIELD_NAME).toString();
                     m_viewedUserLastName = document.get(Globals.FIELD_SURNAME).toString();
@@ -429,13 +450,14 @@ public class communicationWithDatabase {
                     m_viewedUserEmail = document.get(Globals.FIELD_EMAIL).toString();
                     m_viewedUserCity = document.get(Globals.CITY).toString();
                     m_viewedUserCountry = document.get(Globals.COUNTRY).toString();
-                    m_viewedUserLocation = (HashMap) document.get(LOCATION);
-                    m_viewedUserCalendar = new Schedule ((HashMap<String, BookedLesson>) document.get(FIELD_SCHEDULE));
-                    m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
+                    //m_viewedUserLocation = (Location) document.get(LOCATION);
+                    //m_viewedUserCalendar = (Schedule) document.get(FIELD_SCHEDULE);
+                    //m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                     m_viewedUserUID = (String) document.get(Globals.FIELD_UID);
 
                     if (teacher) {
-                        m_viewedUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
+                        Log.d("GETSURENAME","if (teacher) {");
+                        m_viewedUserPendingLessons = (Schedule) document.get(PENDING_LESSONS);
                         m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
                         m_viewedUserRatingCount = (int) document.get(Globals.RATING_COUNT);
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
@@ -444,8 +466,10 @@ public class communicationWithDatabase {
                     }
                 }
             }
-        });
+        });*/
     }
+
+
     /*public String getName(String group) {
     return getData(group,"name");
     }

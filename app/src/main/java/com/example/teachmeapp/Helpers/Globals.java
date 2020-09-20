@@ -71,8 +71,20 @@ public class Globals
     public static final String RATING_COUNT = "numberOFRatings";
     public static final String RATINGS = "ratings";
     public static final String FAVOURITES = "favourites";
+    public static final String STUDENTS ="STUDENTS" ;
+    public static final String TEACHERS ="TEACHERS" ;
+    public static final String TALKEDWITH ="TalkedWith";
     public static final String BOOKED_LESSON = "BookedLesson";
+    public static final String IS_TEACHER="IsTeacher";
 
+
+
+
+    //New DB
+    public static final String STUDENT_USER="Students";
+    public static final String TEACHER_USER="Teachers";
 
     public static communicationWithDatabase comm = new communicationWithDatabase();
+
+
 }

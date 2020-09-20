@@ -27,8 +27,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TeacherInfoPage"></activity>
-        <activity android:name=".RequestLessons" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -41,7 +40,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".StudentPendingRequestDetailsPage" />
+        <activity android:name=".StudentPendingRequestDetailsPage">
+
+        </activity>
         <activity android:name=".TeacherPendingRequestDetailsPage" />
         <activity android:name=".StudentPendingRequests" />
         <activity android:name=".TeacherPendingRequests" />
@@ -69,6 +70,12 @@
             android:theme="@style/AppThemeNoBar" />
         <activity
             android:name=".Schedule"
+            android:theme="@style/AppThemeNoBar" />
+        <activity
+            android:name=".Chat.Chats"
+            android:theme="@style/AppThemeNoBar" />
+        <activity
+            android:name=".Chat.ChatWindow"
             android:theme="@style/AppThemeNoBar" />
         <activity
             android:name=".HistoryClassesPage"

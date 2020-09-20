@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.example.teachmeapp.Chat.Chats;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -53,7 +54,8 @@ public class LoginAsTeacherOrStudent extends HamburgerMenu {
 
     public void onClick_OpenTeacherHomePage(View view) {
         comm.setTeacher(true);
-        Intent intent = new Intent(this, HomePageTeacher.class);
+        Log.d("Page_ID","Try enter Chats");
+        Intent intent = new Intent(this, Chats.class);
         startActivity(intent);
     }
 

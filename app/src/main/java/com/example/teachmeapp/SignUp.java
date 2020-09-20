@@ -66,8 +66,8 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void updateUI() {
-      //  m_city = findViewById(R.id.signUp_editText_enterCity);
-       // m_country = findViewById(R.id.signUp_editText_enterCountry);
+        //  m_city = findViewById(R.id.signUp_editText_enterCity);
+        // m_country = findViewById(R.id.signUp_editText_enterCountry);
 
         m_fName = findViewById(R.id.signUp_editText_enterName);
         m_lName = findViewById(R.id.signUp_editText_enterSurname);
@@ -83,7 +83,7 @@ public class SignUp extends AppCompatActivity {
         bNext = (Button) findViewById(R.id.buttonNext);
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         m_teacher_checkbox = findViewById(R.id.CheckBox_Student);
-     //   ChooseLocation = findViewById(R.id.Choose_location);
+        //   ChooseLocation = findViewById(R.id.Choose_location);
         String regexPassword = "^[A-Za-z\\d].{5,}$";
         String regexPhone = "^(?=.*\\d).{10,10}$";
         String regexAddress = "^[A-Za-z\\d].{3,}$";
