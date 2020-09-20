@@ -4,9 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Comment {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     private String id;
     private String comment;
     float rating;
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
 
     public Comment() {
     }

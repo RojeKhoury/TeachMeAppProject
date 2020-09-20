@@ -7,13 +7,20 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
 public class Student {
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 
     private String name;
     private String surname;
@@ -31,12 +38,62 @@ public class Student {
     private Schedule pendingLessonRequests;
     private ArrayList<String> languages;
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setClasses(Map<String, UserLesson> classes) {
+        this.classes = classes;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setRatings(List<String> ratings) {
+        this.ratings = ratings;
+    }
+
+    public void setFavourites(List<String> favourites) {
+        this.favourites = favourites;
+    }
+
+    public void setLocation(LatLng location) {
+        this.location = location;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public void setPendingLessonRequests(Schedule pendingLessonRequests) {
+        this.pendingLessonRequests = pendingLessonRequests;
+    }
+
+    public void setLanguages(ArrayList<String> languages) {
+        this.languages = languages;
+    }
+
     public Student() {
     }
 
     public Student(String name, String surname, String phone, Map<String, UserLesson> classes, String email, String uid, ArrayList<String> languages) {
-
-        Map<String, BookedLesson> temp = new HashMap<>();
 
         // [START_EXCLUDE]
         this.name = name;
@@ -303,10 +360,6 @@ public class Student {
 
     public Schedule getSchedule() {
         return schedule;
-    }
-
-    public Schedule getPendingLessonRequests() {
-        return pendingLessonRequests;
     }
 
     public String getName() {

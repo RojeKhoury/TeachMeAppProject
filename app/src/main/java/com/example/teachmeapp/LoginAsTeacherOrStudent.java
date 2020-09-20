@@ -48,14 +48,16 @@ public class LoginAsTeacherOrStudent extends HamburgerMenu {
 
     public void onClick_OpenStudentHomePage(View view) {
         comm.setTeacher(false);
+        comm.getData();
         Intent intent = new Intent(this, HomePageStudent.class);
         startActivity(intent);
     }
 
     public void onClick_OpenTeacherHomePage(View view) {
         comm.setTeacher(true);
+        comm.getData();
         Log.d("Page_ID","Try enter Chats");
-        Intent intent = new Intent(this, Chats.class);
+        Intent intent = new Intent(this, HomePageTeacher.class);
         startActivity(intent);
     }
 

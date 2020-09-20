@@ -4,6 +4,30 @@ import com.google.firebase.Timestamp;
 
 public class BookedLesson {
 
+    public void setLesson(UserLesson lesson) {
+        this.lesson = lesson;
+    }
+
+    public void setTimeStart(Timestamp timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public void setTeacherUID(String teacherUID) {
+        this.teacherUID = teacherUID;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public void setZoom(Boolean zoom) {
+        this.zoom = zoom;
+    }
+
+    public void setStudentsHome(Boolean studentsHome) {
+        this.studentsHome = studentsHome;
+    }
+
     private UserLesson lesson;
     private Timestamp timeStart;
     private Timestamp timeEnd;
@@ -15,6 +39,26 @@ public class BookedLesson {
     private Boolean teachersHome;
     private Boolean studentsHome;
     private Boolean teacherRequest;
+
+    public void setTeacherRequest(Boolean teacherRequest) {
+        this.teacherRequest = teacherRequest;
+    }
+
+    public void setTeachersHome(Boolean teachersHome) {
+        this.teachersHome = teachersHome;
+    }
+
+    public void setStudentUID(String studentUID) {
+        this.studentUID = studentUID;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public void setTimeEnd(Timestamp timeEnd) {
+        this.timeEnd = timeEnd;
+    }
 
     public BookedLesson()
     {}

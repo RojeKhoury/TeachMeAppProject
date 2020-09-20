@@ -220,7 +220,7 @@ public class HamburgerMenu extends Activity {
                 }
                 break;
 
-            case LESSONS_FOR_TEACHER_VIEW:
+           /* case LESSONS_FOR_TEACHER_VIEW:
                 recyclerView = findViewById(R.id.recyclerView_MyLessons);
 
                 ClearArrays();
@@ -247,7 +247,7 @@ public class HamburgerMenu extends Activity {
                     adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
                             null, null, null, null);
                 }
-                break;
+                break;*/
 
             case HISTORY_OF_LESSONS_VIEW:
                 recyclerView = findViewById(R.id.recyclerViewHistory);

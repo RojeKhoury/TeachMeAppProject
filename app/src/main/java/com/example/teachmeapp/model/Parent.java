@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class Parent implements Parcelable {
 
-    private String mFname,mLName, mPhoneNumber, mEmail,mAddress, mPassword, mUid;
+    private String mFname,mLName, mPhoneNumber, mEmail, mAddress, mPassword, mUid;
     private Long mDateOfBirth;
 
     public Long getmDateOfBirth() {

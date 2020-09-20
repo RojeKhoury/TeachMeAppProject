@@ -58,6 +58,11 @@ public class communicationWithDatabase {
 
     public FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
+
+    public FirebaseFirestore getDb() {
+        return db;
+    }
+
     public FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DatabaseReference m_userDatabase;
     private String res;
@@ -276,6 +281,48 @@ public class communicationWithDatabase {
     //here you can insert data to the data base itself (no the storage just the database) you will need to specify the data (a map containing the fields) the collection (teacher/student/admin/ any other you may want to add)
     //and finally the collection (i have it set to be the user id of the user for easier access)
 
+    private void realtimeUpadateMyDate()
+    {
+        String collection = (isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT;
+        db.collection(collection).document(getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error == null && value != null && value.exists())
+                {
+                    DocumentSnapshot document = value;
+                    m_currentUserFirstName = document.get(Globals.FIELD_NAME).toString();
+                    m_currentUserLastName = document.get(Globals.FIELD_SURNAME).toString();
+                    m_currentUserPhone = document.get(Globals.FIELD_PHONE).toString();
+                    m_currentUserEmail = document.get(Globals.FIELD_EMAIL).toString();
+                    m_currentUserCity = document.get(Globals.CITY).toString();
+                    m_currentUserCountry = document.get(Globals.COUNTRY).toString();
+                    m_currentUserLocation = (HashMap) document.get(LOCATION);
+                    m_currentUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
+                    m_currentUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
+
+                    if (m_teacher) {
+                        m_currentUserStarRating = (Double) document.get(Globals.FIELD_RATING);
+                        m_currentUserRatingCount =((Long) document.get(Globals.RATING_COUNT)).intValue();
+                        m_currentUserBio = document.get(Globals.FIELD_BIO).toString();
+                        m_currentUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
+                        m_currentUserComments = (List<Comment>) document.get(FIELD_COMMENTS);
+                        m_currentUserZoom = (boolean) document.get(FIELD_ZOOM);
+                        m_currentUserStudentHome = (boolean) document.get(FIELD_STUDENTHOME);
+                        m_currentUserTeacherHome = (boolean) document.get(FIELD_STUDENTHOME);
+                    } else {
+                        m_currentUserRatingsList = (List<String>) document.get(Globals.RATINGS);
+                        m_currentUserFavourites = (List<String>) document.get(Globals.FAVOURITES);
+                    }
+                }
+            }
+        });
+    }
+
+    private void realTimeUpdateViewedUserData()
+    {
+
+    }
+
     private void insertToDatabase(Map<String, Object> data, String collection, String document) {
         db.collection(collection).document(document)
                 .set(data)
@@ -401,7 +448,7 @@ public class communicationWithDatabase {
 
                     if (m_teacher) {
                         m_currentUserStarRating = (Double) document.get(Globals.FIELD_RATING);
-                        m_currentUserRatingCount = (int) document.get(Globals.RATING_COUNT);
+                        m_currentUserRatingCount =((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_currentUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_currentUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
                         m_currentUserComments = (List<Comment>) document.get(FIELD_COMMENTS);
@@ -415,32 +462,17 @@ public class communicationWithDatabase {
                 }
             }
         });
+
+        realtimeUpadateMyDate();
     }
 
     public void getViewedUserData(String uid, final boolean teacher) {
 
-        final DocumentReference docRef = db.collection(COLLECTION_TEACHER).document(uid);
-        if (teacher) {
-            docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
-                    Log.d("TAGY", "Current data: " + snapshot.get(Globals.FIELD_NAME).toString());
-                    m_viewedUserFirstName = snapshot.get(Globals.FIELD_NAME).toString();
-//                    m_viewedUserLastName = snapshot.get(Globals.FIELD_SURNAME).toString();
-//                    m_viewedUserPhone = snapshot.get(Globals.FIELD_PHONE).toString();
-                }
-            });
-        }
-        else
-        {
+        String collection = (teacher) ? COLLECTION_TEACHER : COLLECTION_STUDENT;
 
-        }
-
-        /*
         db.collection(collection).document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                while(!task.isSuccessful());
                 if (task.isSuccessful()) {
                     Log.d("GETSURENAME","task.isSuccessful()");
                     DocumentSnapshot document = task.getResult();
@@ -450,23 +482,20 @@ public class communicationWithDatabase {
                     m_viewedUserEmail = document.get(Globals.FIELD_EMAIL).toString();
                     m_viewedUserCity = document.get(Globals.CITY).toString();
                     m_viewedUserCountry = document.get(Globals.COUNTRY).toString();
-                    //m_viewedUserLocation = (Location) document.get(LOCATION);
-                    //m_viewedUserCalendar = (Schedule) document.get(FIELD_SCHEDULE);
+                    m_viewedUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
                     //m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                     m_viewedUserUID = (String) document.get(Globals.FIELD_UID);
 
                     if (teacher) {
                         Log.d("GETSURENAME","if (teacher) {");
-                        m_viewedUserPendingLessons = (Schedule) document.get(PENDING_LESSONS);
+                        m_viewedUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
                         m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
-                        m_viewedUserRatingCount = (int) document.get(Globals.RATING_COUNT);
+                        m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
-                    } else {
-
                     }
                 }
             }
-        });*/
+        });
     }
 
 
@@ -578,6 +607,7 @@ public class communicationWithDatabase {
         StorageReference storageRef = storage.getReference();
         Student student = new Student(name, surname, phoneNumber, new HashMap<String, UserLesson>(), email, m_user.getUid(), languages);
         insertStudentToDatabase(student, "Students", m_user.getUid());
+        realtimeUpadateMyDate();
     }
 
     private void insertStudentToDatabase(Student data, String collection, String document) {
@@ -599,6 +629,7 @@ public class communicationWithDatabase {
 
     public void addCourse(String lesson, String uid, Double price, String level) {
         //addLessonToDatabase(lesson);
+        String collection = ((isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
         if (m_teacher) {
             Map temp = new HashMap<String, UserLesson>();
             temp.put(lesson, new UserLesson(lesson, price, level));
@@ -607,6 +638,7 @@ public class communicationWithDatabase {
         } else {
             addLessonToStudent(new UserLesson(lesson, price, level), uid);
         }
+        //comm.getData();
     }
 
     private void addTeacherToLesson(final String name, final String uid) {
@@ -745,6 +777,7 @@ public class communicationWithDatabase {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             m_user = mAuth.getCurrentUser();
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());

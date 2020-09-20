@@ -83,6 +83,8 @@ public class Globals
     //New DB
     public static final String STUDENT_USER="Students";
     public static final String TEACHER_USER="Teachers";
+    public static final Object SUBJECT = "name";
+    public static final Object LEVEL = "level";
 
     public static communicationWithDatabase comm = new communicationWithDatabase();
 
