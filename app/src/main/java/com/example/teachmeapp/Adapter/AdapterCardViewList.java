@@ -235,10 +235,10 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
             super(itemView);
             switch (recyclerViewName) {
                 case SEARCH_RESULT_FOR_SCHDULE | TEACHER_PENDING_REQUESTS_VIEW:
-                    textView1 = itemView.findViewById(R.id.textViewScheduleName);
-                    textView2 = itemView.findViewById(R.id.textViewScheduleSubject);
-                    textView3 = itemView.findViewById(R.id.textViewScheduleTime);
-                    button = itemView.findViewById(R.id.textViewScheduleButton);
+                    textView1 = itemView.findViewById(R.id.teacherPendingReq_textView_name);
+                    textView2 = itemView.findViewById(R.id.teacherPendingReq_textView_subject);
+                    textView3 = itemView.findViewById(R.id.teacherPendingReq_textView_time);
+                    button = itemView.findViewById(R.id.teacherPendingReq_button_Details);
                     break;
                 case SEARCH_FOR_TEACHER_VIEW:
                     textView1 = itemView.findViewById(R.id.SearchView_TeacherResult_TextView_TeacherName);
