@@ -35,6 +35,9 @@ public class StudentPendingRequestDetailsPage extends AppCompatActivity {
         textViewStatus.setText(Status);
         //TODO do u need params to locate the student pending request ?or all above is enough .. we need imageview timestart/end and address
         // then  place them in the correct space or tell me after ill do it abed.
+        //TODO @abed we need to call the function comm.getViewedUserData(uid, !isTeacher()) and then call the function comm.keyBuilder(subject, startTime)
+        // this will give a key string that will allow us to do whatever we want with the bookedlesson
+
     }
 
     public void OnClick_StudentPending_RequestDetails_PageCancelButton(View view) {
