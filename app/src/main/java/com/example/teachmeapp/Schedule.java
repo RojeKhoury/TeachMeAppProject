@@ -8,12 +8,17 @@ import androidx.annotation.NonNull;
 
 import com.example.teachmeapp.Helpers.BookedLesson;
 import com.example.teachmeapp.Helpers.Globals;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_SCHEDULE;
 import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT_FOR_SCHDULE;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
@@ -22,6 +27,7 @@ public class Schedule extends HamburgerMenu {
     private CalendarView cal;
     private Calendar dater = Calendar.getInstance();
     Map<String, BookedLesson> lessonsToShow;
+    com.example.teachmeapp.Helpers.Schedule calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,21 +42,29 @@ public class Schedule extends HamburgerMenu {
 
         cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, final int year, final int month, final int day) {
                 DocumentReference ref = comm.getDocumentReference(comm.getUid(), comm.isTeacher());
-                com.example.teachmeapp.Helpers.Schedule cal = (com.example.teachmeapp.Helpers.Schedule) ref.get().getResult().get(Globals.FIELD_SCHEDULE);
+                ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            calendar = new com.example.teachmeapp.Helpers.Schedule((HashMap<String, BookedLesson>) document.get(FIELD_SCHEDULE));
 
-                for(Map.Entry lesson: cal.getLessons().entrySet())
-                {
-                    if(((BookedLesson)lesson.getValue()).getTimeStart().toDate().getDay() == day && ((BookedLesson)lesson.getValue()).getTimeStart().toDate().getYear() == year && ((BookedLesson)lesson.getValue()).getTimeStart().toDate().getMonth() == month)
-                    {
-                        lessonsToShow.put((String)lesson.getKey(), (BookedLesson) lesson.getValue());
-                        TempStringArray1[0] = ((BookedLesson)lesson.getValue()).getTeacherName();
-                        TempStringArray2[0] = ((BookedLesson)lesson.getValue()).getLesson().getName();
-                        TempStringArray3[0] = ((BookedLesson)lesson.getValue()).getTimeStart().toString();
+                            if (calendar.getLessons().get(FIELD_LESSONS) != null) {
+                                for (Map.Entry lesson : calendar.getLessons().entrySet()) {
+                                    if (((BookedLesson) lesson.getValue()).getTimeStart().toDate().getDay() == day && ((BookedLesson) lesson.getValue()).getTimeStart().toDate().getYear() == year && ((BookedLesson) lesson.getValue()).getTimeStart().toDate().getMonth() == month) {
+                                        lessonsToShow.put((String) lesson.getKey(), (BookedLesson) lesson.getValue());
+                                        TempStringArray1[0] = ((BookedLesson) lesson.getValue()).getTeacherName();
+                                        TempStringArray2[0] = ((BookedLesson) lesson.getValue()).getLesson().getName();
+                                        TempStringArray3[0] = ((BookedLesson) lesson.getValue()).getTimeStart().toString();
+                                    }
+                                    CombineArrays();
+                                }
+                            }
+                        }
                     }
-                    CombineArrays();
-                }
+                });
             }
         });
         CallViewAdapter(SEARCH_RESULT_FOR_SCHDULE);

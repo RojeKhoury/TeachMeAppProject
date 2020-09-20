@@ -42,7 +42,9 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_SCHEDULE;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
+import static com.example.teachmeapp.Helpers.Globals.LALTITUDE;
 import static com.example.teachmeapp.Helpers.Globals.LOCATION;
+import static com.example.teachmeapp.Helpers.Globals.LONGITUDE;
 import static com.example.teachmeapp.Helpers.Globals.PENDING_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
@@ -71,7 +73,7 @@ public class communicationWithDatabase {
     private Schedule m_currentUserPendingLessons;
     private Schedule m_currentUserCalendar;
     private List<Comment> m_currentUserComments;
-    private Location m_currentUserLocation;
+    private HashMap m_currentUserLocation;
     private boolean m_currentUserZoom;
     private boolean m_currentUserStudentHome;
     private boolean m_currentUserTeacherHome;
@@ -92,7 +94,7 @@ public class communicationWithDatabase {
     private String m_viewedUserEmail;
     private String m_viewedUserCity, m_viewedUserCountry;
     private Schedule m_viewedUserCalendar;
-    private Location m_viewedUserLocation;
+    private HashMap m_viewedUserLocation;
     private Schedule m_viewedUserPendingLessons;
     private List<Comment> m_viewedUserComments;
     private boolean m_viewedUserZoom;
@@ -143,8 +145,8 @@ public class communicationWithDatabase {
         return m_currentUserComments;
     }
 
-    public Location getUserLocation() {
-        return m_currentUserLocation;
+    public LatLng getUserLocation() {
+        return new LatLng(Double.parseDouble(m_currentUserLocation.get(LALTITUDE).toString()), (Double.parseDouble(m_currentUserLocation.get(LONGITUDE).toString())));
     }
 
     public String getUserCity() {
@@ -223,8 +225,8 @@ public class communicationWithDatabase {
         return m_viewedUserComments;
     }
 
-    public Location getViewedUserLocation() {
-        return m_viewedUserLocation;
+    public LatLng getViewedUserLocation() {
+        return new LatLng(Double.parseDouble(m_viewedUserLocation.get(LALTITUDE).toString()), Double.parseDouble(m_viewedUserLocation.get(LOCATION).toString()));
     }
 
     public String getViewedUserCity() {
@@ -390,9 +392,9 @@ public class communicationWithDatabase {
                     m_currentUserEmail = document.get(Globals.FIELD_EMAIL).toString();
                     m_currentUserCity = document.get(Globals.CITY).toString();
                     m_currentUserCountry = document.get(Globals.COUNTRY).toString();
-                    m_currentUserLocation = (Location) document.get(LOCATION);
-                    m_currentUserPendingLessons = (Schedule) document.get(PENDING_LESSONS);
-                    m_currentUserCalendar = (Schedule) document.get(FIELD_SCHEDULE);
+                    m_currentUserLocation = (HashMap) document.get(LOCATION);
+                    m_currentUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
+                    m_currentUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
 
                     if (m_teacher) {
                         m_currentUserStarRating = (Double) document.get(Globals.FIELD_RATING);
@@ -427,13 +429,13 @@ public class communicationWithDatabase {
                     m_viewedUserEmail = document.get(Globals.FIELD_EMAIL).toString();
                     m_viewedUserCity = document.get(Globals.CITY).toString();
                     m_viewedUserCountry = document.get(Globals.COUNTRY).toString();
-                    m_viewedUserLocation = (Location) document.get(LOCATION);
-                    m_viewedUserCalendar = (Schedule) document.get(FIELD_SCHEDULE);
+                    m_viewedUserLocation = (HashMap) document.get(LOCATION);
+                    m_viewedUserCalendar = new Schedule ((HashMap<String, BookedLesson>) document.get(FIELD_SCHEDULE));
                     m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                     m_viewedUserUID = (String) document.get(Globals.FIELD_UID);
 
                     if (teacher) {
-                        m_viewedUserPendingLessons = (Schedule) document.get(PENDING_LESSONS);
+                        m_viewedUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
                         m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
                         m_viewedUserRatingCount = (int) document.get(Globals.RATING_COUNT);
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
