@@ -69,7 +69,7 @@
                 app:layout_constraintTop_toTopOf="@+id/textViewPendingRequestDetails" />
 
             <Button
-                android:id="@+id/textViewPendingRequestDetails"
+                android:id="@+id/buttonPendingRequestDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"

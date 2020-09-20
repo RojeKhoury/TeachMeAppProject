@@ -81,7 +81,7 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         adapter = new AddOrRemoveLessonAdapter(lessons, this);
 
         recyclerView.setAdapter(adapter);
-        CallViewAdapter(LESSONS_FOR_TEACHER_VIEW);
+        //CallViewAdapter(LESSONS_FOR_TEACHER_VIEW);
     }
 
     public void OnClick_add_lessons_button(View view) {

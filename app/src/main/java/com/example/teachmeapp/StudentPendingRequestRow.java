@@ -9,9 +9,29 @@ import static com.example.teachmeapp.Helpers.Globals.STUDENT_PENDING_REQUESTS_VI
 
 public class StudentPendingRequestRow {
 
-
-
     private String m_teacherUID;
+
+    public StudentPendingRequestRow(String m_teacherUID, String m_studentName, Timestamp m_timeStart,
+                                    Timestamp m_timeEnd, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome,
+                                    Boolean m_studentsHome, String m_subject, Double m_price, String m_level) {
+        this.m_teacherUID = m_teacherUID;
+        this.m_studentName = m_studentName;
+        this.m_timeStart = m_timeStart;
+        this.m_timeEnd = m_timeEnd;
+        this.m_teacherName = m_teacherName;
+        this.m_zoom = m_zoom;
+        this.m_teachersHome = m_teachersHome;
+        this.m_studentsHome = m_studentsHome;
+        this.m_subject = m_subject;
+        this.m_price = m_price;
+        this.m_level = m_level;
+    }
+
+    public String getM_studentName() {
+        return m_studentName;
+    }
+
+    private String m_studentName;
 
     private Timestamp m_timeStart;
     private Timestamp m_timeEnd;
@@ -22,22 +42,9 @@ public class StudentPendingRequestRow {
     private Boolean m_teachersHome;
     private Boolean m_studentsHome;
 
-    private String m_name;
+    private String m_subject;
     private Double m_price;
     private String m_level;
-
-    public StudentPendingRequestRow(String m_teacherUID, Timestamp m_timeStart, Timestamp m_timeEnd, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome, Boolean m_studentsHome, String m_name, Double m_price, String m_level) {
-        this.m_teacherUID = m_teacherUID;
-        this.m_timeStart = m_timeStart;
-        this.m_timeEnd = m_timeEnd;
-        this.m_teacherName = m_teacherName;
-        this.m_zoom = m_zoom;
-        this.m_teachersHome = m_teachersHome;
-        this.m_studentsHome = m_studentsHome;
-        this.m_name = m_name;
-        this.m_price = m_price;
-        this.m_level = m_level;
-    }
 
     public String getM_teacherUID() {
         return m_teacherUID;
@@ -67,8 +74,8 @@ public class StudentPendingRequestRow {
         return m_studentsHome;
     }
 
-    public String getM_name() {
-        return m_name;
+    public String getM_subject() {
+        return m_subject;
     }
 
     public Double getM_price() {
