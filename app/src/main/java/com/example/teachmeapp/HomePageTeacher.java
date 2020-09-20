@@ -38,7 +38,7 @@ public class HomePageTeacher extends HamburgerMenu {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page_teacher);
-        m_profilePic = findViewById(R.id.ImageView_profilePic);
+        //m_profilePic = findViewById(R.id.ImageView_profilePic);
         m_addLesson = findViewById(R.id.homepage_teacher_button_requests);
     }
 

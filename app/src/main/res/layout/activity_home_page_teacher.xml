@@ -1,159 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:weightSum="100"
     tools:context=".HomePageTeacher">
 
 
     <FrameLayout
+        android:id="@+id/frameLayout9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
 
         <include layout="@layout/activity_hamburger_menu" />
-
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
             android:fontFamily="@font/amatic_bold"
-            android:textColor="#FFFFFF"
+            android:gravity="center"
             android:text="@string/home_page"
+            android:textColor="#FFFFFF"
             android:textSize="@dimen/HalfTopBarHeight" />
     </FrameLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
+
+
+    <ImageButton
+        android:id="@+id/homepage_teacher_button_conversation"
+
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="55" >
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/buttonshapecool"
+        android:contentDescription="@string/chat"
+        android:cropToPadding="true"
+        android:onClick="onClick_conversationButton"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/conversation_logo"
+        app:layout_constraintBottom_toTopOf="@+id/homepage_teacher_button_requests"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout9" />
 
-        <ImageView
-            android:id="@+id/ImageView_profilePic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/favorite_btn_star_off" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/homepage_teacher_button_history"
+
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="45"
-        android:background="@drawable/top_bar_background"
-        android:orientation="vertical"
-        android:weightSum="100">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="50"
-            android:orientation="horizontal"
-            android:weightSum="99"
-            tools:ignore="NestedWeights">
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="11"/>
-            <ImageButton
-                android:id="@+id/homepage_teacher_button_conversation"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/buttonshapecool"
+        android:contentDescription="@string/last_classes"
+        android:cropToPadding="true"
+        android:onClick="onClick_historyButton"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/history_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_teacher_button_schedule" />
 
-                android:onClick="onClick_conversationButton"
+    <ImageButton
+        android:id="@+id/homepage_teacher_button_schedule"
 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="33"
-                android:background="@drawable/buttonshapecool"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
 
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/buttonshapecool"
+        android:contentDescription="@string/schedule"
+        android:cropToPadding="true"
+        android:onClick="onClick_scheduleButton"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/schedule_logo"
+        app:layout_constraintBottom_toTopOf="@+id/homepage_teacher_button_history"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space3" />
 
-                android:src="@drawable/conversation_logo"
+    <ImageButton
+        android:id="@+id/homepage_teacher_button_requests"
+        android:layout_width="0dp"
 
+        android:layout_height="0dp"
 
-                android:padding="15dp"
-                android:scaleType="fitCenter"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/buttonshapecool"
+        android:contentDescription="@string/search"
+        android:cropToPadding="true"
+        android:onClick="onClick_searchButton"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/my_lessons_icon"
+        app:layout_constraintBottom_toTopOf="@+id/space3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_teacher_button_conversation" />
 
-                android:contentDescription="@string/chat" />
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="11"/>
-            <ImageButton
-                android:id="@+id/homepage_teacher_button_history"
+    <Space
+        android:id="@+id/space3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout9" />
 
-                android:onClick="onClick_historyButton"
-
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="33"
-                android:padding="15dp"
-                android:background="@drawable/buttonshapecool"
-                android:src="@drawable/history_logo"
-                android:scaleType="fitCenter"
-                android:contentDescription="@string/last_classes" />
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="11"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="50"
-            android:orientation="horizontal"
-            android:weightSum="99">
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="11"/>
-            <ImageButton
-                android:id="@+id/homepage_teacher_button_schedule"
-
-                android:onClick="onClick_scheduleButton"
-
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="33"
-                android:background="@drawable/buttonshapecool"
-                android:src="@drawable/schedule_logo"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:contentDescription="@string/schedule" />
-            <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="11"/>
-
-            <ImageButton
-                android:id="@+id/homepage_teacher_button_requests"
-
-                android:onClick="onClick_searchButton"
-
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="33"
-                android:background="@drawable/buttonshapecool"
-                android:src="@drawable/my_lessons_icon"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:contentDescription="@string/search" />
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="11"/>
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
