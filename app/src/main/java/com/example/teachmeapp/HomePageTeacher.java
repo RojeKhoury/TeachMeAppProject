@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.teachmeapp.Chat.Chats;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.StorageReference;
@@ -129,7 +130,7 @@ public class HomePageTeacher extends HamburgerMenu {
     }
 
     public void onClick_conversationButton(View view) {
-        Intent intent = new Intent(this, ConversationChatPage.class);
+        Intent intent = new Intent(this, Chats.class);
         startActivity(intent);
     }
 

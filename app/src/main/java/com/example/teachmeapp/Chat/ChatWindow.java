@@ -1,8 +1,5 @@
 package com.example.teachmeapp.Chat;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,6 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.R;
@@ -48,7 +49,7 @@ public class ChatWindow extends AppCompatActivity {
     ScrollView scrollView;
     DatabaseReference reference1;
     String mTeacherUID, mStudentUID;
-    boolean mIsTeacher,mFirstChat;
+    boolean mIsTeacher, mFirstChat;
     Message mMessage;
     TextView m_TVTalkWith;
     private Parent parent;
@@ -69,12 +70,9 @@ public class ChatWindow extends AppCompatActivity {
         mTeacherUID = getIntent().getStringExtra(Globals.TEACHERS);
         mStudentUID = getIntent().getStringExtra(Globals.STUDENTS);
 
-        if(mTeacherUID.compareTo(mStudentUID)>0)
-        {
+        if (mTeacherUID.compareTo(mStudentUID) > 0) {
             reference1 = FirebaseDatabase.getInstance().getReference().child("messages").child(mTeacherUID + "_" + mStudentUID);
-        }
-        else
-        {
+        } else {
             reference1 = FirebaseDatabase.getInstance().getReference().child("messages").child(mStudentUID + "_" + mTeacherUID);
         }
 
@@ -95,19 +93,19 @@ public class ChatWindow extends AppCompatActivity {
                     mMessage.setmMessage(messageText);
                     mMessage.setmMessgeTime(getCurrentTime());
                     DatabaseReference NotificationsRef = FirebaseDatabase.getInstance().getReference().child("Notifications/NewMessage");
-                    HashMap<String,String> offerNotificationMap = new HashMap<>();
+                    HashMap<String, String> offerNotificationMap = new HashMap<>();
                     if (mIsTeacher) {
                         mMessage.setmUserUid(mTeacherUID);
 
                         offerNotificationMap.put("from", mTeacherUID);
-                        offerNotificationMap.put("type","request");
+                        offerNotificationMap.put("type", "request");
                         NotificationsRef.child(mStudentUID).push()
                                 .setValue(offerNotificationMap);
                     } else {
                         mMessage.setmUserUid(mStudentUID);
 
                         offerNotificationMap.put("from", mStudentUID);
-                        offerNotificationMap.put("type","request");
+                        offerNotificationMap.put("type", "request");
                         NotificationsRef.child(mTeacherUID).push()
                                 .setValue(offerNotificationMap);
                     }
@@ -117,8 +115,11 @@ public class ChatWindow extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if(dataSnapshot.getChildrenCount() == 0) {
-                                    DatabaseReference TalkedWithRef = FirebaseDatabase.getInstance().getReference(Globals.TALKEDWITH).child(mTeacherUID);
+                                if (dataSnapshot.getChildrenCount() == 0)
+                                {
+                                    Log.d("TAGM",dataSnapshot.toString());
+                                    DatabaseReference TalkedWithRef;
+                                    TalkedWithRef = FirebaseDatabase.getInstance().getReference(Globals.TALKEDWITH).child(mTeacherUID);
                                     TalkedWithRef.push().setValue(mStudentUID);
                                     TalkedWithRef = FirebaseDatabase.getInstance().getReference(Globals.TALKEDWITH).child(mStudentUID);
                                     TalkedWithRef.push().setValue(mTeacherUID);
@@ -131,6 +132,13 @@ public class ChatWindow extends AppCompatActivity {
                             }
                         });
                         reference1.push().setValue(mMessage);
+                        //---Here i should update the LRU
+                        //.child(id).removeValue();
+
+
+
+
+
 
                     } catch (Exception e) {
                         Log.e(TAG, "Push Exception = " + e.getMessage());
@@ -153,9 +161,9 @@ public class ChatWindow extends AppCompatActivity {
                     userName = mStudentUID;
                 }
                 if ((message2.getmUserUid().equals(userName))) {
-                    addMessageBox(message2.getmMessage(), 1,message2.getmMessgeTime());
+                    addMessageBox(message2.getmMessage(), 1, message2.getmMessgeTime());
                 } else {
-                    addMessageBox(message2.getmMessage(), 2,message2.getmMessgeTime());
+                    addMessageBox(message2.getmMessage(), 2, message2.getmMessgeTime());
                 }
             }
 
@@ -180,33 +188,30 @@ public class ChatWindow extends AppCompatActivity {
             }
         });
     }
-    private void setChatWithText()
-    {
-        if (mIsTeacher)
-        {//mStudentUID
+
+    private void setChatWithText() {
+        if (mIsTeacher) {//mStudentUID
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             final DocumentReference docRef = db.collection(COLLECTION_STUDENT).document(mStudentUID);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
-                    m_TVTalkWith.setText(snapshot.get(Globals.FIELD_NAME).toString()+" "+snapshot.get(Globals.FIELD_SURNAME).toString());
+                    m_TVTalkWith.setText(snapshot.get(Globals.FIELD_NAME).toString() + " " + snapshot.get(Globals.FIELD_SURNAME).toString());
                 }
             });
-        }
-        else
-        {//mTeacherUID
+        } else {//mTeacherUID
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             final DocumentReference docRef = db.collection(COLLECTION_STUDENT).document(mTeacherUID);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
-                    m_TVTalkWith.setText(snapshot.get(Globals.FIELD_NAME).toString()+" "+snapshot.get(Globals.FIELD_SURNAME).toString());
+                    m_TVTalkWith.setText(snapshot.get(Globals.FIELD_NAME).toString() + " " + snapshot.get(Globals.FIELD_SURNAME).toString());
                 }
             });
         }
     }
 
-    public void addMessageBox(String message, int type,long time) {
+    public void addMessageBox(String message, int type, long time) {
         Log.e(TAG, "addMessageBox <<");
         LinearLayout linearLayout = new LinearLayout(ChatWindow.this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -241,18 +246,18 @@ public class ChatWindow extends AppCompatActivity {
         layout.addView(linearLayout);
         Log.e(TAG, "addMessageBox >>");
     }
-    public long getCurrentTime()
-    {
+
+    public long getCurrentTime() {
         Calendar cal = Calendar.getInstance();
         return cal.getTimeInMillis();
     }
-    public String fromMillisToHoursMinutes(long timeInMillis)
-    {
+
+    public String fromMillisToHoursMinutes(long timeInMillis) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         return sdf.format(timeInMillis);
     }
-    public String getCurrentDate()
-    {
+
+    public String getCurrentDate() {
         return fromMillisToHoursMinutes(getCurrentTime());
     }
 }
