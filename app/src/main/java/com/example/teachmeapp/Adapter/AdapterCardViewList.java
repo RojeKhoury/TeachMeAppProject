@@ -36,14 +36,15 @@ import static com.example.teachmeapp.Helpers.Globals.TEACHER_PENDING_REQUESTS_VI
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewList.ViewHolder> {
-    ArrayList<String> data1, data2, data3, data4,UID;
+    ArrayList<String> data1, data2, data3, data4, UID;
     ArrayList<Uri> images;
     ArrayList<Double> rating;
 
     Context context;
     int recyclerViewName;
+
     public AdapterCardViewList(int RecyclerViewName, Context ct, ArrayList<String> s1, ArrayList<String> s2, ArrayList<String> s3, ArrayList<String> s4,
-                               ArrayList<Uri> i1, ArrayList<Double> r1,  ArrayList<String> UIDS) {
+                               ArrayList<Uri> i1, ArrayList<Double> r1, ArrayList<String> UIDS) {
         recyclerViewName = RecyclerViewName;
         context = ct;
         data1 = s1;
@@ -201,7 +202,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                         intent.putExtra("Level", data3.get(position));
                         intent.putExtra("Status", data4.get(position));
 
-                       //TODO get the uid to put in this function comm.getViewedUserData("uid", !comm.isTeacher());
+                        //TODO get the uid to put in this function comm.getViewedUserData("uid", !comm.isTeacher());
                         context.startActivity(intent);
                     }
                 });
@@ -235,10 +236,10 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
             super(itemView);
             switch (recyclerViewName) {
                 case SEARCH_RESULT_FOR_SCHDULE | TEACHER_PENDING_REQUESTS_VIEW:
-                    textView1 = itemView.findViewById(R.id.textViewScheduleName);
-                    textView2 = itemView.findViewById(R.id.textViewScheduleSubject);
-                    textView3 = itemView.findViewById(R.id.textViewScheduleTime);
-                    button = itemView.findViewById(R.id.textViewScheduleButton);
+                    textView1 = itemView.findViewById(R.id.teacherPendingReq_textView_name);
+                    textView2 = itemView.findViewById(R.id.teacherPendingReq_textView_subject);
+                    textView3 = itemView.findViewById(R.id.teacherPendingReq_textView_time);
+                    button = itemView.findViewById(R.id.teacherPendingReq_button_Details);
                     break;
                 case SEARCH_FOR_TEACHER_VIEW:
                     textView1 = itemView.findViewById(R.id.SearchView_TeacherResult_TextView_TeacherName);

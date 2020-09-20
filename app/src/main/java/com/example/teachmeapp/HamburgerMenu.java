@@ -234,7 +234,6 @@ public class HamburgerMenu extends Activity {
                         TempStringArray3[i] = lesson.getlevel();
                         i += 1;
                     }
-
                 } else {
                     Toast.makeText(this, "No lessons yet", Toast.LENGTH_SHORT).show();
                 }
