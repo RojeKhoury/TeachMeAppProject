@@ -538,7 +538,6 @@ public class communicationWithDatabase {
                 }
             }
         });
-
         realtimeUpadateMyData();
     }
 
@@ -986,7 +985,7 @@ public class communicationWithDatabase {
         Map<String, Object> updates = new HashMap<>();
         updates.put(lesson, FieldValue.delete());
         db.collection(COLLECTION_TEACHER).document(m_user.getUid())
-                .update("lessons", FieldValue.arrayUnion(lesson))
+                .update("lessons" + "." + lesson, FieldValue.delete())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

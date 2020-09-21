@@ -45,12 +45,12 @@ public class HomePageTeacher extends HamburgerMenu {
     @Override
     protected void onStart() {
         super.onStart();
-        m_profilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseImage(view);
-            }
-        });
+//       m_profilePic.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                chooseImage(view);
+//            }
+//        });
 
         m_addLesson.setOnClickListener(new View.OnClickListener() {
             @Override

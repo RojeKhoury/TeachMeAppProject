@@ -43,7 +43,7 @@ public class StudentPendingRequestsAdapter extends RecyclerView.Adapter<StudentP
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final StudentPendingRequestRow item = m_lessons.get(position);
 
         holder.textViewClassName.setText(item.getM_teacherName());
@@ -62,6 +62,7 @@ public class StudentPendingRequestsAdapter extends RecyclerView.Adapter<StudentP
                 }
 
                 intent.putExtra(Globals.BOOKED_LESSON, (Parcelable) item);
+                context.startActivity(intent);
             }
         });
     }
