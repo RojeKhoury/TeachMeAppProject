@@ -15,6 +15,8 @@ import com.example.teachmeapp.TeacherLessonRow;
 
 import java.util.List;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class AddOrRemoveLessonAdapter extends RecyclerView.Adapter<AddOrRemoveLessonAdapter.ViewHolder> {
 
     private List<TeacherLessonRow> m_lessons;
@@ -35,12 +37,18 @@ public class AddOrRemoveLessonAdapter extends RecyclerView.Adapter<AddOrRemoveLe
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TeacherLessonRow item = m_lessons.get(position);
+        final TeacherLessonRow item = m_lessons.get(position);
 
         holder.textViewClassName.setText(item.getM_subject());
         holder.textViewClasslevel.setText(item.getM_level());
         holder.textViewClassprice.setText(item.getM_price());
 
+        holder.buttonDeleteLesson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                comm.removeCourseFromTeacher(item.getM_subject());
+            }
+        });
     }
 
     @Override
