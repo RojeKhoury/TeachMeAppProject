@@ -1,6 +1,5 @@
 package com.example.teachmeapp.Helpers;
 
-import android.location.Location;
 import android.net.Uri;
 import android.util.Log;
 
@@ -87,6 +86,7 @@ public class communicationWithDatabase {
     private boolean m_currentUserTeacherHome;
     private List<String> m_currentUserRatingsList;
     private List<String> m_currentUserFavourites;
+    private Uri m_currentUserImageURI;
 
 
     private Uri temp;
@@ -111,6 +111,12 @@ public class communicationWithDatabase {
     private String m_viewedUserUID;
     private List<String> m_viewedUserRatingsList;
     private List<String> m_viewedUserFavourites;
+    private Uri m_viewedUserImageURI;
+
+
+    public Uri getM_viewedUserImageURI() {
+        return m_viewedUserImageURI;
+    }
 
     public void setTeacher(boolean m_teacher) {
         this.m_teacher = m_teacher;
@@ -281,7 +287,54 @@ public class communicationWithDatabase {
     //here you can insert data to the data base itself (no the storage just the database) you will need to specify the data (a map containing the fields) the collection (teacher/student/admin/ any other you may want to add)
     //and finally the collection (i have it set to be the user id of the user for easier access)
 
-    private void realtimeUpadateMyDate()
+    public void realTimeUpdateViewedUserData(String uid, final boolean teacher) {
+
+        String collection = (!teacher) ? COLLECTION_TEACHER : COLLECTION_STUDENT;
+
+        db.collection(collection).document(uid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error == null && value != null && value.exists())
+                {
+                    DocumentSnapshot document = value;
+
+                    m_viewedUserFirstName = document.get(Globals.FIELD_NAME).toString();
+                    m_viewedUserLastName = document.get(Globals.FIELD_SURNAME).toString();
+                    m_viewedUserPhone = document.get(Globals.FIELD_PHONE).toString();
+                    m_viewedUserEmail = document.get(Globals.FIELD_EMAIL).toString();
+                    m_viewedUserCity = document.get(Globals.CITY).toString();
+                    m_viewedUserCountry = document.get(Globals.COUNTRY).toString();
+                    m_viewedUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
+                    //m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
+                    m_viewedUserUID = (String) document.get(Globals.FIELD_UID);
+
+                    if (teacher) {
+                        Log.d("GETSURENAME","if (teacher) {");
+                        m_viewedUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
+                        m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
+                        m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
+                        m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
+                    }
+
+                    storage.getReference().child("images/" + m_viewedUserUID + "/profile picture").
+                            getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // Got the download URL for 'users/me/profile.png'
+                            m_viewedUserImageURI = uri;
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any errors
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void realtimeUpadateMyData()
     {
         String collection = (isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT;
         db.collection(collection).document(getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -313,15 +366,24 @@ public class communicationWithDatabase {
                         m_currentUserRatingsList = (List<String>) document.get(Globals.RATINGS);
                         m_currentUserFavourites = (List<String>) document.get(Globals.FAVOURITES);
                     }
+                    storage.getReference().child("images/" + comm.getUid() + "/profile picture").
+                            getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // Got the download URL for 'users/me/profile.png'
+                            m_currentUserImageURI = uri;
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any errors
+                        }
+                    });
                 }
             }
         });
     }
 
-    private void realTimeUpdateViewedUserData()
-    {
-
-    }
 
     private void insertToDatabase(Map<String, Object> data, String collection, String document) {
         db.collection(collection).document(document)
@@ -459,11 +521,25 @@ public class communicationWithDatabase {
                         m_currentUserRatingsList = (List<String>) document.get(Globals.RATINGS);
                         m_currentUserFavourites = (List<String>) document.get(Globals.FAVOURITES);
                     }
+
+                    storage.getReference().child("images/" + comm.getUid() + "/profile picture").
+                            getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // Got the download URL for 'users/me/profile.png'
+                            m_currentUserImageURI = uri;
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any errors
+                        }
+                    });
                 }
             }
         });
 
-        realtimeUpadateMyDate();
+        realtimeUpadateMyData();
     }
 
     public void getViewedUserData(String uid, final boolean teacher) {
@@ -493,9 +569,24 @@ public class communicationWithDatabase {
                         m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
                     }
+
+                    storage.getReference().child("images/" + m_viewedUserUID + "/profile picture").
+                            getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // Got the download URL for 'users/me/profile.png'
+                            m_viewedUserImageURI = uri;
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any errors
+                        }
+                    });
                 }
             }
         });
+        realTimeUpdateViewedUserData(uid, teacher);
     }
 
 
@@ -607,7 +698,7 @@ public class communicationWithDatabase {
         StorageReference storageRef = storage.getReference();
         Student student = new Student(name, surname, phoneNumber, new HashMap<String, UserLesson>(), email, m_user.getUid(), languages);
         insertStudentToDatabase(student, "Students", m_user.getUid());
-        realtimeUpadateMyDate();
+        realtimeUpadateMyData();
     }
 
     private void insertStudentToDatabase(Student data, String collection, String document) {
@@ -1178,6 +1269,10 @@ public class communicationWithDatabase {
         String studentName = ((!isTeacher()) ? getUserName() : getViewedUserName());
 
         return teacherName + studentName + subject + startTime;
+    }
+
+    public Uri getM_currentUserImageURI() {
+        return m_currentUserImageURI;
     }
 }
 

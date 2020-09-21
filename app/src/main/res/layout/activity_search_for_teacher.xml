@@ -160,7 +160,7 @@
 
                 <Button
                     android:onClick="OnClick_SearchForTeacher_Button_ShowSelections"
-                    android:id="@+id/button_show"
+                    android:id="@+id/searchForTeachersShowResultsButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"

@@ -68,7 +68,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 view = layoutInflater.inflate(R.layout.schedule_row_layout, parent, false);
                 break;
             case SEARCH_FOR_TEACHER_VIEW:
-                view = layoutInflater.inflate(R.layout.search_results_row, parent, false);
+               // view = layoutInflater.inflate(R.layout.search_results_row, parent, false);
                 break;
             case LESSONS_FOR_TEACHER_VIEW:
                 view = layoutInflater.inflate(R.layout.teacher_lessons_row, parent, false);
@@ -108,7 +108,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 });
                 break;
 
-            case SEARCH_FOR_TEACHER_VIEW:
+            /*case SEARCH_FOR_TEACHER_VIEW:
                 holder.textView1.setText(data1.get(position));
                 holder.textView2.setText(data2.get(position));
                 holder.textView3.setText(data3.get(position));
@@ -130,7 +130,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                         context.startActivity(intent);
                     }
                 });
-                break;
+                break;*/
 
             case LESSONS_FOR_TEACHER_VIEW:
                 holder.textView1.setText(data1.get(position));

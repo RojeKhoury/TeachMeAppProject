@@ -1,8 +1,6 @@
 package com.example.teachmeapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
+import android.net.Uri;
 
 public class SearchResultsRow  {
 
@@ -10,23 +8,42 @@ public class SearchResultsRow  {
     private String m_teacherUID;
     private String m_teacherName;
 
+    public String getM_teacherCity() {
+        return m_teacherCity;
+    }
+
+    private String m_teacherCity;
+    private Uri m_imageURI;
+
     private Boolean m_zoom;
     private Boolean m_teachersHome;
     private Boolean m_studentsHome;
+    private String m_subject;
 
-    private String m_name;
     private Double m_price;
     private String m_level;
+    private Double m_rating;
 
-    public SearchResultsRow(String m_teacherUID, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome, Boolean m_studentsHome, String m_name, Double m_price, String m_level) {
+    public SearchResultsRow(String m_teacherCity, Double m_rating, String m_teacherUID, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome, Boolean m_studentsHome, String m_subject, Double m_price, String m_level) {
         this.m_teacherUID = m_teacherUID;
         this.m_teacherName = m_teacherName;
         this.m_zoom = m_zoom;
         this.m_teachersHome = m_teachersHome;
         this.m_studentsHome = m_studentsHome;
-        this.m_name = m_name;
+        this.m_subject = m_subject;
         this.m_price = m_price;
         this.m_level = m_level;
+        this.m_rating = m_rating;
+        this.m_imageURI = m_imageURI;
+        this.m_teacherCity = m_teacherCity;
+    }
+
+    public Double getM_rating() {
+        return m_rating;
+    }
+
+    public Uri getM_imageURI() {
+        return m_imageURI;
     }
 
     public String getM_teacherUID() {
@@ -49,8 +66,8 @@ public class SearchResultsRow  {
         return m_studentsHome;
     }
 
-    public String getM_name() {
-        return m_name;
+    public String getM_subject() {
+        return m_subject;
     }
 
     public Double getM_price() {
