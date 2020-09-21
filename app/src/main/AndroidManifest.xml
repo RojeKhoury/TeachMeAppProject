@@ -28,7 +28,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TeacherProfilePageOfferedLessons"></activity>
-        <activity android:name=".SearchResultsRow" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -43,7 +42,7 @@
 
         <activity android:name=".StudentPendingRequestDetailsPage" />
         <activity android:name=".TeacherPendingRequestDetailsPage" />
-        <activity android:name=".StudentPendingRequestRow" />
+        <activity android:name=".StudentPendingRequest" />
         <activity android:name=".TeacherPendingRequests" />
         <activity android:name=".History" />
         <activity
