@@ -26,8 +26,8 @@
                 android:id="@+id/textViewPendingRequestName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
                 android:text="Name"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,11 +37,10 @@
                 android:id="@+id/textViewPendingRequestSubject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:text="Subject"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textViewPendingRequestName"
                 app:layout_constraintTop_toBottomOf="@+id/textViewPendingRequestName" />
 
             <TextView
@@ -49,24 +48,13 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:text="Level"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textViewPendingRequestSubject"
                 app:layout_constraintTop_toBottomOf="@+id/textViewPendingRequestSubject" />
-
-            <TextView
-                android:id="@+id/textViewPendingRequestStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Status"
-                app:layout_constraintBottom_toBottomOf="@+id/textViewPendingRequestDetails"
-                app:layout_constraintEnd_toStartOf="@+id/textViewPendingRequestDetails"
-                app:layout_constraintStart_toEndOf="@+id/textViewPendingRequestSubject"
-                app:layout_constraintTop_toTopOf="@+id/textViewPendingRequestDetails" />
 
             <Button
                 android:id="@+id/buttonPendingRequestDetails"
@@ -80,6 +68,17 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textViewPendingRequestLevel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textViewPendingRequestName" />
+
+            <TextView
+                android:id="@+id/textViewPendingRequestStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

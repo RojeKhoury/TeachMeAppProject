@@ -25,8 +25,8 @@
                 android:id="@+id/textViewSubject_addLesson"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
                 android:text="Subject"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -36,11 +36,10 @@
                 android:id="@+id/textViewPrice_addLesson"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:text="Price"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textViewSubject_addLesson"
                 app:layout_constraintTop_toBottomOf="@+id/textViewSubject_addLesson" />
 
             <TextView
@@ -48,13 +47,12 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:text="Level"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textViewPrice_addLesson"
                 app:layout_constraintTop_toBottomOf="@+id/textViewPrice_addLesson" />
 
             <Button
