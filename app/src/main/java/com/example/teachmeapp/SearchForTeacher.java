@@ -40,6 +40,7 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_LEVEL;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_PRICE;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_UID;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
@@ -248,9 +249,10 @@ public class SearchForTeacher extends HamburgerMenu {
                                     });*/
                                     Double rating = (document.get(RATINGS) == null) ? 0 : Double.parseDouble(document.get(RATINGS).toString());
 
-                                    teachers.add(new SearchResultsRow(document.get(CITY).toString(), rating,
+                                    teachers.add(new SearchResultsRow(document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
                                             document.get(FIELD_UID).toString(), document.get(FIELD_NAME).toString(),
-                                            (Boolean) document.get(FIELD_ZOOM), (Boolean) document.get(FIELD_TEACHERHOME), (Boolean) document.get(FIELD_STUDENTHOME),
+                                            (Boolean) document.get(FIELD_ZOOM), (Boolean) document.get(FIELD_TEACHERHOME),
+                                            (Boolean) document.get(FIELD_STUDENTHOME),
                                             document.get(FIELD_LESSONS + "." + subject + "." + FIELD_NAME).toString(),
                                             (Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE),
                                             document.get(FIELD_LESSONS + "." + subject + "." + FIELD_LEVEL).toString()));

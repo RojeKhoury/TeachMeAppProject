@@ -8,23 +8,22 @@ public class SearchResultsRow  {
     private String m_teacherUID;
     private String m_teacherName;
 
-    public String getM_teacherCity() {
-        return m_teacherCity;
-    }
+    private Uri m_imageURI;
 
     private String m_teacherCity;
-    private Uri m_imageURI;
 
     private Boolean m_zoom;
     private Boolean m_teachersHome;
     private Boolean m_studentsHome;
     private String m_subject;
 
-    private Double m_price;
+    private String m_surname;
     private String m_level;
-    private Double m_rating;
+    private Double m_price;
 
-    public SearchResultsRow(String m_teacherCity, Double m_rating, String m_teacherUID, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome, Boolean m_studentsHome, String m_subject, Double m_price, String m_level) {
+    private Double m_rating;
+    public SearchResultsRow(String m_surname, String m_teacherCity, Double m_rating, String m_teacherUID, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome, Boolean m_studentsHome, String m_subject, Double m_price, String m_level) {
+
         this.m_teacherUID = m_teacherUID;
         this.m_teacherName = m_teacherName;
         this.m_zoom = m_zoom;
@@ -34,8 +33,12 @@ public class SearchResultsRow  {
         this.m_price = m_price;
         this.m_level = m_level;
         this.m_rating = m_rating;
-        this.m_imageURI = m_imageURI;
         this.m_teacherCity = m_teacherCity;
+        this.m_surname = m_surname;
+    }
+
+    public String getM_teacherCity() {
+        return m_teacherCity;
     }
 
     public Double getM_rating() {
@@ -48,6 +51,10 @@ public class SearchResultsRow  {
 
     public String getM_teacherUID() {
         return m_teacherUID;
+    }
+
+    public String getM_surname() {
+        return m_surname;
     }
 
     public String getM_teacherName() {

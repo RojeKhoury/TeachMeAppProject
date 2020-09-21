@@ -92,6 +92,15 @@
                 app:layout_constraintEnd_toEndOf="@+id/SearchView_TeacherResult_TextView_TeacherPrice"
                 app:layout_constraintTop_toBottomOf="@+id/SearchView_TeacherResult_TextView_TeacherPrice" />
 
+            <TextView
+                android:id="@+id/searchViewSubjectSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="subject"
+                app:layout_constraintBottom_toTopOf="@+id/SearchView_TeacherResult_TextView_TeacherCity"
+                app:layout_constraintStart_toStartOf="@+id/SearchView_TeacherResult_TextView_TeacherName"
+                app:layout_constraintTop_toBottomOf="@+id/SearchView_TeacherResult_TextView_TeacherName" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
