@@ -40,6 +40,11 @@ public class BookedLesson {
     private Boolean studentsHome;
     private Boolean teacherRequest;
 
+    private Boolean rejected;
+
+    public Boolean getRejected() {
+        return rejected;
+    }
     public void setTeacherRequest(Boolean teacherRequest) {
         this.teacherRequest = teacherRequest;
     }
@@ -76,6 +81,7 @@ public class BookedLesson {
         this.studentName = studentName;
         this.studentUID = studentUID;
         this.teacherRequest = teacherRequest;
+        //TODO reject
     }
 
     public UserLesson getLesson()

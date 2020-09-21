@@ -80,7 +80,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                 view = layoutInflater.inflate(R.layout.student_pending_request_row, parent, false);
                 break;
             case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
-                view = layoutInflater.inflate(R.layout.profile_page_for_specific_teacher_row, parent, false);
+                //view = layoutInflater.inflate(R.layout.profile_page_for_specific_teacher_row, parent, false);
                 break;
             default:
                 break;
@@ -245,7 +245,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     textView1 = itemView.findViewById(R.id.SearchView_TeacherResult_TextView_TeacherName);
                     textView2 = itemView.findViewById(R.id.SearchView_TeacherResult_TextView_TeacherCity);
                     textView3 = itemView.findViewById(R.id.SearchView_TeacherResult_TextView_TeacherPrice);
-                    image = itemView.findViewById(R.id.SearchView_TeacherResult_ImageView_TeacherImage);
+                    //image = itemView.findViewById(R.id.SearchView_TeacherResult_ImageView_TeacherImage);
                     ratingBar = itemView.findViewById(R.id.SearchView_TeacherResult_RatingBar);
 
                     cardView = itemView.findViewById(R.id.SearchResultsCardView);
@@ -267,7 +267,7 @@ public class AdapterCardViewList extends RecyclerView.Adapter<AdapterCardViewLis
                     textView2 = itemView.findViewById(R.id.textViewPendingRequestSubject);
                     textView3 = itemView.findViewById(R.id.textViewPendingRequestLevel);
                     textView4 = itemView.findViewById(R.id.textViewPendingRequestStatus);
-                    button = itemView.findViewById(R.id.textViewPendingRequestDetails);
+                    //button = itemView.findViewById(R.id.textViewPendingRequestDetails);
                     break;
                 case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
                     textView1 = itemView.findViewById(R.id.textView_Subject_ProfilePage);

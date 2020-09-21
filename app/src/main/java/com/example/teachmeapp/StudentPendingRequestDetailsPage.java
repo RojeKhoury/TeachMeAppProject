@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.teachmeapp.Helpers.BookedLesson;
 import com.example.teachmeapp.Helpers.Globals;
+import com.google.firebase.Timestamp;
 
 public class StudentPendingRequestDetailsPage extends AppCompatActivity {
 
@@ -18,11 +19,6 @@ public class StudentPendingRequestDetailsPage extends AppCompatActivity {
         setContentView(R.layout.activity_student_pending_request_details_page);
 
         StudentPendingRequestRow pendingRequestRow = getIntent().getParcelableExtra(Globals.BOOKED_LESSON);
-
-        String Subject = getIntent().getStringExtra("Subject");
-        String Price = getIntent().getStringExtra("Price");
-        String Level = getIntent().getStringExtra("Level");
-        String Status = getIntent().getStringExtra("Status");
 
         ImageView imageView = findViewById(R.id.StudentPendingRequestDetailsPage_ImageView);
         TextView textViewSubject =findViewById(R.id.StudentPendingRequestDetailsPage_TextView_Subject);
@@ -34,10 +30,6 @@ public class StudentPendingRequestDetailsPage extends AppCompatActivity {
         TextView textViewAddress =findViewById(R.id.StudentPendingRequestDetailsPage_TextView_Address);
 
 
-        textViewSubject.setText(Subject);
-        textViewLevel.setText(Level);
-        textViewPrice.setText(Price);
-        textViewStatus.setText(Status);
 
 
         //TODO do u need params to locate the student pending request ?or all above is enough .. we need imageview timestart/end and address

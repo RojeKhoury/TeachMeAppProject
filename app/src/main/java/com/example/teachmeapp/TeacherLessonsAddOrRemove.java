@@ -1,6 +1,7 @@
 package com.example.teachmeapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -90,8 +91,8 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         String price = PriceEditText.getText().toString();
         level = EducationSpinner.getSelectedItem().toString();
 
-        if (subject != null) {
-            if (price != null) {
+        if (!subject.isEmpty()) {
+            if (!price.isEmpty()) {
                 comm.addCourse(subject, comm.getUid(), Double.parseDouble(price), level);
                 SubjectEditText.setText("");
                 PriceEditText.setText("");
@@ -101,6 +102,8 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         } else {
             Toast.makeText(this, "Please add a Subject", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
     private void realtimeDataUpdate()
