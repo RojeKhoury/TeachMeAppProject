@@ -1,10 +1,8 @@
 package com.example.teachmeapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
-import static com.example.teachmeapp.Helpers.Globals.comm;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ConversationChatPage extends AppCompatActivity {
 
