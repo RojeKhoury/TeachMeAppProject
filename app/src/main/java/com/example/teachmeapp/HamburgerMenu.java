@@ -7,48 +7,13 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.PopupMenu;
-import android.widget.Spinner;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.teachmeapp.Adapter.AdapterCardViewList;
-import com.example.teachmeapp.Helpers.BookedLesson;
-import com.example.teachmeapp.Helpers.Globals;
-import com.example.teachmeapp.Helpers.UserLesson;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
-import static com.example.teachmeapp.Helpers.Globals.CITY;
-import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
-import static com.example.teachmeapp.Helpers.Globals.COUNTRY;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_PRICE;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
-import static com.example.teachmeapp.Helpers.Globals.HISTORY_OF_LESSONS_VIEW;
-import static com.example.teachmeapp.Helpers.Globals.LESSONS_FOR_TEACHER_VIEW;
-import static com.example.teachmeapp.Helpers.Globals.PROFILE_PAGE_OF_SPECIFIC_TEACHER;
-import static com.example.teachmeapp.Helpers.Globals.SEARCH_FOR_TEACHER_VIEW;
-import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT_FOR_SCHDULE;
-import static com.example.teachmeapp.Helpers.Globals.STUDENT_PENDING_REQUESTS_VIEW;
-import static com.example.teachmeapp.Helpers.Globals.TEACHER_PENDING_REQUESTS_VIEW;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class HamburgerMenu extends Activity {
@@ -63,7 +28,7 @@ public class HamburgerMenu extends Activity {
 
     public int ChipTagSearchedArraySize;
     String[] ChipTagSearchedArray;
-    int i;
+
     public Uri[] TempImageArray;
     public String SingleUID;
 
@@ -74,7 +39,6 @@ public class HamburgerMenu extends Activity {
     public ArrayList<Uri> arrayListUri1;
     public ArrayList<Double> arrayListDouble1;
     public ArrayList<String> arrayListUID;
-    public ArrayList<BookedLesson> les;
 
     public HamburgerMenu() {
         TempStringArray1 = new String[0];
@@ -184,145 +148,143 @@ public class HamburgerMenu extends Activity {
     }
 
     public void CallViewAdapter(int RecyclerViewName) {
-        AdapterCardViewList adapterCardViewList = null;
-        RecyclerView recyclerView = null;
-
-        switch (RecyclerViewName) {
-            case SEARCH_RESULT_FOR_SCHDULE:
-                recyclerView = findViewById(R.id.recyclerViewSearchResult);
-                if (arrayListString1.isEmpty()) {
-                    Toast.makeText(this, "No Schedules Appointed", Toast.LENGTH_SHORT).show();
-                } else {
-                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null, null, null);
-                }
-                break;
-
-            case SEARCH_FOR_TEACHER_VIEW:
-                if (ChipTagSearchedArray.length > 0) {
-                    ClearArrays();
-                    recyclerView = findViewById(R.id.recyclerViewSearchResult);
-                    CheckBox zoom = findViewById(R.id.checkbox_zoom);
-                    CheckBox teacherPlace = findViewById(R.id.checkbox_at_teacher_place);
-                    CheckBox studentPlace = findViewById(R.id.checkbox_at_student_place);
-                    Spinner spinner = findViewById(R.id.spinner_for_education_level);
-                    String EducationLevel = spinner.getSelectedItem().toString();
-
-                    if (arrayListString1.isEmpty()) {
-                        Toast.makeText(this, "No Teachers Found", Toast.LENGTH_SHORT).show();
-                    } else {
-                        adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                                null, arrayListUri1, arrayListDouble1, arrayListUID);
-                    }
-                }
-                break;
-
-           /* case LESSONS_FOR_TEACHER_VIEW:
-                recyclerView = findViewById(R.id.recyclerView_MyLessons);
-
-                ClearArrays();
-                ArrayList<UserLesson> lessons = comm.MapToArray(comm.getUserLessons());
-                if (lessons != null) {
-                    i = 0;
-                    for (UserLesson lesson : lessons) {
-
-                        TempStringArray1[i] = lesson.getName();
-                        TempStringArray2[i] = lesson.getPrice().toString();
-                        TempStringArray3[i] = lesson.getlevel();
-                        i += 1;
-                    }
-                } else {
-                    Toast.makeText(this, "No lessons yet", Toast.LENGTH_SHORT).show();
-                }
-
-                CombineArrays();
-
-                if (arrayListString1.isEmpty()) {
-                    Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
-                } else {
-                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null, null, null);
-                }
-                break;*/
-
-            case HISTORY_OF_LESSONS_VIEW:
-                recyclerView = findViewById(R.id.recyclerViewHistory);
-                //TODO do a list of History from database implimented in schedule (may remove)
-                if (arrayListString1.isEmpty()) {
-                    Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
-                } else {
-                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null, null, null);
-                }
-                break;
-            case TEACHER_PENDING_REQUESTS_VIEW:
-                recyclerView = findViewById(R.id.recyclerViewPendingRequestTeacher);
-                les = comm.MapToArrayBookedLessons(comm.getUserPendingLessons().getLessons());
-                ClearArrays();
-                //TODO @abed I gave you the pending requests in les
-                for(BookedLesson lesson : les)
-                {
-                    lesson.getLesson().getName();
-                }
-                CombineArrays();
-                if (arrayListString1.isEmpty()) {
-                    Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
-                } else {
-                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null, null, arrayListUID);
-                }
-                break;
-            case STUDENT_PENDING_REQUESTS_VIEW://TODO @abed I gave you the pending requests in les
-                les = comm.MapToArrayBookedLessons(comm.getUserPendingLessons().getLessons());
-                for(BookedLesson lesson : les)
-                {
-                    lesson.getLesson().getName();
-                }
-                recyclerView = findViewById(R.id.recyclerViewPendingRequestStudent);
-                if (arrayListString1.isEmpty()) {
-                    Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
-                } else {
-                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            arrayListString4, null, null, null);
-                }
-                break;
-            case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
-                recyclerView = findViewById(R.id.Recycler_View_TeacherProfile_LessonsOffered);
-
-                ClearArrays();
-                comm.getViewedUserData(SingleUID, !comm.isTeacher());
-                Map<String, UserLesson> temp = comm.getViewedUserLessons();
-
-                for (Map.Entry lesson : temp.entrySet()) {
-                    TempStringArray1[i] = ((UserLesson) lesson.getValue()).getName();
-                    TempStringArray2[i] = ((UserLesson) lesson.getValue()).getPrice().toString();
-                    //TempStringArray3[i] = ((UserLesson) lesson.getValue()).getlevel();
-                }
-
-                CombineArrays();
-
-                if (arrayListString1.isEmpty()) {
-                    Toast.makeText(this, "No lessons offered", Toast.LENGTH_SHORT).show();
-                } else {
-                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
-                            null, null, null, null);
-                }
-                break;
-
-            default:
-                break;
-
-        }
-        if (!arrayListString1.isEmpty()) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(adapterCardViewList);
-        }
-
+//        AdapterCardViewList adapterCardViewList = null;
+//        RecyclerView recyclerView = null;
+//
+//        switch (RecyclerViewName) {
+//            case SEARCH_RESULT_FOR_SCHDULE:
+//                recyclerView = findViewById(R.id.recyclerViewSearchResult);
+//                if (arrayListString1.isEmpty()) {
+//                    Toast.makeText(this, "No Schedules Appointed", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+//                            null, null, null, null);
+//                }
+//                break;
+//
+//            case SEARCH_FOR_TEACHER_VIEW:/*
+//                if (ChipTagSearchedArray.length > 0) {
+//                    ClearArrays();
+//                    recyclerView = findViewById(R.id.recyclerViewSearchResult);
+//                    CheckBox zoom = findViewById(R.id.checkbox_zoom);
+//                    CheckBox teacherPlace = findViewById(R.id.checkbox_at_teacher_place);
+//                    CheckBox studentPlace = findViewById(R.id.checkbox_at_student_place);
+//                    Spinner spinner = findViewById(R.id.spinner_for_education_level);
+//                    String EducationLevel = spinner.getSelectedItem().toString();
+//
+//                    if (arrayListString1.isEmpty()) {
+//                        Toast.makeText(this, "No Teachers Found", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+//                                null, arrayListUri1, arrayListDouble1, arrayListUID);
+//                    }
+//
+//                }    */
+//                break;
+//
+//           /* case LESSONS_FOR_TEACHER_VIEW:
+//                recyclerView = findViewById(R.id.recyclerView_MyLessons);
+//
+//                ClearArrays();
+//                ArrayList<UserLesson> lessons = comm.MapToArray(comm.getUserLessons());
+//                if (lessons != null) {
+//                    i = 0;
+//                    for (UserLesson lesson : lessons) {
+//
+//                        TempStringArray1[i] = lesson.getName();
+//                        TempStringArray2[i] = lesson.getPrice().toString();
+//                        TempStringArray3[i] = lesson.getlevel();
+//                        i += 1;
+//                    }
+//                } else {
+//                    Toast.makeText(this, "No lessons yet", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                CombineArrays();
+//
+//                if (arrayListString1.isEmpty()) {
+//                    Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+//                            null, null, null, null);
+//                }
+//                break;*/
+//
+//            case HISTORY_OF_LESSONS_VIEW:
+//                recyclerView = findViewById(R.id.recyclerViewHistory);
+//                //TODO do a list of History from database implimented in schedule (may remove)
+//                if (arrayListString1.isEmpty()) {
+//                    Toast.makeText(this, "Add Lessons Please", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+//                            null, null, null, null);
+//                }
+//                break;
+//            case TEACHER_PENDING_REQUESTS_VIEW:
+//                recyclerView = findViewById(R.id.recyclerViewPendingRequestTeacher);
+//                les = comm.MapToArrayBookedLessons(comm.getUserPendingLessons().getLessons());
+//                ClearArrays();
+//                //TODO @abed I gave you the pending requests in les
+//                for(BookedLesson lesson : les)
+//                {
+//                    lesson.getLesson().getName();
+//                }
+//                CombineArrays();
+//                if (arrayListString1.isEmpty()) {
+//                    Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+//                            null, null, null, arrayListUID);
+//                }
+//                break;
+//            case STUDENT_PENDING_REQUESTS_VIEW://TODO @abed I gave you the pending requests in les
+//                les = comm.MapToArrayBookedLessons(comm.getUserPendingLessons().getLessons());
+//                for(BookedLesson lesson : les)
+//                {
+//                    lesson.getLesson().getName();
+//                }
+//                recyclerView = findViewById(R.id.recyclerViewPendingRequestStudent);
+//                if (arrayListString1.isEmpty()) {
+//                    Toast.makeText(this, "No pending request", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+//                            arrayListString4, null, null, null);
+//                }
+//                break;
+//            case PROFILE_PAGE_OF_SPECIFIC_TEACHER:
+//                recyclerView = findViewById(R.id.Recycler_View_TeacherProfile_LessonsOffered);
+//
+//                ClearArrays();
+//                comm.getViewedUserData(SingleUID, !comm.isTeacher());
+//                Map<String, UserLesson> temp = comm.getViewedUserLessons();
+//
+//                for (Map.Entry lesson : temp.entrySet()) {
+//                    TempStringArray1[i] = ((UserLesson) lesson.getValue()).getName();
+//                    TempStringArray2[i] = ((UserLesson) lesson.getValue()).getPrice().toString();
+//                    TempStringArray3[i] = ((UserLesson) lesson.getValue()).getlevel();
+//                }
+//
+//                CombineArrays();
+//
+//                if (arrayListString1.isEmpty()) {
+//                    Toast.makeText(this, "No lessons offered", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    adapterCardViewList = new AdapterCardViewList(RecyclerViewName, this, arrayListString1, arrayListString2, arrayListString3,
+//                            null, null, null, null);
+//                }
+//                break;
+//
+//            default:
+//                break;
+//
+//        }
+//        if (!arrayListString1.isEmpty()) {
+//            assert recyclerView != null;
+//            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//            recyclerView.setAdapter(adapterCardViewList);
+//        }
+//
     }
-
-
-
-
 
 
     public void CombineArrays() {
@@ -335,13 +297,13 @@ public class HamburgerMenu extends Activity {
         Collections.addAll(arrayListUID, TempUIDArray);
 
     }
-
-    public void ClearArrays() {
-        arrayListString1.clear();
-        arrayListString2.clear();
-        arrayListString3.clear();
-        arrayListString4.clear();
-        arrayListUri1.clear();
-        arrayListDouble1.clear();
-    }
+//
+//    public void ClearArrays() {
+//        arrayListString1.clear();
+//        arrayListString2.clear();
+//        arrayListString3.clear();
+//        arrayListString4.clear();
+//        arrayListUri1.clear();
+//        arrayListDouble1.clear();
+//    }
 }
