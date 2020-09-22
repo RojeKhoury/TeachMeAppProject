@@ -718,7 +718,7 @@ public class communicationWithDatabase {
                 });
     }
 
-    public void addCourse(String lesson, String uid, Double price, Integer level) {
+    public void addCourse(String lesson, String uid, Double price, ArrayList<Integer> level) {
         //addLessonToDatabase(lesson);
         String collection = ((isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
         if (m_teacher) {

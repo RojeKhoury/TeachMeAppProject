@@ -76,7 +76,6 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         m_teacherRating = findViewById(R.id.profile_page_rating_bar);
         m_teacherName = findViewById(R.id.profile_page_teacher_name);
 
-
         CallViewAdapter(PROFILE_PAGE_OF_SPECIFIC_TEACHER);
     }
 

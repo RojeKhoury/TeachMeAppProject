@@ -1,14 +1,24 @@
 package com.example.teachmeapp;
 
+import android.os.Bundle;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-
 public class TeacherProfilePageOfferedLessons extends AppCompatActivity {
+    TextView textViewElementary;
+    TextView textViewMiddleSchool;
+    TextView textViewHighSchool;
+    TextView textViewCollege;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_profile_page_offered_lessons);
+//TODO here are the textview levels
+        textViewElementary = findViewById(R.id.textViewElementary);
+        textViewMiddleSchool = findViewById(R.id.textViewMiddleSchool);
+        textViewHighSchool = findViewById(R.id.textViewHighSchool);
+        textViewCollege = findViewById(R.id.textViewCollege);
     }
 }

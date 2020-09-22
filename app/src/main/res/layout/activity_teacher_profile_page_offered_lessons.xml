@@ -46,17 +46,58 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView_Subject_ProfilePage" />
 
             <TextView
-                android:id="@+id/textView_Level_ProfilePage"
+                android:id="@+id/textViewHighSchool"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="High School"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textViewCollege"
+                app:layout_constraintStart_toEndOf="@+id/textViewMiddleSchool"
+                app:layout_constraintTop_toBottomOf="@+id/textView_Price_ProfilePage"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/textViewElementary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="Elementary"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textViewMiddleSchool"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_Price_ProfilePage" />
+
+            <TextView
+                android:id="@+id/textViewMiddleSchool"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                android:text="Level"
+                android:text="Middle School"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textView_Price_ProfilePage"
-                app:layout_constraintStart_toStartOf="@+id/textView_Price_ProfilePage"
+                app:layout_constraintEnd_toStartOf="@+id/textViewHighSchool"
+                app:layout_constraintStart_toEndOf="@+id/textViewElementary"
+                app:layout_constraintTop_toBottomOf="@+id/textView_Price_ProfilePage"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/textViewCollege"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="College"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textViewHighSchool"
                 app:layout_constraintTop_toBottomOf="@+id/textView_Price_ProfilePage"
                 app:layout_constraintVertical_bias="1.0" />
 
