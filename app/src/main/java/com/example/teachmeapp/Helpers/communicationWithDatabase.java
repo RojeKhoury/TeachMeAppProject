@@ -1,11 +1,16 @@
 package com.example.teachmeapp.Helpers;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.teachmeapp.ProfilePageOfTeacherForStudent;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -315,6 +320,7 @@ public class communicationWithDatabase {
                         m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
                         m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
+
                     }
 
                     storage.getReference().child("images/" + m_viewedUserUID + "/profile picture").
@@ -542,7 +548,7 @@ public class communicationWithDatabase {
         realtimeUpadateMyData();
     }
 
-    public void getViewedUserData(String uid, final boolean teacher) {
+    public boolean getViewedUserData(String uid, final boolean teacher, final Context context, final Class activity) {
 
         String collection = (teacher) ? COLLECTION_TEACHER : COLLECTION_STUDENT;
 
@@ -568,6 +574,9 @@ public class communicationWithDatabase {
                         m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
                         m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
+                        m_viewedUserZoom = (boolean) document.get(FIELD_ZOOM);
+                        m_viewedUserStudentHome = (boolean) document.get(FIELD_STUDENTHOME);
+                        m_viewedUserTeacherHome = (boolean) document.get(FIELD_STUDENTHOME);
                     }
 
                     storage.getReference().child("images/" + m_viewedUserUID + "/profile picture").
@@ -576,6 +585,8 @@ public class communicationWithDatabase {
                         public void onSuccess(Uri uri) {
                             // Got the download URL for 'users/me/profile.png'
                             m_viewedUserImageURI = uri;
+                            Intent intent = new Intent(context, activity);
+                            context.startActivity(intent);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -586,7 +597,11 @@ public class communicationWithDatabase {
                 }
             }
         });
-        realTimeUpdateViewedUserData(uid, teacher);
+       //realTimeUpdateViewedUserData(uid, teacher);
+        if(m_viewedUserFirstName != null)
+            return true;
+        else
+            return false;
     }
 
 
@@ -1281,5 +1296,6 @@ public class communicationWithDatabase {
     public Uri getM_currentUserImageURI() {
         return m_currentUserImageURI;
     }
+
 }
 

@@ -210,9 +210,10 @@ public class SearchForTeacher extends HamburgerMenu {
                             HashMap<String, UserLesson> maps = new HashMap<>();
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
                             if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price &&
-                                    ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) >= level) {
+                                    ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) >= level &&
+                                    !comm.getUid().equals(document.get(FIELD_UID).toString())) {
                                 Double rating = (document.get(RATINGS) == null) ? 0 : Double.parseDouble(document.get(RATINGS).toString());
-                                teachers.add(new SearchResultsRow(document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
+                                teachers.add(new SearchResultsRow((HashMap) document.get(FIELD_LESSONS), document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
                                         document.get(FIELD_UID).toString(), document.get(FIELD_NAME).toString(),
                                         (Boolean) document.get(FIELD_ZOOM), (Boolean) document.get(FIELD_TEACHERHOME),
                                         (Boolean) document.get(FIELD_STUDENTHOME),
@@ -239,7 +240,7 @@ public class SearchForTeacher extends HamburgerMenu {
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
                             if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price && ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) >= level) {
                                 Double rating = (document.get(RATINGS) == null) ? 0 : Double.parseDouble(document.get(RATINGS).toString());
-                                teachers.add(new SearchResultsRow(document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
+                                teachers.add(new SearchResultsRow((HashMap) document.get(FIELD_LESSONS), document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
                                         document.get(FIELD_UID).toString(), document.get(FIELD_NAME).toString(),
                                         (Boolean) document.get(FIELD_ZOOM), (Boolean) document.get(FIELD_TEACHERHOME),
                                         (Boolean) document.get(FIELD_STUDENTHOME),
@@ -258,7 +259,7 @@ public class SearchForTeacher extends HamburgerMenu {
                                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
                                             if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price && ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) >= level) {
                                                 Double rating = (document.get(RATINGS) == null) ? 0 : Double.parseDouble(document.get(RATINGS).toString());
-                                                teachers.add(new SearchResultsRow(document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
+                                                teachers.add(new SearchResultsRow((HashMap) document.get(FIELD_LESSONS), document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
                                                         document.get(FIELD_UID).toString(), document.get(FIELD_NAME).toString(),
                                                         (Boolean) document.get(FIELD_ZOOM), (Boolean) document.get(FIELD_TEACHERHOME),
                                                         (Boolean) document.get(FIELD_STUDENTHOME),

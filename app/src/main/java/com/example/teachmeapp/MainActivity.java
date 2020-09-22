@@ -12,13 +12,16 @@ import static com.example.teachmeapp.Helpers.Globals.comm;
 public class MainActivity extends AppCompatActivity {
 
     //Creating listener to Login button
-    private Button m_loginButton = (Button) findViewById(R.id.main_button_login),
-            m_signUpButton = (Button) findViewById(R.id.main_button_signUp);
+    private Button m_loginButton, m_signUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        m_loginButton = (Button) findViewById(R.id.main_button_login);
+        m_signUpButton = (Button) findViewById(R.id.main_button_signUp);
+
 
         m_loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,23 +38,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
+
         super.onStart();
-        if(comm.getFirebaseUser() != null)
-        {
+        if (comm.getFirebaseUser() != null) {
             Intent intent = new Intent(this, LoginAsTeacherOrStudent.class);
             startActivity(intent);
         }
     }
 
-    public void OpenLogin()
-    {
+    public void OpenLogin() {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
-    public void OpenSignUp()
-    {
+
+    public void OpenSignUp() {
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
     }

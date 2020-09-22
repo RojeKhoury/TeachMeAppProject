@@ -2,6 +2,11 @@ package com.example.teachmeapp;
 
 import android.net.Uri;
 
+import com.example.teachmeapp.Helpers.UserLesson;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class SearchResultsRow  {
 
 
@@ -9,6 +14,12 @@ public class SearchResultsRow  {
     private String m_teacherName;
 
     private Uri m_imageURI;
+
+    public ArrayList<UserLesson> getM_lessons() {
+        return m_lessons;
+    }
+
+    ArrayList<UserLesson> m_lessons;
 
     private String m_teacherCity;
 
@@ -22,7 +33,7 @@ public class SearchResultsRow  {
     private Double m_price;
 
     private Double m_rating;
-    public SearchResultsRow(String m_surname, String m_teacherCity, Double m_rating, String m_teacherUID, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome, Boolean m_studentsHome, String m_subject, Double m_price, String m_level) {
+    public SearchResultsRow(HashMap<String, UserLesson> m_lessons, String m_surname, String m_teacherCity, Double m_rating, String m_teacherUID, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome, Boolean m_studentsHome, String m_subject, Double m_price, String m_level) {
 
         this.m_teacherUID = m_teacherUID;
         this.m_teacherName = m_teacherName;
@@ -35,7 +46,7 @@ public class SearchResultsRow  {
         this.m_rating = m_rating;
         this.m_teacherCity = m_teacherCity;
         this.m_surname = m_surname;
-    }
+   }
 
     public String getM_teacherCity() {
         return m_teacherCity;

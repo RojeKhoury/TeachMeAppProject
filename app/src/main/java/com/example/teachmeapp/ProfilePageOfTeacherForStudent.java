@@ -12,15 +12,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.teachmeapp.Adapter.AddOrRemoveLessonAdapter;
+import com.example.teachmeapp.Adapter.teacherProfileLessonsAdapter;
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.Helpers.UserLesson;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,13 +38,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.teachmeapp.Helpers.Globals.COLLECTION_STUDENT;
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_PRICE;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
+import static com.example.teachmeapp.Helpers.Globals.LEVEL;
 import static com.example.teachmeapp.Helpers.Globals.PROFILE_PAGE_OF_SPECIFIC_TEACHER;
+import static com.example.teachmeapp.Helpers.Globals.TEACHERS;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 
@@ -48,25 +61,28 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     RatingBar m_teacherRating;
     Button m_goToLocationButton;
     Button m_getLessonButton;
-    ImageButton ButtonStar;
+    SearchResultsRow user;
+
+    // Bundle bundle = getIntent().getExtras();
+
+    //  ImageButton ButtonStar;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+
+    private List<TeacherLessonRow> lessons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String UID = getIntent().getStringExtra("UID" );
+        String UID = comm.getViewedUserUID();//getIntent().getStringExtra("UID" );
 
         setContentView(R.layout.activity_profile_page_of_teacher_for_student);
 
-        m_uid = "CosM3yLfsTOxwnZvc91hY0Um4fn1";//getIntent().getStringExtra("uid");//temporary
+        m_uid = getIntent().getStringExtra("uid");//temporary
+        //   user = bundle.getParcelable("user");
 
-        if (UID != null) {
-            SingleUID = UID;
-            m_uid = UID;
-        }
-        else
-        {
-            m_uid = "CosM3yLfsTOxwnZvc91hY0Um4fn1";//getIntent().getStringExtra("uid");//temporary
-        }
+        //comm.realTimeUpdateViewedUserData(m_uid, true);
 
         setContentView(R.layout.activity_profile_page_of_teacher_for_student);
         //profile_page_list_lesson_offered = findViewById(R.id.profile_page_list_lesson_offered);
@@ -75,16 +91,51 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         m_profile_pic = findViewById(R.id.profile_page_user_picture);
         m_teacherRating = findViewById(R.id.profile_page_rating_bar);
         m_teacherName = findViewById(R.id.profile_page_teacher_name);
+        
+        recyclerView = (RecyclerView) findViewById(R.id.Recycler_View_TeacherProfile_LessonsOffered);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        CallViewAdapter(PROFILE_PAGE_OF_SPECIFIC_TEACHER);
+      //  requiredData();
+
+        lessons = new ArrayList<>();
+
+        //  recycleViewFill();
+    }
+//
+//    private void requiredData() {
+//        comm.getViewedUserData(m_uid, !comm.isTeacher());
+//    }
+
+    private void recycleViewFill() {
+
+        lessons.clear();
+
+        if (comm.getViewedUserLessons() != null) {
+            for (Map.Entry lesson : comm.getViewedUserLessons().entrySet()) {
+                    HashMap<String, Object> less = (HashMap<String, Object>) lesson.getValue();
+                // HashMap userLesson = (HashMap)lesson.getValue();
+                TeacherLessonRow temp = new TeacherLessonRow((String) less.get(FIELD_NAME), ((Long) less.get(LEVEL)).intValue(), less.get(FIELD_PRICE).toString());
+                lessons.add(temp);
+            }
+        }
+
+
+        adapter = new teacherProfileLessonsAdapter(lessons, this);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         loadImage();
-        loadTeacherData();
-        setStar();
+        ImageView_profile_page_check_or_cancel(comm.isViewedUserZoom(), comm.isViewedUserTeacherHome(), comm.isViewedUserStudentHome());
+        // setStar();
+            loadTeacherData();
+        adapter = new teacherProfileLessonsAdapter(lessons, this);
+        recyclerView.setAdapter(adapter);
+//        if (comm.getViewedUserData(m_uid, true)) {
+//        }
     }
 
     private void setStar() {
@@ -97,8 +148,8 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
                     for (String teacher : fav) {
                         if (teacher.equals(m_uid)) {
-                            ButtonStar.setTag("on");
-                            ButtonStar.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.favorite_btn_star_on));
+                            //                       ButtonStar.setTag("on");
+                            //                      ButtonStar.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.favorite_btn_star_on));
                             break;
                         }
                     }
@@ -123,24 +174,23 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         });
     }
 
-    public void onToggleStar(View view) {
-        if (ButtonStar.getTag() == "on") {
-            ButtonStar.setTag("off");
-            ButtonStar.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.favorite_btn_star_off));
-            comm.removeTeacherToFavourites(m_uid);
-
-        } else {
-            ButtonStar.setTag("on");
-            ButtonStar.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.favorite_btn_star_on));
-            comm.addTeacherToFavourites(m_uid);
-
-        }
-    }
+//    public void onToggleStar(View view) {
+//        if (ButtonStar.getTag() == "on") {
+//            ButtonStar.setTag("off");
+//            ButtonStar.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.favorite_btn_star_off));
+//            comm.removeTeacherToFavourites(m_uid);
+//
+//        } else {
+//            ButtonStar.setTag("on");
+//            ButtonStar.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.favorite_btn_star_on));
+//            comm.addTeacherToFavourites(m_uid);
+//
+//        }
+//    }
 
     public void ImageView_profile_page_check_or_cancel(boolean zoom, boolean teacherHome, boolean studentHome) {
 
         ImageView imageView = findViewById(R.id.profile_page_image_view_check_or_cancel_at_my_place);
-
         if (teacherHome) {
             imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.check_icon));
         } else {
@@ -160,11 +210,19 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         } else {
             imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.cancel_icon));
         }
-
     }
 
     public void loadTeacherData() {
-        comm.getDocRef(m_uid, COLLECTION_TEACHER).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
+
+        m_teacherName.setText(comm.getViewedUserName() + " " + comm.getViewedUserSurname());
+        m_teacherRating.setRating(Float.parseFloat(comm.getViewedUserStarRating().toString()));
+        // Picasso.get().load(comm.getM_viewedUserImageURI()).into(m_profile_pic);
+        recycleViewFill();
+        adapter = new teacherProfileLessonsAdapter(lessons, this);
+        recyclerView.setAdapter(adapter);
+
+        /* comm.getDocRef(m_uid, COLLECTION_TEACHER).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
@@ -194,7 +252,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
             public void onFailure(@NonNull Exception e) {
 
             }
-        });
+        });*/
     }
 
     public void OnClick_profile_button_get_lessons_now(View view) {

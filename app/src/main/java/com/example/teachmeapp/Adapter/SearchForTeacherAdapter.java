@@ -1,6 +1,7 @@
 package com.example.teachmeapp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +11,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.teachmeapp.ProfilePageOfTeacherForStudent;
 import com.example.teachmeapp.R;
 import com.example.teachmeapp.SearchResultsRow;
 
 import java.util.List;
 
+import static com.example.teachmeapp.Helpers.Globals.comm;
+
 public class SearchForTeacherAdapter extends RecyclerView.Adapter<SearchForTeacherAdapter.ViewHolder> {
 
     private List<SearchResultsRow> m_teachers;
     private Context context;
+    private int pos;
 
     public SearchForTeacherAdapter(List<SearchResultsRow> m_teachers, Context context) {
         this.m_teachers = m_teachers;
@@ -43,6 +48,7 @@ public class SearchForTeacherAdapter extends RecyclerView.Adapter<SearchForTeach
         holder.teacherRating.setRating(Float.parseFloat(item.getM_rating().toString()));
         holder.textViewCity.setText(item.getM_teacherCity());
         holder.textViewSubject.setText(item.getM_subject());
+        pos = position;
     }
 
     @Override
@@ -57,14 +63,26 @@ public class SearchForTeacherAdapter extends RecyclerView.Adapter<SearchForTeach
         public TextView textViewSubject;
         public RatingBar teacherRating;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
 
+        public ViewHolder(@NonNull View itemView) {
+
+            super(itemView);
             textViewTeacherName = (TextView) itemView.findViewById(R.id.SearchView_TeacherResult_TextView_TeacherName);
             textViewCity = (TextView) itemView.findViewById(R.id.SearchView_TeacherResult_TextView_TeacherCity);
             textViewPrice = (TextView) itemView.findViewById(R.id.SearchView_TeacherResult_TextView_TeacherPrice);
             teacherRating = (RatingBar) itemView.findViewById(R.id.SearchView_TeacherResult_RatingBar);
             textViewSubject = (TextView) itemView.findViewById(R.id.searchViewSubjectSearch);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SearchResultsRow item = m_teachers.get(pos);
+                    comm.getViewedUserData(item.getM_teacherUID(), true, view.getContext(), ProfilePageOfTeacherForStudent.class);
+                   // Intent intent = new Intent(view.getContext(), ProfilePageOfTeacherForStudent.class);
+                    //intent.putExtra("uid", item.getM_teacherUID());
+                  //  view.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }
