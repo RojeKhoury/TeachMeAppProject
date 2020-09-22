@@ -44,6 +44,7 @@
         <activity android:name=".TeacherPendingRequestDetailsPage" />
         <activity android:name=".StudentPendingRequest" />
         <activity android:name=".TeacherPendingRequests" />
+        <activity android:name=".EditTeacherInfo" />
         <activity android:name=".History" />
         <activity
             android:name=".TeacherLessonsAddOrRemove"

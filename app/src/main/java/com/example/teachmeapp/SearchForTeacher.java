@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -36,6 +37,7 @@ import static com.example.teachmeapp.Helpers.Globals.CITY;
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.COUNTRY;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSON_TOPIC_LIST;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LEVEL;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_PRICE;
@@ -44,7 +46,9 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_UID;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
+import static com.example.teachmeapp.Helpers.Globals.LEVEL;
 import static com.example.teachmeapp.Helpers.Globals.RATINGS;
+import static com.example.teachmeapp.Helpers.Globals.ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class SearchForTeacher extends HamburgerMenu {
@@ -57,7 +61,7 @@ public class SearchForTeacher extends HamburgerMenu {
     CheckBox teacherPlace;
     CheckBox studentPlace;
     Spinner levelSpinner;
-    String EducationLevel;
+    Integer EducationLevel;
 
     private RecyclerView recyclerView;
 
@@ -147,7 +151,7 @@ public class SearchForTeacher extends HamburgerMenu {
     }
 
     public void OnClick_SearchForTeacher_Button_ShowSelections() {
-
+        teachers.clear();
         int count = this.chipGroup.getCheckedChipIds().size();
         if (count > 0) {
             ChipTagSearchedArraySize = count;
@@ -176,8 +180,8 @@ public class SearchForTeacher extends HamburgerMenu {
     }
 
     private void searchUsingTags() {
-        teachers.clear();
-        EducationLevel = levelSpinner.getSelectedItem().toString();
+
+        EducationLevel = levelSpinner.getSelectedItemPosition() + 1;//levelSpinner.getSelectedItem().toString();
         for (int i = 0; i < ChipTagSearchedArray.length; i++) {
             searchForTeachers(ChipTagSearchedArray[i], EducationLevel, zoom.isChecked(),
                     teacherPlace.isChecked(), studentPlace.isChecked(), 1000);
@@ -186,126 +190,93 @@ public class SearchForTeacher extends HamburgerMenu {
         recyclerView.setAdapter(adapter);
     }
 
-    public void searchForTeachers(final String subject, String level, boolean zoom, boolean teachersPlace, boolean studentsPlace, final int price) {
+    public void searchForTeachers(final String subject, final Integer level, boolean zoom, boolean teachersPlace, boolean studentsPlace, final int price) {
         //here I am assuming that the data was collected so these are temporary values that need to be changed when the page is done
         //float maxPrice = 150;
         //.whereEqualTo(FIELD_ZOOM, false)
-        CollectionReference teacherRef = comm.db.collection(COLLECTION_TEACHER);
-        String[] searchOptions = new String[3];
+        final CollectionReference teacherRef = comm.db.collection(COLLECTION_TEACHER);
 
-        if (zoom) {
-            searchOptions[0] = FIELD_ZOOM;
-
-            if (teachersPlace)
-                searchOptions[1] = FIELD_TEACHERHOME;
-            else
-                searchOptions[1] = FIELD_ZOOM;
-
-
-            if (studentsPlace)
-                searchOptions[2] = FIELD_STUDENTHOME;
-            else
-                searchOptions[2] = FIELD_ZOOM;
-
-        } else {
-
-            if (teachersPlace) {
-                searchOptions[0] = FIELD_TEACHERHOME;
-                searchOptions[1] = FIELD_TEACHERHOME;
-            } else {
-                searchOptions[0] = FIELD_STUDENTHOME;
-                searchOptions[1] = FIELD_STUDENTHOME;
-            }
-
-            if (studentsPlace)
-                searchOptions[2] = FIELD_STUDENTHOME;
-            else
-                searchOptions[2] = FIELD_TEACHERHOME;
-        }
 //.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).whereEqualTo(CITY, comm.getCity()).whereEqualTo(COUNTRY, comm.getCountry()).whereEqualTo(FIELD_LESSONS + "." + subject + "." + Globals.FIELD_NAME, subject)
-        if (zoom || teachersPlace || studentsPlace && !zoom) {
-            teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true)
-                    .whereEqualTo(CITY, comm.getUserCity()).whereEqualTo(COUNTRY, comm.getUserCountry()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        if (zoom) {
+            teacherRef.whereArrayContains(FIELD_LESSON_TOPIC_LIST, subject).whereEqualTo(FIELD_ZOOM, true)
+                    .whereEqualTo(COUNTRY, comm.getUserCountry())/*.whereLessThanOrEqualTo(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE, price)
+                    .whereGreaterThanOrEqualTo(FIELD_LESSONS + "." + subject + "." + LEVEL, level)*/
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             HashMap<String, UserLesson> maps = new HashMap<>();
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
-                            if (maps.containsKey(subject)) {
-                                if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price) {
-                                   /* comm.storage.getReference().child("images/" + document.get(FIELD_UID).toString() + "/profile picture").
-                                            getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            // Got the download URL for 'users/me/profile.png'
-                                            imageURI = uri;
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception exception) {
-                                            // Handle any errors
-                                        }
-                                    });*/
-                                    Double rating = (document.get(RATINGS) == null) ? 0 : Double.parseDouble(document.get(RATINGS).toString());
-
-                                    teachers.add(new SearchResultsRow(document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
-                                            document.get(FIELD_UID).toString(), document.get(FIELD_NAME).toString(),
-                                            (Boolean) document.get(FIELD_ZOOM), (Boolean) document.get(FIELD_TEACHERHOME),
-                                            (Boolean) document.get(FIELD_STUDENTHOME),
-                                            document.get(FIELD_LESSONS + "." + subject + "." + FIELD_NAME).toString(),
-                                            (Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE),
-                                            document.get(FIELD_LESSONS + "." + subject + "." + FIELD_LEVEL).toString()));
-                                }
+                            if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price &&
+                                    ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) >= level) {
+                                Double rating = (document.get(RATINGS) == null) ? 0 : Double.parseDouble(document.get(RATINGS).toString());
+                                teachers.add(new SearchResultsRow(document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
+                                        document.get(FIELD_UID).toString(), document.get(FIELD_NAME).toString(),
+                                        (Boolean) document.get(FIELD_ZOOM), (Boolean) document.get(FIELD_TEACHERHOME),
+                                        (Boolean) document.get(FIELD_STUDENTHOME),
+                                        document.get(FIELD_LESSONS + "." + subject + "." + FIELD_NAME).toString(),
+                                        (Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE),
+                                        document.get(FIELD_LESSONS + "." + subject + "." + FIELD_LEVEL).toString()));
                             }
                         }
-                    }
-                }
-
-            });
-        } else if (zoom || teachersPlace || studentsPlace) {
-            teacherRef.whereEqualTo(searchOptions[0], true).whereEqualTo(searchOptions[1], true).whereEqualTo(searchOptions[2], true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-
-                            HashMap<String, UserLesson> maps = new HashMap<>();
-                            maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
-                            if (maps.containsKey(subject)) {
-                                if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price) {
-
-                                }
-                            }
-                        }
-
+                        adapter = new SearchForTeacherAdapter(teachers, getApplicationContext());
+                        recyclerView.setAdapter(adapter);
                     }
                 }
             });
         } else {
-            teacherRef.whereEqualTo(CITY, comm.getUserCity()).whereEqualTo(COUNTRY, comm.getUserCountry())
-                    .whereArrayContains(Globals.LANGUAGES, "english").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            teacherRef.whereArrayContains(FIELD_LESSON_TOPIC_LIST, subject).whereEqualTo(FIELD_STUDENTHOME, true)
+                    .whereEqualTo(COUNTRY, comm.getUserCountry())/*.whereLessThanOrEqualTo(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE, price)
+                    .whereGreaterThanOrEqualTo(FIELD_LESSONS + "." + subject + "." + LEVEL, level)*/
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
-
                         for (QueryDocumentSnapshot document : task.getResult()) {
-
                             HashMap<String, UserLesson> maps = new HashMap<>();
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
-                            if (maps.containsKey(subject)) {
-                                if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price) {
+                            if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price && ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) >= level) {
+                                Double rating = (document.get(RATINGS) == null) ? 0 : Double.parseDouble(document.get(RATINGS).toString());
+                                teachers.add(new SearchResultsRow(document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
+                                        document.get(FIELD_UID).toString(), document.get(FIELD_NAME).toString(),
+                                        (Boolean) document.get(FIELD_ZOOM), (Boolean) document.get(FIELD_TEACHERHOME),
+                                        (Boolean) document.get(FIELD_STUDENTHOME),
+                                        document.get(FIELD_LESSONS + "." + subject + "." + FIELD_NAME).toString(),
+                                        (Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE),
+                                        document.get(FIELD_LESSONS + "." + subject + "." + FIELD_LEVEL).toString()));
+                                         }
+                            teacherRef.whereArrayContains(FIELD_LESSON_TOPIC_LIST, subject).whereEqualTo(FIELD_STUDENTHOME, false).whereEqualTo(FIELD_TEACHERHOME, true)
+                                    .whereEqualTo(COUNTRY, comm.getUserCountry()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            HashMap<String, UserLesson> maps = new HashMap<>();
+                                            maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
+                                            if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price && ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) >= level) {
+                                                Double rating = (document.get(RATINGS) == null) ? 0 : Double.parseDouble(document.get(RATINGS).toString());
+                                                teachers.add(new SearchResultsRow(document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
+                                                        document.get(FIELD_UID).toString(), document.get(FIELD_NAME).toString(),
+                                                        (Boolean) document.get(FIELD_ZOOM), (Boolean) document.get(FIELD_TEACHERHOME),
+                                                        (Boolean) document.get(FIELD_STUDENTHOME),
+                                                        document.get(FIELD_LESSONS + "." + subject + "." + FIELD_NAME).toString(),
+                                                        (Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE),
+                                                        document.get(FIELD_LESSONS + "." + subject + "." + FIELD_LEVEL).toString()));
+                                            }
+                                        }
+                                    }
+                                    adapter = new SearchForTeacherAdapter(teachers, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
                                 }
-                            }
+                            });
                         }
                     }
                 }
             });
         }
-        adapter = new SearchForTeacherAdapter(teachers, this);
-        recyclerView.setAdapter(adapter);
     }
 
     /*public void searchForTeachers(final String subject, String level, boolean zoom, boolean teachersPlace, boolean studentsPlace, final int price) {

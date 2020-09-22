@@ -57,11 +57,12 @@
             android:id="@+id/EditTeacherLessonsSubject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="8dp"
             android:hint="Subject"
-            app:layout_constraintBottom_toBottomOf="@+id/textView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView2" />
+            app:layout_constraintBottom_toBottomOf="@+id/textView5"
+            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintTop_toTopOf="@+id/textView5"
+            app:layout_constraintVertical_bias="0.478" />
 
         <TextView
             android:id="@+id/textView5"
@@ -70,7 +71,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
 
-            android:text="Price :"
+            android:text="Subject:"
             android:textSize="@dimen/QuarterTopBarHeight"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,13 +81,14 @@
             android:id="@+id/EditTeacherLessonsPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginEnd="32dp"
             android:hint="Price in $"
             android:inputType="number"
-            app:layout_constraintBottom_toBottomOf="@+id/textView5"
-            app:layout_constraintStart_toEndOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="@+id/textView5"
-            app:layout_constraintVertical_bias="0.642" />
+            app:layout_constraintBottom_toBottomOf="@+id/EditTeacherLessonsSubject"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toTopOf="@+id/EditTeacherLessonsSubject"
+            app:layout_constraintVertical_bias="0.304" />
 
         <TextView
             android:id="@+id/textView9"
@@ -98,7 +100,6 @@
             android:textSize="@dimen/QuarterTopBarHeight"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/button2"
-            app:layout_constraintEnd_toEndOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -128,13 +129,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginEnd="24dp"
-            android:text="Subject :"
+            android:layout_marginStart="80dp"
+            android:text="Price:"
             android:textSize="@dimen/QuarterTopBarHeight"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView5"
-            app:layout_constraintEnd_toStartOf="@+id/EditTeacherLessonsSubject"
-            app:layout_constraintTop_toTopOf="@+id/textView5" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/EditTeacherLessonsSubject"
+            app:layout_constraintTop_toTopOf="@+id/textView5"
+            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

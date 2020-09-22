@@ -38,6 +38,7 @@ import static com.example.teachmeapp.Helpers.Globals.COLLECTION_STUDENT;
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_COMMENTS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSON_TOPIC_LIST;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SCHEDULE;
@@ -305,11 +306,11 @@ public class communicationWithDatabase {
                     m_viewedUserCity = document.get(Globals.CITY).toString();
                     m_viewedUserCountry = document.get(Globals.COUNTRY).toString();
                     m_viewedUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
-                    //m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                     m_viewedUserUID = (String) document.get(Globals.FIELD_UID);
 
                     if (teacher) {
                         Log.d("GETSURENAME","if (teacher) {");
+                        m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_viewedUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
                         m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
                         m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
@@ -558,11 +559,11 @@ public class communicationWithDatabase {
                     m_viewedUserCity = document.get(Globals.CITY).toString();
                     m_viewedUserCountry = document.get(Globals.COUNTRY).toString();
                     m_viewedUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
-                    //m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                     m_viewedUserUID = (String) document.get(Globals.FIELD_UID);
 
                     if (teacher) {
                         Log.d("GETSURENAME","if (teacher) {");
+                        m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_viewedUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
                         m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
                         m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
@@ -717,7 +718,7 @@ public class communicationWithDatabase {
                 });
     }
 
-    public void addCourse(String lesson, String uid, Double price, String level) {
+    public void addCourse(String lesson, String uid, Double price, Integer level) {
         //addLessonToDatabase(lesson);
         String collection = ((isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
         if (m_teacher) {
@@ -725,10 +726,15 @@ public class communicationWithDatabase {
             temp.put(lesson, new UserLesson(lesson, price, level));
             addLessonToTeacher(new UserLesson(lesson, price, level), lesson);
             addTeacherToLesson(lesson, getUid());
+            addLessonToLessonList(lesson);
         } else {
             addLessonToStudent(new UserLesson(lesson, price, level), uid);
         }
         //comm.getData();
+    }
+
+    private void addLessonToLessonList(String lesson) {
+        db.collection(COLLECTION_TEACHER).document(getUid()).update(FIELD_LESSON_TOPIC_LIST, FieldValue.arrayUnion(lesson));
     }
 
     private void addTeacherToLesson(final String name, final String uid) {
@@ -851,11 +857,13 @@ public class communicationWithDatabase {
     }
 
     public void changeBio(String bio) {
-        updateElementInDatabase(getStorageRef(), Globals.FIELD_NAME, bio);
+        updateElementInDatabase(getStorageRef(), Globals.FIELD_BIO, bio);
+        m_currentUserBio = bio;
     }
 
     public void changePhoneNumber(String phone) {
         updateElementInDatabase(getStorageRef(), Globals.FIELD_PHONE, phone);
+        m_currentUserPhone = phone;
     }
 
     public void signIn(String email, String password) {
@@ -981,7 +989,7 @@ public class communicationWithDatabase {
         return m_currentUserCountry;
     }
 
-    public void removeCourseFromTeacher(String lesson) {
+    public void removeCourseFromTeacher(final String lesson) {
         Map<String, Object> updates = new HashMap<>();
         updates.put(lesson, FieldValue.delete());
         db.collection(COLLECTION_TEACHER).document(m_user.getUid())
@@ -989,8 +997,8 @@ public class communicationWithDatabase {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                    }
+                        db.collection(COLLECTION_TEACHER).document(m_user.getUid())
+                                .update(FIELD_LESSON_TOPIC_LIST, FieldValue.arrayRemove(lesson));                   }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -1189,7 +1197,7 @@ public class communicationWithDatabase {
         return null;
     }
 
-    public void addOrEditLessonRequest(Timestamp start, Timestamp end, String lesson, String level, double price, boolean zoom, boolean teachersPlace, boolean studentPlace) {
+    public void addOrEditLessonRequest(Timestamp start, Timestamp end, String lesson, Integer level, double price, boolean zoom, boolean teachersPlace, boolean studentPlace) {
 
 
         String teacherName, teacherUID, studentName, studentUID;

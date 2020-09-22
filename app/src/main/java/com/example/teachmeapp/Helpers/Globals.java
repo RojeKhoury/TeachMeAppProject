@@ -77,9 +77,6 @@ public class Globals
     public static final String BOOKED_LESSON = "BookedLesson";
     public static final String IS_TEACHER="IsTeacher";
 
-
-
-
     //New DB
     public static final String STUDENT_USER="Students";
     public static final String TEACHER_USER="Teachers";
@@ -93,6 +90,8 @@ public class Globals
     public static final String STUDENTS_HOME = "studentsHome";
     public static final String TEACHERS_HOME = "teachersHome";
     public static final String FIELD_LEVEL = "level";
+    public static final String FIELD_LESSON_TOPIC_LIST = "lessonList";
+    public static final String[] LEVELS_ARRAY = {"Elementary", "Middle-School", "High-School", "College and above"};
 
     public static communicationWithDatabase comm = new communicationWithDatabase();
 

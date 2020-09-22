@@ -38,7 +38,7 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
     EditText SubjectEditText;
     EditText PriceEditText;
     Spinner EducationSpinner;
-    String level;
+    Integer level;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
 
@@ -73,7 +73,8 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
             for (Map.Entry lesson : comm.getUserLessons().entrySet()) {
                 String name = (String) lesson.getKey();
                 HashMap userLesson = (HashMap)lesson.getValue();
-                TeacherLessonRow temp = new TeacherLessonRow(userLesson.get(Globals.SUBJECT).toString(), userLesson.get(Globals.LEVEL).toString(), userLesson.get(Globals.FIELD_PRICE).toString());
+                TeacherLessonRow temp = new TeacherLessonRow(userLesson.get(Globals.SUBJECT).toString(),
+                        ((Long) userLesson.get(Globals.LEVEL)).intValue(), userLesson.get(Globals.FIELD_PRICE).toString());
                 lessons.add(temp);
             }
         }
@@ -89,7 +90,7 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
 
         String subject = SubjectEditText.getText().toString();
         String price = PriceEditText.getText().toString();
-        level = EducationSpinner.getSelectedItem().toString();
+        level = EducationSpinner.getSelectedItemPosition();
 
         if (!subject.isEmpty()) {
             if (!price.isEmpty()) {

@@ -39,7 +39,7 @@ public class EditTeacherInfo extends AppCompatActivity {
     String popUpBio = "";
     String popUpPhone = "";
     AwesomeValidation awesomeValidation;
-    StorageReference storageRef = comm.getStorage().getReference();
+    //StorageReference storageRef = comm.getStorage().getReference();
     public static final int PICK_IMAGE_REQUEST = 22;
     Uri filePath;
 

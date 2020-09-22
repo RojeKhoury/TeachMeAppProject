@@ -296,7 +296,7 @@ public class HamburgerMenu extends Activity {
                 for (Map.Entry lesson : temp.entrySet()) {
                     TempStringArray1[i] = ((UserLesson) lesson.getValue()).getName();
                     TempStringArray2[i] = ((UserLesson) lesson.getValue()).getPrice().toString();
-                    TempStringArray3[i] = ((UserLesson) lesson.getValue()).getlevel();
+                    //TempStringArray3[i] = ((UserLesson) lesson.getValue()).getlevel();
                 }
 
                 CombineArrays();

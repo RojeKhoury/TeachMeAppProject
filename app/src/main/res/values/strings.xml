@@ -4,9 +4,6 @@
         <item>Middle School</item>
         <item>High School</item>
         <item>College</item>
-        <item>Beginner</item>
-        <item>Novice</item>
-        <item>Expert</item>
     </string-array>
     <string name="app_name">TeachMeApp</string>
     <string name="login">Login</string>

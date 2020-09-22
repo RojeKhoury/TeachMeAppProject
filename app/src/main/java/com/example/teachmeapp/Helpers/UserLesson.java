@@ -8,12 +8,12 @@ public class UserLesson {
 
     private String name;
     private Double price;
-    private String level;
+    private Integer level;
 
     public UserLesson() {
     }
 
-    public UserLesson(String name, Double price, String level) {
+    public UserLesson(String name, Double price, Integer level) {
         // [START_EXCLUDE]
         this.name = name;
         this.price = price;
@@ -29,7 +29,7 @@ public class UserLesson {
         return price;
     }
 
-    public String getlevel() {
+    public Integer getlevel() {
         return level;
     }
 

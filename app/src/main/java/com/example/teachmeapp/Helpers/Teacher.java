@@ -14,6 +14,16 @@ public class Teacher {
     private String phone;
     private Map<String, UserLesson> lessons;
     private List<Comment> comments;
+
+    public ArrayList<String> getLessonList() {
+        return lessonList;
+    }
+
+    public void setLessonList(ArrayList<String> lessonList) {
+        this.lessonList = lessonList;
+    }
+
+    private ArrayList<String> lessonList;
     private boolean zoom;
     private boolean studentHome;
     private boolean teacherHome;
@@ -138,6 +148,7 @@ public class Teacher {
         this.schedule = new Schedule(temp2);
         this.pendingLessonRequests = new Schedule();
         this.languages = language;
+        this.lessonList = new ArrayList<>();
         // [END_EXCLUDE]
     }
 
