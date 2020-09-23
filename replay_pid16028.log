@@ -2599,7 +2599,6 @@ instanceKlass com/sun/xml/bind/v2/model/nav/ReflectionNavigator$BinderArg
 instanceKlass com/sun/xml/bind/v2/model/impl/ElementInfoImpl$PropertyImpl
 instanceKlass javax/xml/bind/annotation/XmlElementDecl$GLOBAL
 instanceKlass com/sun/xml/bind/v2/model/impl/PropertyInfoImpl$1
-instanceKlass com/sun/xml/bind/v2/TODO
 instanceKlass com/sun/xml/bind/v2/model/runtime/RuntimeTypeRef
 instanceKlass com/sun/xml/bind/v2/model/impl/TypeRefImpl
 instanceKlass com/sun/xml/bind/v2/model/core/TypeRef

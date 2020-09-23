@@ -70,14 +70,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginBottom="24dp"
             android:text="Price :"
             android:textSize="@dimen/QuarterTopBarHeight"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/radioGroup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioButtonElementary" />
 
         <EditText
             android:id="@+id/EditTeacherLessonsPrice"
@@ -114,44 +113,43 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/radioGroup" />
+            app:layout_constraintTop_toBottomOf="@+id/EditTeacherLessonsPrice" />
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
+        <RadioButton
+            android:id="@+id/radioButtonElementary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/button2"
-            app:layout_constraintEnd_toStartOf="@+id/textView2"
+            android:text="Elementary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioButton
-                android:id="@+id/radioButtonElementary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Elementary" />
+        <RadioButton
+            android:id="@+id/radioButtonHighSchool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="High School"
+            app:layout_constraintStart_toStartOf="@+id/radioButtonMiddleSchool"
+            app:layout_constraintTop_toBottomOf="@+id/radioButtonMiddleSchool" />
 
-            <RadioButton
-                android:id="@+id/radioButtonMiddleSchool"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Middle School" />
+        <RadioButton
+            android:id="@+id/radioButtonCollege"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="College"
+            app:layout_constraintBottom_toTopOf="@+id/button2"
+            app:layout_constraintStart_toStartOf="@+id/radioButtonHighSchool"
+            app:layout_constraintTop_toBottomOf="@+id/radioButtonHighSchool" />
 
-            <RadioButton
-                android:id="@+id/radioButtonHighSchool"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="High School" />
+        <RadioButton
+            android:id="@+id/radioButtonMiddleSchool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Middle School"
+            app:layout_constraintStart_toStartOf="@+id/radioButtonElementary"
+            app:layout_constraintTop_toBottomOf="@+id/radioButtonElementary" />
 
-            <RadioButton
-                android:id="@+id/radioButtonCollege"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="College" />
-        </RadioGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

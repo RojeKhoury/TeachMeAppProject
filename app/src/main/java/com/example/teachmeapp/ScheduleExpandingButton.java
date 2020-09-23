@@ -9,12 +9,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.teachmeapp.Helpers.BookedLesson;
-import com.example.teachmeapp.Helpers.UserLesson;
-import com.google.firebase.Timestamp;
-
-import static com.example.teachmeapp.Helpers.Globals.comm;
-
 public class ScheduleExpandingButton extends AppCompatActivity {
 
     ImageView imageView;
@@ -46,13 +40,6 @@ public class ScheduleExpandingButton extends AppCompatActivity {
                     }
                 }).create().show();
     }
-
-
-    //TODO @ABED get me the following:
-    // 1. teacher name
-    // 2. student name
-    // 3. subject
-    // 4. starting time (hours + minutes)
 
     private void DeleteLessonFromDataBase() {
 

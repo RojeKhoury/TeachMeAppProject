@@ -7,7 +7,6 @@ import android.widget.CalendarView;
 import androidx.annotation.NonNull;
 
 import com.example.teachmeapp.Helpers.BookedLesson;
-import com.example.teachmeapp.Helpers.Globals;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -19,7 +18,6 @@ import java.util.Map;
 
 import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SCHEDULE;
-import static com.example.teachmeapp.Helpers.Globals.SEARCH_RESULT_FOR_SCHDULE;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 
@@ -59,7 +57,6 @@ public class Schedule extends HamburgerMenu {
                                         TempStringArray2[0] = ((BookedLesson) lesson.getValue()).getLesson().getName();
                                         TempStringArray3[0] = ((BookedLesson) lesson.getValue()).getTimeStart().toString();
                                     }
-                                    CombineArrays();
                                 }
                             }
                         }
@@ -67,7 +64,6 @@ public class Schedule extends HamburgerMenu {
                 });
             }
         });
-        CallViewAdapter(SEARCH_RESULT_FOR_SCHDULE);
     }
 
 }

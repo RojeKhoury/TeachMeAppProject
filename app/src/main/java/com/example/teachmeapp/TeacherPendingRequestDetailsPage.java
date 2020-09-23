@@ -9,19 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.teachmeapp.Helpers.BookedLesson;
 import com.example.teachmeapp.Helpers.Globals;
 
-import javax.security.auth.Subject;
-
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
-
-    /*TODO we need fields for:  @ABED
-     * 1. checkbox zoom
-     * 2. checkbox teacher's place
-     * 3. checkbox student's place
-     * 4. subject
-     * 5. level
-     **** price and the other person name and the other user UID will need to be transfered without being a field.*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +21,7 @@ public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
         String Price = getIntent().getStringExtra("Price");
         String Level = getIntent().getStringExtra("Level");
         BookedLesson lesson = (BookedLesson) getIntent().getExtras().get(Globals.BOOKED_LESSON);
-        String UID = getIntent().getStringExtra("UID");//TODO UID acquired
+        String UID = getIntent().getStringExtra("UID");
 
 
         //comm.getViewedUserData(UID, !comm.isTeacher());
@@ -58,19 +48,16 @@ public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
     }
 
     public void RejectClass(View view) {
-        //TODO pahri here u Delete class from database and the function below after ur done is for going back activity
-        // comm.removePendingBookedLesson();
-        String startTime = "this is a time";
-      //  comm.getViewedUserData("UID", !comm.isTeacher());
+        String startTime = "this is a time";//TODO Check startTime
+        comm.getViewedUserData("UID", !comm.isTeacher());
         comm.deleteLessonRequest(comm.keyBuilder("Subject", startTime));
         //comm.deleteLessonRequest();
         super.onBackPressed();
     }
 
     public void AcceptClass(View view) {
-        //TODO pahri here u Accept class from database and the function below after ur done is for going back activity
-        String startTime = "this is a time";
-        //comm.getViewedUserData("UID", !comm.isTeacher());
+        String startTime = "this is a time";//TODO Check startTime
+        comm.getViewedUserData("UID", !comm.isTeacher());
         comm.acceptLessonRequest(comm.keyBuilder("Subject", startTime));
         super.onBackPressed();
     }

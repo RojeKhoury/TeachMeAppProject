@@ -106,7 +106,6 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
             level.add(3);
         }
 
-
         String subject = SubjectEditText.getText().toString();
         String price = PriceEditText.getText().toString();
 
