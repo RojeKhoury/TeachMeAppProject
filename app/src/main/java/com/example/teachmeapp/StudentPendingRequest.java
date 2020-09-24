@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,9 +60,9 @@ public class StudentPendingRequest extends HamburgerMenu {
                 String name = (String) lesson.getKey();
                 HashMap pendingLesson = (HashMap)lesson.getValue();
 
-                StudentPendingRequestRow temp = new StudentPendingRequestRow(pendingLesson.get(Globals.TEACHER_UID).toString(),
+                StudentPendingRequestRow temp = new StudentPendingRequestRow(pendingLesson.get(Globals.STUDENT_ID).toString(), pendingLesson.get(Globals.TEACHER_UID).toString(),
                         pendingLesson.get(Globals.STUDENT_NAME).toString(),
-                        (Timestamp)pendingLesson.get(Globals.TIME_START), (Timestamp)pendingLesson.get(Globals.TIME_END),
+                        (LocalDateTime)pendingLesson.get(Globals.TIME_START), (LocalDateTime)pendingLesson.get(Globals.TIME_END),
                         pendingLesson.get(Globals.TEACHER_NAME).toString(), (Boolean) pendingLesson.get(Globals.FIELD_ZOOM),
                         (Boolean) pendingLesson.get(Globals.STUDENTS_HOME), (Boolean) pendingLesson.get(TEACHERS_HOME),
                         ((HashMap)pendingLesson.get(Globals.FIELD_LESSONS)).get(Globals.FIELD_NAME).toString(),

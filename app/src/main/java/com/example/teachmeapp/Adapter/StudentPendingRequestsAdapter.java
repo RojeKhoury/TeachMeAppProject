@@ -61,7 +61,7 @@ public class StudentPendingRequestsAdapter extends RecyclerView.Adapter<StudentP
                     intent = new Intent(view.getContext(), StudentPendingRequestDetailsPage.class);
                 }
 
-                intent.putExtra(Globals.BOOKED_LESSON, (Parcelable) item);
+                intent.putExtra("lesson", comm.keyBuilder(item.getM_subject(), item.getM_timeStart().toString(), item.getM_teacherName(), item.getM_studentName()));
                 context.startActivity(intent);
             }
         });

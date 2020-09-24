@@ -91,7 +91,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         m_profile_pic = findViewById(R.id.profile_page_user_picture);
         m_teacherRating = findViewById(R.id.profile_page_rating_bar);
         m_teacherName = findViewById(R.id.profile_page_teacher_name);
-        
+
         recyclerView = (RecyclerView) findViewById(R.id.Recycler_View_TeacherProfile_LessonsOffered);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

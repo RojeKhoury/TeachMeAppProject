@@ -1,16 +1,13 @@
 package com.example.teachmeapp.Helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.teachmeapp.ProfilePageOfTeacherForStudent;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,6 +30,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -341,6 +339,7 @@ public class communicationWithDatabase {
         });
     }
 
+
     private void realtimeUpadateMyData()
     {
         String collection = (isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT;
@@ -548,7 +547,7 @@ public class communicationWithDatabase {
         realtimeUpadateMyData();
     }
 
-    public boolean getViewedUserData(String uid, final boolean teacher, final Context context, final Class activity) {
+    public boolean getViewedUserData(String uid, final boolean teacher, final Context context, final Intent intent) {
 
         String collection = (teacher) ? COLLECTION_TEACHER : COLLECTION_STUDENT;
 
@@ -585,7 +584,6 @@ public class communicationWithDatabase {
                         public void onSuccess(Uri uri) {
                             // Got the download URL for 'users/me/profile.png'
                             m_viewedUserImageURI = uri;
-                            Intent intent = new Intent(context, activity);
                             context.startActivity(intent);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -733,7 +731,7 @@ public class communicationWithDatabase {
                 });
     }
 
-    public void addCourse(String lesson, String uid, Double price, ArrayList<Integer> level) {
+    public void addCourse(String lesson, String uid, Double price, Integer level) {
         //addLessonToDatabase(lesson);
         String collection = ((isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
         if (m_teacher) {
@@ -1212,7 +1210,7 @@ public class communicationWithDatabase {
         return null;
     }
 
-    public void addOrEditLessonRequest(Timestamp start, Timestamp end, String lesson, Integer level, double price, boolean zoom, boolean teachersPlace, boolean studentPlace) {
+    public void addOrEditLessonRequest(LocalDateTime start, LocalDateTime end, String lesson, Integer level, double price, boolean zoom, boolean teachersPlace, boolean studentPlace) {
 
 
         String teacherName, teacherUID, studentName, studentUID;
@@ -1223,7 +1221,7 @@ public class communicationWithDatabase {
         studentUID = ((!isTeacher()) ? getUid() : getViewedUserUID());
 
         final BookedLesson bookedLesson = new BookedLesson(new UserLesson(lesson, price, level), start, end, teacherName, teacherUID, studentName, studentUID, zoom, teachersPlace, studentPlace, isTeacher());
-        final String key = teacherName + studentName + lesson + start.toDate();
+        final String key = keyBuilder(lesson, start.toString(), teacherName, studentName);
 
         final String collection = ((isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
         final String secondCollection = ((!isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT);
@@ -1286,9 +1284,9 @@ public class communicationWithDatabase {
     }
 
 
-    public String keyBuilder(String subject, String startTime) {
-        String teacherName = ((isTeacher()) ? getUserName() : getViewedUserName());
-        String studentName = ((!isTeacher()) ? getUserName() : getViewedUserName());
+    public String keyBuilder(String subject, String startTime, String teacherName, String studentName) {
+        //String teacherName1 = ((isTeacher()) ? getUserName() : getViewedUserName());
+        //String studentName1 = ((!isTeacher()) ? getUserName() : getViewedUserName());
 
         return teacherName + studentName + subject + startTime;
     }

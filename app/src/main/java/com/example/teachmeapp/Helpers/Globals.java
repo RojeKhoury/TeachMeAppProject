@@ -92,6 +92,7 @@ public class Globals
     public static final String FIELD_LEVEL = "level";
     public static final String FIELD_LESSON_TOPIC_LIST = "lessonList";
     public static final String[] LEVELS_ARRAY = {"Elementary", "Middle-School", "High-School", "College and above"};
+    public static final Object STUDENT_ID = "m_studentUID";
 
     public static communicationWithDatabase comm = new communicationWithDatabase();
 

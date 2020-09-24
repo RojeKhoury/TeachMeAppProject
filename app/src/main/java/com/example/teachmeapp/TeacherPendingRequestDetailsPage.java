@@ -48,17 +48,32 @@ public class TeacherPendingRequestDetailsPage extends AppCompatActivity {
     }
 
     public void RejectClass(View view) {
+<<<<<<< Updated upstream
         String startTime = "this is a time";//TODO Check startTime
         comm.getViewedUserData("UID", !comm.isTeacher());
         comm.deleteLessonRequest(comm.keyBuilder("Subject", startTime));
+=======
+        //TODO pahri here u Delete class from database and the function below after ur done is for going back activity
+        // comm.removePendingBookedLesson();
+        String startTime = "this is a time";
+      //  comm.getViewedUserData("UID", !comm.isTeacher());
+        comm.deleteLessonRequest(comm.keyBuilder("Subject", startTime, "teacher name", "student name"));
+>>>>>>> Stashed changes
         //comm.deleteLessonRequest();
         super.onBackPressed();
     }
 
     public void AcceptClass(View view) {
+<<<<<<< Updated upstream
         String startTime = "this is a time";//TODO Check startTime
         comm.getViewedUserData("UID", !comm.isTeacher());
         comm.acceptLessonRequest(comm.keyBuilder("Subject", startTime));
+=======
+        //TODO pahri here u Accept class from database and the function below after ur done is for going back activity
+        String startTime = "this is a time";
+        //comm.getViewedUserData("UID", !comm.isTeacher());
+        comm.acceptLessonRequest(comm.keyBuilder("Subject", startTime,"teacher name", "student name"));
+>>>>>>> Stashed changes
         super.onBackPressed();
     }
 }

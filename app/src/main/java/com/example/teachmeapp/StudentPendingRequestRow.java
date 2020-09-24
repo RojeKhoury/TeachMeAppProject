@@ -5,14 +5,22 @@ import android.os.Bundle;
 import com.example.teachmeapp.Helpers.UserLesson;
 import com.google.firebase.Timestamp;
 
+import java.time.LocalDateTime;
+
 import static com.example.teachmeapp.Helpers.Globals.STUDENT_PENDING_REQUESTS_VIEW;
 
 public class StudentPendingRequestRow {
 
     private String m_teacherUID;
 
-    public StudentPendingRequestRow(String m_teacherUID, String m_studentName, Timestamp m_timeStart,
-                                    Timestamp m_timeEnd, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome,
+    public String getM_studentUID() {
+        return m_studentUID;
+    }
+
+    private String m_studentUID;
+
+    public StudentPendingRequestRow(String m_studentUID, String m_teacherUID, String m_studentName, LocalDateTime m_timeStart,
+                                    LocalDateTime m_timeEnd, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome,
                                     Boolean m_studentsHome, String m_subject, Double m_price, String m_level) {
         this.m_teacherUID = m_teacherUID;
         this.m_studentName = m_studentName;
@@ -25,6 +33,8 @@ public class StudentPendingRequestRow {
         this.m_subject = m_subject;
         this.m_price = m_price;
         this.m_level = m_level;
+        this.m_studentUID = m_studentUID;
+
     }
 
     public String getM_studentName() {
@@ -33,8 +43,8 @@ public class StudentPendingRequestRow {
 
     private String m_studentName;
 
-    private Timestamp m_timeStart;
-    private Timestamp m_timeEnd;
+    private LocalDateTime m_timeStart;
+    private LocalDateTime m_timeEnd;
 
     private String m_teacherName;
 
@@ -50,11 +60,11 @@ public class StudentPendingRequestRow {
         return m_teacherUID;
     }
 
-    public Timestamp getM_timeStart() {
+    public LocalDateTime getM_timeStart() {
         return m_timeStart;
     }
 
-    public Timestamp getM_timeEnd() {
+    public LocalDateTime getM_timeEnd() {
         return m_timeEnd;
     }
 

@@ -2,13 +2,15 @@ package com.example.teachmeapp.Helpers;
 
 import com.google.firebase.Timestamp;
 
+import java.time.LocalDateTime;
+
 public class BookedLesson {
 
     public void setLesson(UserLesson lesson) {
         this.lesson = lesson;
     }
 
-    public void setTimeStart(Timestamp timeStart) {
+    public void setTimeStart(LocalDateTime timeStart) {
         this.timeStart = timeStart;
     }
 
@@ -29,8 +31,8 @@ public class BookedLesson {
     }
 
     private UserLesson lesson;
-    private Timestamp timeStart;
-    private Timestamp timeEnd;
+    private LocalDateTime timeStart;
+    private LocalDateTime timeEnd;
     private String teacherName;
     private String teacherUID;
     private String  studentName;
@@ -39,7 +41,6 @@ public class BookedLesson {
     private Boolean teachersHome;
     private Boolean studentsHome;
     private Boolean teacherRequest;
-
     private Boolean rejected;
 
     public Boolean getRejected() {
@@ -61,14 +62,14 @@ public class BookedLesson {
         this.teacherName = teacherName;
     }
 
-    public void setTimeEnd(Timestamp timeEnd) {
+    public void setTimeEnd(Timestamp LocalDateTime) {
         this.timeEnd = timeEnd;
     }
 
     public BookedLesson()
     {}
 
-    public BookedLesson(UserLesson lesson, Timestamp timeStart, Timestamp timeEnd, String teacherName, String teacherUID, String studentName, String studentUID, boolean zoom, boolean teachersHome, boolean studentsHome, Boolean teacherRequest)
+    public BookedLesson(UserLesson lesson, LocalDateTime timeStart, LocalDateTime timeEnd, String teacherName, String teacherUID, String studentName, String studentUID, boolean zoom, boolean teachersHome, boolean studentsHome, Boolean teacherRequest)
     {
         this.lesson = lesson;
         this.timeStart = timeStart;
@@ -81,6 +82,7 @@ public class BookedLesson {
         this.studentName = studentName;
         this.studentUID = studentUID;
         this.teacherRequest = teacherRequest;
+        this.rejected = false;
         //TODO reject
     }
 
@@ -89,12 +91,12 @@ public class BookedLesson {
         return lesson;
     }
 
-    public Timestamp getTimeStart()
+    public LocalDateTime getTimeStart()
     {
         return timeStart;
     }
 
-    public Timestamp getTimeEnd()
+    public LocalDateTime getTimeEnd()
     {
         return timeEnd;
     }

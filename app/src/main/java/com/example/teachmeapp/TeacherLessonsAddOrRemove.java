@@ -106,12 +106,17 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
             level.add(3);
         }
 
+<<<<<<< Updated upstream
+=======
+        Integer temp = 0;
+
+>>>>>>> Stashed changes
         String subject = SubjectEditText.getText().toString();
         String price = PriceEditText.getText().toString();
 
         if (!subject.isEmpty()) {
             if (!price.isEmpty()) {
-                comm.addCourse(subject, comm.getUid(), Double.parseDouble(price), level);
+                comm.addCourse(subject, comm.getUid(), Double.parseDouble(price), temp);
                 SubjectEditText.setText("");
                 PriceEditText.setText("");
             } else {

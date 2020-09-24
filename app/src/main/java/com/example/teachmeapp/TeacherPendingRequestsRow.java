@@ -10,6 +10,12 @@ public class TeacherPendingRequestsRow
 {
     private String m_studentUID;
 
+    public String getM_teacherUID() {
+        return m_teacherUID;
+    }
+
+    private String m_teacherUID;
+
     private Timestamp m_timeStart;
     private Timestamp m_timeEnd;
 
@@ -23,7 +29,7 @@ public class TeacherPendingRequestsRow
     private Double m_price;
     private String m_level;
 
-    public TeacherPendingRequestsRow(String m_studentUID, Timestamp m_timeStart, Timestamp m_timeEnd, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome, Boolean m_studentsHome, String m_name, Double m_price, String m_level) {
+    public TeacherPendingRequestsRow(String m_teacherUID, String m_studentUID, Timestamp m_timeStart, Timestamp m_timeEnd, String m_teacherName, Boolean m_zoom, Boolean m_teachersHome, Boolean m_studentsHome, String m_name, Double m_price, String m_level) {
         this.m_studentUID = m_studentUID;
         this.m_timeStart = m_timeStart;
         this.m_timeEnd = m_timeEnd;
@@ -34,6 +40,7 @@ public class TeacherPendingRequestsRow
         this.m_name = m_name;
         this.m_price = m_price;
         this.m_level = m_level;
+        this.m_teacherUID = m_teacherUID;
     }
 
     public String getM_studentUID() {

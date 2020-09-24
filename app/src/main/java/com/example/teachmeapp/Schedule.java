@@ -51,7 +51,8 @@ public class Schedule extends HamburgerMenu {
 
                             if (calendar.getLessons().get(FIELD_LESSONS) != null) {
                                 for (Map.Entry lesson : calendar.getLessons().entrySet()) {
-                                    if (((BookedLesson) lesson.getValue()).getTimeStart().toDate().getDay() == day && ((BookedLesson) lesson.getValue()).getTimeStart().toDate().getYear() == year && ((BookedLesson) lesson.getValue()).getTimeStart().toDate().getMonth() == month) {
+                                    if (((BookedLesson) lesson.getValue()).getTimeStart().getDayOfMonth() == day && ((BookedLesson) lesson.getValue()).getTimeStart().getYear() == year && ((BookedLesson) lesson.getValue()).getTimeStart().getMonthValue() == month)
+                                    {
                                         lessonsToShow.put((String) lesson.getKey(), (BookedLesson) lesson.getValue());
                                         TempStringArray1[0] = ((BookedLesson) lesson.getValue()).getTeacherName();
                                         TempStringArray2[0] = ((BookedLesson) lesson.getValue()).getLesson().getName();

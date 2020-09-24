@@ -77,9 +77,8 @@ public class SearchForTeacherAdapter extends RecyclerView.Adapter<SearchForTeach
                 @Override
                 public void onClick(View view) {
                     SearchResultsRow item = m_teachers.get(pos);
-                    comm.getViewedUserData(item.getM_teacherUID(), true, view.getContext(), ProfilePageOfTeacherForStudent.class);
-                   // Intent intent = new Intent(view.getContext(), ProfilePageOfTeacherForStudent.class);
-                    //intent.putExtra("uid", item.getM_teacherUID());
+                    Intent intent = new Intent(view.getContext(), ProfilePageOfTeacherForStudent.class);
+                    comm.getViewedUserData(item.getM_teacherUID(), true, view.getContext(), intent);
                   //  view.getContext().startActivity(intent);
                 }
             });

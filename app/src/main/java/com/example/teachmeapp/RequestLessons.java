@@ -8,6 +8,13 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.Timestamp;
+import com.google.type.Date;
+import com.google.type.DateTime;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class RequestLessons extends HamburgerMenu {
 
     TextView textViewTeacherName;
@@ -22,6 +29,8 @@ public class RequestLessons extends HamburgerMenu {
     RadioButton radioButtonAtTeacherPlace;
     RadioButton radioButtonZoom;
     CalendarView calendarView;
+
+    Timestamp startTime, endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +53,12 @@ public class RequestLessons extends HamburgerMenu {
 
     public void Onclick_RequestLesson(View view) {
         //TODO put data into requesting lesson from student to teacher
+        startTime = new Timestamp(new java.util.Date(calendarView.getDate()));
+        endTime = new Timestamp(new java.util.Date(calendarView.getDate()));
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        LocalDateTime lessonTimeStart = LocalDateTime.of(startTime.toDate().getYear(), startTime.toDate().getMonth(), startTime.toDate().getDay(),
+                editTextTimeStart.getText().charAt(0) + editTextTimeStart.getText().charAt(1),
+                editTextTimeStart.getText().charAt(3) + editTextTimeStart.getText().charAt(4));
         super.onBackPressed();
     }
 }
