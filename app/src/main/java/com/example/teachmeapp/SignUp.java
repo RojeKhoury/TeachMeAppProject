@@ -28,6 +28,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -147,18 +152,22 @@ public class SignUp extends AppCompatActivity {
 
         ArrayList<String> langs = new ArrayList<>();
         langs.add("english");
+
         if(m_teacher_checkbox.isChecked())
         {//TODO add the languages to the create teacher and student
             comm.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString(),langs);
             comm.setTeacher(true);
+        } else {
+            comm.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString(), langs);
+            comm.setTeacher(false);
         }
 
-        comm.createStudent(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString(), langs);
 
         StorageReference pPic = storageRef.child("images/" + comm.getUid() + "/profile picture");
         pPic.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Globals.locationOrSignUp = true;
                 Intent intent = new Intent(getApplicationContext(), maps_activity_get_location.class);
                 startActivity(intent);
             }

@@ -24,7 +24,7 @@
     <string name="next">"next"</string>
     <string name="enter_phone">"Enter Phone"</string>
     <string name="enter_name">"Enter Name"</string>
-    <string name="fnameerr">type your name</string>
+    <string name="fnameerr">Type your name</string>
     <string name="lnameerr">type your last name</string>
     <string name="dateerr">type correct Date</string>
     <string name="emailerr">invalid email</string>
@@ -43,7 +43,7 @@
     <string name="schedule">Schedule</string>
     <string name="recommendation">Recommendation</string>
     <string name="search">Search</string>
-    <string name="home_page">Home Page</string>
+    <string name="home_page">Homepage</string>
     <string name="recent_lessons">Recent Lessons</string>
     <string name="search_for_teacher">Search For Teacher</string>
     <string name="google_maps_key">AIzaSyAw0VWSf0gd9c79VhY4bakDnvsIKZ_3Zck</string>
@@ -54,6 +54,8 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
-    <string name="write_a_message">write message</string>
+    <string name="write_a_message">Write a Message</string>
+
+    <string name="give_rate"><u>Give a rate</u></string>
 
 </resources>

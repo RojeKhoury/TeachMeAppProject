@@ -1,5 +1,9 @@
 package com.example.teachmeapp.Helpers;
 
+import com.example.teachmeapp.SearchResultsRow;
+import com.example.teachmeapp.TeacherLessonRow;
+import com.example.teachmeapp.model.Request;
+
 import java.util.Map;
 
 public class Globals
@@ -10,13 +14,13 @@ public class Globals
     public static final String EMAIL_ALERT_TEXT = "What is your email BUDDY!";
 
     public static final String NAME_ALERT_TITLE = "Enter Name";
-    public static final String NAME_ALERT_TEXT ="Enter your name and last name";
+    public static final String NAME_ALERT_TEXT ="Enter your Name and Last Name";
 
     public static final String BIO_ALERT_TITLE = "Enter Bio";
     public static final String BIO_ALERT_TEXT ="Enter your Bio";
 
-    public static final String PHONE_ALERT_TITLE = "Enter phone!";
-    public static final String PHONE_ALERT_TEXT = "Enter your new phone number";
+    public static final String PHONE_ALERT_TITLE = "Enter Phone";
+    public static final String PHONE_ALERT_TEXT = "Enter your New Phone Number";
 
     public static final String FAILED_TO_UPLOAD_IMAGE = "failed to upload image";
 
@@ -69,7 +73,7 @@ public class Globals
     public static final String FIELD_PRICE = "price";
     public static final String LANGUAGES = "languages";
     public static final String RATING_COUNT = "numberOFRatings";
-    public static final String RATINGS = "ratings";
+    public static final String RATINGS = "rating";
     public static final String FAVOURITES = "favourites";
     public static final String STUDENTS ="STUDENTS" ;
     public static final String TEACHERS ="TEACHERS" ;
@@ -95,6 +99,12 @@ public class Globals
     public static final Object STUDENT_ID = "m_studentUID";
 
     public static communicationWithDatabase comm = new communicationWithDatabase();
+
+    public static boolean getLessonBoolean = false;
+    public static SearchResultsRow getLessonCurrentObj = null;
+    public static TeacherLessonRow getLessonCurrentObjTeacherProfile = null;
+    public static Request currentRequest = null;
+    public static boolean locationOrSignUp = true;
 
 
 }

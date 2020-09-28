@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.teachmeapp.Chat.Chats;
+
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class HomePageStudent extends HamburgerMenu {
@@ -19,13 +21,13 @@ public class HomePageStudent extends HamburgerMenu {
 
     public void onClick_conversationButton(View view)
     {
-        Intent intent = new Intent(this, ConversationChatPage.class);
+        Intent intent = new Intent(this, Chats.class);
         startActivity(intent);
     }
 
     public void onClick_historyButton(View view)
     {
-        Intent intent = new Intent(this, ConversationChatPage.class);
+        Intent intent = new Intent(this, StudentPendingRequest.class);
         startActivity(intent);
     }
 

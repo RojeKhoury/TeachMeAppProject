@@ -103,8 +103,7 @@ public class Login extends AppCompatActivity {
 
 
     private void openLogin() {
-        //if(authenticator()==true)
-        // {
+
        mAuth.signInWithEmailAndPassword(m_etEmail.getText().toString(), m_etPassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -121,15 +120,9 @@ public class Login extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
-                        // ...
                     }
                 });
-        // }
-        // else
-        // {
-        //     invalidEmail();
-        // }
+
     }
 
     private void invalidEmail() {

@@ -34,7 +34,7 @@
             android:paddingEnd="@dimen/StandardPadding"
             android:paddingRight="@dimen/StandardPadding"
             android:scaleType="fitCenter"
-            android:src="@drawable/hamburger_logo"
+            android:src="@drawable/ic_hamburger"
             tools:ignore="RtlSymmetry" />
     </FrameLayout>
 

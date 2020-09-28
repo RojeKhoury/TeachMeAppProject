@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.R;
+import com.example.teachmeapp.model.TalkedWithModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,11 +45,11 @@ import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class AdapterTalkedWith extends RecyclerView.Adapter<AdapterTalkedWith.myViewHolder> {
 
-    private List<String> m_TalkedWithUidsList;
+    private List<TalkedWithModel> m_TalkedWithUidsList;
     private boolean m_IsTeacher;
     private String m_MyUid;
 
-    public AdapterTalkedWith(List<String> i_TalkedWithUidsList, boolean i_IsImBabySitter, String i_MyUid, Context i_context) {
+    public AdapterTalkedWith(List<TalkedWithModel> i_TalkedWithUidsList, boolean i_IsImBabySitter, String i_MyUid, Context i_context) {
         m_TalkedWithUidsList = i_TalkedWithUidsList;
         m_IsTeacher = i_IsImBabySitter;
         m_MyUid = i_MyUid;
@@ -62,16 +63,31 @@ public class AdapterTalkedWith extends RecyclerView.Adapter<AdapterTalkedWith.my
 
 
     public void onBindViewHolder(final AdapterTalkedWith.myViewHolder holder, int i) {
-        String TalkedWithUserUID = m_TalkedWithUidsList.get(i);
+        String TalkedWithUserUID = m_TalkedWithUidsList.get(i).getUid();
         holder.setM_UserUID(TalkedWithUserUID);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final DocumentReference docRef = db.collection(COLLECTION_STUDENT).document(TalkedWithUserUID);
+
+        if (comm.isTeacher()){
+
+            final DocumentReference docRef = db.collection(COLLECTION_STUDENT).document(TalkedWithUserUID);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
                     holder.m_UserFullName.setText(snapshot.get(Globals.FIELD_NAME).toString()+" "+snapshot.get(Globals.FIELD_SURNAME).toString());
                 }
             });
+
+        } else {
+
+            final DocumentReference docRef = db.collection(COLLECTION_TEACHER).document(TalkedWithUserUID);
+            docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                    holder.m_UserFullName.setText(snapshot.get(Globals.FIELD_NAME).toString()+" "+snapshot.get(Globals.FIELD_SURNAME).toString());
+                }
+            });
+
+        }
 
 //        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference(Globals.PROFILE_PIC_STORAGE_PATH).child(TalkedWithUserUID + ".jpg");
 //        mStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

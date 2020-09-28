@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapsViewChoose"
@@ -11,15 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <SearchView
+    <androidx.cardview.widget.CardView
+        android:id="@+id/idCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id = "@+id/sv_location_choose"
-        android:queryHint="Search"
-        android:iconifiedByDefault="false"
-        android:layout_margin="10dp"
-        android:elevation="5dp"
-        android:background="@drawable/bg_round"/>
+        android:layout_margin="5dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/choose_location_button"
@@ -29,6 +37,11 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="14dp"
-        android:text="chooseLocation" />
+        android:text="Choose Location"
+        android:textSize="16dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:textAllCaps="false"
+        android:drawableLeft="@drawable/ic_placeholder"
+        />
 
 </RelativeLayout >

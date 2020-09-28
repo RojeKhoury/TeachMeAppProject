@@ -7,6 +7,7 @@ public class TeacherLessonRow {
     private String m_subject;
     private String m_level;
     private String m_price;
+    private String m_teacherName;
 
     public TeacherLessonRow(String m_subject, Integer m_level, String m_price) {
         this.m_subject = m_subject;

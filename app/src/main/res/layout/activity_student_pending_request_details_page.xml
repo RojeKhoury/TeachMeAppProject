@@ -32,6 +32,9 @@
                     android:layout_height="37dp"
                     android:layout_marginTop="24dp"
                     android:text="TextView"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="#000"
                     app:layout_constraintStart_toStartOf="@+id/StudentPendingRequestDetailsPage_TextView_Level"
                     app:layout_constraintTop_toBottomOf="@+id/StudentPendingRequestDetailsPage_TextView_Level" />
 
@@ -40,6 +43,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#909090"
                     app:layout_constraintBottom_toBottomOf="@+id/StudentPendingRequestDetailsPage_Button_Back"
                     app:layout_constraintEnd_toStartOf="@+id/StudentPendingRequestDetailsPage_Button_Cancel"
                     app:layout_constraintStart_toEndOf="@+id/StudentPendingRequestDetailsPage_Button_Back"
@@ -51,19 +56,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:text="Subject"
-                    android:textSize="30dp"
-                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="#000"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/StudentPendingRequestDetailsPage_ImageView"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/StudentPendingRequestDetailsPage_TextView_Level"
-                    android:layout_width="92dp"
-                    android:layout_height="43dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="Level"
-                    android:textSize="30dp"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#909090"
                     app:layout_constraintStart_toStartOf="@+id/StudentPendingRequestDetailsPage_TextView_Subject"
                     app:layout_constraintTop_toBottomOf="@+id/StudentPendingRequestDetailsPage_TextView_Subject" />
 
@@ -72,7 +80,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:text="Time Start:"
+                    android:text="Time Start"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#909090"
                     app:layout_constraintEnd_toEndOf="@+id/StudentPendingRequestDetailsPage_ImageView"
                     app:layout_constraintStart_toStartOf="@+id/StudentPendingRequestDetailsPage_ImageView"
                     app:layout_constraintTop_toBottomOf="@+id/StudentPendingRequestDetailsPage_ImageView" />
@@ -83,6 +93,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:text="12:00"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#000"
                     app:layout_constraintStart_toEndOf="@+id/textView4"
                     app:layout_constraintTop_toTopOf="@+id/textView4" />
 
@@ -91,7 +103,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Time End:"
+                    android:text="Time End"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#909090"
                     app:layout_constraintEnd_toEndOf="@+id/textView4"
                     app:layout_constraintStart_toStartOf="@+id/textView4"
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -102,6 +116,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:text="13:30"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#000"
                     app:layout_constraintStart_toEndOf="@+id/textView6"
                     app:layout_constraintTop_toTopOf="@+id/textView6" />
 
@@ -111,6 +127,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="Location"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#909090"
                     app:layout_constraintEnd_toEndOf="@+id/textView6"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView6"
@@ -122,28 +140,43 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:text="Address"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#000"
                     app:layout_constraintStart_toEndOf="@+id/textView8"
                     app:layout_constraintTop_toTopOf="@+id/textView8" />
 
                 <Button
-                    android:onClick="OnClick_StudentPending_RequestDetails_PageCancelButton"
                     android:id="@+id/StudentPendingRequestDetailsPage_Button_Cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="32dp"
+                    android:onClick="OnClick_StudentPending_RequestDetails_PageCancelButton"
                     android:text="Cancel"
+                    android:background="@color/colorPrimaryDark"
+                    android:drawableLeft="@drawable/ic_cancel"
+                    android:padding="10dp"
+                    android:drawablePadding="5dp"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#fff"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/StudentPendingRequestDetailsPage_TextView_Address" />
 
                 <Button
                     android:onClick="OnClick_StudentPending_RequestDetails_PageBackButton"
-
                     android:id="@+id/StudentPendingRequestDetailsPage_Button_Back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:text="Back"
+                    android:background="@color/colorPrimaryDark"
+                    android:drawableLeft="@drawable/ic_left_arrow"
+                    android:padding="10dp"
+                    android:drawablePadding="5dp"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#fff"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/StudentPendingRequestDetailsPage_Button_Cancel" />
 

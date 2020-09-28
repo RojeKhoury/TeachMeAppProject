@@ -1,9 +1,11 @@
 package com.example.teachmeapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -30,17 +32,17 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
 
     EditText SubjectEditText;
     EditText PriceEditText;
-    Spinner EducationSpinner;
-    ArrayList<Integer> level;
-    RadioButton radioButtonElementary;
-    RadioButton radioButtonMiddleSchool;
-    RadioButton radioButtonHighSchool;
-    RadioButton radioButtonCollege;
+
+    private RadioGroup levelSelection;
+
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
 
     private List<TeacherLessonRow> lessons;
+
+    private String currentLevel = "";
+    private Integer currentLevelNum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +52,13 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         setContentView(R.layout.activity_teacher_lessons_add_or_remove);
         SubjectEditText = findViewById(R.id.EditTeacherLessonsSubject);
         PriceEditText = findViewById(R.id.EditTeacherLessonsPrice);
-        radioButtonElementary = findViewById(R.id.radioButtonElementary);
-        radioButtonMiddleSchool = findViewById(R.id.radioButtonMiddleSchool);
-        radioButtonHighSchool = findViewById(R.id.radioButtonHighSchool);
-        radioButtonCollege = findViewById(R.id.radioButtonCollege);
+        levelSelection = findViewById(R.id.group_level_selection);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_MyLessons);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         lessons = new ArrayList<>();
-        level = new ArrayList<>();
-
-
-        realtimeDataUpdate();
 
         recycleViewFill();
     }
@@ -93,53 +88,53 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
 
         //TODO Check if level is good for database
 
-        if (radioButtonElementary.isChecked()) {
-            level.add(0);
-        }
-        if (radioButtonMiddleSchool.isChecked()) {
-            level.add(1);
-        }
-        if (radioButtonHighSchool.isChecked()) {
-            level.add(2);
-        }
-        if (radioButtonCollege.isChecked()) {
-            level.add(3);
-        }
-
-<<<<<<< Updated upstream
-=======
-        Integer temp = 0;
-
->>>>>>> Stashed changes
-        String subject = SubjectEditText.getText().toString();
-        String price = PriceEditText.getText().toString();
-
-        if (!subject.isEmpty()) {
-            if (!price.isEmpty()) {
-                comm.addCourse(subject, comm.getUid(), Double.parseDouble(price), temp);
-                SubjectEditText.setText("");
-                PriceEditText.setText("");
-            } else {
-                Toast.makeText(this, "Please add a Price in $", Toast.LENGTH_SHORT).show();
-            }
+        if (levelSelection.getCheckedRadioButtonId() == -1){
+            Toast.makeText(TeacherLessonsAddOrRemove.this, "Please select the desired level!", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "Please add a Subject", Toast.LENGTH_SHORT).show();
+
+            if (levelSelection.getCheckedRadioButtonId() == R.id.radioButtonElementary){
+                currentLevel = "Elementary";
+                currentLevelNum = 0;
+            } else if (levelSelection.getCheckedRadioButtonId() == R.id.radioButtonMiddleSchool){
+                currentLevel = "MiddleSchool";
+                currentLevelNum = 1;
+            } else if (levelSelection.getCheckedRadioButtonId() == R.id.radioButtonHighSchool){
+                currentLevel = "HighSchool";
+                currentLevelNum = 2;
+            } else {
+                currentLevel = "College";
+                currentLevelNum = 3;
+            }
+
+            String subject = SubjectEditText.getText().toString() + "_" + currentLevel;
+            String price = PriceEditText.getText().toString();
+
+            if (!subject.isEmpty()) {
+                if (!price.isEmpty()) {
+                    comm.addCourse(subject, comm.getUid(), Double.parseDouble(price), currentLevelNum);
+                    SubjectEditText.setText("");
+                    PriceEditText.setText("");
+
+                    lessons.add(new TeacherLessonRow(subject, currentLevelNum, price));
+                    adapter.notifyDataSetChanged();
+
+                } else {
+                    Toast.makeText(this, "Please add a Price in $", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Please add a Subject", Toast.LENGTH_SHORT).show();
+            }
+
         }
 
 
     }
 
-    private void realtimeDataUpdate() {
-        String collection = (comm.isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT;
-        comm.getDb().collection(collection).document(comm.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error == null && value != null && value.exists()) {
-                    recycleViewFill();
-                }
-            }
-        });
+    public void realtimeDataUpdate() {
+        recycleViewFill();
     }
+
+
 
     public void removeLesson(String lesson) {
         comm.removeCourseFromTeacher(lesson);

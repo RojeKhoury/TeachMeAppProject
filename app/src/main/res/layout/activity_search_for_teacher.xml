@@ -27,11 +27,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:fontFamily="@font/amatic_bold"
                 android:gravity="center"
                 android:text="@string/search_for_teacher"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/HalfTopBarHeight" />
+                android:textSize="24dp"
+                android:fontFamily="@font/montserrat_medium" />
         </FrameLayout>
 
         <ScrollView
@@ -49,52 +49,59 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
-                <CheckBox
-                    android:id="@+id/checkbox_at_student_place"
+                <RadioGroup
+                    android:id="@+id/group_filter_meeting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="At Student Place"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_text_price"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <CheckBox
-                    android:id="@+id/checkbox_at_teacher_place"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="At Teachers Place"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/checkbox_at_student_place" />
+                    <RadioButton
+                        android:id="@+id/q1_a1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:buttonTint="@color/colorPrimaryDark"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="Face-to-Face Meeting"
+                        />
 
-                <CheckBox
-                    android:id="@+id/checkbox_zoom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Zoom"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/checkbox_at_teacher_place" />
+                    <RadioButton
+                        android:id="@+id/q1_a2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:buttonTint="@color/colorPrimaryDark"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="Zoom Meeting" />
+
+                </RadioGroup>
 
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-
-                    android:text="Radius In Kilometer :"
-                    android:textStyle="bold"
+                    android:layout_marginTop="14dp"
+                    android:text="Preferred Max Price"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="@color/colorPrimaryDark"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/checkbox_zoom" />
+                    app:layout_constraintTop_toBottomOf="@+id/group_filter_meeting" />
 
                 <EditText
-                    android:id="@+id/edit_text_user_input_kilometer"
+                    android:id="@+id/edit_text_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="numberDecimal"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:textCursorDrawable="@null"
                     app:layout_constraintBottom_toBottomOf="@+id/textView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView"
@@ -107,9 +114,10 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:entries="@array/EducationLevel"
+                    android:theme="@style/spinnerTheme"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_text_user_input_kilometer" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_text_price" />
 
                 <Button
                     android:id="@+id/button3"
@@ -118,6 +126,14 @@
                     android:layout_marginEnd="16dp"
                     android:onClick="addNewChip"
                     android:text="Add Tag"
+                    android:textAllCaps="false"
+                    android:textSize="12dp"
+                    android:drawableLeft="@drawable/ic_add"
+                    android:drawablePadding="5dp"
+                    android:textColor="#fff"
+                    android:background="@color/colorPrimaryDark"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:padding="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/editText_keyword" />
 
@@ -130,8 +146,10 @@
                     android:layout_marginEnd="16dp"
                     android:bufferType="normal"
                     android:ems="10"
-                    android:hint="add subject"
+                    android:hint="Add Subject"
                     android:inputType="textPersonName"
+                    android:textCursorDrawable="@null"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     app:layout_constraintEnd_toStartOf="@+id/button3"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -156,18 +174,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Show Selections"
+                    android:text="Show Results"
+                    android:drawableLeft="@drawable/ic_loupe"
+                    android:textAllCaps="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+                    android:background="@color/colorPrimaryDark"
+                    android:textColor="#fff"
+                    android:drawablePadding="5dp"
+                    android:padding="15dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textSize="16dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewSearchResult"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/searchForTeachersShowResultsButton">
-
+                    app:layout_constraintTop_toBottomOf="@+id/searchForTeachersShowResultsButton"
+                    android:layout_margin="5dp">
                 </androidx.recyclerview.widget.RecyclerView>
 
 

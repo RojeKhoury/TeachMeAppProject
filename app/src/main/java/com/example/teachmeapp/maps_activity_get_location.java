@@ -26,8 +26,12 @@ public class maps_activity_get_location extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayoutChooseLocation);
         viewPager = findViewById(R.id.viewPagerChooseLocation);
 
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), this, Globals.MAPS_CHOOSE_LOCATION);
-        viewPager.setAdapter(fragmentAdapter);
+        if (Globals.locationOrSignUp){
+
+            FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), this, Globals.MAPS_CHOOSE_LOCATION);
+            viewPager.setAdapter(fragmentAdapter);
+
+        }
 
         tabLayout.setupWithViewPager(viewPager);
     }

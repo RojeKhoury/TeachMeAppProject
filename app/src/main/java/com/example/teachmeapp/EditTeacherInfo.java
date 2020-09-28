@@ -79,13 +79,15 @@ public class EditTeacherInfo extends AppCompatActivity {
                             comm.changeName(popUpFName);
                             popUpLName = lName.getText().toString();
                             comm.changeSurname(popUpLName);
-                            Toast.makeText(EditTeacherInfo.this, "fuck this shit im out", Toast.LENGTH_LONG).show();
+
+                            //Toast.makeText(EditTeacherInfo.this, "fuck this shit im out", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
                 builder.show();
             }
         });
+
         //--------------------------<EDIT BIO>
         m_editBio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +105,7 @@ public class EditTeacherInfo extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         popUpBio = BioEdit.getText().toString();
                         comm.changeBio(popUpBio);
-                        Toast.makeText(EditTeacherInfo.this, "fuck this shit im out", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(EditTeacherInfo.this, "fuck this shit im out", Toast.LENGTH_LONG).show();
                     }
                 });
                 builder.show();
@@ -126,7 +128,7 @@ public class EditTeacherInfo extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         popUpPhone = PhoneEdit.getText().toString();
                         comm.changePhoneNumber(popUpBio);
-                        Toast.makeText(EditTeacherInfo.this, "fuck this shit im out", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(EditTeacherInfo.this, "fuck this shit im out", Toast.LENGTH_LONG).show();
                     }
                 });
                 builder.show();

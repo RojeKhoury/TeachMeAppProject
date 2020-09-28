@@ -8,10 +8,14 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.example.teachmeapp.Chat.Chats;
+import com.example.teachmeapp.Helpers.Globals;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import static com.example.teachmeapp.Helpers.Globals.comm;
 import static com.example.teachmeapp.SignUp.TAG;
@@ -27,16 +31,28 @@ public class LoginAsTeacherOrStudent extends HamburgerMenu {
     protected void onStart()
     {
         super.onStart();
-        DocumentReference ref = comm.getStorageRef();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser m_user = mAuth.getCurrentUser();
+
+        DocumentReference ref = db.collection(Globals.COLLECTION_STUDENT).document(m_user.getUid());
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d(TAG, "Document exists!");
-                    } else {
+                        comm.setTeacher(false);
+                        comm.getData();
+                        comm.realtimeUpadateMyData();
                         Intent intent = new Intent(getApplicationContext(), HomePageStudent.class);
+                        startActivity(intent);
+                    } else {
+                        comm.setTeacher(true);
+                        comm.getData();
+                        comm.realtimeUpadateMyData();
+                        Intent intent = new Intent(getApplicationContext(), HomePageTeacher.class);
                         startActivity(intent);
                     }
                 } else {

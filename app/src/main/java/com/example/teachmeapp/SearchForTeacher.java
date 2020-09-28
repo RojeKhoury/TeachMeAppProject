@@ -1,13 +1,12 @@
 package com.example.teachmeapp;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -16,16 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teachmeapp.Adapter.SearchForTeacherAdapter;
-import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.Helpers.UserLesson;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -48,20 +43,17 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_UID;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.LEVEL;
 import static com.example.teachmeapp.Helpers.Globals.RATINGS;
-import static com.example.teachmeapp.Helpers.Globals.ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class SearchForTeacher extends HamburgerMenu {
 
 
-    private EditText editTextKeyword;
+    private EditText editTextKeyword, editTextPrice;
+    private RadioGroup radioGroupMeeting;
     private ChipGroup chipGroup;
     private Button search;
-    CheckBox zoom;
-    CheckBox teacherPlace;
-    CheckBox studentPlace;
     Spinner levelSpinner;
-    Integer EducationLevel;
+    Long EducationLevel;
 
     private RecyclerView recyclerView;
 
@@ -70,6 +62,8 @@ public class SearchForTeacher extends HamburgerMenu {
     private List<SearchResultsRow> teachers;
 
     boolean foundTeacherFlag = false;
+    private boolean zoomMeetingChecked = false;
+    private boolean faceMeetingChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +73,11 @@ public class SearchForTeacher extends HamburgerMenu {
         teachers = new ArrayList<>();
 
         this.editTextKeyword = (EditText) this.findViewById(R.id.editText_keyword);
+        editTextPrice = findViewById(R.id.edit_text_price);
         this.chipGroup = (ChipGroup) this.findViewById(R.id.chipGroup);
         this.search = (Button) findViewById(R.id.searchForTeachersShowResultsButton);
 
-        zoom = findViewById(R.id.checkbox_zoom);
-        teacherPlace = findViewById(R.id.checkbox_at_teacher_place);
-        studentPlace = findViewById(R.id.checkbox_at_student_place);
+        radioGroupMeeting = findViewById(R.id.group_filter_meeting);
         levelSpinner = findViewById(R.id.spinner_for_education_level);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewSearchResult);
@@ -181,16 +174,38 @@ public class SearchForTeacher extends HamburgerMenu {
 
     private void searchUsingTags() {
 
-        EducationLevel = levelSpinner.getSelectedItemPosition() + 1;//levelSpinner.getSelectedItem().toString();
-        for (int i = 0; i < ChipTagSearchedArray.length; i++) {
-            searchForTeachers(ChipTagSearchedArray[i], EducationLevel, zoom.isChecked(),
-                    teacherPlace.isChecked(), studentPlace.isChecked(), 1000);
+        EducationLevel = Long.valueOf(levelSpinner.getSelectedItemPosition());//levelSpinner.getSelectedItem().toString();
+
+        if (radioGroupMeeting.getCheckedRadioButtonId() == -1){
+            Toast.makeText(SearchForTeacher.this, "Please select meeting type!", Toast.LENGTH_LONG).show();
+        } else {
+
+            if (radioGroupMeeting.getCheckedRadioButtonId() == R.id.q1_a1){
+                faceMeetingChecked = true;
+                zoomMeetingChecked = false;
+            } else {
+                zoomMeetingChecked = true;
+                faceMeetingChecked = false;
+            }
+
+            int price = 0;
+            if (editTextPrice.getText().toString().isEmpty() || editTextPrice.getText().toString().equals(" ")){
+                editTextPrice.setError("Please insert your preferred max price!");
+            } else {
+                price = Integer.parseInt(editTextPrice.getText().toString());
+
+                for (int i = 0; i < ChipTagSearchedArray.length; i++) {
+                    searchForTeachers(ChipTagSearchedArray[i] + "_" + levelSpinner.getSelectedItem().toString().replace(" ", "")
+                            , EducationLevel, zoomMeetingChecked,
+                            faceMeetingChecked, price);
+                }
+                adapter = new SearchForTeacherAdapter(teachers, this);
+                recyclerView.setAdapter(adapter);
+            }
         }
-        adapter = new SearchForTeacherAdapter(teachers, this);
-        recyclerView.setAdapter(adapter);
     }
 
-    public void searchForTeachers(final String subject, final Integer level, boolean zoom, boolean teachersPlace, boolean studentsPlace, final int price) {
+    public void searchForTeachers(final String subject, final Long level, boolean zoom, boolean faceMeeting, final int price) {
         //here I am assuming that the data was collected so these are temporary values that need to be changed when the page is done
         //float maxPrice = 150;
         //.whereEqualTo(FIELD_ZOOM, false)
@@ -209,9 +224,13 @@ public class SearchForTeacher extends HamburgerMenu {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             HashMap<String, UserLesson> maps = new HashMap<>();
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
+
+
                             if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price &&
-                                    ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) >= level &&
+                                    ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) == level &&
                                     !comm.getUid().equals(document.get(FIELD_UID).toString())) {
+
+
                                 Double rating = (document.get(RATINGS) == null) ? 0 : Double.parseDouble(document.get(RATINGS).toString());
                                 teachers.add(new SearchResultsRow((HashMap) document.get(FIELD_LESSONS), document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
                                         document.get(FIELD_UID).toString(), document.get(FIELD_NAME).toString(),
@@ -227,9 +246,10 @@ public class SearchForTeacher extends HamburgerMenu {
                     }
                 }
             });
-        } else {
-            teacherRef.whereArrayContains(FIELD_LESSON_TOPIC_LIST, subject).whereEqualTo(FIELD_STUDENTHOME, true)
-                    .whereEqualTo(COUNTRY, comm.getUserCountry())/*.whereLessThanOrEqualTo(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE, price)
+        } else if (faceMeeting){
+
+            teacherRef.whereArrayContains(FIELD_LESSON_TOPIC_LIST, subject).whereEqualTo(FIELD_TEACHERHOME, true)
+                    .whereEqualTo(COUNTRY, comm.getUserCountry()).whereEqualTo(CITY, comm.getUserCity())/*.whereLessThanOrEqualTo(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE, price)
                     .whereGreaterThanOrEqualTo(FIELD_LESSONS + "." + subject + "." + LEVEL, level)*/
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -238,7 +258,11 @@ public class SearchForTeacher extends HamburgerMenu {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             HashMap<String, UserLesson> maps = new HashMap<>();
                             maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
-                            if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price && ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) >= level) {
+
+
+                            if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price
+                                    && ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) == level) {
+
                                 Double rating = (document.get(RATINGS) == null) ? 0 : Double.parseDouble(document.get(RATINGS).toString());
                                 teachers.add(new SearchResultsRow((HashMap) document.get(FIELD_LESSONS), document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
                                         document.get(FIELD_UID).toString(), document.get(FIELD_NAME).toString(),
@@ -248,32 +272,9 @@ public class SearchForTeacher extends HamburgerMenu {
                                         (Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE),
                                         document.get(FIELD_LESSONS + "." + subject + "." + FIELD_LEVEL).toString()));
                                          }
-                            teacherRef.whereArrayContains(FIELD_LESSON_TOPIC_LIST, subject).whereEqualTo(FIELD_STUDENTHOME, false).whereEqualTo(FIELD_TEACHERHOME, true)
-                                    .whereEqualTo(COUNTRY, comm.getUserCountry()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            HashMap<String, UserLesson> maps = new HashMap<>();
-                                            maps = (HashMap<String, UserLesson>) document.get(FIELD_LESSONS);
-                                            if ((Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE) <= price && ((Long) document.get(FIELD_LESSONS + "." + subject + "." + LEVEL)) >= level) {
-                                                Double rating = (document.get(RATINGS) == null) ? 0 : Double.parseDouble(document.get(RATINGS).toString());
-                                                teachers.add(new SearchResultsRow((HashMap) document.get(FIELD_LESSONS), document.get(FIELD_SURNAME).toString(), document.get(CITY).toString(), rating,
-                                                        document.get(FIELD_UID).toString(), document.get(FIELD_NAME).toString(),
-                                                        (Boolean) document.get(FIELD_ZOOM), (Boolean) document.get(FIELD_TEACHERHOME),
-                                                        (Boolean) document.get(FIELD_STUDENTHOME),
-                                                        document.get(FIELD_LESSONS + "." + subject + "." + FIELD_NAME).toString(),
-                                                        (Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE),
-                                                        document.get(FIELD_LESSONS + "." + subject + "." + FIELD_LEVEL).toString()));
-                                            }
-                                        }
-                                    }
-                                    adapter = new SearchForTeacherAdapter(teachers, getApplicationContext());
-                                    recyclerView.setAdapter(adapter);
-                                }
-                            });
                         }
+                        adapter = new SearchForTeacherAdapter(teachers, getApplicationContext());
+                        recyclerView.setAdapter(adapter);
                     }
                 }
             });

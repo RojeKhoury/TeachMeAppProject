@@ -24,12 +24,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:fontFamily="@font/amatic_bold"
             android:gravity="center"
             android:text="@string/home_page"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/HalfTopBarHeight"
-            android:textStyle="bold" />
+            android:textSize="24dp"
+            android:fontFamily="@font/montserrat_medium"
+            />
     </FrameLayout>
 
 
@@ -47,7 +47,7 @@
         android:onClick="onClick_searchButton"
         android:paddingVertical="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/search_for_teacher_logo"
+        android:src="@drawable/ic_searching_people"
         app:layout_constraintBottom_toTopOf="@+id/space2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
         android:onClick="onClick_scheduleButton"
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/schedule_logo"
+        android:src="@drawable/ic_timetable"
         app:layout_constraintBottom_toTopOf="@+id/homepage_student_button_history"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +87,7 @@
         android:onClick="onClick_historyButton"
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/history_logo"
+        android:src="@drawable/ic_history"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,12 +95,8 @@
 
     <ImageButton
         android:id="@+id/homepage_student_button_conversation"
-
         android:layout_width="0dp"
-
         android:layout_height="0dp"
-
-
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
@@ -111,7 +107,7 @@
         android:onClick="onClick_conversationButton"
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/conversation_logo"
+        android:src="@drawable/ic_chat"
         app:layout_constraintBottom_toTopOf="@+id/homepage_student_button_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

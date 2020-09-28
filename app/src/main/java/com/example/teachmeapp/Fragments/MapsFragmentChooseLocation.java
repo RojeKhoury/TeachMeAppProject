@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,15 +13,18 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.teachmeapp.HomePageStudent;
 import com.example.teachmeapp.HomePageTeacher;
 import com.example.teachmeapp.R;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,8 +37,17 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,7 +57,7 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
 
 
     private static MapsFragmentChooseLocation INSTANCE = null;
-
+    String TAG = "PLACE";
     View view;
 
     GoogleMap map;
@@ -73,47 +86,72 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
     public View onCreateView(@NonNull LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, @androidx.annotation.Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_maps_choose_location, container, false);
         m_location = LocationServices.getFusedLocationProviderClient(view.getContext());
+
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Initialize Places.
+        Places.initialize(getActivity(), "AIzaSyCx8KKk_OHGhFXomk3izCBCYmWM0jMPqoM");
+        // Create a new Places client instance.
+        PlacesClient placesClient = Places.createClient(getActivity());
+        // Initialize the AutocompleteSupportFragment.
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        autocompleteFragment.setTypeFilter(TypeFilter.CITIES);
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList( Place.Field.LAT_LNG));
+
+
         mapView = view.findViewById(R.id.mapsViewChoose);
         if (mapView != null) {
             mapView.onCreate(null);
             mapView.onResume();
             mapView.getMapAsync(this);
         }
-        searchView = view.findViewById(R.id.sv_location_choose);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                String location = searchView.getQuery().toString();
-                List<Address> addressList = null;
+            public void onPlaceSelected(@NotNull Place place) {
+                LatLng loc = place.getLatLng();
+                List<Address> addresses;
+                Geocoder geocoder= new Geocoder(view.getContext(), Locale.getDefault());
+                String city="";
 
-                if (location != null || !location.equals("")) {
-                    Geocoder geocoder = new Geocoder(view.getContext());
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Address address = addressList.get(0);
+                try {
+                    addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    city = addresses.get(0).getLocality();
+
+                    Address address = addresses.get(0);
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                     if (m_mark != null) {
                         m_mark.remove();
                     }
-                    m_mark = map.addMarker(new MarkerOptions().position(latLng).title(location));
+                    m_mark = map.addMarker(new MarkerOptions().position(latLng).title(addresses.get(0).getLocality()));
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                return false;
+
+                if(!city.isEmpty())
+                {
+                    Log.i(TAG, city);
+                }
+                else
+                {
+                    Toast.makeText(getActivity(), "Try entering another country/state/city please!", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
             }
         });
 
@@ -126,7 +164,16 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
                 List<Address> addresses;
                 try {
                    addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                    comm.setLocation(loc, addresses.get(0).getLocality(), addresses.get(0).getCountryName(), addresses.get(0).getAddressLine(1));
+
+                    // Used for debugging why always get address in the database 'null'.
+                    /*String addressline = "Addresses from getAddressLine(): ";
+                    for (int n = 0; n <= addresses.get(0).getMaxAddressLineIndex(); n++) {
+                        addressline += " index n: " + n + ": " + addresses.get(0).getAddressLine(n) + ", ";
+                    }
+                    Log.d("Addresses: ", addressline);*/
+
+                    // Using getAddressLine(0) will retrieve the right address. No more 'null' value
+                    comm.setLocation(loc, addresses.get(0).getLocality(), addresses.get(0).getCountryName(), addresses.get(0).getAddressLine(0));
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -157,6 +204,7 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
         map = googleMap;
     }
 
+    @SuppressLint("MissingPermission")
     private void getLocation() {
         m_location.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override

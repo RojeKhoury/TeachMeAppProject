@@ -135,7 +135,7 @@ public class HomePageTeacher extends HamburgerMenu {
     }
 
     public void onClick_historyButton(View view) {
-        Intent intent = new Intent(this, ConversationChatPage.class);
+        Intent intent = new Intent(this, StudentPendingRequest.class);
         startActivity(intent);
     }
 

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
 
+import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -84,7 +86,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
         searchView = view.findViewById(R.id.sv_location);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setVisibility(View.GONE);
+
+        /*searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 String location = searchView.getQuery().toString();
@@ -112,7 +116,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             public boolean onQueryTextChange(String s) {
                 return false;
             }
-        });
+        });*/
 
 
     }
@@ -120,7 +124,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         if (ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            getLocation();
+
+            m_mark = map.addMarker(new MarkerOptions().position(Globals.comm.getViewedUserLocation()).title("Teacher Location"));
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(Globals.comm.getViewedUserLocation(), 10));
+
         } else {
             ActivityCompat.requestPermissions((Activity) view.getContext(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
@@ -128,6 +135,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         map = googleMap;
     }
 
+    /*@SuppressLint("MissingPermission")
     private void getLocation() {
         m_location.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
@@ -140,15 +148,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                         List<Address> addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                         Address address = addressList.get(0);
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        m_mark = map.addMarker(new MarkerOptions().position(latLng).title("my location"));
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
         });
-    }
+    }*/
     /*private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**

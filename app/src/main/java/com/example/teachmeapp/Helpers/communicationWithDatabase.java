@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.teachmeapp.TeacherLessonsAddOrRemove;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -47,6 +48,7 @@ import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SCHEDULE;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_STUDENTHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
+import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.LALTITUDE;
 import static com.example.teachmeapp.Helpers.Globals.LOCATION;
@@ -309,6 +311,7 @@ public class communicationWithDatabase {
                     m_viewedUserCity = document.get(Globals.CITY).toString();
                     m_viewedUserCountry = document.get(Globals.COUNTRY).toString();
                     m_viewedUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
+                    m_viewedUserLocation = (HashMap) document.get(LOCATION);
                     m_viewedUserUID = (String) document.get(Globals.FIELD_UID);
 
                     if (teacher) {
@@ -340,7 +343,7 @@ public class communicationWithDatabase {
     }
 
 
-    private void realtimeUpadateMyData()
+    public void realtimeUpadateMyData()
     {
         String collection = (isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT;
         db.collection(collection).document(getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -367,7 +370,7 @@ public class communicationWithDatabase {
                         m_currentUserComments = (List<Comment>) document.get(FIELD_COMMENTS);
                         m_currentUserZoom = (boolean) document.get(FIELD_ZOOM);
                         m_currentUserStudentHome = (boolean) document.get(FIELD_STUDENTHOME);
-                        m_currentUserTeacherHome = (boolean) document.get(FIELD_STUDENTHOME);
+                        m_currentUserTeacherHome = (boolean) document.get(FIELD_TEACHERHOME);
                     } else {
                         m_currentUserRatingsList = (List<String>) document.get(Globals.RATINGS);
                         m_currentUserFavourites = (List<String>) document.get(Globals.FAVOURITES);
@@ -378,6 +381,7 @@ public class communicationWithDatabase {
                         public void onSuccess(Uri uri) {
                             // Got the download URL for 'users/me/profile.png'
                             m_currentUserImageURI = uri;
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -522,7 +526,7 @@ public class communicationWithDatabase {
                         m_currentUserComments = (List<Comment>) document.get(FIELD_COMMENTS);
                         m_currentUserZoom = (boolean) document.get(FIELD_ZOOM);
                         m_currentUserStudentHome = (boolean) document.get(FIELD_STUDENTHOME);
-                        m_currentUserTeacherHome = (boolean) document.get(FIELD_STUDENTHOME);
+                        m_currentUserTeacherHome = (boolean) document.get(FIELD_TEACHERHOME);
                     } else {
                         m_currentUserRatingsList = (List<String>) document.get(Globals.RATINGS);
                         m_currentUserFavourites = (List<String>) document.get(Globals.FAVOURITES);
@@ -564,18 +568,19 @@ public class communicationWithDatabase {
                     m_viewedUserCity = document.get(Globals.CITY).toString();
                     m_viewedUserCountry = document.get(Globals.COUNTRY).toString();
                     m_viewedUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
+                    m_viewedUserLocation = (HashMap) document.get(LOCATION);
                     m_viewedUserUID = (String) document.get(Globals.FIELD_UID);
 
                     if (teacher) {
                         Log.d("GETSURENAME","if (teacher) {");
                         m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_viewedUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
-                        m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
+                        m_viewedUserStarRating = (Double) Double.parseDouble(document.get(Globals.FIELD_RATING).toString());
                         m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
                         m_viewedUserZoom = (boolean) document.get(FIELD_ZOOM);
                         m_viewedUserStudentHome = (boolean) document.get(FIELD_STUDENTHOME);
-                        m_viewedUserTeacherHome = (boolean) document.get(FIELD_STUDENTHOME);
+                        m_viewedUserTeacherHome = (boolean) document.get(FIELD_TEACHERHOME);
                     }
 
                     storage.getReference().child("images/" + m_viewedUserUID + "/profile picture").
@@ -665,6 +670,7 @@ public class communicationWithDatabase {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        realtimeUpadateMyData();
                         Log.d(TAG, "DocumentSnapshot successfully written!");
                     }
                 })
@@ -740,6 +746,7 @@ public class communicationWithDatabase {
             addLessonToTeacher(new UserLesson(lesson, price, level), lesson);
             addTeacherToLesson(lesson, getUid());
             addLessonToLessonList(lesson);
+            realtimeUpadateMyData();
         } else {
             addLessonToStudent(new UserLesson(lesson, price, level), uid);
         }

@@ -21,11 +21,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:fontFamily="@font/amatic_bold"
             android:gravity="center"
             android:text="Profile Page"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/HalfTopBarHeight" />
+            android:textSize="24dp"
+            android:fontFamily="@font/montserrat_medium"  />
     </FrameLayout>
 
     <ImageView
@@ -85,30 +85,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_page_teacher_name" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="60"
-        android:padding="@dimen/StandardPadding"
-        app:layout_constraintBottom_toTopOf="@+id/button_getLesson_displayProfile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="60"
+            android:padding="@dimen/StandardPadding"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintVertical_bias="0.0">
 
             <RatingBar
                 android:id="@+id/profile_page_rating_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:isIndicator="false"
+                android:layout_marginTop="24dp"
+                android:isIndicator="true"
                 android:numStars="5"
                 android:saveEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -134,7 +130,10 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/StandardPadding"
-                android:text="At My Place"
+                android:text="Face-to-Face Meeting"
+                android:textColor="#000"
+                android:fontFamily="@font/montserrat_bold"
+                android:layout_marginRight="5dp"
                 app:layout_constraintBottom_toBottomOf="@+id/profile_page_image_view_check_or_cancel_at_my_place"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -148,38 +147,17 @@
                 android:layout_weight="2.5"
                 android:background="@color/colorPrimaryDark"
                 android:gravity="center"
-                android:onClick="OnClick_profile_button_get_lessons_now"
+                android:onClick="OnClick_profile_button_check_location"
                 android:text="Check Location"
-                android:textColor="@color/cardview_light_background"
+                android:textColor="#fff"
+                android:fontFamily="@font/montserrat_medium"
+                android:textAllCaps="false"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/profile_page_image_view_check_or_cancel_at_my_place"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView3"
                 app:layout_constraintTop_toTopOf="@+id/profile_page_image_view_check_or_cancel_at_my_place" />
 
-            <ImageView
-                android:id="@+id/profile_page_image_view_check_or_cancel_at_your_place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:paddingHorizontal="@dimen/StandardPadding"
-                android:src="@drawable/cancel_icon"
-                app:layout_constraintEnd_toEndOf="@+id/profile_page_image_view_check_or_cancel_at_my_place"
-                app:layout_constraintStart_toStartOf="@+id/profile_page_image_view_check_or_cancel_at_my_place"
-                app:layout_constraintTop_toBottomOf="@+id/profile_page_image_view_check_or_cancel_at_my_place" />
-
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/StandardPadding"
-                android:text="At Your Place"
-                app:layout_constraintBottom_toBottomOf="@+id/profile_page_image_view_check_or_cancel_at_your_place"
-                app:layout_constraintEnd_toEndOf="@+id/textView3"
-                app:layout_constraintStart_toStartOf="@+id/textView3"
-                app:layout_constraintTop_toTopOf="@+id/profile_page_image_view_check_or_cancel_at_your_place" />
 
             <Button
                 android:id="@+id/button4"
@@ -191,10 +169,11 @@
                 android:onClick="OnClick_profile_button_get_lessons_now"
                 android:text="Check Radius"
                 android:textColor="@color/cardview_light_background"
-                app:layout_constraintBottom_toBottomOf="@+id/profile_page_image_view_check_or_cancel_at_your_place"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/profile_page_image_view_check_or_cancel_at_my_place"
                 app:layout_constraintEnd_toEndOf="@+id/button_showLocation_displayProfile"
                 app:layout_constraintStart_toStartOf="@+id/button_showLocation_displayProfile"
-                app:layout_constraintTop_toTopOf="@+id/profile_page_image_view_check_or_cancel_at_your_place" />
+                app:layout_constraintTop_toTopOf="@+id/profile_page_image_view_check_or_cancel_at_my_place" />
 
             <ImageView
                 android:id="@+id/profile_page_image_view_check_or_cancel_zoom"
@@ -204,9 +183,9 @@
                 android:layout_marginTop="16dp"
                 android:paddingHorizontal="@dimen/StandardPadding"
                 android:src="@drawable/check_icon"
-                app:layout_constraintEnd_toEndOf="@+id/profile_page_image_view_check_or_cancel_at_your_place"
-                app:layout_constraintStart_toStartOf="@+id/profile_page_image_view_check_or_cancel_at_your_place"
-                app:layout_constraintTop_toBottomOf="@+id/profile_page_image_view_check_or_cancel_at_your_place" />
+                app:layout_constraintEnd_toEndOf="@+id/profile_page_image_view_check_or_cancel_at_my_place"
+                app:layout_constraintStart_toStartOf="@+id/profile_page_image_view_check_or_cancel_at_my_place"
+                app:layout_constraintTop_toBottomOf="@+id/profile_page_image_view_check_or_cancel_at_my_place" />
 
 
             <TextView
@@ -216,10 +195,13 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/StandardPadding"
-                android:text="Zoom"
+                android:text="Zoom Meeting"
+                android:textColor="#000"
+                android:fontFamily="@font/montserrat_bold"
+                android:layout_marginRight="5dp"
                 app:layout_constraintBottom_toBottomOf="@+id/profile_page_image_view_check_or_cancel_zoom"
-                app:layout_constraintEnd_toEndOf="@+id/textView11"
-                app:layout_constraintStart_toStartOf="@+id/textView11"
+                app:layout_constraintEnd_toEndOf="@+id/textView3"
+                app:layout_constraintStart_toStartOf="@+id/textView3"
                 app:layout_constraintTop_toTopOf="@+id/profile_page_image_view_check_or_cancel_zoom" />
 
             <TextView
@@ -231,36 +213,51 @@
                 android:gravity="center"
                 android:text="Lessons Offered"
                 android:textColor="@color/white"
-                android:textStyle="bold"
+                android:fontFamily="@font/montserrat_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/Recycler_View_TeacherProfile_LessonsOffered"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView13"
+                />
+
+            <TextView
+                android:id="@+id/give_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/give_rate"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/colorPrimaryDark"
+                app:layout_constraintBottom_toBottomOf="@+id/profile_page_rating_bar"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                app:layout_constraintStart_toEndOf="@+id/profile_page_rating_bar"
+                app:layout_constraintTop_toTopOf="@+id/profile_page_rating_bar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
     <Button
-        android:id="@+id/button_getLesson_displayProfile"
+        android:id="@+id/chat_with_teacher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/buttonshapecool"
-        android:onClick="OnClick_profile_button_get_lessons_now"
-        android:text="Get Lessons Now!"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:background="@color/colorPrimaryDark"
+        android:drawableLeft="@drawable/ic_chat"
+        android:drawablePadding="5dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:onClick="OnClick_profile_button_start_chat"
+        android:padding="10dp"
+        android:text="Chat Now"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_page_teacher_name"
+        app:layout_constraintVertical_bias="0.07999998" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

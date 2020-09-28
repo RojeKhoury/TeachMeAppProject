@@ -16,11 +16,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.teachmeapp.HamburgerMenu;
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.R;
 import com.example.teachmeapp.model.BabySitter;
 import com.example.teachmeapp.model.Message;
 import com.example.teachmeapp.model.Parent;
+import com.example.teachmeapp.model.TalkedWithModel;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,8 +40,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_STUDENT;
+import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 
-public class ChatWindow extends AppCompatActivity {
+public class ChatWindow extends HamburgerMenu {
     public static final String TAG = "Test1";
 
     LinearLayout layout;
@@ -111,34 +114,20 @@ public class ChatWindow extends AppCompatActivity {
                     }
 
                     try {
-                        reference1.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if (dataSnapshot.getChildrenCount() == 0)
-                                {
-                                    Log.d("TAGM",dataSnapshot.toString());
-                                    DatabaseReference TalkedWithRef;
-                                    TalkedWithRef = FirebaseDatabase.getInstance().getReference(Globals.TALKEDWITH).child(mTeacherUID);
-                                    TalkedWithRef.push().setValue(mStudentUID);
-                                    TalkedWithRef = FirebaseDatabase.getInstance().getReference(Globals.TALKEDWITH).child(mStudentUID);
-                                    TalkedWithRef.push().setValue(mTeacherUID);
-                                }
-                            }
+                        TalkedWithModel talkedWithModelStudent = new TalkedWithModel(mTeacherUID, getCurrentTime());
+                        TalkedWithModel talkedWithModelTeacher = new TalkedWithModel(mStudentUID, getCurrentTime());
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                        DatabaseReference TalkedWithRef;
+                        TalkedWithRef = FirebaseDatabase.getInstance().getReference(Globals.TALKEDWITH).child(mTeacherUID);
+                        TalkedWithRef.child(mStudentUID).setValue(talkedWithModelTeacher);
 
-                            }
-                        });
+                        TalkedWithRef = FirebaseDatabase.getInstance().getReference(Globals.TALKEDWITH).child(mStudentUID);
+                        TalkedWithRef.child(mTeacherUID).setValue(talkedWithModelStudent);
+
                         reference1.push().setValue(mMessage);
                         //---Here i should update the LRU
                         //.child(id).removeValue();
-
-
-
-
-
 
                     } catch (Exception e) {
                         Log.e(TAG, "Push Exception = " + e.getMessage());
@@ -201,7 +190,7 @@ public class ChatWindow extends AppCompatActivity {
             });
         } else {//mTeacherUID
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            final DocumentReference docRef = db.collection(COLLECTION_STUDENT).document(mTeacherUID);
+            final DocumentReference docRef = db.collection(COLLECTION_TEACHER).document(mTeacherUID);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
@@ -217,10 +206,12 @@ public class ChatWindow extends AppCompatActivity {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         TextView textView = new TextView(ChatWindow.this);
         TextView textViewTime = new TextView(ChatWindow.this);
-        textView.setTextSize(20);
+        textView.setTextSize(16);
         textView.setText(message);
         textViewTime.setTextSize(10);
         textViewTime.setText(fromMillisToHoursMinutes(time));
+        textView.setPadding(10, 10, 10, 10);
+        textViewTime.setPadding(5, 5, 5, 5);
         linearLayout.addView(textView);
         linearLayout.addView(textViewTime);
         LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -242,6 +233,7 @@ public class ChatWindow extends AppCompatActivity {
             });
             scrollView.fullScroll(View.FOCUS_DOWN);
         }
+
         linearLayout.setLayoutParams(lp2);
         layout.addView(linearLayout);
         Log.e(TAG, "addMessageBox >>");

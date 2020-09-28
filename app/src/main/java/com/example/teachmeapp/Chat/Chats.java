@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.WindowManager;
 
+import com.example.teachmeapp.HamburgerMenu;
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.R;
+import com.example.teachmeapp.model.TalkedWithModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,12 +21,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import static com.example.teachmeapp.Helpers.Globals.comm;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import android.util.Log;
 
-public class Chats extends AppCompatActivity {
+public class Chats extends HamburgerMenu {
 
-    private List<String> m_TalkedWithUidsList = new ArrayList<>();
+    private List<TalkedWithModel> m_TalkedWithUidsList = new ArrayList<>();
     private AdapterTalkedWith m_Adapter;
     private FirebaseAuth m_Auth;
     private RecyclerView m_RecyclerView;
@@ -51,7 +54,7 @@ public class Chats extends AppCompatActivity {
 
         m_TalkedWithUidsList.clear();
         //Log.d("T17",m_TeacherUid);
-        m_Adapter = new AdapterTalkedWith(m_TalkedWithUidsList, m_mITeacher,comm.getUid() , Chats.this);
+        m_Adapter = new AdapterTalkedWith(m_TalkedWithUidsList, m_mITeacher, comm.getUid() , Chats.this);
         m_RecyclerView = findViewById(R.id.recycler_Chats);
         m_RecyclerView.setHasFixedSize(true);
         m_RecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -63,7 +66,7 @@ public class Chats extends AppCompatActivity {
 
     private void getAllOffMyChatsUsingValueListeners() {
         DatabaseReference userTalkedWithRef = FirebaseDatabase.getInstance().getReference(Globals.TALKEDWITH).child(comm.getUid());
-        userTalkedWithRef.addValueEventListener(new ValueEventListener() {
+        userTalkedWithRef.orderByChild("timeStamp").limitToLast(100).addValueEventListener(new ValueEventListener() {
             // onCreate+Refresh if data changed == onDataChange
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -78,13 +81,15 @@ public class Chats extends AppCompatActivity {
     }
 
     private void updateTalkedWithList(DataSnapshot snapshot) {
-        String userUID;
+
         m_TalkedWithUidsList.clear();
         for(DataSnapshot dataSnapshot : snapshot.getChildren())
         {
-            userUID = dataSnapshot.getValue(String.class);
-            m_TalkedWithUidsList.add(userUID);
+            TalkedWithModel talkedWithModel = dataSnapshot.getValue(TalkedWithModel.class);
+            m_TalkedWithUidsList.add(talkedWithModel);
         }
+
+        Collections.reverse(m_TalkedWithUidsList);
 
         m_RecyclerView.getAdapter().notifyDataSetChanged();
     }

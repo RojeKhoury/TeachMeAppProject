@@ -3,6 +3,7 @@ package com.example.teachmeapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -78,23 +79,27 @@ public class HamburgerMenu extends Activity {
             popup.getMenu().removeItem(R.id.HamburgerMenuHomePageStudent);
             if (this.getLocalClassName().equals(HomePageTeacher.class.getSimpleName())) {
                 popup.getMenu().removeItem(R.id.HamburgerMenuHomePageTeacher);
-            } else if (this.getLocalClassName().equals(ProfilePageOfTeacherForStudent.class.getSimpleName())) {
+            }
+            if (this.getLocalClassName().equals(ProfilePageOfTeacherForStudent.class.getSimpleName())) {
                 popup.getMenu().removeItem(R.id.HamburgerMenuProfilePage);
 //            } else if (this.getLocalClassName().equals(HamburgerMenuUpdateInfo.class.getSimpleName())) {
 //                popup.getMenu().removeItem(R.id.HamburgerMenuUpdateInfo);
-            } else if (this.getLocalClassName().equals(HomePageStudent.class.getSimpleName())) {
+            }
+            if (this.getLocalClassName().equals(HomePageStudent.class.getSimpleName())) {
                 popup.getMenu().removeItem(R.id.HamburgerMenuProfilePage);
-            } else if (this.getLocalClassName().equals(EditTeacherInfo.class.getSimpleName())) {
+            }
+            if (this.getLocalClassName().equals(EditTeacherInfo.class.getSimpleName())) {
                 popup.getMenu().removeItem(R.id.HamburgerMenuUpdateInfo);
             }
         } else {
+
             popup.getMenu().removeItem(R.id.HamburgerMenuUpdateInfo);
             popup.getMenu().removeItem(R.id.HamburgerMenuHomePageTeacher);
             popup.getMenu().removeItem(R.id.HamburgerMenuUpdateInfo);
+            popup.getMenu().removeItem(R.id.HamburgerMenuProfilePage);
+
             if (this.getLocalClassName().equals(HomePageStudent.class.getSimpleName())) {
                 popup.getMenu().removeItem(R.id.HamburgerMenuHomePageStudent);
-            } else if (this.getLocalClassName().equals(ProfilePageOfTeacherForStudent.class.getSimpleName())) {
-                popup.getMenu().removeItem(R.id.HamburgerMenuProfilePage);
             }
         }
         if (this.getLocalClassName().equals(Schedule.class.getSimpleName())) {

@@ -28,8 +28,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="Name"
-                android:textStyle="bold"
+                android:textColor="#000"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,8 +39,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="Subject"
-                android:textStyle="bold"
+                android:textColor="#000"
                 app:layout_constraintStart_toStartOf="@+id/textViewPendingRequestName"
                 app:layout_constraintTop_toBottomOf="@+id/textViewPendingRequestName" />
 
@@ -50,8 +52,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="Level"
-                android:textStyle="bold"
+                android:textColor="#909090"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textViewPendingRequestSubject"
                 app:layout_constraintTop_toBottomOf="@+id/textViewPendingRequestSubject" />
@@ -61,10 +64,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorPrimaryDark"
+                android:drawableLeft="@drawable/ic_touch"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:padding="10dp"
                 android:text="Details"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/textViewPendingRequestLevel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textViewPendingRequestName" />
@@ -73,11 +80,13 @@
                 android:id="@+id/textViewPendingRequestStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="Status"
+                android:textColor="#909090"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/buttonPendingRequestDetails"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textViewPendingRequestSubject"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

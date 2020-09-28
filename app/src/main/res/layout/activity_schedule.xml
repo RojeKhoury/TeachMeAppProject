@@ -19,11 +19,14 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Schedule"
-            android:textSize="@dimen/HalfTopBarHeight" />
+            android:text="@string/schedule"
+            android:textColor="#FFFFFF"
+            android:textSize="24dp"
+            android:fontFamily="@font/montserrat_medium"
+            />
     </FrameLayout>
 
     <CalendarView
@@ -40,11 +43,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Recycler_View_schedule_page_results"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginBottom="24dp"
+        android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shcedule_calenderView"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

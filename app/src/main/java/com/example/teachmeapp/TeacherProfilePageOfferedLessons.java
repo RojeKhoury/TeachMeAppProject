@@ -17,8 +17,5 @@ public class TeacherProfilePageOfferedLessons extends AppCompatActivity {
         setContentView(R.layout.activity_teacher_profile_page_offered_lessons);
 //TODO here are the textview levels
         textViewElementary = findViewById(R.id.textViewElementary);
-        textViewMiddleSchool = findViewById(R.id.textViewMiddleSchool);
-        textViewHighSchool = findViewById(R.id.textViewHighSchool);
-        textViewCollege = findViewById(R.id.textViewCollege);
     }
 }

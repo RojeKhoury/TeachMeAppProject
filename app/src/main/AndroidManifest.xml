@@ -115,6 +115,9 @@
             android:name=".SignUp"
             android:theme="@style/AppThemeNoBar" />
         <activity
+            android:name=".RequestLessons"
+            android:theme="@style/AppThemeNoBar" />
+        <activity
             android:name=".Login"
             android:theme="@style/AppThemeNoBar" />
         <activity

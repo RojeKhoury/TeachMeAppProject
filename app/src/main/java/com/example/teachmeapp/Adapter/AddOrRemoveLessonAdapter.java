@@ -36,7 +36,7 @@ public class AddOrRemoveLessonAdapter extends RecyclerView.Adapter<AddOrRemoveLe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final TeacherLessonRow item = m_lessons.get(position);
 
         holder.textViewClassName.setText(item.getM_subject());
@@ -47,6 +47,9 @@ public class AddOrRemoveLessonAdapter extends RecyclerView.Adapter<AddOrRemoveLe
             @Override
             public void onClick(View view) {
                 comm.removeCourseFromTeacher(item.getM_subject());
+
+                m_lessons.remove(position);
+                notifyDataSetChanged();
             }
         });
     }

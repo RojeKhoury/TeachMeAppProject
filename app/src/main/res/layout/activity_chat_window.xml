@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#999999"
+    android:background="#909090"
     android:orientation="vertical"
     tools:context="com.example.teachmeapp.Chat.ChatWindow">
 
@@ -25,8 +25,11 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Chat"
-            android:textSize="@dimen/HalfTopBarHeight" />
+            android:textSize="16sp"
+            android:textColor="#fff"
+            android:fontFamily="@font/montserrat_medium"/>
     </FrameLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_weight="20"
@@ -40,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_margin="7dp"
                 android:id="@+id/layout1">
             </LinearLayout>
         </RelativeLayout>
