@@ -119,7 +119,8 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
             public void onPlaceSelected(@NotNull Place place) {
                 LatLng loc = place.getLatLng();
                 List<Address> addresses;
-                Geocoder geocoder= new Geocoder(view.getContext(), Locale.getDefault());
+                Locale aLocale = new Locale.Builder().setLanguage("en").setScript("Latn").build();
+                Geocoder geocoder = new Geocoder(view.getContext(),aLocale);
                 String city="";
 
                 try {
@@ -160,8 +161,8 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
             @Override
             public void onClick(View view) {
                 LatLng loc = m_mark.getPosition();
-                Geocoder geocoder = new Geocoder(view.getContext(), Locale.getDefault());
-                List<Address> addresses;
+                Locale aLocale = new Locale.Builder().setLanguage("en").setScript("Latn").build();
+                Geocoder geocoder = new Geocoder(view.getContext(),aLocale);                List<Address> addresses;
                 try {
                    addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
@@ -204,7 +205,7 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
         map = googleMap;
     }
 
-    @SuppressLint("MissingPermission")
+   @SuppressLint("MissingPermission")
     private void getLocation() {
         m_location.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
@@ -212,8 +213,8 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
                 Location location = task.getResult();
                 if (location != null) {
                     try {
-                        Geocoder geocoder = new Geocoder(view.getContext(),
-                                Locale.getDefault());
+                        Locale aLocale = new Locale.Builder().setLanguage("en").setScript("Latn").build();
+                        Geocoder geocoder = new Geocoder(view.getContext(),aLocale);
                         List<Address> addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                         Address address = addressList.get(0);
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
