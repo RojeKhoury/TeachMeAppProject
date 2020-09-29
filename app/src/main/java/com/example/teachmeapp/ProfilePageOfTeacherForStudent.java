@@ -63,7 +63,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     // Bundle bundle = getIntent().getExtras();
 
     //  ImageButton ButtonStar;
-
+    private TextView emptyListView;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
 
@@ -83,9 +83,8 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         } else {
             m_uid = comm.getViewedUserUID();
         }
+        emptyListView = findViewById(R.id.emptyView);
         //getIntent().getStringExtra("UID" );
-
-        setContentView(R.layout.activity_profile_page_of_teacher_for_student);
 
         //   user = bundle.getParcelable("user");
 
@@ -303,7 +302,6 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
             }
 
         }
-
         adapter = new teacherProfileLessonsAdapter(lessons, this);
         recyclerView.setAdapter(adapter);
     }

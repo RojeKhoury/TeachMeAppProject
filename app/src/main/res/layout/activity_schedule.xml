@@ -23,6 +23,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/schedule"
+
             android:textColor="#FFFFFF"
             android:textSize="24dp"
             android:fontFamily="@font/montserrat_medium"

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -31,7 +32,7 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
 
     private RadioGroup levelSelection;
 
-
+    private TextView emptyListTextView;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
 
@@ -49,7 +50,7 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         SubjectEditText = findViewById(R.id.EditTeacherLessonsSubject);
         PriceEditText = findViewById(R.id.EditTeacherLessonsPrice);
         levelSelection = findViewById(R.id.group_level_selection);
-
+        emptyListTextView = findViewById(R.id.emptyView);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_MyLessons);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -73,6 +74,14 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
             }
         }
         adapter = new AddOrRemoveLessonAdapter(lessons, this);
+        if(lessons.isEmpty())
+        {
+            emptyListTextView.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            emptyListTextView.setVisibility(View.GONE);
+        }
         recyclerView.setAdapter(adapter);
         //CallViewAdapter(LESSONS_FOR_TEACHER_VIEW);
     }
@@ -120,18 +129,18 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
             }
 
         }
-
-
     }
 
-    public void realtimeDataUpdate() {
+    public void realtimeDataUpdate()
+    {
         comm.getDb().collection(COLLECTION_TEACHER).document(comm.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if(error == null && value != null && value.exists())
                 {
-        recycleViewFill();}
-    }});}
+                    recycleViewFill();}
+                }});
+    }
 
 
     public void removeLesson(String lesson) {

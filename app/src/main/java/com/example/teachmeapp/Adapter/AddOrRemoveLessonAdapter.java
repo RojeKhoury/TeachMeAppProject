@@ -68,7 +68,6 @@ public class AddOrRemoveLessonAdapter extends RecyclerView.Adapter<AddOrRemoveLe
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             textViewClassName = (TextView) itemView.findViewById(R.id.textViewSubject_addLesson);
             textViewClasslevel = (TextView) itemView.findViewById(R.id.textViewLevel_addLesson);
             textViewClassprice = (TextView) itemView.findViewById(R.id.textViewPrice_addLesson);

@@ -45,6 +45,19 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="No Lessons"
+        android:textSize="30sp"
+        android:visibility="visible"
+
+
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout3"
+        tools:layout_editor_absoluteX="16dp" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
@@ -88,7 +101,7 @@
             android:id="@+id/EditTeacherLessonsPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Price in $"
+            android:hint="Price in ₪"
             android:inputType="number"
             android:backgroundTint="@color/colorPrimaryDark"
             android:textCursorDrawable="@null"
