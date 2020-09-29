@@ -503,7 +503,11 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         // dismiss the popup window when touched
-        textView.setText(comm.getViewedUserBio());
+        if(comm.isTeacher()) {
+            textView.setText(comm.getUserBio());
+        }
+        else{
+        textView.setText(comm.getViewedUserBio());}
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
