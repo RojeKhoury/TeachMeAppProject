@@ -22,47 +22,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.teachmeapp.Adapter.AddOrRemoveLessonAdapter;
 import com.example.teachmeapp.Adapter.teacherProfileLessonsAdapter;
 import com.example.teachmeapp.Chat.ChatWindow;
 import com.example.teachmeapp.Helpers.Globals;
-import com.example.teachmeapp.Helpers.UserLesson;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.teachmeapp.Helpers.Globals.COLLECTION_STUDENT;
-import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_LESSONS;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_NAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_PRICE;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_RATING;
-import static com.example.teachmeapp.Helpers.Globals.FIELD_SURNAME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_TEACHERHOME;
 import static com.example.teachmeapp.Helpers.Globals.FIELD_ZOOM;
 import static com.example.teachmeapp.Helpers.Globals.LEVEL;
-import static com.example.teachmeapp.Helpers.Globals.PROFILE_PAGE_OF_SPECIFIC_TEACHER;
-import static com.example.teachmeapp.Helpers.Globals.TEACHERS;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 
@@ -94,7 +78,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (comm.isTeacher()){
+        if (comm.isTeacher()) {
             m_uid = comm.getUid();
         } else {
             m_uid = comm.getViewedUserUID();
@@ -118,13 +102,13 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         chatBtn = findViewById(R.id.chat_with_teacher);
         checkZoom = findViewById(R.id.profile_page_image_view_check_or_cancel_zoom);
         checkFaceToFace = findViewById(R.id.profile_page_image_view_check_or_cancel_at_my_place);
-        if (comm.isTeacher()){
+        if (comm.isTeacher()) {
 
             checkZoom.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    if (comm.isUserZoom()){
+                    if (comm.isUserZoom()) {
 
                         checkZoom.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.cancel_icon));
                         updateZoomAndFaceToFace(FIELD_ZOOM, false);
@@ -141,7 +125,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
                 @Override
                 public void onClick(View view) {
 
-                    if (comm.isUserTeacherHome()){
+                    if (comm.isUserTeacherHome()) {
 
                         checkFaceToFace.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.cancel_icon));
                         updateZoomAndFaceToFace(FIELD_TEACHERHOME, false);
@@ -155,7 +139,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
             });
         }
 
-        if (comm.isTeacher()){
+        if (comm.isTeacher()) {
             giveRate.setVisibility(View.INVISIBLE);
             m_goToLocationButton.setVisibility(View.INVISIBLE);
             chatBtn.setVisibility(View.INVISIBLE);
@@ -165,7 +149,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-      //  requiredData();
+        //  requiredData();
 
         lessons = new ArrayList<>();
 
@@ -183,7 +167,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 //        comm.getViewedUserData(m_uid, !comm.isTeacher());
 //    }
 
-    private void updateZoomAndFaceToFace(final String field, Boolean value){
+    private void updateZoomAndFaceToFace(final String field, Boolean value) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -205,7 +189,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
                     public void onFailure(@NonNull Exception e) {
                         Log.w("Update Rate Error", "Error writing document", e);
 
-                        Toast.makeText(ProfilePageOfTeacherForStudent.this, "Error with setting your "+ field + " Status. Try again later!",
+                        Toast.makeText(ProfilePageOfTeacherForStudent.this, "Error with setting your " + field + " Status. Try again later!",
                                 Toast.LENGTH_LONG).show();
                     }
                 });
@@ -213,7 +197,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
     }
 
-    private void setUpRateDialog(){
+    private void setUpRateDialog() {
 
         dialog = new Dialog(ProfilePageOfTeacherForStudent.this);
         dialog.setContentView(R.layout.custom_give_rate_dialog);
@@ -225,7 +209,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
         Window window = dialog.getWindow();
         assert window != null;
-        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,7 +240,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
     }
 
-    private void updateRating(final int finalRating, int count){
+    private void updateRating(final int finalRating, int count) {
 
         HashMap<String, Object> data = new HashMap<>();
         data.put("rating", finalRating);
@@ -265,7 +249,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection(Globals.COLLECTION_TEACHER).document(comm.getViewedUserUID())
-        .update(data)
+                .update(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -296,7 +280,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
         lessons.clear();
 
-        if (comm.isTeacher()){
+        if (comm.isTeacher()) {
 
             if (comm.getUserLessons() != null) {
                 for (Map.Entry lesson : comm.getUserLessons().entrySet()) {
@@ -329,14 +313,14 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         super.onStart();
         loadImage();
 
-        if (comm.isTeacher()){
+        if (comm.isTeacher()) {
             ImageView_profile_page_check_or_cancel(comm.isUserZoom(), comm.isUserTeacherHome());
         } else {
             ImageView_profile_page_check_or_cancel(comm.isViewedUserZoom(), comm.isViewedUserTeacherHome());
         }
 
         // setStar();
-            loadTeacherData();
+        loadTeacherData();
         adapter = new teacherProfileLessonsAdapter(lessons, this);
         recyclerView.setAdapter(adapter);
 //        if (comm.getViewedUserData(m_uid, true)) {
@@ -414,7 +398,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
 
     public void loadTeacherData() {
 
-        if (comm.isTeacher()){
+        if (comm.isTeacher()) {
             m_teacherName.setText(comm.getUserName() + " " + comm.getUserSurname());
             m_teacherRating.setRating(Float.parseFloat(comm.getUserStarRating().toString()));
         } else {
@@ -474,7 +458,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         startActivity(intent);
     }
 
-    public void OnClick_profile_button_check_location(View view){
+    public void OnClick_profile_button_check_location(View view) {
 
         Globals.locationOrSignUp = false;
         Intent intent = new Intent(getApplicationContext(), maps_activity_get_location.class);
@@ -485,7 +469,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     @Override
     protected void onDestroy() {
 
-        if(dialog != null && dialog.isShowing()){
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
 
@@ -495,7 +479,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     @Override
     protected void onStop() {
 
-        if(dialog != null && dialog.isShowing()){
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
 
@@ -503,7 +487,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     }
 
     public void OnClick_ProfilePage_AboutMe(View view) {
-        TextView textView = findViewById(R.id.TextView_PopupWindow);
+
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -514,7 +498,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
+        TextView textView = popupWindow.getContentView().findViewById(R.id.TextView_PopupWindow);
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
