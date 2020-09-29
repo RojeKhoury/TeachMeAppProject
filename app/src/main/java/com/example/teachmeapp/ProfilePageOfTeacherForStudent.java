@@ -5,12 +5,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -83,7 +88,6 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     private Dialog dialog;
     private ProgressBar progressBar;
     private RatingBar ratingBar;
-    private Button AboutMeButton;
 
 
     @Override
@@ -114,7 +118,6 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         chatBtn = findViewById(R.id.chat_with_teacher);
         checkZoom = findViewById(R.id.profile_page_image_view_check_or_cancel_zoom);
         checkFaceToFace = findViewById(R.id.profile_page_image_view_check_or_cancel_at_my_place);
-        AboutMeButton=findViewById(R.id.buttonAboutMe);
         if (comm.isTeacher()){
 
             checkZoom.setOnClickListener(new View.OnClickListener() {
@@ -500,7 +503,30 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     }
 
     public void OnClick_ProfilePage_AboutMe(View view) {
-        //TODO heres the BIO
-        //AboutMeButton
+        TextView textView = findViewById(R.id.TextView_PopupWindow);
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_window, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        // dismiss the popup window when touched
+        textView.setText(comm.getViewedUserBio());
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+
+                return true;
+            }
+        });
     }
 }
