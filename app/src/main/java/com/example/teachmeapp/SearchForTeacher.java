@@ -1,7 +1,6 @@
 package com.example.teachmeapp;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -75,7 +74,6 @@ public class SearchForTeacher extends HamburgerMenu {
 
         this.editTextKeyword = (EditText) this.findViewById(R.id.editText_keyword);
         editTextPrice = findViewById(R.id.edit_text_price);
-        this.chipGroup = (ChipGroup) this.findViewById(R.id.chipGroup);
         this.search = (Button) findViewById(R.id.searchForTeachersShowResultsButton);
         emptyListView = findViewById(R.id.emptyView);
         radioGroupMeeting = findViewById(R.id.group_filter_meeting);
@@ -116,72 +114,73 @@ public class SearchForTeacher extends HamburgerMenu {
         super.onBackPressed();
     }
 
-    public void addNewChip(View view) {
-        try {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            Chip newChip = (Chip) inflater.inflate(R.layout.layout_chip_entry, this.chipGroup, false);
-            EditText editText = findViewById(R.id.editText_keyword);
-            String tag = editText.getText().toString();
-            if (tag.trim().isEmpty()) {
-                Toast.makeText(this, "Add a tag first", Toast.LENGTH_SHORT).show();
-            } else {
-                newChip.setText(tag);
-
-                this.chipGroup.addView(newChip);
-
-                newChip.setOnCloseIconClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        handleChipCloseIconClicked((Chip) v);
-                    }
-                });
-                this.editTextKeyword.setText("");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-
-    }
+//    public void addNewChip(View view) {
+//        try {
+//            LayoutInflater inflater = LayoutInflater.from(this);
+//            Chip newChip = (Chip) inflater.inflate(R.layout.layout_chip_entry, this.chipGroup, false);
+//
+//            String tag = editText.getText().toString();
+//            if (tag.trim().isEmpty()) {
+//                Toast.makeText(this, "Add a tag first", Toast.LENGTH_SHORT).show();
+//            } else {
+//                newChip.setText(tag);
+//
+//                this.chipGroup.addView(newChip);
+//
+//                newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        handleChipCloseIconClicked((Chip) v);
+//                    }
+//                });
+//                this.editTextKeyword.setText("");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+//        }
+//
+//    }
 
     public void OnClick_SearchForTeacher_Button_ShowSelections() {
-        teachers.clear();
-        int count = this.chipGroup.getCheckedChipIds().size();
-        if (count > 0) {
-            ChipTagSearchedArraySize = count;
-            ChipTagSearchedArray = new String[count];
-            String s = null;
-            for (int i = 0; i < count; i++) {
-
-                Chip child = (Chip) this.chipGroup.getChildAt(i);
-                if (!child.isChecked()) {
-                    continue;
-                }
-
-                /*if (s == null) {
-                    s = child.getText().toString();
-                } else {
-                    s += ", " + child.getText().toString();
-                }*/
-                ChipTagSearchedArray[i] = child.getText().toString();
-            }
+//        teachers.clear();
+//        int count = this.chipGroup.getCheckedChipIds().size();
+//        if (count > 0) {
+//            ChipTagSearchedArraySize = count;
+//            ChipTagSearchedArray = new String[count];
+//            String s = null;
+//            for (int i = 0; i < count; i++) {
+//
+//                Chip child = (Chip) this.chipGroup.getChildAt(i);
+//                if (!child.isChecked()) {
+//                    continue;
+//                }
+//
+//                /*if (s == null) {
+//                    s = child.getText().toString();
+//                } else {
+//                    s += ", " + child.getText().toString();
+//                }*/
+//                ChipTagSearchedArray[i] = child.getText().toString();
+//            }
             searchUsingTags();
-
-        } else {
-            Toast.makeText(this, "Please add and tick the Tags", Toast.LENGTH_LONG).show();
-
-        }
+//
+//        } else {
+//            Toast.makeText(this, "Please add and tick the Tags", Toast.LENGTH_LONG).show();
+//
+//        }
     }
 
     private void searchUsingTags() {
+        EditText editTextKeyWord = findViewById(R.id.editText_keyword);
 
         EducationLevel = Long.valueOf(levelSpinner.getSelectedItemPosition());//levelSpinner.getSelectedItem().toString();
 
-        if (radioGroupMeeting.getCheckedRadioButtonId() == -1){
+        if (radioGroupMeeting.getCheckedRadioButtonId() == -1) {
             Toast.makeText(SearchForTeacher.this, "Please select meeting type!", Toast.LENGTH_LONG).show();
         } else {
 
-            if (radioGroupMeeting.getCheckedRadioButtonId() == R.id.q1_a1){
+            if (radioGroupMeeting.getCheckedRadioButtonId() == R.id.q1_a1) {
                 faceMeetingChecked = true;
                 zoomMeetingChecked = false;
             } else {
@@ -190,18 +189,21 @@ public class SearchForTeacher extends HamburgerMenu {
             }
 
             int price = 0;
-            if (editTextPrice.getText().toString().isEmpty() || editTextPrice.getText().toString().equals(" ")){
+            if (editTextPrice.getText().toString().isEmpty() || editTextPrice.getText().toString().equals(" ")) {
                 editTextPrice.setError("Please insert your preferred max price!");
             } else {
-                price = Integer.parseInt(editTextPrice.getText().toString());
+                if (editTextKeyWord.getText().toString().isEmpty() || editTextKeyWord.getText().toString().equals(" ")) {
 
-                for (int i = 0; i < ChipTagSearchedArray.length; i++) {
-                    searchForTeachers(ChipTagSearchedArray[i] + "_" + levelSpinner.getSelectedItem().toString().replace(" ", "")
+                    Toast.makeText(this, "Please enter a subject!", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    price = Integer.parseInt(editTextPrice.getText().toString());
+                    searchForTeachers(editTextKeyWord.getText().toString() + "_" + levelSpinner.getSelectedItem().toString().replace(" ", "")
                             , EducationLevel, zoomMeetingChecked,
                             faceMeetingChecked, price);
-                }
-                adapter = new SearchForTeacherAdapter(teachers, this);
-                recyclerView.setAdapter(adapter);
+
+                    adapter = new SearchForTeacherAdapter(teachers, this);
+                    recyclerView.setAdapter(adapter);                }
             }
         }
     }
@@ -242,12 +244,9 @@ public class SearchForTeacher extends HamburgerMenu {
                                         document.get(FIELD_LESSONS + "." + subject + "." + FIELD_LEVEL).toString()));
                             }
                         }
-                        if(teachers.isEmpty())
-                        {
+                        if (teachers.isEmpty()) {
                             emptyListView.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {
+                        } else {
                             emptyListView.setVisibility(View.GONE);
                         }
                         adapter = new SearchForTeacherAdapter(teachers, getApplicationContext());
@@ -255,7 +254,7 @@ public class SearchForTeacher extends HamburgerMenu {
                     }
                 }
             });
-        } else if (faceMeeting){
+        } else if (faceMeeting) {
 
             teacherRef.whereArrayContains(FIELD_LESSON_TOPIC_LIST, subject).whereEqualTo(FIELD_TEACHERHOME, true)
                     .whereEqualTo(COUNTRY, comm.getUserCountry()).whereEqualTo(CITY, comm.getUserCity())/*.whereLessThanOrEqualTo(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE, price)
@@ -280,14 +279,11 @@ public class SearchForTeacher extends HamburgerMenu {
                                         document.get(FIELD_LESSONS + "." + subject + "." + FIELD_NAME).toString(),
                                         (Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE),
                                         document.get(FIELD_LESSONS + "." + subject + "." + FIELD_LEVEL).toString()));
-                                         }
+                            }
                         }
-                        if(teachers.isEmpty())
-                        {
+                        if (teachers.isEmpty()) {
                             emptyListView.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {
+                        } else {
                             emptyListView.setVisibility(View.GONE);
                         }
                         adapter = new SearchForTeacherAdapter(teachers, getApplicationContext());

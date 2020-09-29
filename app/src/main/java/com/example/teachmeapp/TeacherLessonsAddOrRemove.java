@@ -1,31 +1,22 @@
 package com.example.teachmeapp;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teachmeapp.Adapter.AddOrRemoveLessonAdapter;
 import com.example.teachmeapp.Helpers.Globals;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.teachmeapp.Helpers.Globals.COLLECTION_STUDENT;
-import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class TeacherLessonsAddOrRemove extends HamburgerMenu {
@@ -88,17 +79,17 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
 
         //TODO Check if level is good for database
 
-        if (levelSelection.getCheckedRadioButtonId() == -1){
+        if (levelSelection.getCheckedRadioButtonId() == -1) {
             Toast.makeText(TeacherLessonsAddOrRemove.this, "Please select the desired level!", Toast.LENGTH_LONG).show();
         } else {
 
-            if (levelSelection.getCheckedRadioButtonId() == R.id.radioButtonElementary){
+            if (levelSelection.getCheckedRadioButtonId() == R.id.radioButtonElementary) {
                 currentLevel = "Elementary";
                 currentLevelNum = 0;
-            } else if (levelSelection.getCheckedRadioButtonId() == R.id.radioButtonMiddleSchool){
+            } else if (levelSelection.getCheckedRadioButtonId() == R.id.radioButtonMiddleSchool) {
                 currentLevel = "MiddleSchool";
                 currentLevelNum = 1;
-            } else if (levelSelection.getCheckedRadioButtonId() == R.id.radioButtonHighSchool){
+            } else if (levelSelection.getCheckedRadioButtonId() == R.id.radioButtonHighSchool) {
                 currentLevel = "HighSchool";
                 currentLevelNum = 2;
             } else {
@@ -115,7 +106,8 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
                     SubjectEditText.setText("");
                     PriceEditText.setText("");
 
-                    lessons.add(new TeacherLessonRow(subject, currentLevelNum, price));
+                    //lessons.add(new TeacherLessonRow(subject, currentLevelNum, price));
+                    recycleViewFill();
                     adapter.notifyDataSetChanged();
 
                 } else {
@@ -133,7 +125,6 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
     public void realtimeDataUpdate() {
         recycleViewFill();
     }
-
 
 
     public void removeLesson(String lesson) {
