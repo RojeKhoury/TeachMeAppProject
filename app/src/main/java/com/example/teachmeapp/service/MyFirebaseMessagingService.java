@@ -21,10 +21,14 @@ import androidx.core.app.NotificationCompat;
 import com.example.teachmeapp.Chat.ChatWindow;
 import com.example.teachmeapp.EditTeacherInfo;
 import com.example.teachmeapp.Helpers.Globals;
+import com.example.teachmeapp.Helpers.Teacher;
 import com.example.teachmeapp.HomePageStudent;
 import com.example.teachmeapp.HomePageTeacher;
 import com.example.teachmeapp.MainActivity;
 import com.example.teachmeapp.R;
+import com.example.teachmeapp.Schedule;
+import com.example.teachmeapp.StudentPendingRequest;
+import com.example.teachmeapp.TeacherPendingRequests;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -104,34 +108,53 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String teacherUID, studentUID;
         boolean isTeacher;
 
-        teacherUID = remoteMessage.getData().get("teacherUID");
-        studentUID = remoteMessage.getData().get("studentUID");
-        isTeacher = !Boolean.parseBoolean(remoteMessage.getData().get("isTeacher"));
+        if (remoteMessage.getData().get("type").equals("chat")){
 
-        if (ChatWindow.isActivityVisible() && !Globals.currentTalkedWithUID.equals("") &&
-        isTeacher ? Globals.currentTalkedWithUID.equals(studentUID) : Globals.currentTalkedWithUID.equals(teacherUID)){
+            teacherUID = remoteMessage.getData().get("teacherUID");
+            studentUID = remoteMessage.getData().get("studentUID");
+            isTeacher = !Boolean.parseBoolean(remoteMessage.getData().get("isTeacher"));
 
-            notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_notification)
-                    .setLargeIcon(largeIcon)
-                    .setContentTitle(remoteMessage.getData().get("title"))
-                    .setContentText(remoteMessage.getData().get("message"))
-                    .setAutoCancel(true)
-                    .setSound(notificationSoundUri);
+            if (!(ChatWindow.isActivityVisible() && !Globals.currentTalkedWithUID.equals("") &&
+                    isTeacher ? Globals.currentTalkedWithUID.equals(studentUID) : Globals.currentTalkedWithUID.equals(teacherUID))){
 
-        } else {
+                final Intent intent = new Intent(this, ChatWindow.class);
 
-            final Intent intent = new Intent(this, ChatWindow.class);
+                intent.putExtra(Globals.IS_TEACHER, isTeacher);
+                intent.putExtra(Globals.STUDENTS, studentUID);
+                intent.putExtra(Globals.TEACHERS, teacherUID);
 
-            intent.putExtra(Globals.IS_TEACHER, isTeacher);
-            intent.putExtra(Globals.STUDENTS, studentUID);
-            intent.putExtra(Globals.TEACHERS, teacherUID);
+                if (isTeacher){
+                    Globals.currentTalkedWithUID = studentUID;
+                } else {
+                    Globals.currentTalkedWithUID = teacherUID;
+                }
 
-            if (isTeacher){
-              Globals.currentTalkedWithUID = studentUID;
-            } else {
-                Globals.currentTalkedWithUID = teacherUID;
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this , 0, intent,
+                        PendingIntent.FLAG_ONE_SHOT);
+
+                notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_notification)
+                        .setLargeIcon(largeIcon)
+                        .setContentTitle(remoteMessage.getData().get("title"))
+                        .setContentText(remoteMessage.getData().get("message"))
+                        .setAutoCancel(true)
+                        .setSound(notificationSoundUri)
+                        .setContentIntent(pendingIntent);
+
+                //Set notification color to match your app color template
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                    notificationBuilder.setColor(getResources().getColor(R.color.colorPrimaryDark));
+                }
+                notificationManager.notify(notificationID, notificationBuilder.build());
+
             }
+
+        } else if (remoteMessage.getData().get("type").equals("request") &&
+                comm.getFirebaseUser().getUid().equals(remoteMessage.getData().get("teacherUID"))){
+
+
+            final Intent intent = new Intent(this, StudentPendingRequest.class);
 
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent pendingIntent = PendingIntent.getActivity(this , 0, intent,
@@ -146,13 +169,62 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setSound(notificationSoundUri)
                     .setContentIntent(pendingIntent);
 
+            //Set notification color to match your app color template
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                notificationBuilder.setColor(getResources().getColor(R.color.colorPrimaryDark));
+            }
+            notificationManager.notify(notificationID, notificationBuilder.build());
+
+        } else if (remoteMessage.getData().get("type").equals("accept_request") &&
+                comm.getFirebaseUser().getUid().equals(remoteMessage.getData().get("studentUID"))){
+
+            final Intent intent = new Intent(this, Schedule.class);
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this , 0, intent,
+                    PendingIntent.FLAG_ONE_SHOT);
+
+            notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(largeIcon)
+                    .setContentTitle(remoteMessage.getData().get("title"))
+                    .setContentText(remoteMessage.getData().get("message"))
+                    .setAutoCancel(true)
+                    .setSound(notificationSoundUri)
+                    .setContentIntent(pendingIntent);
+
+            //Set notification color to match your app color template
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                notificationBuilder.setColor(getResources().getColor(R.color.colorPrimaryDark));
+            }
+            notificationManager.notify(notificationID, notificationBuilder.build());
+
+        } else if (remoteMessage.getData().get("type").equals("reject_request") &&
+                comm.getFirebaseUser().getUid().equals(remoteMessage.getData().get("studentUID"))){
+
+            final Intent intent = new Intent(this, StudentPendingRequest.class);
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this , 0, intent,
+                    PendingIntent.FLAG_ONE_SHOT);
+
+            notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(largeIcon)
+                    .setContentTitle(remoteMessage.getData().get("title"))
+                    .setContentText(remoteMessage.getData().get("message"))
+                    .setAutoCancel(true)
+                    .setSound(notificationSoundUri)
+                    .setContentIntent(pendingIntent);
+
+            //Set notification color to match your app color template
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                notificationBuilder.setColor(getResources().getColor(R.color.colorPrimaryDark));
+            }
+            notificationManager.notify(notificationID, notificationBuilder.build());
+
         }
 
-        //Set notification color to match your app color template
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            notificationBuilder.setColor(getResources().getColor(R.color.colorPrimaryDark));
-        }
-        notificationManager.notify(notificationID, notificationBuilder.build());
     }
 
     /**

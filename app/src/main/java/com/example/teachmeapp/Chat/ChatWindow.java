@@ -179,6 +179,7 @@ public class ChatWindow extends HamburgerMenu {
                                             notificationBody.put("teacherUID", mTeacherUID);
                                             notificationBody.put("studentUID", mStudentUID);
                                             notificationBody.put("isTeacher", mIsTeacher);
+                                            notificationBody.put("type", "chat");
 
                                             notification.put("to", TOPIC);
                                             notification.put("data", notificationBody);

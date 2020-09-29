@@ -93,10 +93,13 @@ public class HamburgerMenu extends Activity {
             }
         } else {
 
-            popup.getMenu().removeItem(R.id.HamburgerMenuUpdateInfo);
+
             popup.getMenu().removeItem(R.id.HamburgerMenuHomePageTeacher);
-            popup.getMenu().removeItem(R.id.HamburgerMenuUpdateInfo);
             popup.getMenu().removeItem(R.id.HamburgerMenuProfilePage);
+
+            if (this.getLocalClassName().equals(EditTeacherInfo.class.getSimpleName())) {
+                popup.getMenu().removeItem(R.id.HamburgerMenuUpdateInfo);
+            }
 
             if (this.getLocalClassName().equals(HomePageStudent.class.getSimpleName())) {
                 popup.getMenu().removeItem(R.id.HamburgerMenuHomePageStudent);

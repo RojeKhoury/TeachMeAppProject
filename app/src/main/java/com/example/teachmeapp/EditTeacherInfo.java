@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class EditTeacherInfo extends AppCompatActivity {
     private Button m_editPhone;
     private Button m_addLessons;
     private Button m_editPicture;
+    private LinearLayout editBio;
     String popUpFName = "";
     String popUpLName = "";
     String popUpBio = "";
@@ -48,6 +50,15 @@ public class EditTeacherInfo extends AppCompatActivity {
         m_editPicture = findViewById(R.id.edit_teacher_info_button_picture);
         m_editPhone = findViewById(R.id.edit_teacher_info_button_Phone);
         m_addLessons = findViewById(R.id.edit_teacher_info_button_Lessons);
+
+        editBio = findViewById(R.id.linear_editBio);
+
+        if (!comm.isTeacher()){
+            m_addLessons.setVisibility(View.GONE);
+            m_editBio.setVisibility(View.GONE);
+            editBio.setVisibility(View.GONE);
+
+        }
 
         m_addLessons.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,13 +85,16 @@ public class EditTeacherInfo extends AppCompatActivity {
                 builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (awesomeValidation.validate()) {
-                            popUpFName = fName.getText().toString();
+                        if (awesomeValidation.validate() && lName.getText().toString().contains(" ")) {
+                            popUpFName = lName.getText().toString().split(" ")[0];
                             comm.changeName(popUpFName);
-                            popUpLName = lName.getText().toString();
+                            popUpLName = lName.getText().toString().split(" ")[1];
                             comm.changeSurname(popUpLName);
 
                             //Toast.makeText(EditTeacherInfo.this, "fuck this shit im out", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(EditTeacherInfo.this, "Enter all fields. Your format must be {First_Name} {Sure_Name}"
+                            , Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -127,7 +141,7 @@ public class EditTeacherInfo extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         popUpPhone = PhoneEdit.getText().toString();
-                        comm.changePhoneNumber(popUpBio);
+                        comm.changePhoneNumber(popUpPhone);
                         //Toast.makeText(EditTeacherInfo.this, "fuck this shit im out", Toast.LENGTH_LONG).show();
                     }
                 });
