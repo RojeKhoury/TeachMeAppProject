@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -54,7 +55,7 @@ public class SearchForTeacher extends HamburgerMenu {
     private Button search;
     Spinner levelSpinner;
     Long EducationLevel;
-
+    private TextView emptyListView;
     private RecyclerView recyclerView;
 
     private RecyclerView.Adapter adapter;
@@ -76,7 +77,7 @@ public class SearchForTeacher extends HamburgerMenu {
         editTextPrice = findViewById(R.id.edit_text_price);
         this.chipGroup = (ChipGroup) this.findViewById(R.id.chipGroup);
         this.search = (Button) findViewById(R.id.searchForTeachersShowResultsButton);
-
+        emptyListView = findViewById(R.id.emptyView);
         radioGroupMeeting = findViewById(R.id.group_filter_meeting);
         levelSpinner = findViewById(R.id.spinner_for_education_level);
 
@@ -241,6 +242,14 @@ public class SearchForTeacher extends HamburgerMenu {
                                         document.get(FIELD_LESSONS + "." + subject + "." + FIELD_LEVEL).toString()));
                             }
                         }
+                        if(teachers.isEmpty())
+                        {
+                            emptyListView.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            emptyListView.setVisibility(View.GONE);
+                        }
                         adapter = new SearchForTeacherAdapter(teachers, getApplicationContext());
                         recyclerView.setAdapter(adapter);
                     }
@@ -272,6 +281,14 @@ public class SearchForTeacher extends HamburgerMenu {
                                         (Double) document.get(FIELD_LESSONS + "." + subject + "." + FIELD_PRICE),
                                         document.get(FIELD_LESSONS + "." + subject + "." + FIELD_LEVEL).toString()));
                                          }
+                        }
+                        if(teachers.isEmpty())
+                        {
+                            emptyListView.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            emptyListView.setVisibility(View.GONE);
                         }
                         adapter = new SearchForTeacherAdapter(teachers, getApplicationContext());
                         recyclerView.setAdapter(adapter);

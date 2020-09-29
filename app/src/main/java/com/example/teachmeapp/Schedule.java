@@ -3,7 +3,9 @@ package com.example.teachmeapp;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CalendarView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +44,7 @@ public class Schedule extends HamburgerMenu {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<Request> acceptedLessons;
+    private TextView emptyListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,7 @@ public class Schedule extends HamburgerMenu {
         cal = findViewById(R.id.shcedule_calenderView);
 
         cal.setDate(dater.getTime().getTime());
-
+        emptyListView = findViewById(R.id.emptyView);
         startTime = new Timestamp(new java.util.Date(cal.getDate()));
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
         calendar.setTime(startTime.toDate());
@@ -118,6 +121,14 @@ public class Schedule extends HamburgerMenu {
                         }
 
                         adapter = new StudentPendingRequestsAdapter(acceptedLessons, Schedule.this);
+                        if(acceptedLessons.isEmpty())
+                        {
+                            emptyListView.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            emptyListView.setVisibility(View.GONE);
+                        }
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 
@@ -158,6 +169,14 @@ public class Schedule extends HamburgerMenu {
                         }
 
                         adapter = new StudentPendingRequestsAdapter(acceptedLessons, Schedule.this);
+                        if(acceptedLessons.isEmpty())
+                        {
+                            emptyListView.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            emptyListView.setVisibility(View.GONE);
+                        }
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 

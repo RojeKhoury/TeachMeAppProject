@@ -3,6 +3,8 @@ package com.example.teachmeapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,7 +60,7 @@ public class StudentPendingRequest extends HamburgerMenu {
     private RecyclerView.Adapter adapter;
     private List<Request> lessons;
     private boolean shouldExecuteOnResume;
-
+    private TextView emptyListTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,7 @@ public class StudentPendingRequest extends HamburgerMenu {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewPendingRequestStudent);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        emptyListTextView=findViewById(R.id.emptyView);
         lessons = new ArrayList<>();
 
         retrievePendingRequests();
@@ -177,6 +179,14 @@ public class StudentPendingRequest extends HamburgerMenu {
                                     }
 
                                     adapter = new StudentPendingRequestsAdapter(lessons, StudentPendingRequest.this);
+                                    if(lessons.isEmpty())
+                                    {
+                                        emptyListTextView.setVisibility(View.VISIBLE);
+                                    }
+                                    else
+                                    {
+                                        emptyListTextView.setVisibility(View.GONE);
+                                    }
                                     recyclerView.setAdapter(adapter);
                                     adapter.notifyDataSetChanged();
 
@@ -219,6 +229,16 @@ public class StudentPendingRequest extends HamburgerMenu {
                             lessons.add(request);
                         }
                         adapter = new StudentPendingRequestsAdapter(lessons, StudentPendingRequest.this);
+
+                        if(lessons.isEmpty())
+                        {
+                            emptyListTextView.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            emptyListTextView.setVisibility(View.GONE);
+                        }
+
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 

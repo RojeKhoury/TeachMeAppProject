@@ -32,28 +32,19 @@ public class Chats extends HamburgerMenu {
     private FirebaseAuth m_Auth;
     private RecyclerView m_RecyclerView;
     private boolean m_mITeacher;
-    //private String m_StudentUid="lQ7Gjtvw4GcYSNATpFX2J4ogg3n1", m_TeacherUid="Ycbjd0PZsmcan7pK3woV0hBuGqo2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
         m_Auth = FirebaseAuth.getInstance();
-        Log.d("Page_ID","activity_chats");
         m_mITeacher = comm.isTeacher();
-        Log.d("Page_ID","comm.isTeacher();");
-        //check it after the rest
-        //m_StudentUid = getIntent().getStringExtra(Globals.PARENT);
-        //m_TeacherUid = getIntent().getStringExtra(Globals.BABYSITTER);
-        //Log.d("T17",m_StudentUid);
-        //Log.d("T17",m_TeacherUid);
         initTalkedWithList();
     }
 
     private void initTalkedWithList() {
 
         m_TalkedWithUidsList.clear();
-        //Log.d("T17",m_TeacherUid);
         m_Adapter = new AdapterTalkedWith(m_TalkedWithUidsList, m_mITeacher, comm.getUid() , Chats.this);
         m_RecyclerView = findViewById(R.id.recycler_Chats);
         m_RecyclerView.setHasFixedSize(true);
@@ -67,7 +58,6 @@ public class Chats extends HamburgerMenu {
     private void getAllOffMyChatsUsingValueListeners() {
         DatabaseReference userTalkedWithRef = FirebaseDatabase.getInstance().getReference(Globals.TALKEDWITH).child(comm.getUid());
         userTalkedWithRef.orderByChild("timeStamp").limitToLast(100).addValueEventListener(new ValueEventListener() {
-            // onCreate+Refresh if data changed == onDataChange
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 updateTalkedWithList(dataSnapshot);

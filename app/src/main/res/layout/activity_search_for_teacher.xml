@@ -191,10 +191,22 @@
                     android:id="@+id/recyclerViewSearchResult"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:contentDescription="empty"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/searchForTeachersShowResultsButton"
-                    android:layout_margin="5dp">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:id="@+id/emptyView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="No results"
+                    android:textSize="30sp"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@+id/searchForTeachersShowResultsButton"
+                    tools:layout_editor_absoluteX="-4dp" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
