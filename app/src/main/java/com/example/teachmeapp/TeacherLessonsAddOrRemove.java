@@ -109,7 +109,7 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
             String subject = SubjectEditText.getText().toString() + "_" + currentLevel;
             String price = PriceEditText.getText().toString();
 
-            if (!subject.isEmpty()) {
+            if (!SubjectEditText.getText().toString().isEmpty()) {
                 if (!price.isEmpty()) {
                     comm.addCourse(subject, comm.getUid(), Double.parseDouble(price), currentLevelNum);
                     SubjectEditText.setText("");

@@ -2,6 +2,8 @@ package com.example.teachmeapp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -116,12 +118,21 @@ public class SignUp extends AppCompatActivity {
         if (comm.getFirebaseUser() != null) {
             comm.signOut();
         }
+        Drawable drawable = mImageVUpload.getDrawable();
+        boolean hasImage = (drawable != null);
+
+        if (hasImage && (drawable instanceof BitmapDrawable)) {
+            hasImage = ((BitmapDrawable)drawable).getBitmap() != null;
+        }
         if (awesomeValidation.validate()) {
             if (!m_password.getText().toString().equals(m_reEnterPass.getText().toString())) {
                 Toast.makeText(SignUp.this, "Password does not match", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Password does not match");
-            } else {
-
+            } else if(!(hasImage && (drawable instanceof BitmapDrawable)))
+                {
+                    Toast.makeText(SignUp.this, "Please choose a proifile picture", Toast.LENGTH_SHORT).show();
+                }
+                else{
                 Toast.makeText(SignUp.this, "Data Received Successfully", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "checkInfo success");
                 Task<AuthResult> authResult;
