@@ -57,7 +57,6 @@ public class EditTeacherInfo extends AppCompatActivity {
         if (!comm.isTeacher()){
             m_editBio.setVisibility(View.GONE);
             editBio.setVisibility(View.GONE);
-
         }
 
         m_editLocation.setOnClickListener(new View.OnClickListener() {
