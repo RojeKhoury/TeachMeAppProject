@@ -123,11 +123,11 @@
             android:gravity="center">
 
             <Button
-                android:id="@+id/edit_teacher_info_button_Lessons"
+                android:id="@+id/edit_teacher_info_edit_location"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:singleLine="true"
-                android:text="Add Lessons"
+                android:text="Change location"
                 android:textAllCaps="false"
                 android:fontFamily="@font/montserrat_medium"
                 android:background="@drawable/buttonshapecool"

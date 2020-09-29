@@ -990,11 +990,12 @@ public class communicationWithDatabase {
             ref.update(Globals.ADDRESS, address);
         }
 
+        else{
         ref = getDocRef(getUid(), COLLECTION_STUDENT);
         ref.update(LOCATION, location);
         ref.update(Globals.CITY, city);
         ref.update(Globals.COUNTRY, country);
-        ref.update(Globals.ADDRESS, address);
+        ref.update(Globals.ADDRESS, address);}
     }
 
     public FirebaseStorage getStorage() {

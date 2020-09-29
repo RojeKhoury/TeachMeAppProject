@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.teachmeapp.Helpers.Globals.SignedIn;
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class SignUp extends AppCompatActivity {
@@ -66,13 +67,14 @@ public class SignUp extends AppCompatActivity {
     AwesomeValidation awesomeValidation;
     private LatLng m_location = null;
     CheckBox m_teacher_checkbox = null;
-    private Button ChooseLocation;
+   // Globals.SignedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         updateUI();
+        SignedIn = false;
     }
 
     private void updateUI() {

@@ -27,10 +27,8 @@ public class maps_activity_get_location extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPagerChooseLocation);
 
         if (Globals.locationOrSignUp){
-
             FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), this, Globals.MAPS_CHOOSE_LOCATION);
             viewPager.setAdapter(fragmentAdapter);
-
         }
 
         tabLayout.setupWithViewPager(viewPager);
@@ -40,12 +38,12 @@ public class maps_activity_get_location extends AppCompatActivity {
     protected void onStart()
     {
         super.onStart();
-        Toast.makeText(getApplicationContext(), "Please choose your location", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onBackPressed() {
-        comm.getFirebaseUser().delete();
+        if(Globals.SignedIn == false)
+        {comm.getFirebaseUser().delete();}
         super.onBackPressed();
     }
 }

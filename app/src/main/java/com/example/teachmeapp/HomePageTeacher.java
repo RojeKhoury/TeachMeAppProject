@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.teachmeapp.Chat.Chats;
+import com.example.teachmeapp.Helpers.Globals;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.StorageReference;
@@ -40,6 +41,7 @@ public class HomePageTeacher extends HamburgerMenu {
         setContentView(R.layout.activity_home_page_teacher);
         //m_profilePic = findViewById(R.id.ImageView_profilePic);
         m_addLesson = findViewById(R.id.homepage_teacher_button_requests);
+        Globals.SignedIn = true;
     }
 
     @Override

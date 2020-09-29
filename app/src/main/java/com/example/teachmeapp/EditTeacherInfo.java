@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.teachmeapp.Helpers.Globals;
-import com.google.firebase.storage.StorageReference;
 
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
@@ -28,7 +27,7 @@ public class EditTeacherInfo extends AppCompatActivity {
     private Button m_editLastName;
     private Button m_editBio;
     private Button m_editPhone;
-    private Button m_addLessons;
+    private Button m_editLocation;
     private Button m_editPicture;
     private LinearLayout editBio;
     String popUpFName = "";
@@ -49,22 +48,26 @@ public class EditTeacherInfo extends AppCompatActivity {
         m_editBio = findViewById(R.id.edit_teacher_info_button_Bio);
         m_editPicture = findViewById(R.id.edit_teacher_info_button_picture);
         m_editPhone = findViewById(R.id.edit_teacher_info_button_Phone);
-        m_addLessons = findViewById(R.id.edit_teacher_info_button_Lessons);
+        m_editLocation = findViewById(R.id.edit_teacher_info_edit_location);
 
         editBio = findViewById(R.id.linear_editBio);
 
+        //m_editLocation.setVisibility(View.GONE);
+
         if (!comm.isTeacher()){
-            m_addLessons.setVisibility(View.GONE);
             m_editBio.setVisibility(View.GONE);
             editBio.setVisibility(View.GONE);
 
         }
 
-        m_addLessons.setOnClickListener(new View.OnClickListener() {
+        m_editLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), TeacherLessonsAddOrRemove.class);
+                Intent intent = new Intent(getApplicationContext(), maps_activity_get_location.class);
+                intent.putExtra("changeLocation", true);
                 startActivity(intent);
+//                Intent intent = new Intent(getApplicationContext(), TeacherLessonsAddOrRemove.class);
+//                startActivity(intent);
             }
         });
 
@@ -119,7 +122,6 @@ public class EditTeacherInfo extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         popUpBio = BioEdit.getText().toString();
                         comm.changeBio(popUpBio);
-                        //Toast.makeText(EditTeacherInfo.this, "fuck this shit im out", Toast.LENGTH_LONG).show();
                     }
                 });
                 builder.show();

@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.teachmeapp.EditTeacherInfo;
+import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.HomePageStudent;
 import com.example.teachmeapp.HomePageTeacher;
 import com.example.teachmeapp.R;
@@ -66,6 +68,7 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
     Marker m_mark;
     Button m_chooseLocation;
     FusedLocationProviderClient m_location;
+    Boolean locationChosen = false;
 
     public MapsFragmentChooseLocation() {
     }
@@ -81,6 +84,14 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onStart() {
+
+        super.onStart();
+
+        Toast.makeText(view.getContext(), "Please choose your location", Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), "CHOOSE CITY PLEASE", Toast.LENGTH_LONG).show();
+    }
     @androidx.annotation.Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, @androidx.annotation.Nullable Bundle savedInstanceState) {
@@ -96,8 +107,10 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
 
         // Initialize Places.
         Places.initialize(getActivity(), "AIzaSyCx8KKk_OHGhFXomk3izCBCYmWM0jMPqoM");
+
         // Create a new Places client instance.
         PlacesClient placesClient = Places.createClient(getActivity());
+
         // Initialize the AutocompleteSupportFragment.
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
@@ -134,7 +147,7 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
                     }
                     m_mark = map.addMarker(new MarkerOptions().position(latLng).title(addresses.get(0).getLocality()));
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-
+                    locationChosen = true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -162,7 +175,15 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
             public void onClick(View view) {
                 LatLng loc = m_mark.getPosition();
                 Locale aLocale = new Locale.Builder().setLanguage("en").setScript("Latn").build();
-                Geocoder geocoder = new Geocoder(view.getContext(),aLocale);                List<Address> addresses;
+                Geocoder geocoder = new Geocoder(view.getContext(),aLocale);
+                List<Address> addresses;
+
+                if(locationChosen == false)
+                {
+                    Toast.makeText(view.getContext(),"please choose a location first",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
                 try {
                    addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
@@ -182,14 +203,20 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
 
                 Intent intent;
 
-                if(comm.isTeacher())
-                {intent= new Intent(getActivity(), HomePageTeacher.class);}
+                if(Globals.SignedIn == false) {
+                    if (comm.isTeacher()) {
+                        intent = new Intent(getActivity(), HomePageTeacher.class);
+                    } else {
+                        intent = new Intent(getActivity(), HomePageStudent.class);
+                    }
+                    Globals.SignedIn = true;
+                    startActivity(intent);
+                }
 
                 else
-                {intent = new Intent(getActivity(), HomePageStudent.class);}
+                { getActivity().onBackPressed();}
 
-                startActivity(intent);
-            }
+            }}
         });
 
     }
@@ -220,7 +247,9 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                         m_mark = map.addMarker(new MarkerOptions().position(latLng).title("my location"));
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e)
+                    {
                         e.printStackTrace();
                     }
                 }

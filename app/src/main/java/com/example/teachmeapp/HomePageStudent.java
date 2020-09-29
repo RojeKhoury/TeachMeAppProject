@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.teachmeapp.Chat.Chats;
+import com.example.teachmeapp.Helpers.Globals;
 
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
@@ -16,6 +17,7 @@ public class HomePageStudent extends HamburgerMenu {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page_student);
+        Globals.SignedIn = true;
         comm.getData();
     }
 

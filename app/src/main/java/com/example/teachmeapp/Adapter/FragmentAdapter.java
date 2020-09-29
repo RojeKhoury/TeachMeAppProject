@@ -42,6 +42,6 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return "Maps Fragment";
+        return "Choosing your city is enough";
     }
 }

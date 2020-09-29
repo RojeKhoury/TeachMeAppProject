@@ -107,5 +107,5 @@ public class Globals
     public static boolean locationOrSignUp = true;
     public static String currentTalkedWithUID = "";
 
-
+    public static boolean SignedIn = false;
 }
