@@ -21,6 +21,7 @@ import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.teachmeapp.Helpers.Globals;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -33,6 +34,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -167,9 +170,40 @@ public class SignUp extends AppCompatActivity {
         pPic.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Globals.locationOrSignUp = true;
-                Intent intent = new Intent(getApplicationContext(), maps_activity_get_location.class);
-                startActivity(intent);
+
+                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( SignUp.this, new OnSuccessListener<InstanceIdResult>() {
+                    @Override
+                    public void onSuccess(InstanceIdResult instanceIdResult) {
+
+                        String updatedToken = instanceIdResult.getToken();
+
+                        HashMap<String, Object> data = new HashMap<>();
+                        data.put("token", updatedToken);
+
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                        db.collection("Tokens").document(comm.getFirebaseUser().getUid())
+                                .set(data)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                        Globals.locationOrSignUp = true;
+                                        Intent intent = new Intent(getApplicationContext(), maps_activity_get_location.class);
+                                        startActivity(intent);
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e("Error saving token", e.getMessage());
+                                    }
+                                });
+
+                    }
+                });
+
             }
         });
         //this uploads the picture

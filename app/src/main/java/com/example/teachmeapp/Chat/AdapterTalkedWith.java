@@ -135,6 +135,7 @@ public class AdapterTalkedWith extends RecyclerView.Adapter<AdapterTalkedWith.my
                         intent.putExtra(Globals.STUDENTS, m_MyUid);
                         intent.putExtra(Globals.TEACHERS, m_UserUID);
                     }
+                    Globals.currentTalkedWithUID = m_UserUID;
                     context.startActivity(intent);
                 }
             });

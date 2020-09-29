@@ -318,7 +318,13 @@ public class communicationWithDatabase {
                         Log.d("GETSURENAME","if (teacher) {");
                         m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_viewedUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
-                        m_viewedUserStarRating = (Long) document.get(Globals.FIELD_RATING);
+
+                        try {
+                            m_viewedUserStarRating = (Long) document.get(Globals.FIELD_RATING);
+                        } catch (ClassCastException exc){
+                            m_viewedUserStarRating = Long.valueOf(0);
+                        }
+
                         m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
 
@@ -363,7 +369,13 @@ public class communicationWithDatabase {
                     m_currentUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
 
                     if (m_teacher) {
-                        m_currentUserStarRating = (Long) document.get(Globals.FIELD_RATING);
+
+                        try {
+                            m_currentUserStarRating = (Long) document.get(Globals.FIELD_RATING);
+                        } catch (ClassCastException exc){
+                            m_currentUserStarRating = Long.valueOf(0);
+                        }
+
                         m_currentUserRatingCount =((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_currentUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_currentUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
@@ -519,7 +531,13 @@ public class communicationWithDatabase {
                     m_currentUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
 
                     if (m_teacher) {
-                        m_currentUserStarRating = (Long) document.get(Globals.FIELD_RATING);
+
+                        try {
+                            m_currentUserStarRating = (Long) document.get(Globals.FIELD_RATING);
+                        } catch (ClassCastException exc){
+                            m_currentUserStarRating = Long.valueOf(0);
+                        }
+
                         m_currentUserRatingCount =((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_currentUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_currentUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
@@ -575,7 +593,14 @@ public class communicationWithDatabase {
                         Log.d("GETSURENAME","if (teacher) {");
                         m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_viewedUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
-                        m_viewedUserStarRating = (Long) document.get(Globals.FIELD_RATING);
+
+
+                        try {
+                            m_viewedUserStarRating = (Long) document.get(Globals.FIELD_RATING);
+                        } catch (ClassCastException exc){
+                            m_viewedUserStarRating = Long.valueOf(0);
+                        }
+
                         m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
                         m_viewedUserZoom = (boolean) document.get(FIELD_ZOOM);

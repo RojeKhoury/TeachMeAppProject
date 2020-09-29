@@ -1,5 +1,6 @@
 package com.example.teachmeapp.Chat;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,34 +13,47 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.teachmeapp.HamburgerMenu;
 import com.example.teachmeapp.Helpers.Globals;
+import com.example.teachmeapp.Helpers.MySingleton;
 import com.example.teachmeapp.ProfilePageOfTeacherForStudent;
 import com.example.teachmeapp.R;
 import com.example.teachmeapp.model.BabySitter;
 import com.example.teachmeapp.model.Message;
 import com.example.teachmeapp.model.Parent;
 import com.example.teachmeapp.model.TalkedWithModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_STUDENT;
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
@@ -60,6 +74,17 @@ public class ChatWindow extends HamburgerMenu {
     TextView m_TVTalkWith;
     private Parent parent;
     private BabySitter babySitter;
+
+    final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
+    final private String serverKey = "key=" + "AAAAqu1rCgA:APA91bHnv46UjDflweYMPpNCQSPcwb8SyKBeUVQ4oPvvtKHtoIoPJIt-lRmh4rd6Aa-U8NSJ2QHhx7Fon-rOpUbxYDBtAchOnvEVwoD1V8DoN3Bpv7Civdb17YK4uky3YPCJGupE160-";
+    final private String contentType = "application/json";
+    final String TAG_NOTIFICATION = "NOTIFICATION TAG";
+
+    private String NOTIFICATION_TITLE;
+    private String NOTIFICATION_MESSAGE;
+    private String TOPIC;
+
+    private static boolean activityVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +154,52 @@ public class ChatWindow extends HamburgerMenu {
                         TalkedWithRef.child(mTeacherUID).setValue(talkedWithModelStudent);
 
                         reference1.push().setValue(mMessage);
+
+                        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Tokens");
+
+                        collectionReference.document(comm.isTeacher() ? mStudentUID : mTeacherUID)
+                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+
+                                        TOPIC = (String) document.get("token");
+
+                                        NOTIFICATION_TITLE = "Chat Notification!";
+                                        NOTIFICATION_MESSAGE = "You have a new message from " + comm.getUserName() + " " + comm.getUserSurname();
+
+                                        JSONObject notification = new JSONObject();
+                                        JSONObject notificationBody = new JSONObject();
+
+                                        try {
+                                            notificationBody.put("title", NOTIFICATION_TITLE);
+                                            notificationBody.put("message", NOTIFICATION_MESSAGE);
+                                            notificationBody.put("teacherUID", mTeacherUID);
+                                            notificationBody.put("studentUID", mStudentUID);
+                                            notificationBody.put("isTeacher", mIsTeacher);
+
+                                            notification.put("to", TOPIC);
+                                            notification.put("data", notificationBody);
+
+                                        } catch (JSONException e) {
+                                            Log.e(TAG, "onCreate: " + e.getMessage() );
+                                        }
+                                        sendNotification(notification);
+
+                                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                    } else {
+
+                                        Log.d(TAG, "No such document");
+                                    }
+                                } else {
+                                    Log.d(TAG, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
+
                         //---Here i should update the LRU
                         //.child(id).removeValue();
 
@@ -179,6 +250,33 @@ public class ChatWindow extends HamburgerMenu {
 
             }
         });
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void sendNotification(JSONObject notification) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(FCM_API, notification,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i(TAG, "onResponse: " + response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ChatWindow.this, "Request error", Toast.LENGTH_LONG).show();
+                        Log.i(TAG, "onErrorResponse: Didn't work");
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", serverKey);
+                params.put("Content-Type", contentType);
+                return params;
+            }
+        };
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     private void setChatWithText() {
@@ -268,5 +366,47 @@ public class ChatWindow extends HamburgerMenu {
 
     public String getCurrentDate() {
         return fromMillisToHoursMinutes(getCurrentTime());
+    }
+
+    public static void activityResumed() {
+        activityVisible = true;
+    }
+
+    public static void activityPaused() {
+        activityVisible = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ChatWindow.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ChatWindow.activityPaused();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ChatWindow.activityPaused();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ChatWindow.activityPaused();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ChatWindow.activityPaused();
+    }
+
+    public static boolean isActivityVisible() {
+        return activityVisible;
     }
 }

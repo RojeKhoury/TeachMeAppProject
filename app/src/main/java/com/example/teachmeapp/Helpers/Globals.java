@@ -105,6 +105,7 @@ public class Globals
     public static TeacherLessonRow getLessonCurrentObjTeacherProfile = null;
     public static Request currentRequest = null;
     public static boolean locationOrSignUp = true;
+    public static String currentTalkedWithUID = "";
 
 
 }

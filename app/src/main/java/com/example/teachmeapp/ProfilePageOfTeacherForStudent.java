@@ -466,6 +466,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
             intent.putExtra(Globals.STUDENTS, comm.getUid());
             intent.putExtra(Globals.TEACHERS, comm.getViewedUserUID());
         }
+        Globals.currentTalkedWithUID = comm.getViewedUserUID();
         startActivity(intent);
     }
 

@@ -2,10 +2,21 @@ package com.example.teachmeapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.teachmeapp.Helpers.Globals;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+import java.util.HashMap;
 
 import static com.example.teachmeapp.Helpers.Globals.comm;
 
@@ -35,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 OpenSignUp();
             }
         });
+
     }
 
     @Override

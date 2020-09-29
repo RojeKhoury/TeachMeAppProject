@@ -18,11 +18,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.teachmeapp.Helpers.Globals;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -92,36 +98,70 @@ public class Login extends AppCompatActivity {
     }
 
     // here we will go to th next screen with the proper information required from the user received from firebase
-    private void updateUI(FirebaseUser currentUser) {
+    private void updateUI(final FirebaseUser currentUser) {
         if (currentUser != null) {
-            Toast.makeText(getApplicationContext(), currentUser.toString(),
-                    Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, LoginAsTeacherOrStudent.class);
-            startActivity(intent);
+
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( Login.this, new OnSuccessListener<InstanceIdResult>() {
+                @Override
+                public void onSuccess(InstanceIdResult instanceIdResult) {
+
+                    String updatedToken = instanceIdResult.getToken();
+
+                    HashMap<String, Object> data = new HashMap<>();
+                    data.put("token", updatedToken);
+
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                    db.collection("Tokens").document(comm.getFirebaseUser().getUid())
+                            .set(data)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                    Toast.makeText(getApplicationContext(), currentUser.toString(),
+                                            Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(Login.this, LoginAsTeacherOrStudent.class);
+                                    startActivity(intent);
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e("Error saving token", e.getMessage());
+                                }
+                            });
+
+                }
+            });
         }
     }
 
 
     private void openLogin() {
 
-       mAuth.signInWithEmailAndPassword(m_etEmail.getText().toString(), m_etPassword.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            updateUI(comm.getFirebaseUser());
-                            finish();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(Login.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+        if (!m_etEmail.getText().toString().equals("") && !m_etPassword.getText().toString().equals("")){
+            mAuth.signInWithEmailAndPassword(m_etEmail.getText().toString(), m_etPassword.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithEmail:success");
+                                updateUI(comm.getFirebaseUser());
+                                finish();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(Login.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                updateUI(null);
+                            }
                         }
-                    }
-                });
+                    });
+        } else {
+            Toast.makeText(Login.this, "Please fill all fields!", Toast.LENGTH_LONG).show();
+        }
 
     }
 
