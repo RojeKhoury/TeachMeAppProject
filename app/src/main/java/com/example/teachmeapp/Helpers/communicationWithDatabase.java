@@ -347,8 +347,6 @@ public class communicationWithDatabase {
             }
         });
     }
-
-
     public void realtimeUpadateMyData()
     {
         String collection = (isTeacher()) ? COLLECTION_TEACHER : COLLECTION_STUDENT;

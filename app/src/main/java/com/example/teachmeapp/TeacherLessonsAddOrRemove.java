@@ -50,7 +50,7 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         lessons = new ArrayList<>();
-
+        realtimeDataUpdate();
         recycleViewFill();
     }
 
@@ -67,10 +67,7 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
                 lessons.add(temp);
             }
         }
-
-
         adapter = new AddOrRemoveLessonAdapter(lessons, this);
-
         recyclerView.setAdapter(adapter);
         //CallViewAdapter(LESSONS_FOR_TEACHER_VIEW);
     }
@@ -123,8 +120,13 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
     }
 
     public void realtimeDataUpdate() {
-        recycleViewFill();
-    }
+        comm.getDb().collection(COLLECTION_TEACHER).document(comm.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error == null && value != null && value.exists())
+                {
+        recycleViewFill();}
+    }});}
 
 
     public void removeLesson(String lesson) {
