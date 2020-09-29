@@ -77,7 +77,7 @@ public class communicationWithDatabase {
     private String m_currentUserFirstName;
     private String m_currentUserLastName;
     private String m_currentUserBio;
-    private Double m_currentUserStarRating;
+    private Long m_currentUserStarRating;
     private int m_currentUserRatingCount;
     private boolean m_teacher = false;
     private String m_currentUserPhone;
@@ -102,7 +102,7 @@ public class communicationWithDatabase {
     private String m_viewedUserFirstName;
     private String m_viewedUserLastName;
     private String m_viewedUserBio;
-    private Double m_viewedUserStarRating;
+    private Long m_viewedUserStarRating;
     private int m_viewedUserRatingCount;
     private String m_viewedUserPhone;
     private String m_viewedUserEmail;
@@ -149,7 +149,7 @@ public class communicationWithDatabase {
         return m_currentUserPendingLessons;
     }
 
-    public Double getUserStarRating() {
+    public Long getUserStarRating() {
         return m_currentUserStarRating;
     }
 
@@ -229,7 +229,7 @@ public class communicationWithDatabase {
         return m_viewedUserPendingLessons;
     }
 
-    public Double getViewedUserStarRating() {
+    public Long getViewedUserStarRating() {
         return m_viewedUserStarRating;
     }
 
@@ -318,7 +318,7 @@ public class communicationWithDatabase {
                         Log.d("GETSURENAME","if (teacher) {");
                         m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_viewedUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
-                        m_viewedUserStarRating = (Double) document.get(Globals.FIELD_RATING);
+                        m_viewedUserStarRating = (Long) document.get(Globals.FIELD_RATING);
                         m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
 
@@ -363,7 +363,7 @@ public class communicationWithDatabase {
                     m_currentUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
 
                     if (m_teacher) {
-                        m_currentUserStarRating = (Double) document.get(Globals.FIELD_RATING);
+                        m_currentUserStarRating = (Long) document.get(Globals.FIELD_RATING);
                         m_currentUserRatingCount =((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_currentUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_currentUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
@@ -372,7 +372,7 @@ public class communicationWithDatabase {
                         m_currentUserStudentHome = (boolean) document.get(FIELD_STUDENTHOME);
                         m_currentUserTeacherHome = (boolean) document.get(FIELD_TEACHERHOME);
                     } else {
-                        m_currentUserRatingsList = (List<String>) document.get(Globals.RATINGS);
+                        //m_currentUserRatingsList = (List<String>) document.get(Globals.RATINGS);
                         m_currentUserFavourites = (List<String>) document.get(Globals.FAVOURITES);
                     }
                     storage.getReference().child("images/" + comm.getUid() + "/profile picture").
@@ -519,7 +519,7 @@ public class communicationWithDatabase {
                     m_currentUserCalendar = new Schedule((HashMap<String, BookedLesson>)document.get(FIELD_SCHEDULE));
 
                     if (m_teacher) {
-                        m_currentUserStarRating = (Double) document.get(Globals.FIELD_RATING);
+                        m_currentUserStarRating = (Long) document.get(Globals.FIELD_RATING);
                         m_currentUserRatingCount =((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_currentUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_currentUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
@@ -528,7 +528,7 @@ public class communicationWithDatabase {
                         m_currentUserStudentHome = (boolean) document.get(FIELD_STUDENTHOME);
                         m_currentUserTeacherHome = (boolean) document.get(FIELD_TEACHERHOME);
                     } else {
-                        m_currentUserRatingsList = (List<String>) document.get(Globals.RATINGS);
+                        //m_currentUserRatingsList = (List<String>) document.get(Globals.RATINGS);
                         m_currentUserFavourites = (List<String>) document.get(Globals.FAVOURITES);
                     }
 
@@ -575,7 +575,7 @@ public class communicationWithDatabase {
                         Log.d("GETSURENAME","if (teacher) {");
                         m_viewedUserBio = document.get(Globals.FIELD_BIO).toString();
                         m_viewedUserPendingLessons = new Schedule ((HashMap<String, BookedLesson>) document.get(PENDING_LESSONS));
-                        m_viewedUserStarRating = (Double) Double.parseDouble(document.get(Globals.FIELD_RATING).toString());
+                        m_viewedUserStarRating = (Long) document.get(Globals.FIELD_RATING);
                         m_viewedUserRatingCount = ((Long) document.get(Globals.RATING_COUNT)).intValue();
                         m_viewedUserLessons = (Map<String, UserLesson>) document.get(FIELD_LESSONS);
                         m_viewedUserZoom = (boolean) document.get(FIELD_ZOOM);

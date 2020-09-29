@@ -73,7 +73,7 @@ public class SearchForTeacherAdapter extends RecyclerView.Adapter<SearchForTeach
                 Globals.getLessonCurrentObj = item;
                 Globals.getLessonBoolean = true;
                 Intent intent = new Intent(view.getContext(), RequestLessons.class);
-                view.getContext().startActivity(intent);
+                comm.getViewedUserData(item.getM_teacherUID(), true, view.getContext(), intent);
             }
         });
     }

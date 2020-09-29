@@ -5,6 +5,57 @@
         <item>High School</item>
         <item>College</item>
     </string-array>
+
+    <string-array name="TimeSpinner">
+        <item>01:00</item>
+        <item>01:30</item>
+        <item>02:00</item>
+        <item>02:30</item>
+        <item>03:00</item>
+        <item>03:30</item>
+        <item>04:00</item>
+        <item>04:30</item>
+        <item>05:00</item>
+        <item>05:30</item>
+        <item>06:00</item>
+        <item>06:30</item>
+        <item>07:00</item>
+        <item>07:30</item>
+        <item>08:00</item>
+        <item>08:30</item>
+        <item>09:00</item>
+        <item>09:30</item>
+        <item>10:00</item>
+        <item>10:30</item>
+        <item>11:00</item>
+        <item>11:30</item>
+        <item>12:00</item>
+        <item>12:30</item>
+        <item>13:00</item>
+        <item>13:30</item>
+        <item>14:00</item>
+        <item>14:30</item>
+        <item>15:00</item>
+        <item>15:30</item>
+        <item>16:00</item>
+        <item>16:30</item>
+        <item>17:00</item>
+        <item>17:30</item>
+        <item>18:00</item>
+        <item>18:30</item>
+        <item>19:00</item>
+        <item>19:30</item>
+        <item>20:00</item>
+        <item>20:30</item>
+        <item>21:00</item>
+        <item>21:30</item>
+        <item>22:00</item>
+        <item>22:30</item>
+        <item>23:00</item>
+        <item>23:30</item>
+        <item>24:00</item>
+    </string-array>
+
     <string name="app_name">TeachMeApp</string>
     <string name="login">Login</string>
     <string name="prompt_email">Email</string>
@@ -46,7 +97,7 @@
     <string name="home_page">Homepage</string>
     <string name="recent_lessons">Recent Lessons</string>
     <string name="search_for_teacher">Search For Teacher</string>
-    <string name="google_maps_key">AIzaSyAw0VWSf0gd9c79VhY4bakDnvsIKZ_3Zck</string>
+    <string name="google_maps_key">AIzaSyCjUwttdnub0i8vxJwOQAneNmLgHOnCL6g</string>
     <string name="title_activity_maps_get_location">maps_activity_get_location</string>
     <string name="google_place_api_key">AIzaSyCx8KKk_OHGhFXomk3izCBCYmWM0jMPqoM</string>
     <!--

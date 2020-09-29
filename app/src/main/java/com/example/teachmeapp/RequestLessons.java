@@ -1,11 +1,9 @@
 package com.example.teachmeapp;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -16,17 +14,16 @@ import androidx.annotation.NonNull;
 
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.model.Request;
-import com.google.android.gms.common.internal.GmsLogger;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.type.Date;
-import com.google.type.DateTime;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 import static com.example.teachmeapp.Helpers.Globals.comm;
@@ -40,8 +37,8 @@ public class RequestLessons extends HamburgerMenu {
 
     private Button confirmRequest;
 
-    EditText editTextTimeStart;
-    EditText editTextTimeEnd;
+    Spinner editTextTimeStart;
+    Spinner editTextTimeEnd;
 
     private RadioGroup typeSelection;
     RadioButton radioButtonFaceToFace;
@@ -78,7 +75,7 @@ public class RequestLessons extends HamburgerMenu {
         calendarView.setDate(dater.getTime().getTime());
 
         startTime = new Timestamp(new java.util.Date(calendarView.getDate()));
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+        final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
         calendar.setTime(startTime.toDate());
 
         currentYear = calendar.get(Calendar.YEAR);
@@ -89,9 +86,25 @@ public class RequestLessons extends HamburgerMenu {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, final int year, final int month, final int day) {
 
-                currentYear = year;
-                currentMonth = month + 1;
-                currentDay = day;
+                if ((day < calendar.get(Calendar.DAY_OF_MONTH))
+                        && ((((month + 1) > calendar.get(Calendar.MONTH) + 1) && (year >= calendar.get(Calendar.YEAR)))
+                || (((month + 1) < calendar.get(Calendar.MONTH) + 1) && (year > calendar.get(Calendar.YEAR))))){
+
+                    currentYear = year;
+                    currentMonth = month + 1;
+                    currentDay = day;
+
+                } else if ((day >= calendar.get(Calendar.DAY_OF_MONTH))
+                        && ((month + 1) >= calendar.get(Calendar.MONTH) + 1) && (year >= calendar.get(Calendar.YEAR))) {
+                    currentYear = year;
+                    currentMonth = month + 1;
+                    currentDay = day;
+
+                } else {
+                    Toast.makeText(RequestLessons.this, "You can't select past date!", Toast.LENGTH_LONG).show();
+                    calendarView.setDate(dater.getTime().getTime());
+                }
+
 
             }
         });
@@ -122,27 +135,45 @@ public class RequestLessons extends HamburgerMenu {
 
         }
 
+        if (!comm.isViewedUserZoom()){
+            radioButtonZoom.setVisibility(View.INVISIBLE);
+        }
+
+        if (!comm.isViewedUserTeacherHome()){
+            radioButtonFaceToFace.setVisibility(View.INVISIBLE);
+        }
+
     }
 
 
     public void Onclick_RequestLesson() {
         //TODO put data into requesting lesson from student to teacher
 
-        if (editTextTimeStart.getText().toString().isEmpty() || editTextTimeEnd.getText().toString().isEmpty()){
-            Toast.makeText(RequestLessons.this, "Please enter Start, and End time please!", Toast.LENGTH_LONG).show();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+        java.util.Date inTime = null, outTime = null;
+        try {
+            inTime = sdf.parse(editTextTimeStart.getSelectedItem().toString());
+            outTime = sdf.parse(editTextTimeEnd.getSelectedItem().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (inTime.compareTo(outTime) >= 0){
+            Toast.makeText(RequestLessons.this, "You must choose Start Time less than End Time!", Toast.LENGTH_LONG).show();
         } else {
 
             LocalDateTime lessonTimeStart = LocalDateTime.of(currentYear, currentMonth, currentDay,
-                    Integer.parseInt(String.valueOf(editTextTimeStart.getText().toString().charAt(0)) +
-                            String.valueOf(editTextTimeStart.getText().toString().charAt(1))),
-                    Integer.parseInt(String.valueOf(editTextTimeStart.getText().toString().charAt(3)) +
-                            String.valueOf(editTextTimeStart.getText().toString().charAt(4))));
+                    Integer.parseInt(String.valueOf(editTextTimeStart.getSelectedItem().toString().charAt(0)) +
+                            String.valueOf(editTextTimeStart.getSelectedItem().toString().charAt(1))),
+                    Integer.parseInt(String.valueOf(editTextTimeStart.getSelectedItem().toString().charAt(3)) +
+                            String.valueOf(editTextTimeStart.getSelectedItem().toString().charAt(4))));
 
             LocalDateTime lessonTimeEnd = LocalDateTime.of(currentYear, currentMonth, currentDay,
-                    Integer.parseInt(String.valueOf(editTextTimeEnd.getText().toString().charAt(0)) +
-                            String.valueOf(editTextTimeEnd.getText().toString().charAt(1))),
-                    Integer.parseInt(String.valueOf(editTextTimeEnd.getText().toString().charAt(3)) +
-                            String.valueOf(editTextTimeEnd.getText().toString().charAt(4))));
+                    Integer.parseInt(String.valueOf(editTextTimeEnd.getSelectedItem().toString().toString().charAt(0)) +
+                            String.valueOf(editTextTimeEnd.getSelectedItem().toString().charAt(1))),
+                    Integer.parseInt(String.valueOf(editTextTimeEnd.getSelectedItem().toString().charAt(3)) +
+                            String.valueOf(editTextTimeEnd.getSelectedItem().toString().charAt(4))));
 
             if (typeSelection.getCheckedRadioButtonId() == -1){
                 Toast.makeText(RequestLessons.this, "Please select meeting's type!", Toast.LENGTH_LONG).show();

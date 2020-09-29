@@ -190,7 +190,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
                     public void onSuccess(Void aVoid) {
                         Log.d("Update Rate", "DocumentSnapshot successfully written!");
 
-                        Toast.makeText(ProfilePageOfTeacherForStudent.this, "Done setting your new " + field + " status.",
+                        Toast.makeText(ProfilePageOfTeacherForStudent.this, "Done setting your new " + (field.equals("zoom") ? "Zoom" : "Face-to-Face") + " status.",
                                 Toast.LENGTH_LONG).show();
                         comm.realtimeUpadateMyData();
 

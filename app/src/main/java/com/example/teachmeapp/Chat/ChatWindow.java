@@ -1,5 +1,6 @@
 package com.example.teachmeapp.Chat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.teachmeapp.HamburgerMenu;
 import com.example.teachmeapp.Helpers.Globals;
+import com.example.teachmeapp.ProfilePageOfTeacherForStudent;
 import com.example.teachmeapp.R;
 import com.example.teachmeapp.model.BabySitter;
 import com.example.teachmeapp.model.Message;
@@ -41,6 +43,7 @@ import java.util.HashMap;
 
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_STUDENT;
 import static com.example.teachmeapp.Helpers.Globals.COLLECTION_TEACHER;
+import static com.example.teachmeapp.Helpers.Globals.comm;
 
 public class ChatWindow extends HamburgerMenu {
     public static final String TAG = "Test1";
@@ -180,6 +183,7 @@ public class ChatWindow extends HamburgerMenu {
 
     private void setChatWithText() {
         if (mIsTeacher) {//mStudentUID
+
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             final DocumentReference docRef = db.collection(COLLECTION_STUDENT).document(mStudentUID);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -188,13 +192,26 @@ public class ChatWindow extends HamburgerMenu {
                     m_TVTalkWith.setText(snapshot.get(Globals.FIELD_NAME).toString() + " " + snapshot.get(Globals.FIELD_SURNAME).toString());
                 }
             });
+
         } else {//mTeacherUID
+
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             final DocumentReference docRef = db.collection(COLLECTION_TEACHER).document(mTeacherUID);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
                     m_TVTalkWith.setText(snapshot.get(Globals.FIELD_NAME).toString() + " " + snapshot.get(Globals.FIELD_SURNAME).toString());
+                }
+            });
+
+        }
+
+        if (!comm.isTeacher()){
+            m_TVTalkWith.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ProfilePageOfTeacherForStudent.class);
+                    startActivity(intent);
                 }
             });
         }

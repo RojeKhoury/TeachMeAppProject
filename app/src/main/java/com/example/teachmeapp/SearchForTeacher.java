@@ -157,12 +157,12 @@ public class SearchForTeacher extends HamburgerMenu {
                     continue;
                 }
 
-                if (s == null) {
+                /*if (s == null) {
                     s = child.getText().toString();
                 } else {
                     s += ", " + child.getText().toString();
-                }
-                ChipTagSearchedArray[i] = s;
+                }*/
+                ChipTagSearchedArray[i] = child.getText().toString();
             }
             searchUsingTags();
 

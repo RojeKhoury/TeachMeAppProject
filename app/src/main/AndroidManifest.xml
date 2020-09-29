@@ -38,7 +38,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyCjUwttdnub0i8vxJwOQAneNmLgHOnCL6g" />
 
         <activity android:name=".StudentPendingRequestDetailsPage" />
         <activity android:name=".TeacherPendingRequestDetailsPage" />
@@ -52,11 +52,6 @@
         <activity
             android:name=".maps_activity_get_location"
             android:label="@string/title_activity_maps_get_location">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ScheduleExpandingButton"
