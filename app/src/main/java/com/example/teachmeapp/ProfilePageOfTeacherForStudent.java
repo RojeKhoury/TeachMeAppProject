@@ -83,6 +83,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     private Dialog dialog;
     private ProgressBar progressBar;
     private RatingBar ratingBar;
+    private Button AboutMeButton;
 
 
     @Override
@@ -113,7 +114,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         chatBtn = findViewById(R.id.chat_with_teacher);
         checkZoom = findViewById(R.id.profile_page_image_view_check_or_cancel_zoom);
         checkFaceToFace = findViewById(R.id.profile_page_image_view_check_or_cancel_at_my_place);
-
+        AboutMeButton=findViewById(R.id.buttonAboutMe);
         if (comm.isTeacher()){
 
             checkZoom.setOnClickListener(new View.OnClickListener() {
@@ -496,5 +497,10 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
         }
 
         super.onStop();
+    }
+
+    public void OnClick_ProfilePage_AboutMe(View view) {
+        //TODO heres the BIO
+        //AboutMeButton
     }
 }
