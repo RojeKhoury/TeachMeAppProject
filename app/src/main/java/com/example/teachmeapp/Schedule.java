@@ -66,7 +66,7 @@ public class Schedule extends HamburgerMenu {
         calendar.setTime(startTime.toDate());
 
         int month = calendar.get(Calendar.MONTH) + 1;
-        retrieveAcceptedRequests(calendar.get(Calendar.YEAR)+ "-0" +
+        retrieveAcceptedRequests(calendar.get(Calendar.YEAR) + "-0" +
                 month + "-" + calendar.get(Calendar.DAY_OF_MONTH));
 
         cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -74,13 +74,30 @@ public class Schedule extends HamburgerMenu {
             public void onSelectedDayChange(@NonNull CalendarView calendarView, final int year, final int month, final int day) {
 
                 int monthNew = month + 1;
-
-                retrieveAcceptedRequests(year + "-" + "0" + monthNew + "-" + day);
+                String date = "";
+                if (monthNew < 10) {
+                    date = year + "-" + "0" + monthNew + "-";
+                    if(day < 10)
+                    { date += "0" + day;}
+                    else
+                    {
+                        date += day;
+                    }
+                } else {
+                    date = year + "-" + monthNew + "-";
+                    if(day < 10)
+                    { date += "0" + day;}
+                    else
+                    {
+                        date += day;
+                    }
+                }
+                retrieveAcceptedRequests(date);
             }
         });
     }
 
-    private void retrieveAcceptedRequests(String startDate){
+    private void retrieveAcceptedRequests(String startDate) {
 
         acceptedLessons.clear();
         if (adapter != null)
@@ -88,7 +105,7 @@ public class Schedule extends HamburgerMenu {
 
         final CollectionReference acceptedRequestsRef = comm.db.collection("Request");
 
-        if (!comm.isTeacher()){
+        if (!comm.isTeacher()) {
 
             acceptedRequestsRef.whereEqualTo("m_studentUID", comm.getUid()).whereEqualTo("accepting", true)
                     .whereEqualTo("m_dateStart", startDate)
@@ -121,12 +138,9 @@ public class Schedule extends HamburgerMenu {
                         }
 
                         adapter = new StudentPendingRequestsAdapter(acceptedLessons, Schedule.this);
-                        if(acceptedLessons.isEmpty())
-                        {
+                        if (acceptedLessons.isEmpty()) {
                             emptyListView.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {
+                        } else {
                             emptyListView.setVisibility(View.GONE);
                         }
                         recyclerView.setAdapter(adapter);
@@ -169,12 +183,9 @@ public class Schedule extends HamburgerMenu {
                         }
 
                         adapter = new StudentPendingRequestsAdapter(acceptedLessons, Schedule.this);
-                        if(acceptedLessons.isEmpty())
-                        {
+                        if (acceptedLessons.isEmpty()) {
                             emptyListView.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {
+                        } else {
                             emptyListView.setVisibility(View.GONE);
                         }
                         recyclerView.setAdapter(adapter);
