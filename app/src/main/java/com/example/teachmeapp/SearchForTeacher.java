@@ -86,6 +86,7 @@ public class SearchForTeacher extends HamburgerMenu {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                teachers.clear();
                 OnClick_SearchForTeacher_Button_ShowSelections();
             }
         });
