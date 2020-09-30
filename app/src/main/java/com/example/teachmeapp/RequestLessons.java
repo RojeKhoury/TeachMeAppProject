@@ -323,8 +323,9 @@ public class RequestLessons extends HamburgerMenu {
                                         TOPIC = (String) document.get("token");
 
                                         NOTIFICATION_TITLE = "Request Notification!";
-                                        NOTIFICATION_MESSAGE = "You have a new request from " + (Globals.getLessonBoolean ? Globals.getLessonCurrentObj.getM_teacherName()
-                                                + " " + Globals.getLessonCurrentObj.getM_surname() : comm.getViewedUserName() + " " + comm.getViewedUserSurname());
+                                        NOTIFICATION_MESSAGE = "You have a new lesson request";
+                                        /* + (Globals.getLessonBoolean ? Globals.getLessonCurrentObj.getM_teacherName()
+                                                + " " + Globals.getLessonCurrentObj.getM_surname() : comm.getViewedUserName() + " " + comm.getViewedUserSurname());*/
 
                                         JSONObject notification = new JSONObject();
                                         JSONObject notificationBody = new JSONObject();
