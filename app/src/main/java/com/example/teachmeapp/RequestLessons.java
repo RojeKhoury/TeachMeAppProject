@@ -168,7 +168,7 @@ public class RequestLessons extends HamburgerMenu {
             radioButtonZoom.setVisibility(View.INVISIBLE);
         }
 
-        if (!comm.isViewedUserTeacherHome()){
+        if (!comm.isViewedUserTeacherHome() || !comm.getViewedUserCity().equals(comm.getCity())){
             radioButtonFaceToFace.setVisibility(View.INVISIBLE);
         }
 

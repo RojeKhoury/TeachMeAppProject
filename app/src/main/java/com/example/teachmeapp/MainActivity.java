@@ -1,5 +1,7 @@
 package com.example.teachmeapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,5 +70,20 @@ public class MainActivity extends AppCompatActivity {
     public void OpenSignUp() {
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finishAffinity();
+                        System.exit(0);
+                    }
+                }).create().show();
     }
 }
