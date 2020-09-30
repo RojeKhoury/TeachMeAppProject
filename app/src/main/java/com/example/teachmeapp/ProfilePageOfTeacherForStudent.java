@@ -459,7 +459,7 @@ public class ProfilePageOfTeacherForStudent extends HamburgerMenu {
     public void OnClick_profile_button_check_location(View view) {
 
         Globals.locationOrSignUp = false;
-        Intent intent = new Intent(getApplicationContext(), maps_activity_get_location.class);
+        Intent intent = new Intent(getApplicationContext(), Maps_activity_get_location.class);
         startActivity(intent);
 
     }

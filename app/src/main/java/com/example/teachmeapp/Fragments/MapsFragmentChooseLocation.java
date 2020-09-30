@@ -21,7 +21,6 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.teachmeapp.EditTeacherInfo;
 import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.HomePageStudent;
 import com.example.teachmeapp.HomePageTeacher;
@@ -92,6 +91,7 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
         Toast.makeText(view.getContext(), "Please choose your location", Toast.LENGTH_SHORT).show();
         Toast.makeText(view.getContext(), "CHOOSE CITY PLEASE", Toast.LENGTH_LONG).show();
     }
+
     @androidx.annotation.Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, @androidx.annotation.Nullable Bundle savedInstanceState) {
@@ -117,8 +117,8 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
 
         autocompleteFragment.setTypeFilter(TypeFilter.CITIES);
         // Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(Arrays.asList( Place.Field.LAT_LNG));
-
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.LAT_LNG));
+        locationChosen = false;
 
         mapView = view.findViewById(R.id.mapsViewChoose);
         if (mapView != null) {
@@ -133,13 +133,12 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
                 LatLng loc = place.getLatLng();
                 List<Address> addresses;
                 Locale aLocale = new Locale.Builder().setLanguage("en").setScript("Latn").build();
-                Geocoder geocoder = new Geocoder(view.getContext(),aLocale);
-                String city="";
+                Geocoder geocoder = new Geocoder(view.getContext(), aLocale);
+                String city = "";
 
                 try {
                     addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
                     city = addresses.get(0).getLocality();
-
                     Address address = addresses.get(0);
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                     if (m_mark != null) {
@@ -148,75 +147,61 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
                     m_mark = map.addMarker(new MarkerOptions().position(latLng).title(addresses.get(0).getLocality()));
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                     locationChosen = true;
+                    m_chooseLocation.setEnabled(true);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                if(!city.isEmpty())
-                {
+                if (!city.isEmpty()) {
                     Log.i(TAG, city);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getActivity(), "Try entering another country/state/city please!", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
 
         m_chooseLocation = view.findViewById(R.id.choose_location_button);
+        m_chooseLocation.setEnabled(false);
         m_chooseLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LatLng loc = m_mark.getPosition();
                 Locale aLocale = new Locale.Builder().setLanguage("en").setScript("Latn").build();
-                Geocoder geocoder = new Geocoder(view.getContext(),aLocale);
+                Geocoder geocoder = new Geocoder(view.getContext(), aLocale);
                 List<Address> addresses;
 
-                if(locationChosen == false)
-                {
-                    Toast.makeText(view.getContext(),"please choose a location first",Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                try {
-                   addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                if (locationChosen == false) {
+                    Toast.makeText(view.getContext(), "please choose a location first", Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-                    // Used for debugging why always get address in the database 'null'.
-                    /*String addressline = "Addresses from getAddressLine(): ";
-                    for (int n = 0; n <= addresses.get(0).getMaxAddressLineIndex(); n++) {
-                        addressline += " index n: " + n + ": " + addresses.get(0).getAddressLine(n) + ", ";
+                        comm.setLocation(loc, addresses.get(0).getLocality(), addresses.get(0).getCountryName(), addresses.get(0).getAddressLine(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    Log.d("Addresses: ", addressline);*/
 
-                    // Using getAddressLine(0) will retrieve the right address. No more 'null' value
-                    comm.setLocation(loc, addresses.get(0).getLocality(), addresses.get(0).getCountryName(), addresses.get(0).getAddressLine(0));
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    Intent intent;
 
-                Intent intent;
-
-                if(Globals.SignedIn == false) {
-                    if (comm.isTeacher()) {
-                        intent = new Intent(getActivity(), HomePageTeacher.class);
+                    if (Globals.SignedIn == false) {
+                        if (comm.isTeacher()) {
+                            intent = new Intent(getActivity(), HomePageTeacher.class);
+                        } else {
+                            intent = new Intent(getActivity(), HomePageStudent.class);
+                        }
+                        Globals.SignedIn = true;
+                        startActivity(intent);
                     } else {
-                        intent = new Intent(getActivity(), HomePageStudent.class);
+                        getActivity().onBackPressed();
                     }
-                    Globals.SignedIn = true;
-                    startActivity(intent);
+
                 }
-
-                else
-                { getActivity().onBackPressed();}
-
-            }}
+            }
         });
 
     }
@@ -232,7 +217,7 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
         map = googleMap;
     }
 
-   @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission")
     private void getLocation() {
         m_location.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
@@ -241,15 +226,13 @@ public class MapsFragmentChooseLocation extends Fragment implements OnMapReadyCa
                 if (location != null) {
                     try {
                         Locale aLocale = new Locale.Builder().setLanguage("en").setScript("Latn").build();
-                        Geocoder geocoder = new Geocoder(view.getContext(),aLocale);
+                        Geocoder geocoder = new Geocoder(view.getContext(), aLocale);
                         List<Address> addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                         Address address = addressList.get(0);
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                         m_mark = map.addMarker(new MarkerOptions().position(latLng).title("my location"));
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }

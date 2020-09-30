@@ -85,7 +85,6 @@ public class RequestLessons extends HamburgerMenu {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_lessons);
 
-        //TODO i need data from teacher what he teachs and so on subjects,levels,prices
         textViewTeacherName = findViewById(R.id.TeacherName);
         textViewPrice = findViewById(R.id.textViewPrice);
         subject = findViewById(R.id.txtSubject);
@@ -177,7 +176,6 @@ public class RequestLessons extends HamburgerMenu {
 
 
     public void Onclick_RequestLesson() {
-        //TODO put data into requesting lesson from student to teacher
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 

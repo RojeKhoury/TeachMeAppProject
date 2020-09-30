@@ -83,7 +83,6 @@ public class BookedLesson {
         this.studentUID = studentUID;
         this.teacherRequest = teacherRequest;
         this.rejected = false;
-        //TODO reject
     }
 
     public UserLesson getLesson()

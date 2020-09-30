@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.teachmeapp.Fragments.MapsFragment;
 import com.example.teachmeapp.Fragments.MapsFragmentChooseLocation;
 import com.example.teachmeapp.Helpers.Globals;
 
@@ -27,9 +26,6 @@ public class FragmentAdapter extends FragmentPagerAdapter {
         switch (m_fragmentNumber) {
             case Globals.MAPS_CHOOSE_LOCATION: {
                 return MapsFragmentChooseLocation.getINSTANCE();
-            }
-            case Globals.MAPS_REGULAR: {
-                return MapsFragment.getINSTANCE();
             }
         }
         return null;

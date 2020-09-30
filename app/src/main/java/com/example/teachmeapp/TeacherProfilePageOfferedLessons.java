@@ -15,7 +15,6 @@ public class TeacherProfilePageOfferedLessons extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_profile_page_offered_lessons);
-//TODO here are the textview levels
         textViewElementary = findViewById(R.id.textViewElementary);
     }
 }

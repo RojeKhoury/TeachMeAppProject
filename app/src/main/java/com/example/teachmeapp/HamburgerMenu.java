@@ -3,7 +3,6 @@ package com.example.teachmeapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -88,7 +87,7 @@ public class HamburgerMenu extends Activity {
             if (this.getLocalClassName().equals(HomePageStudent.class.getSimpleName())) {
                 popup.getMenu().removeItem(R.id.HamburgerMenuProfilePage);
             }
-            if (this.getLocalClassName().equals(EditTeacherInfo.class.getSimpleName())) {
+            if (this.getLocalClassName().equals(EditInfo.class.getSimpleName())) {
                 popup.getMenu().removeItem(R.id.HamburgerMenuUpdateInfo);
             }
         } else {
@@ -97,7 +96,7 @@ public class HamburgerMenu extends Activity {
             popup.getMenu().removeItem(R.id.HamburgerMenuHomePageTeacher);
             popup.getMenu().removeItem(R.id.HamburgerMenuProfilePage);
 
-            if (this.getLocalClassName().equals(EditTeacherInfo.class.getSimpleName())) {
+            if (this.getLocalClassName().equals(EditInfo.class.getSimpleName())) {
                 popup.getMenu().removeItem(R.id.HamburgerMenuUpdateInfo);
             }
 
@@ -132,7 +131,7 @@ public class HamburgerMenu extends Activity {
                 startActivity(intent);
                 return true;
             case R.id.HamburgerMenuUpdateInfo:
-                intent = new Intent(getApplicationContext(), EditTeacherInfo.class);
+                intent = new Intent(getApplicationContext(), EditInfo.class);
                 startActivity(intent);
                 return true;
             case R.id.HamburgerMenuProfilePage:

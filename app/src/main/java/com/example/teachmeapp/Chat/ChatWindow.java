@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -28,9 +27,7 @@ import com.example.teachmeapp.Helpers.Globals;
 import com.example.teachmeapp.Helpers.MySingleton;
 import com.example.teachmeapp.ProfilePageOfTeacherForStudent;
 import com.example.teachmeapp.R;
-import com.example.teachmeapp.model.BabySitter;
 import com.example.teachmeapp.model.Message;
-import com.example.teachmeapp.model.Parent;
 import com.example.teachmeapp.model.TalkedWithModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,7 +36,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -72,8 +68,6 @@ public class ChatWindow extends HamburgerMenu {
     boolean mIsTeacher, mFirstChat;
     Message mMessage;
     TextView m_TVTalkWith;
-    private Parent parent;
-    private BabySitter babySitter;
 
     final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
     final private String serverKey = "key=" + "AAAAqu1rCgA:APA91bHnv46UjDflweYMPpNCQSPcwb8SyKBeUVQ4oPvvtKHtoIoPJIt-lRmh4rd6Aa-U8NSJ2QHhx7Fon-rOpUbxYDBtAchOnvEVwoD1V8DoN3Bpv7Civdb17YK4uky3YPCJGupE160-";

@@ -42,13 +42,6 @@ public class ScheduleExpandingButton extends AppCompatActivity {
     }
 
 
-
-    //TODO @ABED get me the following:
-    // 1. teacher name
-    // 2. student name
-    // 3. subject
-    // 4. starting time (hours + minutes + date (days/months/years)
-
     private void DeleteLessonFromDataBase() {
 
         imageView = findViewById(R.id.ScheduleExpanding_ImageView);

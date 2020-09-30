@@ -43,17 +43,14 @@ public class TeacherInfoPage extends AppCompatActivity {
     }
 
     public void ChangePicture(View view) {
-        //TODO change pic wtih imageview
     }
 
     public void ChangeLocation(View view) {
-        //TODO cahnge location button update editTextCity,editTextCountry
     }
 
     public void EnableChangesAndApplyThem(View view) {
         if (EnableChangesFlag) {
             if (ApplyChangesFlag){
-                //TODO put new data to DB
                 imageView.getDrawable();
                 radioButtonStudentPlace.isChecked();
                 radioButtonTeacherPlace.isChecked();

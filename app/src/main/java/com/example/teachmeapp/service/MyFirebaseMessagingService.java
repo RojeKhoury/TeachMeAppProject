@@ -1,6 +1,5 @@
 package com.example.teachmeapp.service;
 
-import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,16 +18,10 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.example.teachmeapp.Chat.ChatWindow;
-import com.example.teachmeapp.EditTeacherInfo;
 import com.example.teachmeapp.Helpers.Globals;
-import com.example.teachmeapp.Helpers.Teacher;
-import com.example.teachmeapp.HomePageStudent;
-import com.example.teachmeapp.HomePageTeacher;
-import com.example.teachmeapp.MainActivity;
 import com.example.teachmeapp.R;
 import com.example.teachmeapp.Schedule;
 import com.example.teachmeapp.StudentPendingRequest;
-import com.example.teachmeapp.TeacherPendingRequests;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,7 +34,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 

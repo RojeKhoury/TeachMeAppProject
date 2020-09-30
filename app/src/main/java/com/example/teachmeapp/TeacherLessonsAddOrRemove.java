@@ -87,8 +87,6 @@ public class TeacherLessonsAddOrRemove extends HamburgerMenu {
 
     public void OnClick_add_lessons_button(View view) {
 
-        //TODO Check if level is good for database
-
         if (levelSelection.getCheckedRadioButtonId() == -1) {
             Toast.makeText(TeacherLessonsAddOrRemove.this, "Please select the desired level!", Toast.LENGTH_LONG).show();
         } else {

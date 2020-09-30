@@ -31,11 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
@@ -145,7 +141,7 @@ public class SignUp extends AppCompatActivity {
 
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
-                            Toast.makeText(getApplicationContext(), "WEEEEeeeee.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Loading image and data.", Toast.LENGTH_LONG).show();
                             pushData(); //push data to the database
                             //m_communicationWithDatabase.signOut();
 
@@ -170,7 +166,7 @@ public class SignUp extends AppCompatActivity {
         langs.add("english");
 
         if(m_teacher_checkbox.isChecked())
-        {//TODO add the languages to the create teacher and student
+        {
             comm.createTeacher(m_fName.getText().toString(), m_lName.getText().toString(), m_email.getText().toString(), m_phone.getText().toString(),langs);
             comm.setTeacher(true);
         } else {
@@ -202,7 +198,7 @@ public class SignUp extends AppCompatActivity {
                                     public void onSuccess(Void aVoid) {
 
                                         Globals.locationOrSignUp = true;
-                                        Intent intent = new Intent(getApplicationContext(), maps_activity_get_location.class);
+                                        Intent intent = new Intent(getApplicationContext(), Maps_activity_get_location.class);
                                         startActivity(intent);
 
                                     }
