@@ -55,7 +55,8 @@ public class StudentPendingRequestsAdapter extends RecyclerView.Adapter<StudentP
         }
 
         holder.textViewClasslevel.setText(item.getM_level());
-        holder.textViewClassSubject.setText(item.getM_subject());
+        String subject = item.getM_subject().substring(0,item.getM_subject().indexOf("_"));
+        holder.textViewClassSubject.setText(subject);
 
         if (item.getPending()){
             holder.status.setText("Pending");

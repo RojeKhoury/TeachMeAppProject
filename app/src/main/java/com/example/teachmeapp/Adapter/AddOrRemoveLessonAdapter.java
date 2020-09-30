@@ -38,8 +38,8 @@ public class AddOrRemoveLessonAdapter extends RecyclerView.Adapter<AddOrRemoveLe
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final TeacherLessonRow item = m_lessons.get(position);
-
-        holder.textViewClassName.setText(item.getM_subject());
+        String subject = item.getM_subject().substring(0,item.getM_subject().indexOf("_"));
+        holder.textViewClassName.setText(subject);
         holder.textViewClasslevel.setText(item.getM_level());
         holder.textViewClassprice.setText(item.getM_price());
 

@@ -53,7 +53,8 @@ public class SearchForTeacherAdapter extends RecyclerView.Adapter<SearchForTeach
         holder.textViewPrice.setText(item.getM_price().toString());
         holder.teacherRating.setRating(Float.parseFloat(item.getM_rating().toString()));
         holder.textViewCity.setText(item.getM_teacherCity());
-        holder.textViewSubject.setText(item.getM_subject());
+        String subject = item.getM_subject().substring(0,item.getM_subject().indexOf("_"));
+        holder.textViewSubject.setText(subject);
 
         holder.textViewTeacherName.setOnClickListener(new View.OnClickListener() {
             @Override
