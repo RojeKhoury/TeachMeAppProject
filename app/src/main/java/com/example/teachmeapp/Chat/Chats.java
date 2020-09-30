@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.View;
 import android.view.WindowManager;
 
 import com.example.teachmeapp.HamburgerMenu;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import android.util.Log;
+import android.widget.TextView;
 
 public class Chats extends HamburgerMenu {
 
@@ -32,11 +35,13 @@ public class Chats extends HamburgerMenu {
     private FirebaseAuth m_Auth;
     private RecyclerView m_RecyclerView;
     private boolean m_mITeacher;
+    private TextView emptyListTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
+        emptyListTextView= findViewById(R.id.emptyView);
         m_Auth = FirebaseAuth.getInstance();
         m_mITeacher = comm.isTeacher();
         initTalkedWithList();
@@ -77,6 +82,15 @@ public class Chats extends HamburgerMenu {
         {
             TalkedWithModel talkedWithModel = dataSnapshot.getValue(TalkedWithModel.class);
             m_TalkedWithUidsList.add(talkedWithModel);
+        }
+
+        if(m_TalkedWithUidsList.isEmpty())
+        {
+            emptyListTextView.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            emptyListTextView.setVisibility(View.GONE);
         }
 
         Collections.reverse(m_TalkedWithUidsList);

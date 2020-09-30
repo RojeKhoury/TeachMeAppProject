@@ -310,7 +310,8 @@ public class ChatWindow extends HamburgerMenu {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getApplicationContext(), ProfilePageOfTeacherForStudent.class);
-                    startActivity(intent);
+                    comm.getViewedUserData(mTeacherUID,true,view.getContext(),intent);
+                    //startActivity(intent);
                 }
             });
         }

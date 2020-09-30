@@ -54,8 +54,6 @@
         android:text="No Lessons"
         android:textSize="30sp"
         android:visibility="visible"
-
-
         app:layout_constraintTop_toBottomOf="@+id/frameLayout3"
         tools:layout_editor_absoluteX="16dp" />
     <androidx.constraintlayout.widget.ConstraintLayout

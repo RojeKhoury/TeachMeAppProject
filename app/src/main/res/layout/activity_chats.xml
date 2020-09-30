@@ -27,9 +27,19 @@
             android:text="@string/chat"
             android:textColor="#FFFFFF"
             android:textSize="24dp"
-            android:fontFamily="@font/montserrat_medium"
-            />
+            android:fontFamily="@font/montserrat_medium"/>
     </FrameLayout>
+    <TextView
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="No Conversations"
+        android:textSize="30sp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout3"
+        tools:layout_editor_absoluteX="16dp" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -38,5 +48,6 @@
         android:alpha="0.8"
         android:id="@+id/recycler_Chats"
         android:layout_margin="5dp"/>
+
 
 </LinearLayout>
