@@ -102,7 +102,7 @@
         <item>24:00</item>
     </string-array>
 
-    <string name="app_name">TeachMeApp</string>
+    <string name="app_name">Test</string>
     <string name="login">Login</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

@@ -48,10 +48,12 @@
         <activity
             android:name=".StudentPendingRequestDetailsPage"
             android:screenOrientation="portrait"
+            android:label="Lesson info"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".TeacherPendingRequestDetailsPage"
             android:screenOrientation="portrait"
+            android:label="Lesson info"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".StudentPendingRequest"
@@ -76,6 +78,7 @@
         <activity
             android:name=".maps_activity_get_location"
             android:screenOrientation="portrait"
+            android:label="@string/title_activity_maps_get_location"
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ScheduleExpandingButton"
