@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.example.teachmeapp",
+  "applicationId": "com.EducatedGuess.teachmeapp",
   "variantName": "release",
   "elements": [
     {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.teachmeapp">
+    package="com.EducatedGuess.teachmeapp">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!--
@@ -11,10 +11,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <permission
-        android:name="com.example.teachmeapp.permission.MAPS_RECEIVE"
+        android:name="com.EducatedGuess.teachmeapp.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.example.teachmeapp.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.EducatedGuess.teachmeapp.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -30,7 +30,7 @@
 
 
         <service
-            android:name="com.example.teachmeapp.service.MyFirebaseMessagingService"
+            android:name="com.EducatedGuess.teachmeapp.service.MyFirebaseMessagingService"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -42,117 +42,117 @@
             android:value="AIzaSyCjUwttdnub0i8vxJwOQAneNmLgHOnCL6g" />
 
         <activity
-            android:name=".TeacherProfilePageOfferedLessons"
+            android:name="com.EducatedGuess.teachmeapp.TeacherProfilePageOfferedLessons"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".StudentPendingRequestDetailsPage"
-            android:screenOrientation="portrait"
-            android:label="Lesson info"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".TeacherPendingRequestDetailsPage"
+            android:name="com.EducatedGuess.teachmeapp.StudentPendingRequestDetailsPage"
             android:screenOrientation="portrait"
             android:label="Lesson info"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".StudentPendingRequest"
+            android:name="com.EducatedGuess.teachmeapp.TeacherPendingRequestDetailsPage"
+            android:screenOrientation="portrait"
+            android:label="Lesson info"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.EducatedGuess.teachmeapp.StudentPendingRequest"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".TeacherPendingRequests"
+            android:name="com.EducatedGuess.teachmeapp.TeacherPendingRequests"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".EditInfo"
+            android:name="com.EducatedGuess.teachmeapp.EditInfo"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".TeacherLessonsAddOrRemove"
+            android:name="com.EducatedGuess.teachmeapp.TeacherLessonsAddOrRemove"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Maps_activity_get_location"
+            android:name="com.EducatedGuess.teachmeapp.Maps_activity_get_location"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_maps_get_location"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".ScheduleExpandingButton"
+            android:name="com.EducatedGuess.teachmeapp.ScheduleExpandingButton"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Schedule"
+            android:name="com.EducatedGuess.teachmeapp.Schedule"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Chat.Chats"
+            android:name="com.EducatedGuess.teachmeapp.Chat.Chats"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Chat.ChatWindow"
+            android:name="com.EducatedGuess.teachmeapp.Chat.ChatWindow"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".HomePageStudent"
+            android:name="com.EducatedGuess.teachmeapp.HomePageStudent"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".HomePageTeacher"
+            android:name="com.EducatedGuess.teachmeapp.HomePageTeacher"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".LoginAsTeacherOrStudent"
+            android:name="com.EducatedGuess.teachmeapp.LoginAsTeacherOrStudent"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ConversationChatPage"
+            android:name="com.EducatedGuess.teachmeapp.ConversationChatPage"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".SearchForTeacher"
+            android:name="com.EducatedGuess.teachmeapp.SearchForTeacher"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ProfilePageOfTeacherForStudent"
+            android:name="com.EducatedGuess.teachmeapp.ProfilePageOfTeacherForStudent"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".HamburgerMenu"
+            android:name="com.EducatedGuess.teachmeapp.HamburgerMenu"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".MapsActivity"
+            android:name="com.EducatedGuess.teachmeapp.MapsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".SignUp"
+            android:name="com.EducatedGuess.teachmeapp.SignUp"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".RequestLessons"
+            android:name="com.EducatedGuess.teachmeapp.RequestLessons"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Login"
+            android:name="com.EducatedGuess.teachmeapp.Login"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.EducatedGuess.teachmeapp.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan">
